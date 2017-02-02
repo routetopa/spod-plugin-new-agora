@@ -14,6 +14,8 @@ agoraJs.prototype = (function(){
     var _level;
     var _parentId;
     var _sentiment;
+    var _message;
+    var _agoraCommentJS;
 
     var initialize_text_area = function(elem, entityId, endpoint) {
         _elem = elem;
@@ -23,6 +25,7 @@ agoraJs.prototype = (function(){
         _parentId = _entityId;
         _sentiment = 0;
 
+        _agoraCommentJS = new agoraCommentJS();
         _elem.keyup(return_handler);
     };
 
@@ -50,6 +53,7 @@ agoraJs.prototype = (function(){
     };
 
     var handle_message = function(message){
+        _message = message;
         console.log(message);
 
         var send_data = {
@@ -73,6 +77,9 @@ agoraJs.prototype = (function(){
     var on_request_success = function(raw_data){
         try {
             console.log(raw_data);
+            _agoraCommentJS.addComment($("#agora_chat_container"),
+                AGORA.agora_static_resource_url + 'JSSnippet/comment.tpl',
+                [AGORA.username, AGORA.user_url, AGORA.user_avatar_src, _message, AGORA.username, 'just now', '0']);
         } catch (e){
             console.log("Error in on_request_success");
         }
@@ -106,4 +113,26 @@ agoraJs.prototype = (function(){
         }
     };
 
+})();
+
+function agoraCommentJS(){}
+
+agoraCommentJS.prototype = (function () {
+    return {
+        construct: agoraCommentJS,
+
+        addComment : function (target, snippet_url, snippet_data) {
+            $.get(snippet_url, function(data){
+
+                var re = /{\d}/g;
+                var index = 0;
+
+                var k = data.replace(re, function (match, tag, string) {
+                    return snippet_data[index++];
+                });
+
+                $(target).append(k);
+            });
+        }
+    }
 })();

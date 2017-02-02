@@ -1,263 +1,10 @@
-<style>
-
-    .agora_container
-    {
-        width: 100%;
-        height: 100%;
-    }
-
-    .agora_container div
-    {
-        font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-        font-size: 16px;
-        line-height: 24px;
-    }
-
-    .agora_header
-    {
-        /*background: #2196f3;*/
-        background: #FFFFFF;
-        width: 100%;
-        /*height: 56px;*/
-        border-bottom: solid 2px #e0e0e0;
-/*        display: flex;
-        flex-direction: row;*/
-    }
-
-    div.agora_header_title
-    {
-        font-size: 24px;
-        line-height: 56px;
-        height: 56px;
-        color: #424242;
-        margin: 0 16px;
-        width: calc( 100% - 32px );
-    }
-
-    div#agora_header_description
-    {
-        color: #424242;
-        margin: 0 16px;
-        width: calc( 100% - 32px );
-    }
-
-    .agora_header_users
-    {
-        width: calc( 100% - 16px );
-        text-align: right;
-        margin: 0 8px;
-    }
-
-    .agora_body
-    {
-        width: 100%;
-        /*height: calc( 100% - 56px );*/
-        height: 100%;
-        display: flex;
-        flex-direction: row;
-    }
-
-    .agora_left
-    {
-        width: 124px;
-        height: 100%;
-        background: #424242;
-    }
-
-    .agora_center
-    {
-        height: 100%;
-        width: calc( 75% - 124px );
-        position: relative;
-    }
-
-    .agora_right
-    {
-        width: 25%;
-        height: 100%;
-        background: #00bcd4;
-    }
-
-    .agora_graph_button_title
-    {
-        height: 16px;
-        color: inherit;
-        text-align: center;
-        padding-top: 4px;
-    }
-
-    .agora_graph_button:hover
-    {
-        cursor: pointer;
-        color: #FFFFFF;
-        fill: #FFFFFF;
-    }
-
-    .agora_graph_button
-    {
-        padding-top: 38px;
-        color: #BDBDBD;
-        fill: #BDBDBD;
-    }
-
-    .agora_graph_button > svg
-    {
-        padding: 0px 38px;
-        display: block;
-        width: 48px;
-        height: 48px;
-        fill: inherit;
-    }
-
-    .agora_bookmark{
-        width: 124px;
-        background: #424242;
-
-    }
-
-    .agora_bookmark > svg
-    {
-        margin-top: -12px;
-        padding: 0px 30px;
-        display: block;
-        width: 64px;
-        height: 64px;
-        fill: #E65100;
-    }
-
-    .agora_chat_input
-    {
-        position: absolute;
-        bottom: 16px;
-        margin: 0 16px;
-        width: calc( 100% - 36px );
-        height: 52px;
-        border: solid 2px #e0e0e0;
-        border-radius: 4px;
-    }
-
-    .agora_chat_input input[type=text],
-    .agora_chat_input input[type=text]:focus,
-    .agora_chat_input input[type=text]:focus:not([readonly])
-    {
-        width: 70%;
-        border: none;
-        box-shadow: none;
-        height: 52px;
-        margin: 0 16px;
-    }
-
-    #agora_chat_container
-    {
-        width: calc( 100% - 32px );
-        padding: 0 16px;
-        margin: 16px 0;
-        /*height: calc( 100% - 56px - 56px - 2px - 32px - 56px - 32px - 16px);*/
-        overflow-y: hidden;
-        position: relative;
-    }
-
-    .agora_left_comment {
-        display: flex;
-        flex-direction: row;
-
-        margin-bottom: 8px;
-    }
-
-    .agora_right_comment {
-        display: flex;
-        flex-direction: row-reverse;
-
-        margin-bottom: 8px;
-    }
-
-    .agora_left_comment div.agora_speech {
-        position: relative;
-        max-width: calc(100% - 56px - 16px - 56px - 16px - 32px);
-        background-color: #E3F2FD;
-        border-radius: 0 5px 5px 5px;
-        /*line-height: 40px;*/
-        margin-left: 16px;
-        margin-top: 8px;
-        padding: 12px 16px;
-    }
-
-    .agora_left_comment div.agora_speech:before {
-        content: ' ';
-        position: absolute;
-        width: 0;
-        height: 0;
-        left: -16px;
-        top: 0;
-        border: 8px solid;
-        border-color: #E3F2FD #E3F2FD transparent transparent;
-    }
-
-    .agora_right_comment div.agora_speech {
-        position: relative;
-        max-width: calc(100% - 56px - 16px - 56px - 16px - 32px);
-        background-color: #EEEEEE;
-        border-radius: 5px 0 5px 5px;
-        margin-right: 16px;
-        margin-top: 8px;
-        padding: 12px 16px;
-    }
-
-    .agora_right_comment div.agora_speech:before {
-        content: ' ';
-        position: absolute;
-        width: 0;
-        height: 0;
-        right: -16px;
-        top: 0;
-        border: 8px solid;
-        border-color: #EEEEEE transparent transparent #EEEEEE;
-    }
-
-    div.agora_speech_text {
-
-    }
-
-    .agora_speech_info
-    {
-        display: flex;
-        flex-direction: row;
-
-        color: #9E9E9E;
-    }
-
-    .agora_speech_info > svg
-    {
-        display: block;
-        width: 16px;
-        height: 24px;
-        fill: #9E9E9E;
-    }
-
-    .agora_speech_username {
-        font-weight: 700;
-        margin-right: 20px;
-        cursor: pointer;
-    }
-
-    .agora_speech_time {
-        font-size: 12px;
-        margin-left: 4px;
-        margin-right: 20px;
-    }
-
-    .agora_speech_reply {
-        color: #00bcd4;
-        cursor: pointer;
-    }
-
-</style>
-
 <script>
     $(document).ready(function () {
         $('#agora_chat_container').perfectScrollbar();
 
         resize();
+
+        $('#agora_comment').autogrow();
     });
 
     window.addEventListener("resize", function () {
@@ -272,10 +19,20 @@
         $("#agora_chat_container").scrollTop( $( "#agora_chat_container" ).prop( "scrollHeight" ) );
         $("#agora_chat_container").perfectScrollbar('update');
     }
-</script>
 
-<input type="hidden" id="agora_id" value="0">
-<input type="hidden" id="agora_endpoint" value="{$agora_comment_endpoint}">
+    function shiftSentiment () {
+        var color = $("#agora_sentiment_button").css('background-color');
+        console.log(color)
+        if(color.indexOf("158") > -1)
+            $("#agora_sentiment_button").css('background', '#4CAF50 url("/ow_static/plugins/agora/images/sentiment-satisfied.svg") no-repeat 0 0');
+        else if(color.indexOf("76") > -1)
+            $("#agora_sentiment_button").css('background', '#F44336 url("/ow_static/plugins/agora/images/sentiment-dissatisfied.svg") no-repeat 0 0');
+        else
+            $("#agora_sentiment_button").css('background', '#9E9E9E url("/ow_static/plugins/agora/images/sentiment-neutral.svg") no-repeat 0 0');
+        /*F44336   4CAF50*/
+
+    }
+</script>
 
 <div class="agora_container">
 
@@ -315,56 +72,43 @@
             <div class="agora_header">
                 <div class="agora_header_title">TITOLO DELLA STANZA</div>
                 <div id="agora_header_description">Descrizione della stanza </div>
-                <!--<div id="agora_header_description">Descrizione della stanza Descrizione della stanza Descrizione della stanza Descrizione della stanza Descrizione della stanza Descrizione della stanza Descrizione della stanza Descrizione della stanza Descrizione della stanza Descrizione della stanza Descrizione della stanza Descrizione della stanza Descrizione della stanza Descrizione della stanza Descrizione della stanza Descrizione della stanza Descrizione della stanza Descrizione della stanza Descrizione della stanza Descrizione della stanza Descrizione della stanza Descrizione della stanza Descrizione della stanza Descrizione della stanza Descrizione della stanza Descrizione della stanza Descrizione della stanza Descrizione della stanza Descrizione della stanza Descrizione della stanza Descrizione della stanza Descrizione della stanza Descrizione della stanza Descrizione della stanza Descrizione della stanza Descrizione della stanza Descrizione della stanza Descrizione della stanza Descrizione della stanza Descrizione della stanza Descrizione della stanza Descrizione della stanza Descrizione della stanza </div>-->
                 <div class="agora_header_users">
-                    <div class="ow_avatar style-scope" title="Spodadmin"><a class="style-scope" href="http://172.16.15.77/user/spodadmin"><img alt="" style="max-width: 100%;" class="" src="http://172.16.15.77/ow_userfiles/plugins/base/avatars/avatar_1_1457965950.jpg"></a></div>
-                    <div class="ow_avatar style-scope" title="Andrea">   <a class="style-scope" href="http://172.16.15.77/user/andrpet">  <img alt="" style="max-width: 100%;" class="" src="http://172.16.15.77/ow_static/themes/spod_theme_matter/images/no-avatar.png"></a></div>
-                    <div class="ow_avatar style-scope" title="Andrea">   <a class="style-scope" href="http://172.16.15.77/user/andrpet">  <img alt="" style="max-width: 100%;" class="" src="http://172.16.15.77/ow_static/themes/spod_theme_matter/images/no-avatar.png"></a></div>
-                    <div class="ow_avatar style-scope" title="Andrea">   <a class="style-scope" href="http://172.16.15.77/user/andrpet">  <img alt="" style="max-width: 100%;" class="" src="http://172.16.15.77/ow_static/themes/spod_theme_matter/images/no-avatar.png"></a></div>
-                    <div class="ow_avatar style-scope" title="Andrea">   <a class="style-scope" href="http://172.16.15.77/user/andrpet">  <img alt="" style="max-width: 100%;" class="" src="http://172.16.15.77/ow_static/themes/spod_theme_matter/images/no-avatar.png"></a></div>
-                    <div class="ow_avatar style-scope" title="Andrea">   <a class="style-scope" href="http://172.16.15.77/user/andrpet">  <img alt="" style="max-width: 100%;" class="" src="http://172.16.15.77/ow_static/themes/spod_theme_matter/images/no-avatar.png"></a></div>
+                    {foreach $avatars as $avatar}
+                        <div class="ow_avatar style-scope" title="{$avatar['title']}"><a class="style-scope" href="{$avatar['url']}"><img alt="" style="max-width: 100%;" class="" src="{$avatar['src']}"></a></div>
+                    {/foreach}
                 </div>
             </div>
 
-            <!--andrea= "http://172.16.15.77/ow_userfiles/plugins/base/avatars/avatar_1_1457965950.jpg"-->
-            <!--pina=   "http://prato.routetopa.eu/ow_userfiles/plugins/base/avatars/avatar_2_1474819550.jpg"-->
-            <!--elena=  "http://prato.routetopa.eu/ow_userfiles/plugins/base/avatars/avatar_4_1478686342.jpg"-->
-
             <div id="agora_chat_container">
 
-                <div class="agora_left_comment">
-                    <div class="ow_avatar style-scope" title="Spodadmin"><a class="style-scope" href="http://172.16.15.77/user/spodadmin"><img alt="" style="max-width: 100%;" class="" src="http://172.16.15.128/ow_userfiles/plugins/base/avatars/avatar_1_1478595591.jpg"></a></div>
+                {foreach $comments as $comment}
+                <div class="{$comment->css_class}">
+                    <div class="ow_avatar style-scope" title="{$comment->username}"><a class="style-scope" href="{$comment->owner_url}"><img alt="" style="max-width: 100%;" class="" src="{$comment->avatar_url}"></a></div>
                     <div class="agora_speech">
-                        <div class="agora_speech_text">DDR comments style Rocks!</div>
+                        <div class="agora_speech_text">{$comment->comment}</div>
                         <div class="agora_speech_info">
-                            <div class="agora_speech_username">Andrea</div>
+                            <div class="agora_speech_username">{$comment->username}</div>
                             <svg viewBox="0 0 24 24" preserveAspectRatio="xMidYMid meet"><g class="style-scope iron-icon"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"></path></g></svg>
-                            <div class="agora_speech_time">9:16 pm</div>
-                            <div class="agora_speech_reply">reply (8)</div>
+                            <div class="agora_speech_time">{$comment->timestamp}</div>
+                            <div class="agora_speech_reply">reply ({$comment->total_comment})</div>
                         </div>
                     </div>
                 </div>
-
-                <div class="agora_right_comment">
-                    <div class="ow_avatar style-scope" style="min-width: 40px" title="Spodadmin"><a class="style-scope" href="http://172.16.15.77/user/spodadmin"><img alt="" style="max-width: 100%;" class="" src="http://prato.routetopa.eu/ow_userfiles/plugins/base/avatars/avatar_4_1478686342.jpg"></a></div>
-                    <div class="agora_speech">
-                        <div class="agora_speech_text">Non funziona la cache!</div>
-                        <div class="agora_speech_info">
-                            <div class="agora_speech_username">Elena</div>
-                            <svg viewBox="0 0 24 24" preserveAspectRatio="xMidYMid meet"><g class="style-scope iron-icon"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"></path></g></svg>
-                            <div class="agora_speech_time">9:44 pm</div>
-                            <div class="agora_speech_reply">reply (2)</div>
-                        </div>
-                    </div>
-                </div>
-
-
+                {/foreach}
 
             </div>
 
             <div class="agora_chat_input">
-                <input type="text" name="agora_comment" id="agora_comment">
+                <textarea name="agora_comment" id="agora_comment"></textarea>
                 <input type="button" name="agora_comment_send" id="agora_comment_send" value="Send">
+                <div id="agora_sentiment_button" onclick="shiftSentiment()">
+                </div>
+                <div class="agora_myspace_button">
+                    <svg viewBox="0 0 24 24" preserveAspectRatio="xMidYMid meet"><g><path d="M20 6h-8l-2-2H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2zm-1 8h-3v3h-2v-3h-3v-2h3V9h2v3h3v2z"></path></g></svg>
+                </div>
+                <div class="agora_controllet_button">
+                    <svg viewBox="0 0 24 24" preserveAspectRatio="xMidYMid meet"><g><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"></path></g></svg>
+                </div>
             </div>
 
         </div>

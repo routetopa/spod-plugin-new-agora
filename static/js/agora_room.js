@@ -1,8 +1,9 @@
-$( document ).ready(function() {
+AGORA = {};
 
-    var entity_id = $("#agora_id").val();
-    var endpoint  = $("#agora_endpoint").val();
-
-    var message = new agoraJs($("#agora_comment"), entity_id, endpoint);
+AGORA.init = function () {
+    var message = new agoraJs($("#agora_comment"), AGORA.roomId, AGORA.agora_comment_endpoint);
     message.init();
-});
+
+    //var test = new agoraCommentJS();
+    //test.addComment($("#agora_chat_container"), AGORA.agora_static_resource_url + 'JSSnippet/comment.tpl', ['zero', 'uno', 'due', 'tre', 'quattro', 'cinque', 'sei']);
+};
