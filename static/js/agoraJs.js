@@ -26,7 +26,7 @@ agoraJs.prototype = (function(){
         _sentiment = 0;
 
         _agoraCommentJS = new agoraCommentJS();
-        _elem.keyup(return_handler);
+        //_elem.keyup(return_handler);
     };
 
     var set_parentId = function(parentId){
@@ -80,6 +80,7 @@ agoraJs.prototype = (function(){
             _agoraCommentJS.addComment($("#agora_chat_container"),
                 AGORA.agora_static_resource_url + 'JSSnippet/comment.tpl',
                 [AGORA.username, AGORA.user_url, AGORA.user_avatar_src, _message, AGORA.username, 'just now', '0']);
+            _elem.val("");
         } catch (e){
             console.log("Error in on_request_success");
         }
