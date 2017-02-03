@@ -13,9 +13,10 @@ class SPODAGORA_CTRL_Agora extends OW_ActionController
 
         OW::getDocument()->addScript(OW::getPluginManager()->getPlugin('spodagora')->getStaticJsUrl() . 'agora_room.js');
         OW::getDocument()->addScript(OW::getPluginManager()->getPlugin('spodagora')->getStaticJsUrl() . 'agoraJs.js');
-        OW::getDocument()->addScript(OW::getPluginManager()->getPlugin('spodagora')->getStaticJsUrl() . 'autogrow.min.js');
 
+        OW::getDocument()->addScript(OW::getPluginManager()->getPlugin('spodagora')->getStaticJsUrl() . 'autogrow.min.js');
         OW::getDocument()->addScript(OW::getPluginManager()->getPlugin('spodagora')->getStaticJsUrl() . 'perfect-scrollbar.jquery.js');
+        OW::getDocument()->addScript('https://cdn.socket.io/socket.io-1.2.0.js');
 
         OW::getDocument()->addStyleSheet(OW::getPluginManager()->getPlugin('spodagora')->getStaticCssUrl() . 'perfect-scrollbar.min.css');
         OW::getDocument()->addStyleSheet(OW::getPluginManager()->getPlugin('spodagora')->getStaticCssUrl() . 'agora_room.css');
@@ -39,13 +40,15 @@ class SPODAGORA_CTRL_Agora extends OW_ActionController
             AGORA.username = {$username}
             AGORA.user_url = {$user_url}
             AGORA.user_avatar_src = {$user_avatar_src}
+            AGORA.user_id = {$user_id}
          ', array(
             'roomId' => 0,
             'agora_comment_endpoint' => OW::getRouter()->urlFor('SPODAGORA_CTRL_Ajax', 'addComment'),
             'agora_static_resource_url' =>  OW::getPluginManager()->getPlugin('spodagora')->getStaticUrl(),
             'username' => $avatar[$user_id]["title"],
             'user_url' => $avatar[$user_id]["url"],
-            'user_avatar_src' => $avatar[$user_id]["src"]
+            'user_avatar_src' => $avatar[$user_id]["src"],
+            'user_id' => OW::getUser()->getId()
         ));
 
         OW::getDocument()->addOnloadScript($js);
@@ -70,7 +73,17 @@ class SPODAGORA_CTRL_Agora extends OW_ActionController
             $comment->total_comment = isset($comment->total_comment) ? $comment->total_comment : 0;
             $comment->timestamp     = $this->process_timestamp($comment->timestamp, $today, $yesterday);
 
-            $comment->css_class     = $user_id == $comment->ownerId ? 'agora_right_comment' : 'agora_left_comment';
+            $comment->css_class       = $user_id == $comment->ownerId ? 'agora_right_comment' : 'agora_left_comment';
+            $comment->sentiment_class = $comment->sentiment == 0 ? 'neutral' : ($comment->sentiment == 1 ? 'satisfied' : 'dissatisfied');
+
+            if (!empty($comment->component)) {
+                OW::getDocument()->addOnloadScript('ODE.loadDatalet("'. $comment->component . '",
+                                                                    ' . $comment->params . ',
+                                                                    ['. $comment->fields . '],
+                                                                    undefined,
+                                                                    "agora_datalet_placeholder_' . $comment->id . '");');
+            }
+
         }
 
         return $comments;
@@ -84,7 +97,7 @@ class SPODAGORA_CTRL_Agora extends OW_ActionController
             return date('H:i', strtotime($timestamp));
 
         if($date == $yesterday)
-            return "ieri " . date('H:i', strtotime($timestamp));
+            return "yesterday " . date('H:i', strtotime($timestamp));
 
         return date('H:i m/d', strtotime($timestamp));
     }

@@ -48,15 +48,24 @@ class SPODAGORA_BOL_Service
     // READER
     public function getCommentList($roomId)
     {
-        $sql = "SELECT id, entityId, ownerId, comment, level, sentiment, timestamp, total_comment 
-                FROM spod.ow_spod_agora_room_comment 
-                   LEFT JOIN 
-                      (SELECT count(parentId) as total_comment, parentId 
-                       FROM spod.ow_spod_agora_room_comment
-                       WHERE entityId = {$roomId} and level = 1 GROUP BY parentId) 
-                   as T on spod.ow_spod_agora_room_comment.id = T.parentId
-                   where level = 0 and entityId = {$roomId}
-                   order by timestamp asc;";
+        $sql = "SELECT F.id, F.entityId, F.ownerId, F.comment, F.level, F.sentiment, F.timestamp, F.total_comment,
+                       J.component, J.data, J.fields, J.params
+                
+                FROM (SELECT * 
+                      FROM 
+                        (SELECT ow_spod_agora_room_comment.id, entityId, ownerId, comment, level, sentiment, timestamp, total_comment 
+                         FROM ow_spod_agora_room_comment LEFT JOIN 
+                            (SELECT count(parentId) AS total_comment, parentId 
+                             FROM ow_spod_agora_room_comment
+                             WHERE entityId = {$roomId} AND level = 1 
+                             GROUP BY parentId) AS T ON ow_spod_agora_room_comment.id = T.parentId ) 
+                         AS K LEFT JOIN 
+                            (SELECT dataletId, postId FROM ow_ode_datalet_post WHERE plugin = 'public-room') AS W ON K.id = W.postId ) 
+                            AS F LEFT JOIN ow_ode_datalet 
+                            AS J ON F.dataletId = J.id
+                
+                where level = 0 and entityId = {$roomId}
+                order by F.timestamp asc;";
 
         $dbo = OW::getDbo();
         return $dbo->queryForObjectList($sql,'SPODAGORA_BOL_CommentContract');

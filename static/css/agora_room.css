@@ -567,3 +567,8 @@ div.agora_speech_text {
     color: #00bcd4;
     cursor: pointer;
 }
+
+div.agora_fullsize_datalet
+{
+    width: calc( 100vw - 800px );
+}
