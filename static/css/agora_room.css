@@ -656,11 +656,13 @@ div.agora_speech_text {
 div.agora_fullsize_datalet
 {
     width: calc( 75vw - 124px - 208px );
+    height: 484px;
     margin: 12px 0;
 }
 
 div.agora_fullsize_datalet_textfree
 {
     width: calc( 75vw - 124px - 208px );
+    height: 484px;
     margin-bottom: 12px
 }
