@@ -77,6 +77,7 @@ class SPODAGORA_CTRL_Agora extends OW_ActionController
             $comment->sentiment_class = $comment->sentiment == 0 ? 'neutral' : ($comment->sentiment == 1 ? 'satisfied' : 'dissatisfied');
 
             if (!empty($comment->component)) {
+                $comment->datalet_class  = 'agora_fullsize_datalet';
                 OW::getDocument()->addOnloadScript('ODE.loadDatalet("'. $comment->component . '",
                                                                     ' . $comment->params . ',
                                                                     ['. $comment->fields . '],
