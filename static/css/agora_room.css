@@ -382,12 +382,12 @@ div.agora_unread_comment {
     display: flex;
     flex-direction: row;
 
-    width: calc(100% - 52px);
+    width: calc(100% - 32px);
     height: 56px;
     /*background: yellow;*/
 
     /*margin: 8px 26px 0 26px;*/
-    padding: 4px 26px;
+    padding: 4px 16px;
 
 
 
@@ -407,7 +407,7 @@ div.agora_unread_comment:hover {
 
 div.agora_preview{
     min-width: 0;
-    margin: 8px 0;
+    margin: 8px 0 8px 16px;
 
 }
 
@@ -420,6 +420,8 @@ div.agora_preview_comment {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+
+    cursor: text;
 }
 
 div.agora_preview_comment .name{
