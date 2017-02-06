@@ -488,6 +488,19 @@ div.agora_day_tab:hover {
     background-color: #F44336;
 }
 
+.ow_avatar.online:before {
+    background-color: #4CAF50;
+    content: ' ';
+    position: absolute;
+    width: 10px;
+    height:  10px;
+    border-radius: 50%;
+    right: 3px;
+    bottom: 3px;
+    border: 2px solid white;
+    /*border-color: #EEEEEE #EEEEEE transparent transparent;*/
+}
+
 .agora_left_comment div.agora_speech {
     position: relative;
     max-width: calc(100% - 56px - 16px - 56px - 16px - 32px);
@@ -570,5 +583,12 @@ div.agora_speech_text {
 
 div.agora_fullsize_datalet
 {
-    width: calc( 100vw - 800px );
+    width: calc( 75vw - 124px - 124px - 124px);
+    margin: 12px 0;
+}
+
+div.agora_fullsize_datalet_textfree
+{
+    width: calc( 75vw - 124px - 124px - 124px);
+    margin-bottom: 12px
 }
