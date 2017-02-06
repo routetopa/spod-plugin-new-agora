@@ -72,6 +72,7 @@ div#agora_header_description
 .agora_right
 {
     width: 25%;
+    min-width: 380px;
     height: 100%;
     background: #00bcd4;
 }
@@ -372,6 +373,70 @@ div.agora_unread_comments {
     height: 0;
     opacity: 0;
     display: none;
+
+    /*overflow-y: hidden;*/
+    position: relative;
+}
+
+div.agora_unread_comment {
+    display: flex;
+    flex-direction: row;
+
+    width: calc(100% - 52px);
+    height: 56px;
+    /*background: yellow;*/
+
+    /*margin: 8px 26px 0 26px;*/
+    padding: 4px 26px;
+
+
+
+    /*padding: 8px;*/
+    color: #424242;
+    /*color: white;*/
+
+    cursor: pointer;
+    border-bottom: 1px solid #00AABF;
+
+    /*background: #EEEEEE;!*00bcd4 EEEEEE*!*/
+}
+
+div.agora_unread_comment:hover {
+    background-color: #00AABF;
+}
+
+div.agora_preview{
+    min-width: 0;
+    margin: 8px 0;
+
+}
+
+div.agora_preview_comment {
+    height: 24px;
+    /*background: red;*/
+
+    /*width: 100%;*/
+    /*max-width: 300px;*/
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+div.agora_preview_comment .name{
+    font-weight: 700;
+}
+
+div.agora_preview_comment .text{
+    font-style: italic;
+}
+
+div.agora_preview_time{
+    line-height: 16px;
+    font-size: 12px;
+    color: white;
+
+    background: url("/ow_static/plugins/agora/images/time.svg") no-repeat 0 0;
+    padding-left: 20px;
 }
 
 div.agora_unread_comments.agora_tab_opened {
@@ -417,14 +482,19 @@ div.agora_day_tab:hover {
 
 .agora_day_tab div.label {
     height: 24px;
-    width: 200px;
+    /*max-width: 200px;*/
 
     white-space: nowrap;
     text-overflow: ellipsis;
+    overflow: hidden;
 }
 
 .agora_day_tab div.count {
-    margin-left: 32px;
+    position: absolute;
+    right: 120px;
+    /*height: 24px;*/
+
+    /*margin-left: 32px;*/
     padding: 2px;
     height: 16px;
     min-width: 16px;
@@ -583,12 +653,12 @@ div.agora_speech_text {
 
 div.agora_fullsize_datalet
 {
-    width: calc( 75vw - 124px - 124px - 124px);
+    width: calc( 75vw - 124px - 208px );
     margin: 12px 0;
 }
 
 div.agora_fullsize_datalet_textfree
 {
-    width: calc( 75vw - 124px - 124px - 124px);
+    width: calc( 75vw - 124px - 208px );
     margin-bottom: 12px
 }
