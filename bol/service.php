@@ -79,7 +79,7 @@ class SPODAGORA_BOL_Service
                     (SELECT last_access 
                      FROM ow_spod_agora_room_user_access 
                      WHERE userId = {$userId}) 
-                AND   ow_spod_agora_room_comment.entityId = {$roomId}
+                AND   ow_spod_agora_room_comment.entityId = {$roomId} AND ow_spod_agora_room_comment.ownerId != {$userId}
                 ORDER BY timestamp DESC";
 
         $dbo = OW::getDbo();
