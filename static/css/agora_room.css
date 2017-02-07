@@ -143,6 +143,8 @@ div#agora_header_description
     line-height: 24px;
     font-size: 16px;
     border: 0;
+
+    /*color: #424242;*/
 }
 
 .agora_chat_input textarea:focus {
@@ -226,6 +228,30 @@ div#agora_header_description
     background-color: #00AABF;
 }
 
+.agora_preview_button
+{
+    height: 36px;
+    width: 36px;
+    /*background: #00bcd4;*/
+
+    border-radius: 5px;
+
+    position: absolute;
+    right: 268px;
+    bottom: 8px;
+    cursor: pointer;
+    /*background-color: red;*/
+}
+
+.agora_datalet_preview
+{
+    display: none;
+    width: calc(100% - 16px);
+    height: 402px;
+    overflow: hidden;
+    padding: 8px;
+}
+
 #agora_chat_container
 {
     width: calc( 100% - 32px );
@@ -250,6 +276,11 @@ div#agora_header_description
     margin-bottom: 8px;
 }
 
+
+div.agora_speech {
+    /*transition: background-color 1s ease;*/
+}
+
 /**********************************************************************************************/
 .agora_nested_comment
 {
@@ -263,6 +294,8 @@ div#agora_header_description
     background-color: #B2EBF2;
     padding: 3px 8px 8px 8px;
 }
+
+
 
 .agora_nested_comment div.agora_speech {
     position: relative;
@@ -392,7 +425,7 @@ div.agora_unread_comment {
 
 
     /*padding: 8px;*/
-    color: #424242;
+    /*color: #424242;*/
     /*color: white;*/
 
     cursor: pointer;
@@ -420,6 +453,8 @@ div.agora_preview_comment {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+
+    /*color: #424242;*/
 
     cursor: text;
 }
@@ -467,18 +502,18 @@ div.agora_day_tab:hover {
 }
 
 /*.agora_day_tab div.count {*/
-    /*margin: 0 16px;*/
-    /*padding: 2px 4px;*/
-    /*height: 20px;*/
-    /*min-width: 16px;*/
-    /*line-height: 21px;*/
-    /*background-color: #424242;*/
-    /*!*border: 2px solid white;*!*/
-    /*color: white;!*#00bcd4;*!*/
-    /*border-radius: 50%;*/
+/*margin: 0 16px;*/
+/*padding: 2px 4px;*/
+/*height: 20px;*/
+/*min-width: 16px;*/
+/*line-height: 21px;*/
+/*background-color: #424242;*/
+/*!*border: 2px solid white;*!*/
+/*color: white;!*#00bcd4;*!*/
+/*border-radius: 50%;*/
 
-    /*!*font-weight: 700;*!*/
-    /*text-align: center;*/
+/*!*font-weight: 700;*!*/
+/*text-align: center;*/
 /*}*/
 
 
@@ -531,14 +566,14 @@ div.agora_day_tab:hover {
 /************************************************************************************************************/
 
 /*.agora_nested_comment div.agora_speech:after {*/
-    /*content: ' ';*/
-    /*position: absolute;*/
-    /*width: 0;*/
-    /*height: 0;*/
-    /*left: -13px;*/
-    /*top: 0px;*/
-    /*border: 8px solid;*/
-    /*border-color: #EEEEEE #EEEEEE transparent transparent;*/
+/*content: ' ';*/
+/*position: absolute;*/
+/*width: 0;*/
+/*height: 0;*/
+/*left: -13px;*/
+/*top: 0px;*/
+/*border: 8px solid;*/
+/*border-color: #EEEEEE #EEEEEE transparent transparent;*/
 /*}*/
 
 .ow_avatar {
@@ -617,7 +652,7 @@ div.agora_day_tab:hover {
 }
 
 div.agora_speech_text {
-
+    /*color: #424242;*/
 }
 
 .agora_speech_info
@@ -661,16 +696,15 @@ div.agora_fullsize_datalet
 }
 
 div.agora_fullsize_datalet.leafletjs-datalet, div.agora_fullsize_datalet.leafletjs-geojson-datalet {
-    height: 678px;
+    /*height: 678px;*/
+    height: 478px;
 }
 
 div.agora_fullsize_datalet.datatable-datalet  {
-    height: 554px;
+    height: 632px;
 }
 
-div.agora_fullsize_datalet_textfree
+div.agora_fullsize_datalet.textfree
 {
-    width: calc( 75vw - 124px - 208px );
-    height: 600px;
-    margin-bottom: 12px
+    margin: 0 0 12px 0 !important;
 }
