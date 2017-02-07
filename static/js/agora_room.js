@@ -5,6 +5,9 @@ AGORA = {};
 AGORA.init = function ()
 {
 
+    // Set datalet preview target
+    ODE.commentTarget = "agora_datalet_preview";
+
     // agoraJS
     var message = new agoraJs($("#agora_comment"),
                               AGORA.roomId,
@@ -80,7 +83,7 @@ AGORA.init = function ()
         var id = e.currentTarget.id.replace("unread_", "");
 
         $('#agora_chat_container').scrollTop($('#agora_chat_container').scrollTop() + $("#"+id).position().top);
-        $("#"+id+" .agora_speech").css("background", "yellow");
+        $("#"+id+" .agora_speech").css("background", "#FFEB3B");
 
         setTimeout(
             function()
@@ -94,6 +97,13 @@ AGORA.init = function ()
             {
                 $("#"+id+" .agora_speech").css("transition", "");
             }, 1000);
+    });
+
+    // Handle preview
+    $("#agora_preview_button").click(function () {
+        $("#agora_datalet_preview").toggle();
+        var e = $("#agora_datalet_preview").children()[1]
+        $(e).context.behavior.redraw();
     });
 
     // Handle realtime communication
