@@ -71,4 +71,19 @@ class SPODAGORA_BOL_Service
         return $dbo->queryForObjectList($sql,'SPODAGORA_BOL_CommentContract');
     }
 
+    public function getUnreadComment($roomId, $userId)
+    {
+        $sql = "SELECT * 
+                FROM  ow_spod_agora_room_comment
+                WHERE ow_spod_agora_room_comment.timeStamp > 
+                    (SELECT last_access 
+                     FROM ow_spod_agora_room_user_access 
+                     WHERE userId = {$userId}) 
+                AND   ow_spod_agora_room_comment.entityId = {$roomId}
+                ORDER BY timestamp DESC";
+
+        $dbo = OW::getDbo();
+        return $dbo->queryForObjectList($sql,'SPODAGORA_BOL_AgoraRoomComment');
+    }
+
 }

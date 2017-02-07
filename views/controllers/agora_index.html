@@ -37,7 +37,7 @@
                 <div id="agora_header_description">Descrizione della stanza </div>
                 <div class="agora_header_users">
                     {foreach $avatars as $avatar}
-                        <div class="ow_avatar style-scope" title="{$avatar['title']}"><a class="style-scope" href="{$avatar['url']}"><img alt="" style="max-width: 100%;" class="" src="{$avatar['src']}"></a></div>
+                        <div class="ow_avatar style-scope" id="user_avatar_{$avatar['userId']}" title="{$avatar['title']}"><a class="style-scope" href="{$avatar['url']}"><img alt="" style="max-width: 100%;" class="" src="{$avatar['src']}"></a></div>
                     {/foreach}
                 </div>
             </div>
@@ -69,7 +69,7 @@
                     <div class="ow_avatar style-scope {$comment->sentiment_class}" title="{$comment->username}"><a class="style-scope" href="{$comment->owner_url}"><img alt="" style="max-width: 100%;" class="" src="{$comment->avatar_url}"></a></div>
                     <div class="agora_speech">
                         <div class="agora_speech_text">{$comment->comment}</div>
-                        <div id="agora_datalet_placeholder_{$comment->id}" class="{$comment->datalet_class}"></div>
+                        <div id="agora_datalet_placeholder_{$comment->id}" class="{$comment->datalet_class} {$comment->component}"></div>
                         <div class="agora_speech_info">
                             <div class="agora_speech_username">{$comment->username}</div>
                             <svg viewBox="0 0 24 24" preserveAspectRatio="xMidYMid meet"><g class="style-scope iron-icon"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"></path></g></svg>
@@ -100,74 +100,74 @@
         <div class="agora_right">
             <div class="agora_right_header">UNREAD MESSAGES</div>
 
-            <div id="0" class="agora_day_tab" onclick="openDiv(this.id)">
+            <div id="0" class="agora_day_tab">
                 <div class="time"></div>
                 <div class="label">Today (Monday)</div>
                 <div class="count">9</div>
                 <div class="forward"></div>
             </div>
             <div id="div_1" class="agora_unread_comments agora_tab_opened">
-                commenti fanasy 1111111111111111111111111
+
+                <div class="agora_unread_comment">
+                    <div class="ow_avatar style-scope" title="">
+                        <a class="style-scope" href=""><img alt="" style="max-width: 100%;" class="" src="http://172.16.15.128/ow_userfiles/plugins/base/avatars/avatar_1_1478595591.jpg"></a>
+                        <div class="agora_comment_sentiment"></div>
+                    </div>
+                    <div class="agora_preview">
+                        <div class="agora_preview_comment" title="Secondo mecommenti fanasy perchè credo che più o meno non riesco a fare di quello preferisco perfettamente come quanto tu.">
+                            <span class="name">Renato De Donato</span>
+                            <span class="says">says</span>
+                            <span class="text">Secondo mecommenti fanasy perchè credo che più o meno non riesco a fare di quello preferisco perfettamente come quanto tu.</span>
+
+                        </div>
+                        <div class="agora_preview_time">
+                            12:05
+                        </div>
+                    </div>
+                </div>
+
             </div>
 
-            <div id="1" class="agora_day_tab" onclick="openDiv(this.id)">
+            <div id="1" class="agora_day_tab">
                 <div class="time"></div>
                 <div class="label">Yesterday (Sunday)</div>
                 <div class="count">21</div>
                 <div class="forward"></div>
             </div>
-            <div id="div_2" class="agora_unread_comments">
-                commenti fanasy 22222222222222222222
-            </div>
 
-            <div id="2" class="agora_day_tab" onclick="openDiv(this.id)">
+            <div id="2" class="agora_day_tab">
                 <div class="time"></div>
                 <div class="label">Saturday</div>
                 <div class="count">16</div>
                 <div class="forward"></div>
             </div>
-            <div id="div_3" class="agora_unread_comments">
-                commenti fanasy 3333333333333333333
-            </div>
 
-            <div id="3" class="agora_day_tab" onclick="openDiv(this.id)">
+            <div id="3" class="agora_day_tab">
                 <div class="time"></div>
                 <div class="label">Friday</div>
                 <!--<div class="count"></div>-->
                 <div class="forward"></div>
             </div>
-            <div id="div_4" class="agora_unread_comments">
-                commenti fanasy 4444444444444444444444444
-            </div>
 
-            <div id="4" class="agora_day_tab" onclick="openDiv(this.id)">
+            <div id="4" class="agora_day_tab">
                 <div class="time"></div>
                 <div class="label">Thursday</div>
                 <!--<div class="count"></div>-->
                 <div class="forward"></div>
             </div>
-            <div id="div_5" class="agora_unread_comments">
-                commenti fanasy 555555555555555555555555555555555
-            </div>
 
-            <div id="5" class="agora_day_tab" onclick="openDiv(this.id)">
+            <div id="5" class="agora_day_tab">
                 <div class="time"></div>
                 <div class="label">Wednesday</div>
                 <!--<div class="count"></div>-->
                 <div class="forward"></div>
             </div>
-            <div id="div_6" class="agora_unread_comments">
-                commenti fanasy 66666666666666666666666666666666666
-            </div>
 
-            <div id="6" class="agora_day_tab" onclick="openDiv(this.id)">
+            <div id="6" class="agora_day_tab">
                 <div class="time"></div>
                 <div class="label">Tuesday</div>
                 <div class="count">1</div>
                 <div class="forward"></div>
-            </div>
-            <div id="div_7" class="agora_unread_comments">
-                commenti fanasy 77777777777777777777777777777777
             </div>
 
         </div>

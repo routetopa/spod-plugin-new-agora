@@ -2,12 +2,17 @@
 
 class SPODAGORA_CTRL_Agora extends OW_ActionController
 {
+    private $userId;
+    private $avatars;
+
     public function index()
     {
         if ( !OW::getUser()->isAuthenticated() )
         {
             throw new AuthenticateException();
         }
+
+        $this->userId = OW::getUser()->getId();
 
         OW::getDocument()->getMasterPage()->setTemplate(OW::getPluginManager()->getPlugin('spodagora')->getRootDir() . 'master_pages/empty.html');
 
@@ -25,14 +30,44 @@ class SPODAGORA_CTRL_Agora extends OW_ActionController
         $raw_comments = SPODAGORA_BOL_Service::getInstance()->getCommentList(0);
         $this->assign('comments', $this->process_comment($raw_comments));
 
+        $raw_unread_comments = SPODAGORA_BOL_Service::getInstance()->getUnreadComment(0, $this->userId);
+        $a = $this->process_unread_comment($raw_unread_comments);
+        //$this->assign('unread_comments', $this->process_unread_comment($raw_unread_comments));
+
         $this->initializeJS();
+    }
+
+
+    private function process_unread_comment($unread_commnets)
+    {
+        $max_day        = 7;
+        $today          = date_create('today');
+        $unread_section = array();
+
+        for($i = 0; $i < $max_day; $i++)
+            $unread_section[date_create('today - '.$i.' day')->format('l')] = array();
+
+        foreach ($unread_commnets as &$comment)
+        {
+            if(date_diff($today, date_create($comment->timestamp))->d > 7)
+                break;
+
+            $comment->username      = $this->avatars[$comment->ownerId]["title"];
+            $comment->owner_url     = $this->avatars[$comment->ownerId]["url"];
+            $comment->avatar_url    = $this->avatars[$comment->ownerId]["src"];
+            $section                = date('l', strtotime($comment->timestamp));
+            $comment->timestamp     = date('H:i', strtotime($comment->timestamp));
+
+            $comment->sentiment_class = $comment->sentiment == 0 ? 'neutral' : ($comment->sentiment == 1 ? 'satisfied' : 'dissatisfied');
+            array_push($unread_section[$section], $comment);
+        }
+
+
+        return $unread_section;
     }
 
     private function initializeJS()
     {
-        $user_id = OW::getUser()->getId();
-        $avatar = BOL_AvatarService::getInstance()->getDataForUserAvatars(array($user_id));
-
         $js = UTIL_JsGenerator::composeJsString('
             AGORA.roomId = {$roomId}
             AGORA.agora_comment_endpoint = {$agora_comment_endpoint}
@@ -45,10 +80,10 @@ class SPODAGORA_CTRL_Agora extends OW_ActionController
             'roomId' => 0,
             'agora_comment_endpoint' => OW::getRouter()->urlFor('SPODAGORA_CTRL_Ajax', 'addComment'),
             'agora_static_resource_url' =>  OW::getPluginManager()->getPlugin('spodagora')->getStaticUrl(),
-            'username' => $avatar[$user_id]["title"],
-            'user_url' => $avatar[$user_id]["url"],
-            'user_avatar_src' => $avatar[$user_id]["src"],
-            'user_id' => OW::getUser()->getId()
+            'username' => $this->avatars[$this->userId]["title"],
+            'user_url' => $this->avatars[$this->userId]["url"],
+            'user_avatar_src' => $this->avatars[$this->userId]["src"],
+            'user_id' => $this->userId
         ));
 
         OW::getDocument()->addOnloadScript($js);
@@ -57,19 +92,19 @@ class SPODAGORA_CTRL_Agora extends OW_ActionController
 
     private function process_comment(&$comments)
     {
-        $users_ids = array_map(function($comments) { return $comments->ownerId;}, $comments);
-        $user_id   = OW::getUser()->getId();
-        $avatars   = BOL_AvatarService::getInstance()->getDataForUserAvatars($users_ids);
-        $this->assign('avatars', $avatars);
+        $users_ids      = array_map(function($comments) { return $comments->ownerId;}, $comments);
+        $user_id        = $this->userId;
+        $this->avatars  = BOL_AvatarService::getInstance()->getDataForUserAvatars($users_ids);
+        $this->assign('avatars', $this->avatars);
 
         $today = date('Ymd');
         $yesterday = date('Ymd', strtotime('yesterday'));
 
         foreach ($comments as &$comment)
         {
-            $comment->username      = $avatars[$comment->ownerId]["title"];
-            $comment->owner_url     = $avatars[$comment->ownerId]["url"];
-            $comment->avatar_url    = $avatars[$comment->ownerId]["src"];
+            $comment->username      = $this->avatars[$comment->ownerId]["title"];
+            $comment->owner_url     = $this->avatars[$comment->ownerId]["url"];
+            $comment->avatar_url    = $this->avatars[$comment->ownerId]["src"];
             $comment->total_comment = isset($comment->total_comment) ? $comment->total_comment : 0;
             $comment->timestamp     = $this->process_timestamp($comment->timestamp, $today, $yesterday);
 

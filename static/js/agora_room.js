@@ -1,40 +1,5 @@
 var debounce = true;
 
-function openDiv(tab_id) {
-    var h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0) - 56 - 343;
-
-    var tab_to_close = $(".agora_tab_opened")[0];
-    var tab_to_open = $(".agora_unread_comments")[tab_id];
-
-    if (debounce && tab_to_open != tab_to_close) {
-        debounce = false;
-
-        $(tab_to_close).animate({ //close
-            display: "none",
-            opacity: 0,
-            height: 0
-        }, 1000);
-
-        $(tab_to_open).css("display", "block");
-
-        $(tab_to_open).animate({ //open
-            display: "block",
-            opacity: 1,
-            height: h
-        }, 1000);
-
-        setTimeout(
-            function () {
-                $(tab_to_open).delay(0).addClass("agora_tab_opened");
-                $(tab_to_close).delay(0).removeClass("agora_tab_opened");
-
-                $(tab_to_close).css("display", "none");
-
-                debounce = true;
-            }, 1000);
-    }
-}
-
 AGORA = {};
 
 AGORA.init = function ()
@@ -58,7 +23,10 @@ AGORA.init = function ()
     });
 
     // Handle for click on send button (submit message)
-    $("#agora_comment_send").click(function(){message.submit()});
+    $("#agora_comment_send").click(function(){
+        if(!message.submit())
+            OW.error("Messaggio vuoto");
+    });
 
     // Handle for sentiment button
     $("#agora_sentiment_button").click(function(){
@@ -99,10 +67,29 @@ AGORA.init = function ()
         previewFloatBox = OW.ajaxFloatBox('SPODPR_CMP_PrivateRoomCardViewer', {} , {top:'56px', width:'calc(100vw - 112px)', height:'calc(70vh)', iconClass: 'ow_ic_add', title: ''});
     });
 
+    //Handler unreaded message section
+    $('.agora_day_tab').click(function(e){
+        AGORA.openDiv(e.currentTarget.id);
+    });
+
+    $(".agora_unread_comments").perfectScrollbar();
+
     // Handle realtime communication
     var socket = io(window.location.origin + ":3000");
+
+    socket.emit('online_notification', {user_id:AGORA.user_id, room_id:AGORA.roomId, plugin:'spodpublic'});
+
+    socket.on('online_notification_' + AGORA.roomId, function(data) {
+       data.forEach(function(e){
+           $("#user_avatar_"+e).addClass("online");
+       });
+    });
+
+    socket.on('offline_notification', function(id) {
+        $("#user_avatar_"+id).removeClass("online");
+    });
+
     socket.on('realtime_message_' + AGORA.roomId, function(data) {
-        console.log(data);
         if(AGORA.user_id != data.user_id)
         {
             message.add_rt_comment($("#agora_chat_container"),
@@ -119,10 +106,6 @@ AGORA.init = function ()
                 data.message_id, {component:data.component, params:data.params, fields:data.fields, data:''});
         }
     });
-
-    /* RENATO */
-
-    /* RENATO */
 };
 
 AGORA.resize = function()
@@ -139,6 +122,41 @@ AGORA.scroll_bottom = function ()
 {
     $("#agora_chat_container").scrollTop( $( "#agora_chat_container" ).prop( "scrollHeight" ) );
     $("#agora_chat_container").perfectScrollbar('update');
+};
+
+AGORA.openDiv = function (tab_id) {
+    var h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0) - 56 - 343;
+
+    var tab_to_close = $(".agora_tab_opened")[0];
+    var tab_to_open = $(".agora_unread_comments")[tab_id];
+
+    if (debounce && tab_to_open != tab_to_close) {
+        debounce = false;
+
+        $(tab_to_close).animate({ //close
+            display: "none",
+            opacity: 0,
+            height: 0
+        }, 1000);
+
+        $(tab_to_open).css("display", "block");
+
+        $(tab_to_open).animate({ //open
+            display: "block",
+            opacity: 1,
+            height: h
+        }, 1000);
+
+        setTimeout(
+            function () {
+                $(tab_to_open).delay(0).addClass("agora_tab_opened");
+                $(tab_to_close).delay(0).removeClass("agora_tab_opened");
+
+                $(tab_to_close).css("display", "none");
+
+                debounce = true;
+            }, 1000);
+    }
 };
 
 AGORA.string_handler = function(string)

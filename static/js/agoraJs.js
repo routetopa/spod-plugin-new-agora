@@ -54,12 +54,14 @@ agoraJs.prototype = (function(){
     var return_handler = function (e) {
         var key = e.which || e.keyCode;
         if (key === 13) { // 13 is enter
-            handle_message(_stringHandler ?_stringHandler(_elem.val()) : _elem.val());
+            handle_message(_stringHandler ? _stringHandler(_elem.val()) : _elem.val());
         }
     };
 
     var submit = function () {
-        handle_message(_stringHandler ?_stringHandler(_elem.val()) : _elem.val());
+        if(_elem.val() == "") return false;
+        handle_message(_stringHandler ? _stringHandler(_elem.val()) : _elem.val());
+        return true;
     };
 
     var handle_message = function(message) {
@@ -125,7 +127,7 @@ agoraJs.prototype = (function(){
         },
 
         submit : function () {
-            submit();
+            return submit();
         },
 
         set_sentiment : function (sentiment) {
