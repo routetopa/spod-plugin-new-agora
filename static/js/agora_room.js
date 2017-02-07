@@ -76,12 +76,24 @@ AGORA.init = function ()
 
     //Handle click on unread message
     $(".agora_unread_comment").click(function(e){
+
         var id = e.currentTarget.id.replace("unread_", "");
-        var color = $("#"+id+" .agora_speech").css("background-color");
 
         $('#agora_chat_container').scrollTop($('#agora_chat_container').scrollTop() + $("#"+id).position().top);
-        $("#"+id+" .agora_speech").css("background-color", "yellow");
-        $("#"+id+" .agora_speech").animate({"background-color":color}, 1000);
+        $("#"+id+" .agora_speech").css("background", "yellow");
+
+        setTimeout(
+            function()
+            {
+                $("#"+id+" .agora_speech").css("transition", "background-color 1s ease");
+                $("#"+id+" .agora_speech").css("background-color", "#EEEEEE");
+            }, 0);
+
+        setTimeout(
+            function()
+            {
+                $("#"+id+" .agora_speech").css("transition", "");
+            }, 1000);
     });
 
     // Handle realtime communication
