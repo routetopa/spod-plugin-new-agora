@@ -656,13 +656,21 @@ div.agora_speech_text {
 div.agora_fullsize_datalet
 {
     width: calc( 75vw - 124px - 208px );
-    height: 484px;
+    height: 478px;
     margin: 12px 0;
+}
+
+div.agora_fullsize_datalet.leafletjs-datalet, div.agora_fullsize_datalet.leafletjs-geojson-datalet {
+    height: 678px;
+}
+
+div.agora_fullsize_datalet.datatable-datalet  {
+    height: 554px;
 }
 
 div.agora_fullsize_datalet_textfree
 {
     width: calc( 75vw - 124px - 208px );
-    height: 484px;
+    height: 600px;
     margin-bottom: 12px
 }
