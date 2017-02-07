@@ -74,6 +74,16 @@ AGORA.init = function ()
 
     $(".agora_unread_comments").perfectScrollbar();
 
+    //Handle click on unread message
+    $(".agora_unread_comment").click(function(e){
+        var id = e.currentTarget.id.replace("unread_", "");
+        var color = $("#"+id+" .agora_speech").css("background-color");
+
+        $('#agora_chat_container').scrollTop($('#agora_chat_container').scrollTop() + $("#"+id).position().top);
+        $("#"+id+" .agora_speech").css("background-color", "yellow");
+        $("#"+id+" .agora_speech").animate({"background-color":color}, 1000);
+    });
+
     // Handle realtime communication
     var socket = io(window.location.origin + ":3000");
 

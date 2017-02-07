@@ -31,6 +31,14 @@ CREATE TABLE IF NOT EXISTS `' . OW_DB_PREFIX . 'spod_agora_room_comment` (
   `sentiment` TINYINT,
   `timestamp` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ;
+
+CREATE TABLE IF NOT EXISTS `' . OW_DB_PREFIX . 'spod_agora_room_user_access` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `userId` int(11) NOT NULL,
+  `roomId` int(11) NOT NULL,
+  `last_access` TIMESTAMP,
+  PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ;';
 
 OW::getDbo()->query($sql);

@@ -65,7 +65,7 @@
 
 
                 {foreach $comments as $comment}
-                <div class="{$comment->css_class}">
+                <div class="{$comment->css_class}" id="comment_{$comment->id}">
                     <div class="ow_avatar style-scope {$comment->sentiment_class}" title="{$comment->username}"><a class="style-scope" href="{$comment->owner_url}"><img alt="" style="max-width: 100%;" class="" src="{$comment->avatar_url}"></a></div>
                     <div class="agora_speech">
                         <div class="agora_speech_text">{$comment->comment}</div>
@@ -98,77 +98,41 @@
         </div>
 
         <div class="agora_right">
+
             <div class="agora_right_header">UNREAD MESSAGES</div>
 
-            <div id="0" class="agora_day_tab">
+            {foreach $unread_comments as $section}
+            <div id="{$section@index}" class="agora_day_tab">
                 <div class="time"></div>
-                <div class="label">Today (Monday)</div>
-                <div class="count">9</div>
+                <div class="label">{$section@key}</div>
+                {if $section|@count gt 0}<div class="count">{$section|@count}</div>{/if}
                 <div class="forward"></div>
             </div>
-            <div id="div_1" class="agora_unread_comments agora_tab_opened">
 
-                <div class="agora_unread_comment">
+            <div id="" class="agora_unread_comments {if $section@index eq 0} agora_tab_opened {/if}">
+
+                {foreach $section as $comment}
+                <div class="agora_unread_comment" id="unread_comment_{$comment->id}">
                     <div class="ow_avatar style-scope" title="">
-                        <a class="style-scope" href=""><img alt="" style="max-width: 100%;" class="" src="http://172.16.15.128/ow_userfiles/plugins/base/avatars/avatar_1_1478595591.jpg"></a>
+                        <a class="style-scope" href="{$comment->owner_url}"><img alt="" style="max-width: 100%;" class="" src="{$comment->avatar_url}"></a>
                         <div class="agora_comment_sentiment"></div>
                     </div>
                     <div class="agora_preview">
-                        <div class="agora_preview_comment" title="Secondo mecommenti fanasy perchè credo che più o meno non riesco a fare di quello preferisco perfettamente come quanto tu.">
-                            <span class="name">Renato De Donato</span>
+                        <div class="agora_preview_comment" title="{$comment->comment}">
+                            <span class="name">{$comment->username}</span>
                             <span class="says">says</span>
-                            <span class="text">Secondo mecommenti fanasy perchè credo che più o meno non riesco a fare di quello preferisco perfettamente come quanto tu.</span>
+                            <span class="text">{$comment->comment}</span>
 
                         </div>
                         <div class="agora_preview_time">
-                            12:05
+                            {$comment->timestamp}
                         </div>
                     </div>
                 </div>
+                {/foreach}
 
             </div>
-
-            <div id="1" class="agora_day_tab">
-                <div class="time"></div>
-                <div class="label">Yesterday (Sunday)</div>
-                <div class="count">21</div>
-                <div class="forward"></div>
-            </div>
-
-            <div id="2" class="agora_day_tab">
-                <div class="time"></div>
-                <div class="label">Saturday</div>
-                <div class="count">16</div>
-                <div class="forward"></div>
-            </div>
-
-            <div id="3" class="agora_day_tab">
-                <div class="time"></div>
-                <div class="label">Friday</div>
-                <!--<div class="count"></div>-->
-                <div class="forward"></div>
-            </div>
-
-            <div id="4" class="agora_day_tab">
-                <div class="time"></div>
-                <div class="label">Thursday</div>
-                <!--<div class="count"></div>-->
-                <div class="forward"></div>
-            </div>
-
-            <div id="5" class="agora_day_tab">
-                <div class="time"></div>
-                <div class="label">Wednesday</div>
-                <!--<div class="count"></div>-->
-                <div class="forward"></div>
-            </div>
-
-            <div id="6" class="agora_day_tab">
-                <div class="time"></div>
-                <div class="label">Tuesday</div>
-                <div class="count">1</div>
-                <div class="forward"></div>
-            </div>
+            {/foreach}
 
         </div>
 

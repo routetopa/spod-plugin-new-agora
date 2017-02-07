@@ -31,8 +31,7 @@ class SPODAGORA_CTRL_Agora extends OW_ActionController
         $this->assign('comments', $this->process_comment($raw_comments));
 
         $raw_unread_comments = SPODAGORA_BOL_Service::getInstance()->getUnreadComment(0, $this->userId);
-        $a = $this->process_unread_comment($raw_unread_comments);
-        //$this->assign('unread_comments', $this->process_unread_comment($raw_unread_comments));
+        $this->assign('unread_comments', $this->process_unread_comment($raw_unread_comments));
 
         $this->initializeJS();
     }
@@ -52,16 +51,15 @@ class SPODAGORA_CTRL_Agora extends OW_ActionController
             if(date_diff($today, date_create($comment->timestamp))->d > 7)
                 break;
 
-            $comment->username      = $this->avatars[$comment->ownerId]["title"];
-            $comment->owner_url     = $this->avatars[$comment->ownerId]["url"];
-            $comment->avatar_url    = $this->avatars[$comment->ownerId]["src"];
-            $section                = date('l', strtotime($comment->timestamp));
-            $comment->timestamp     = date('H:i', strtotime($comment->timestamp));
+            $comment->username   = $this->avatars[$comment->ownerId]["title"];
+            $comment->owner_url  = $this->avatars[$comment->ownerId]["url"];
+            $comment->avatar_url = $this->avatars[$comment->ownerId]["src"];
+            $section             = date('l', strtotime($comment->timestamp));
+            $comment->timestamp  = date('H:i', strtotime($comment->timestamp));
 
             $comment->sentiment_class = $comment->sentiment == 0 ? 'neutral' : ($comment->sentiment == 1 ? 'satisfied' : 'dissatisfied');
             array_push($unread_section[$section], $comment);
         }
-
 
         return $unread_section;
     }
