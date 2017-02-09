@@ -148,38 +148,44 @@ AGORA.init = function ()
 
     });
 
+    $("#agora_graph_button").click(function () {
+        AGORA.showGraph();
+    });
+
+
+
     // Handle realtime communication
-    var socket = io(window.location.origin + ":3000");
-
-    socket.emit('online_notification', {user_id:AGORA.user_id, room_id:AGORA.roomId, plugin:'spodpublic'});
-
-    socket.on('online_notification_' + AGORA.roomId, function(data) {
-       data.forEach(function(e){
-           $("#user_avatar_"+e).addClass("online");
-       });
-    });
-
-    socket.on('offline_notification', function(id) {
-        $("#user_avatar_"+id).removeClass("online");
-    });
-
-    socket.on('realtime_message_' + AGORA.roomId, function(data) {
-        if(AGORA.user_id != data.user_id)
-        {
-            message.add_rt_comment($("#agora_chat_container"),
-                AGORA.agora_static_resource_url + 'JSSnippet/rt_comment.tpl',
-                [(data.sentiment == 0 ? 'neutral' : (data.sentiment == 1 ?'satisfied' : 'dissatisfied')),
-                    data.user_display_name,
-                    data.user_url,
-                    data.user_avatar,
-                    data.comment,
-                    data.message_id,
-                    data.user_display_name,
-                    'just now',
-                    '0'],
-                data.message_id, {component:data.component, params:data.params, fields:data.fields, data:''});
-        }
-    });
+    // var socket = io(window.location.origin + ":3000");
+    //
+    // socket.emit('online_notification', {user_id:AGORA.user_id, room_id:AGORA.roomId, plugin:'spodpublic'});
+    //
+    // socket.on('online_notification_' + AGORA.roomId, function(data) {
+    //    data.forEach(function(e){
+    //        $("#user_avatar_"+e).addClass("online");
+    //    });
+    // });
+    //
+    // socket.on('offline_notification', function(id) {
+    //     $("#user_avatar_"+id).removeClass("online");
+    // });
+    //
+    // socket.on('realtime_message_' + AGORA.roomId, function(data) {
+    //     if(AGORA.user_id != data.user_id)
+    //     {
+    //         message.add_rt_comment($("#agora_chat_container"),
+    //             AGORA.agora_static_resource_url + 'JSSnippet/rt_comment.tpl',
+    //             [(data.sentiment == 0 ? 'neutral' : (data.sentiment == 1 ?'satisfied' : 'dissatisfied')),
+    //                 data.user_display_name,
+    //                 data.user_url,
+    //                 data.user_avatar,
+    //                 data.comment,
+    //                 data.message_id,
+    //                 data.user_display_name,
+    //                 'just now',
+    //                 '0'],
+    //             data.message_id, {component:data.component, params:data.params, fields:data.fields, data:''});
+    //     }
+    // });
 };
 
 AGORA.resize = function()
@@ -200,7 +206,7 @@ AGORA.scroll_bottom = function ()
 
 AGORA.openDiv = function (tab_id)
 {
-    var h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0) - 56 - 343;
+    var h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0) - 56 - 345;
 
     var tab_to_close = $(".agora_tab_opened")[0];
     var tab_to_open = $(".agora_unread_comments")[tab_id];
@@ -273,4 +279,12 @@ AGORA.slideFromNested = function()
         $(nested_chat).html("")
     });
 
+};
+
+AGORA.showGraph = function()
+{
+    var tab_container = $("#agora_tab_container")[0];
+
+    $(tab_container).hide();
+    console.log(tab_container);
 };

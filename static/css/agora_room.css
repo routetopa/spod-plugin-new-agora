@@ -1,3 +1,291 @@
+/*https://dribbble.com/shots/1416353-chat-application/attachments/207407*/
+/*https://daneden.github.io/animate.css/*/
+
+/**** AGORA RIGHT ****/
+
+#agora_right
+{
+    width: 25%;
+    min-width: 380px;
+    height: 100%;
+
+    background: #00BCD4;
+}
+
+#agora_right_header {
+    height: 56px;
+
+    padding: 0 16px;
+
+    background-color: #424242;
+    color: white;
+    text-align: center;
+    font-weight: 700;
+    line-height: 56px;
+}
+
+#agora_tab_container {
+    height: calc(100% - 56px);
+}
+
+div.agora_day_tab {
+    position: relative;
+
+    width: calc(100% - 32px);
+
+    margin-bottom: 1px;
+    padding: 12px 16px;
+
+    display: flex;
+    flex-direction: row;
+
+    background-color: #26C6DA;
+    color: white;
+    cursor: pointer;
+}
+
+div.agora_day_tab:hover {
+    background-color: #00AABF;
+}
+
+div.agora_day_tab div.time {
+    height: 24px;
+    width: 24px;
+
+    margin: 0 8px 0 16px;
+
+    background: url("/ow_static/plugins/agora/images/time_white.svg") no-repeat 0 0;
+}
+
+div.agora_day_tab div.label {
+    height: 24px;
+}
+
+div.agora_day_tab div.count {
+    position: absolute;
+    right: 120px;
+
+    min-width: 16px;
+    height: 16px;
+
+    padding: 2px;
+    border: 2px solid white;
+
+    color: white;
+    border-radius: 50%;
+    line-height: 16px;
+    font-size: 12px;
+    font-weight: 700;
+    text-align: center;
+}
+
+
+div.agora_day_tab div.forward {
+    position: absolute;
+    right: 32px;
+
+    height: 24px;
+    width: 24px;
+
+    background: url("/ow_static/plugins/agora/images/arrow-forward.svg") no-repeat 0 0;
+}
+
+div.agora_unread_comments {
+    position: relative;
+
+    width: 100%;
+    height: 0;
+
+
+
+    opacity: 0;
+    display: none;
+}
+
+div.agora_unread_comments.agora_tab_opened {
+    height: calc(100% - 345px);
+    border-top: 1px solid white;
+    border-bottom: 1px solid white;
+
+    opacity: 1;
+    display: block;
+}
+
+div.agora_unread_comment {
+    width: calc(100% - 32px);
+    height: 56px;
+
+    padding: 4px 16px;
+    border-bottom: 1px solid #00AABF;
+
+    display: flex;
+    flex-direction: row;
+
+    cursor: pointer;
+}
+
+div.agora_unread_comment:hover {
+    background-color: #00AABF;
+}
+
+div.agora_preview{
+    min-width: 0;
+
+    margin: 8px 0 8px 16px;
+
+}
+
+div.agora_preview_comment {
+    height: 24px;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    cursor: text;
+}
+
+div.agora_preview_comment span.name{
+    font-weight: 700;
+}
+
+div.agora_preview_comment span.says{
+}
+
+div.agora_preview_comment span.text{
+    font-style: italic;
+}
+
+div.agora_preview_time{
+    padding-left: 20px;
+
+    line-height: 16px !important;
+    font-size: 14px !important;
+    color: white;
+
+    background: url("/ow_static/plugins/agora/images/time_white.svg") no-repeat 0 0;
+}
+
+/**** AGORA RIGHT END****/
+
+/**** COMMENT ****/
+
+.ow_avatar {
+    min-width: 40px;
+    margin: 5px;
+    padding: 3px;
+
+    border-radius: 50%;
+}
+
+.ow_avatar.neutral {
+    background-color: transparent;
+}
+
+.ow_avatar.satisfied {
+    background-color: #4CAF50;
+}
+
+.ow_avatar.dissatisfied {
+    background-color: #F44336;
+}
+
+.ow_avatar.online:before {
+    background-color: #4CAF50;
+    content: ' ';
+    position: absolute;
+    width: 10px;
+    height:  10px;
+    border-radius: 50%;
+    right: 3px;
+    bottom: 3px;
+    border: 2px solid white;
+}
+
+.agora_left_comment div.agora_speech {
+    position: relative;
+    max-width: calc(100% - 56px - 16px - 56px - 16px - 32px);
+    background-color: #EEEEEE;
+    border-radius: 0 5px 5px 5px;
+    margin-left: 16px;
+    margin-top: 8px;
+    padding: 12px 16px;
+}
+
+.agora_left_comment div.agora_speech:before {
+    content: ' ';
+    position: absolute;
+    width: 0;
+    height: 0;
+    left: -16px;
+    top: 0;
+    border: 8px solid;
+    border-color: #EEEEEE #EEEEEE transparent transparent;
+}
+
+.agora_right_comment div.agora_speech {
+    position: relative;
+    max-width: calc(100% - 56px - 16px - 56px - 16px - 32px);
+    background-color: #E3F2FD;
+    border-radius: 5px 0 5px 5px;
+    margin-right: 16px;
+    margin-top: 8px;
+    padding: 12px 16px;
+}
+
+.agora_right_comment div.agora_speech:before {
+    content: ' ';
+    position: absolute;
+    width: 0;
+    height: 0;
+    right: -16px;
+    top: 0;
+    border: 8px solid;
+    border-color: #E3F2FD transparent transparent #E3F2FD;
+}
+
+.agora_speech_text {
+    min-height: 24px;
+}
+
+.agora_speech_info
+{
+    display: flex;
+    flex-direction: row;
+
+    color: #9E9E9E;
+
+    height: 22px;
+}
+
+.agora_speech_info > *
+{
+    height: 16px;
+    margin: 3px 0;
+
+    line-height: 16px !important;
+    font-size: 14px !important;
+}
+
+
+.agora_speech_username {
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.agora_speech_time {
+    padding-left: 20px;
+    margin-left: 20px;
+    background: url("/ow_static/plugins/agora/images/time.svg") no-repeat 0 0;
+}
+
+.agora_speech_reply {
+    color: #00bcd4;
+    cursor: pointer;
+    margin-left: 20px;
+}
+
+/**** END COMMENT ****/
+
 .agora_container
 {
     width: 100%;
@@ -13,13 +301,9 @@
 
 .agora_header
 {
-    /*background: #2196f3;*/
     background: #FFFFFF;
     width: 100%;
-    /*height: 56px;*/
     border-bottom: solid 2px #e0e0e0;
-    /*        display: flex;
-            flex-direction: row;*/
 }
 
 div.agora_header_title
@@ -71,14 +355,6 @@ div#agora_header_description
     height: 100%;
     width: calc( 75% - 124px );
     position: relative;
-}
-
-.agora_right
-{
-    width: 25%;
-    min-width: 380px;
-    height: 100%;
-    background: #00bcd4;
 }
 
 .agora_graph_button_title
@@ -387,342 +663,7 @@ div.agora_speech {
 /**********************************************************************************************/
 
 
-div.agora_right_header {
-    background-color: #424242;
 
-    text-align: center;
-    /*font-size: 24px;*/
-    font-weight: 700;
-    line-height: 56px;
-    height: 56px;
-    color: white;
-    padding: 0 16px;
-}
-
-div.agora_tab_container {
-    display: flex;
-    flex-direction: row;
-
-    height: 56px;
-    /*background-color: #00AABF;*/
-
-    /*width: calc(50% - 32px);*/
-
-    /*text-align: center;*/
-    /*!*font-size: 24px;*!*/
-    /*font-weight: 700;*/
-    /*line-height: 56px;*/
-    /*height: 56px;*/
-    /*color: white;*/
-    /*padding: 0 16px;*/
-
-    /*border-radius: 0 0 5px 0;*/
-
-    /*cursor: pointer;*/
-}
-
-div.agora_tab {
-
-    width: calc(50% - 32px);
-
-    text-align: center;
-    /*font-size: 24px;*/
-    font-weight: 700;
-    line-height: 56px;
-    height: 56px;
-    color: white;
-    padding: 0 16px;
-
-
-
-    cursor: pointer;
-}
-
-div.agora_tab.left {
-    border-radius: 0 0 5px 0;
-}
-
-div.agora_tab.right {
-    border-radius: 0 0 0 5px;
-}
-
-div.agora_tab.selected, div.agora_tab:hover {
-    background-color: #00AABF;
-}
-
-div.agora_unread_comments {
-    width: 100%;
-
-    height: 0;
-    opacity: 0;
-    display: none;
-
-    /*overflow-y: hidden;*/
-    position: relative;
-}
-
-div.agora_unread_comment {
-    display: flex;
-    flex-direction: row;
-
-    width: calc(100% - 32px);
-    height: 56px;
-    /*background: yellow;*/
-
-    /*margin: 8px 26px 0 26px;*/
-    padding: 4px 16px;
-
-
-
-    /*padding: 8px;*/
-    /*color: #424242;*/
-    /*color: white;*/
-
-    cursor: pointer;
-    border-bottom: 1px solid #00AABF;
-
-    /*background: #EEEEEE;!*00bcd4 EEEEEE*!*/
-}
-
-div.agora_unread_comment:hover {
-    background-color: #00AABF;
-}
-
-div.agora_preview{
-    min-width: 0;
-    margin: 8px 0 8px 16px;
-
-}
-
-div.agora_preview_comment {
-    height: 24px;
-    /*background: red;*/
-
-    /*width: 100%;*/
-    /*max-width: 300px;*/
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-
-    /*color: #424242;*/
-
-    cursor: text;
-}
-
-div.agora_preview_comment .name{
-    font-weight: 700;
-}
-
-div.agora_preview_comment .text{
-    font-style: italic;
-}
-
-div.agora_preview_time{
-    line-height: 16px;
-    font-size: 12px;
-    color: white;
-
-    background: url("/ow_static/plugins/agora/images/time.svg") no-repeat 0 0;
-    padding-left: 20px;
-}
-
-div.agora_unread_comments.agora_tab_opened {
-    height: calc(100% - 56px - 343px);
-    opacity: 1;
-    display: block;
-}
-
-div.agora_day_tab {
-    display: flex;
-    flex-direction: row;
-
-    padding: 12px 16px;
-
-    width: calc(100% - 32px);
-    color: white;
-
-    background-color: #26C6DA;
-    margin-bottom: 1px;
-
-    cursor: pointer;
-}
-
-div.agora_day_tab:hover {
-    background-color: #00AABF;
-}
-
-/*.agora_day_tab div.count {*/
-/*margin: 0 16px;*/
-/*padding: 2px 4px;*/
-/*height: 20px;*/
-/*min-width: 16px;*/
-/*line-height: 21px;*/
-/*background-color: #424242;*/
-/*!*border: 2px solid white;*!*/
-/*color: white;!*#00bcd4;*!*/
-/*border-radius: 50%;*/
-
-/*!*font-weight: 700;*!*/
-/*text-align: center;*/
-/*}*/
-
-
-.agora_day_tab div.label {
-    height: 24px;
-    /*max-width: 200px;*/
-
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
-}
-
-.agora_day_tab div.count {
-    position: absolute;
-    right: 120px;
-    /*height: 24px;*/
-
-    /*margin-left: 32px;*/
-    padding: 2px;
-    height: 16px;
-    min-width: 16px;
-    line-height: 16px;
-    border: 2px solid white;
-    color: white;/*#00bcd4;*/
-    border-radius: 50%;
-
-    font-size: 12px;
-    font-weight: 700;
-    text-align: center;
-}
-
-.agora_day_tab div.time {
-    height: 24px;
-    width: 24px;
-    margin: 0 8px 0 16px;
-
-    background: url("/ow_static/plugins/agora/images/time.svg") no-repeat 0 0;
-}
-
-.agora_day_tab div.forward {
-    position: absolute;
-    right: 32px;
-    height: 24px;
-    width: 24px;
-
-    background: url("/ow_static/plugins/agora/images/arrow-forward.svg") no-repeat 0 0;
-}
-
-.ow_avatar {
-    min-width: 40px;
-    border-radius: 50%;
-    padding: 3px;
-    margin: 5px;
-}
-
-.ow_avatar.neutral {
-    background-color: transparent;/*9E9E9E*/
-}
-
-.ow_avatar.satisfied {
-    background-color: #4CAF50;
-}
-
-.ow_avatar.dissatisfied {
-    background-color: #F44336;
-}
-
-.ow_avatar.online:before {
-    background-color: #4CAF50;
-    content: ' ';
-    position: absolute;
-    width: 10px;
-    height:  10px;
-    border-radius: 50%;
-    right: 3px;
-    bottom: 3px;
-    border: 2px solid white;
-    /*border-color: #EEEEEE #EEEEEE transparent transparent;*/
-}
-
-.agora_left_comment div.agora_speech {
-    position: relative;
-    max-width: calc(100% - 56px - 16px - 56px - 16px - 32px);
-    background-color: #EEEEEE;
-    border-radius: 0 5px 5px 5px;
-    /*line-height: 40px;*/
-    margin-left: 16px;
-    margin-top: 8px;
-    padding: 12px 16px;
-}
-
-.agora_left_comment div.agora_speech:before {
-    content: ' ';
-    position: absolute;
-    width: 0;
-    height: 0;
-    left: -16px;
-    top: 0;
-    border: 8px solid;
-    border-color: #EEEEEE #EEEEEE transparent transparent;
-}
-
-.agora_right_comment div.agora_speech {
-    position: relative;
-    max-width: calc(100% - 56px - 16px - 56px - 16px - 32px);
-    background-color: #E3F2FD;
-    border-radius: 5px 0 5px 5px;
-    margin-right: 16px;
-    margin-top: 8px;
-    padding: 12px 16px;
-}
-
-.agora_right_comment div.agora_speech:before {
-    content: ' ';
-    position: absolute;
-    width: 0;
-    height: 0;
-    right: -16px;
-    top: 0;
-    border: 8px solid;
-    border-color: #E3F2FD transparent transparent #E3F2FD;
-}
-
-div.agora_speech_text {
-    /*color: #424242;*/
-}
-
-.agora_speech_info
-{
-    display: flex;
-    flex-direction: row;
-
-    color: #9E9E9E;
-}
-
-.agora_speech_info > svg
-{
-    display: block;
-    width: 16px;
-    height: 24px;
-    fill: #9E9E9E;
-}
-
-.agora_speech_username {
-    font-weight: 700;
-    margin-right: 20px;
-    cursor: pointer;
-}
-
-.agora_speech_time {
-    font-size: 12px;
-    margin-left: 4px;
-    margin-right: 20px;
-}
-
-.agora_speech_reply {
-    color: #00bcd4;
-    cursor: pointer;
-}
 
 div.agora_fullsize_datalet
 {
@@ -762,9 +703,6 @@ div.agora_fullsize_datalet.textfree
 
     opacity: 0;
     display: none;
-
-    /*width: calc( 100% - 32px );*/
-    /*padding: 0 16px;*/
 }
 
 #agora_nested_comment
@@ -837,3 +775,4 @@ div.agora_fullsize_datalet.textfree
     text-overflow: ellipsis;
 }
 
+/**** NESTED END ****/
