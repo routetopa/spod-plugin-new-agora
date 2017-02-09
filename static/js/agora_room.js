@@ -246,13 +246,13 @@ AGORA.slideToNested = function()
 
     $(nested_chat).show();
 
-    $(nested_chat).animate({
+    $(nested_chat).delay(500).animate({
         opacity: 1
-    }, 1000);
+    }, 500);
 
     $(chat).animate({
         opacity: 0
-    }, 1000, function(){$(chat).hide()});
+    }, 500, function(){$(chat).hide()});
 };
 
 AGORA.slideFromNested = function()
@@ -262,13 +262,13 @@ AGORA.slideFromNested = function()
 
     $(chat).show();
 
-    $(chat).animate({
+    $(chat).delay(500).animate({
         opacity: 1
-    }, 1000);
+    }, 500);
 
     $(nested_chat).animate({
         opacity: 0
-    }, 1000, function(){
+    }, 500, function(){
         $(nested_chat).hide();
         $(nested_chat).html("")
     });

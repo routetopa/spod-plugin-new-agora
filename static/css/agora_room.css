@@ -339,6 +339,7 @@ input:checked + .slider:before {
     cursor: pointer;
 
     background: url("/ow_static/plugins/agora/images/eye.svg") no-repeat 0 0;
+    display: none;
 }
 
 .agora_datalet_preview
