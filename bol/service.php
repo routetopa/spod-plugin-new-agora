@@ -86,4 +86,15 @@ class SPODAGORA_BOL_Service
         return $dbo->queryForObjectList($sql,'SPODAGORA_BOL_AgoraRoomComment');
     }
 
+    public function getNestedComment($room_id, $parent_id, $level)
+    {
+        $ex = new OW_Example();
+        $ex->andFieldEqual('entityId', $room_id);
+        $ex->andFieldEqual('parentId', $parent_id);
+        $ex->andFieldEqual('level', $level);
+
+
+        return SPODAGORA_BOL_AgoraRoomCommentDao::getInstance()->findListByExample($ex);
+    }
+
 }

@@ -63,6 +63,16 @@ class SPODAGORA_CTRL_Ajax extends OW_ActionController
         exit;
     }
 
+    public function getNestedComment()
+    {
+        $nc = new SPODAGORA_CMP_NestedComment($_REQUEST['entity_id'],
+                                              $_REQUEST['parent_id'],
+                                              $_REQUEST['level']);
+        echo $nc->render();
+
+        exit;
+    }
+
     private function send_realtime_notification($comment)
     {
         try

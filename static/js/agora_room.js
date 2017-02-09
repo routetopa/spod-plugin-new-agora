@@ -4,6 +4,8 @@ AGORA = {};
 
 AGORA.init = function ()
 {
+    // Emoticonize !!
+    $('.agora_speech_text').emoticonize();
 
     // Set datalet preview target
     ODE.commentTarget = "agora_datalet_preview";
@@ -11,7 +13,8 @@ AGORA.init = function ()
     // agoraJS
     var message = new agoraJs($("#agora_comment"),
                               AGORA.roomId,
-                              AGORA.agora_comment_endpoint);
+                              AGORA.agora_comment_endpoint,
+                              AGORA.agora_nested_comment_endpoint);
     message.init();
     message.set_string_handler(AGORA.string_handler);
 
@@ -21,8 +24,19 @@ AGORA.init = function ()
     });
 
     // Handler for comment added
-    $(window).on("comment_added", function(){
+    $(window).on("comment_added", function(e){
+
         AGORA.scroll_bottom();
+
+        var elem = $("#agora_datalet_placeholder_" + e.post_id);
+        var parent_children = elem.parent().children()[0];
+        $(parent_children).emoticonize();
+
+        if(e.component != "") {
+            elem.addClass("agora_fullsize_datalet " + e.component);
+            $("#agora_preview_button").hide();
+            ODE.reset();
+        }
     });
 
     // Handle for click on send button (submit message)
@@ -54,6 +68,7 @@ AGORA.init = function ()
     // Handler for document ready (init perfectScrollbar, resize page, init autogrow)
     $(document).ready(function () {
         $('#agora_chat_container').perfectScrollbar();
+        $('#agora_nested_chat_container').perfectScrollbar();
         AGORA.resize();
         $('#agora_comment').autogrow();
     });
@@ -106,6 +121,18 @@ AGORA.init = function ()
         $(e).context.behavior.redraw();
     });
 
+    // Handle reply
+    $(".agora_speech_reply").click(function (e) {
+       console.log(e);
+        var elem = $(e.currentTarget).parents().eq(2);
+        console.log(elem.attr('id'));
+        message.set_level_up();
+        message.set_parentId(elem.attr('id'));
+        $("#agora_chat_container").hide();
+        $("#agora_nested_chat_container").show();
+        message.get_nested_comment($("#agora_nested_chat_container"));
+    });
+
     // Handle realtime communication
     var socket = io(window.location.origin + ":3000");
 
@@ -156,7 +183,8 @@ AGORA.scroll_bottom = function ()
     $("#agora_chat_container").perfectScrollbar('update');
 };
 
-AGORA.openDiv = function (tab_id) {
+AGORA.openDiv = function (tab_id)
+{
     var h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0) - 56 - 343;
 
     var tab_to_close = $(".agora_tab_opened")[0];

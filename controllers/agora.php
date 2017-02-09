@@ -23,6 +23,9 @@ class SPODAGORA_CTRL_Agora extends OW_ActionController
         OW::getDocument()->addScript(OW::getPluginManager()->getPlugin('spodagora')->getStaticJsUrl() . 'perfect-scrollbar.jquery.js');
         OW::getDocument()->addScript('https://cdn.socket.io/socket.io-1.2.0.js');
 
+        OW::getDocument()->addScript(OW::getPluginManager()->getPlugin('spodagora')->getStaticJsUrl() . 'jquery.cssemoticons.min.js');
+        OW::getDocument()->addStyleSheet(OW::getPluginManager()->getPlugin('spodagora')->getStaticCssUrl() . 'jquery.cssemoticons.css');
+
         OW::getDocument()->addStyleSheet(OW::getPluginManager()->getPlugin('spodagora')->getStaticCssUrl() . 'perfect-scrollbar.min.css');
         OW::getDocument()->addStyleSheet(OW::getPluginManager()->getPlugin('spodagora')->getStaticCssUrl() . 'agora_room.css');
 
@@ -35,7 +38,6 @@ class SPODAGORA_CTRL_Agora extends OW_ActionController
 
         $this->initializeJS();
     }
-
 
     private function process_unread_comment($unread_commnets)
     {
@@ -74,6 +76,7 @@ class SPODAGORA_CTRL_Agora extends OW_ActionController
             AGORA.user_url = {$user_url}
             AGORA.user_avatar_src = {$user_avatar_src}
             AGORA.user_id = {$user_id}
+            AGORA.agora_nested_comment_endpoint = {$agora_nested_comment_endpoint}
          ', array(
             'roomId' => 0,
             'agora_comment_endpoint' => OW::getRouter()->urlFor('SPODAGORA_CTRL_Ajax', 'addComment'),
@@ -81,7 +84,8 @@ class SPODAGORA_CTRL_Agora extends OW_ActionController
             'username' => $this->avatars[$this->userId]["title"],
             'user_url' => $this->avatars[$this->userId]["url"],
             'user_avatar_src' => $this->avatars[$this->userId]["src"],
-            'user_id' => $this->userId
+            'user_id' => $this->userId,
+            'agora_nested_comment_endpoint' => OW::getRouter()->urlFor('SPODAGORA_CTRL_Ajax', 'getNestedComment')
         ));
 
         OW::getDocument()->addOnloadScript($js);
