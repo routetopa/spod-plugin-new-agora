@@ -127,14 +127,14 @@ AGORA.init = function ()
         message.set_level_up();
         message.set_parentId(elem.attr('id'));
         message.get_nested_comment($("#agora_nested_chat_container"));
-        AGORA.slideToNested();
     });
 
     $(window).on("nested_comment_added", function(e) {
 
+        AGORA.slideToNested();
+
         $("#agora_back").click(function () {
             AGORA.slideFromNested();
-            $("#agora_nested_chat_container").html("");
             message.set_level_down();
         });
 
@@ -244,30 +244,15 @@ AGORA.slideToNested = function()
     var chat = $("#agora_chat_container")[0];
     var nested_chat = $("#agora_nested_chat_container")[0];
 
-    // var nested_comment = $("#agora_nested_comment")[0];
-
-    var w = (Math.max(document.documentElement.clientWidth, window.innerWidth || 0) * 0.75) - 166;
-
-    // $(nested_comment).css("display", "flex");
+    $(nested_chat).show();
 
     $(nested_chat).animate({
-        width: w,
-        padding: "0 16px"
-    }, 1000).animate({
         opacity: 1
-    }, 500);
-
-    $(chat).animate({
-        opacity: 0,
-        width: 0,
-        padding: 0
     }, 1000);
 
-    // $(nested_comment).delay(1500).animate({
-    //     opacity: 1
-    // }, 1000);
-
-
+    $(chat).animate({
+        opacity: 0
+    }, 1000, function(){$(chat).hide()});
 };
 
 AGORA.slideFromNested = function()
@@ -275,26 +260,17 @@ AGORA.slideFromNested = function()
     var chat = $("#agora_chat_container")[0];
     var nested_chat = $("#agora_nested_chat_container")[0];
 
-    // var nested_comment = $("#agora_nested_comment")[0];
-
-    var w = (Math.max(document.documentElement.clientWidth, window.innerWidth || 0) * 0.75) - 166;
+    $(chat).show();
 
     $(chat).animate({
-        width: w,
-        padding: "0 16px"
-    }, 1000).animate({
-        opacity: 1,
-    }, 500);
-
-    $(nested_chat).animate({
-        opacity: 0,
-        width: 0,
-        padding: 0
+        opacity: 1
     }, 1000);
 
-    // $(nested_comment).animate({
-    //     opacity: 0,
-    // }, 500);
+    $(nested_chat).animate({
+        opacity: 0
+    }, 1000, function(){
+        $(nested_chat).hide();
+        $(nested_chat).html("")
+    });
 
-    // $("#agora_nested_comment").css("display", "none")
 };

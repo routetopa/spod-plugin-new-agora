@@ -751,14 +751,16 @@ div.agora_fullsize_datalet.textfree
     position: absolute;
     left: 0;
 
-    width: 0;
+    width: calc( 100% - 32px );
     height: calc( 100% - 298px - 102px);/*56px + 48px + 56px + 2px + 48px + 56px + 32px*/
 
-    padding: 0;
+    padding: 0 16px;
     margin: 118px 0 16px 0;
 
-    opacity: 0;
     overflow-y: hidden;
+
+    opacity: 0;
+    display: none;
 
     /*width: calc( 100% - 32px );*/
     /*padding: 0 16px;*/
