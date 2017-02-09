@@ -51,6 +51,10 @@ agoraJs.prototype = (function(){
         _level = _level + 1;
     };
 
+    var set_level_down = function () {
+        _level = _level - 1;
+    };
+
     var get_sentiment = function () {
         return _sentiment;
     };
@@ -151,6 +155,10 @@ agoraJs.prototype = (function(){
             set_level_up();
         },
 
+        set_level_down : function () {
+            set_level_down();
+        },
+
         set_string_handler : function(stringHandler){
             set_string_handler(stringHandler);
         },
@@ -209,6 +217,7 @@ agoraCommentJS.prototype = (function () {
                 dataType : 'TEXT',
                 success : function(data){
                     placeholder.html(data);
+                    $(window).trigger({type:"nested_comment_added"});
                 }
             });
         }

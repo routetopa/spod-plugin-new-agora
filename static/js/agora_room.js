@@ -123,14 +123,29 @@ AGORA.init = function ()
 
     // Handle reply
     $(".agora_speech_reply").click(function (e) {
-       console.log(e);
         var elem = $(e.currentTarget).parents().eq(2);
-        console.log(elem.attr('id'));
         message.set_level_up();
         message.set_parentId(elem.attr('id'));
-        $("#agora_chat_container").hide();
-        $("#agora_nested_chat_container").show();
         message.get_nested_comment($("#agora_nested_chat_container"));
+        AGORA.slideToNested();
+    });
+
+    $(window).on("nested_comment_added", function(e) {
+
+        $("#agora_back").click(function () {
+            AGORA.slideFromNested();
+            $("#agora_nested_chat_container").html("");
+            message.set_level_down();
+        });
+
+        $("#agora_nested_comment").mouseover(function () {
+            $("#agora_nested_speech_text").removeClass("agora_nested_speech_text");
+        });
+
+        $("#agora_nested_comment").mouseout(function () {
+            $("#agora_nested_speech_text").addClass("agora_nested_speech_text");
+        });
+
     });
 
     // Handle realtime communication
@@ -169,7 +184,7 @@ AGORA.init = function ()
 
 AGORA.resize = function()
 {
-    var h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0) - 250 - $('#agora_header_description').height();
+    var h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0) - 250 - $('#agora_header_description').height();/*fixed agora_header_description 48px now*/
 
     $("#agora_chat_container").height(h);
 
@@ -222,4 +237,64 @@ AGORA.openDiv = function (tab_id)
 AGORA.string_handler = function(string)
 {
     return string.replace(/\n/g, "<br/>");
+};
+
+AGORA.slideToNested = function()
+{
+    var chat = $("#agora_chat_container")[0];
+    var nested_chat = $("#agora_nested_chat_container")[0];
+
+    // var nested_comment = $("#agora_nested_comment")[0];
+
+    var w = (Math.max(document.documentElement.clientWidth, window.innerWidth || 0) * 0.75) - 166;
+
+    // $(nested_comment).css("display", "flex");
+
+    $(nested_chat).animate({
+        width: w,
+        padding: "0 16px"
+    }, 1000).animate({
+        opacity: 1
+    }, 500);
+
+    $(chat).animate({
+        opacity: 0,
+        width: 0,
+        padding: 0
+    }, 1000);
+
+    // $(nested_comment).delay(1500).animate({
+    //     opacity: 1
+    // }, 1000);
+
+
+};
+
+AGORA.slideFromNested = function()
+{
+    var chat = $("#agora_chat_container")[0];
+    var nested_chat = $("#agora_nested_chat_container")[0];
+
+    // var nested_comment = $("#agora_nested_comment")[0];
+
+    var w = (Math.max(document.documentElement.clientWidth, window.innerWidth || 0) * 0.75) - 166;
+
+    $(chat).animate({
+        width: w,
+        padding: "0 16px"
+    }, 1000).animate({
+        opacity: 1,
+    }, 500);
+
+    $(nested_chat).animate({
+        opacity: 0,
+        width: 0,
+        padding: 0
+    }, 1000);
+
+    // $(nested_comment).animate({
+    //     opacity: 0,
+    // }, 500);
+
+    // $("#agora_nested_comment").css("display", "none")
 };

@@ -772,7 +772,7 @@ div.agora_fullsize_datalet.textfree
 
     width: calc(75% - 172px);
 
-    display: none;/*flex*/
+    display: flex;
     flex-direction: row;
 
     padding: 3px 8px 8px 8px;
@@ -781,7 +781,6 @@ div.agora_fullsize_datalet.textfree
     background-color: #B2EBF2;
     border-radius: 5px;
     z-index: 1;
-    opacity: 0;
 }
 
 #agora_nested_comment div#agora_back {
