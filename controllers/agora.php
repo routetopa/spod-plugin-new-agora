@@ -68,6 +68,13 @@ class SPODAGORA_CTRL_Agora extends OW_ActionController
 
     private function initializeJS()
     {
+        $avatars = $this->avatars;
+
+        if(empty($avatars[$this->userId]))
+        {
+            $avatars = BOL_AvatarService::getInstance()->getDataForUserAvatars(array($this->userId));
+        }
+
         $js = UTIL_JsGenerator::composeJsString('
             AGORA.roomId = {$roomId}
             AGORA.agora_comment_endpoint = {$agora_comment_endpoint}
@@ -81,9 +88,9 @@ class SPODAGORA_CTRL_Agora extends OW_ActionController
             'roomId' => 0,
             'agora_comment_endpoint' => OW::getRouter()->urlFor('SPODAGORA_CTRL_Ajax', 'addComment'),
             'agora_static_resource_url' =>  OW::getPluginManager()->getPlugin('spodagora')->getStaticUrl(),
-            'username' => $this->avatars[$this->userId]["title"],
-            'user_url' => $this->avatars[$this->userId]["url"],
-            'user_avatar_src' => $this->avatars[$this->userId]["src"],
+            'username' => $avatars[$this->userId]["title"],
+            'user_url' => $avatars[$this->userId]["url"],
+            'user_avatar_src' => $avatars[$this->userId]["src"],
             'user_id' => $this->userId,
             'agora_nested_comment_endpoint' => OW::getRouter()->urlFor('SPODAGORA_CTRL_Ajax', 'getNestedComment')
         ));

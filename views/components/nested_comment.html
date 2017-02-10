@@ -1,27 +1,28 @@
 <div id="agora_nested_comment">
     <div id="agora_back"></div>
-    <div class="ow_avatar style-scope satisfied" title="">
-        <a class="style-scope" href=""><img alt="" style="max-width: 100%;" class="" src="http://172.16.15.128/ow_userfiles/plugins/base/avatars/avatar_1_1478595591.jpg"></a>
+    <div class="ow_avatar style-scope {$comments[0]->sentiment_class}" title="{$comments[0]->username}">
+        <a class="style-scope" href="{$comments[0]->owner_url}"><img alt="" style="max-width: 100%;" class="" src="{$comments[0]->avatar_url}"></a>
         <div class="agora_comment_sentiment"></div>
     </div>
     <div class="agora_speech">
-        <div id="agora_nested_speech_text" class="agora_speech_text agora_nested_speech_text">PROVA ... ocs  os PROVA ... ocs  os PROVA ... ocs  os PROVA ... ocs  os PROVA ... ocs  os PROVA ... ocs  os PROVA ... ocs  os PROVA ... ocs  os PROVA ... ocs  os PROVA ... ocs  os PROVA ... ocs  os PROVA ... ocs  os PROVA ... ocs  os PROVA ... ocs  os PROVA ... ocs  os PROVA ... ocs  os PROVA ... ocs  os PROVA ... ocs  os PROVA ... ocs  os PROVA ... ocs  os PROVA ... ocs  os PROVA ... ocs  os PROVA ... ocs  os PROVA ... ocs  os PROVA ... ocs  os PROVA ... ocs  os PROVA ... ocs  os PROVA ... ocs  os PROVA ... ocs  os PROVA ... ocs  os PROVA ... ocs  os PROVA ... ocs  os PROVA ... ocs  os PROVA ... ocs  os PROVA ... ocs  os PROVA ... ocs  os PROVA ... ocs  os PROVA ... ocs  os PROVA ... ocs  os PROVA ... ocs  os PROVA ... ocs  os PROVA ... ocs  os PROVA ... ocs  os </div>
+        <div id="agora_nested_speech_text" class="agora_speech_text agora_nested_speech_text">{$comments[0]->comment}</div>
         <div class="agora_speech_info">
-            <div class="agora_speech_username">REN</div>
-            <div class="agora_speech_time">adesso popio</div>
+            <div class="agora_speech_username">{$comments[0]->username}</div>
+            <div class="agora_speech_time">{$comments[0]->timestamp}</div>
         </div>
     </div>
 </div>
-{foreach $comments as $comment}
-<div class="{$comment->css_class}" id="comment_{$comment->id}">
-    <div class="ow_avatar style-scope {$comment->sentiment_class}" title="{$comment->username}"><a class="style-scope" href="{$comment->owner_url}"><img alt="" style="max-width: 100%;" class="" src="{$comment->avatar_url}"></a></div>
+{for $i = 1 to count($comments) - 1}
+<div class="{$comments[$i]->css_class}" id="comment_{$comments[$i]->id}">
+    <div class="ow_avatar style-scope {$comments[$i]->sentiment_class}" title="{$comments[$i]->username}">
+        <a class="style-scope" href="{$comments[$i]->owner_url}"><img alt="" style="max-width: 100%;" class="" src="{$comments[$i]->avatar_url}"></a></div>
     <div class="agora_speech">
-        <div class="agora_speech_text">{$comment->comment}</div>
-        <div id="agora_datalet_placeholder_{$comment->id}" class="{$comment->datalet_class} {$comment->component}"></div>
+        <div class="agora_speech_text">{$comments[$i]->comment}</div>
+        <div id="agora_datalet_placeholder_{$comments[$i]->id}" class="{$comments[$i]->datalet_class} {$comments[$i]->component}"></div>
         <div class="agora_speech_info">
-            <div class="agora_speech_username">{$comment->username}</div>
-            <div class="agora_speech_time">{$comment->timestamp}</div>
+            <div class="agora_speech_username">{$comments[$i]->username}</div>
+            <div class="agora_speech_time">{$comments[$i]->timestamp}</div>
         </div>
     </div>
 </div>
-{/foreach}
+{/for}

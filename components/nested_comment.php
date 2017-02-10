@@ -9,7 +9,9 @@ class SPODAGORA_CMP_NestedComment extends OW_Component
     {
         $this->userId = OW::getUser()->getId();
 
+        $father_comment = SPODAGORA_BOL_Service::getInstance()->getCommentById($parent_id);
         $raw_comments = SPODAGORA_BOL_Service::getInstance()->getNestedComment($room_id, $parent_id, $level);
+        array_unshift($raw_comments, $father_comment);
         $this->assign('comments', $this->process_comment($raw_comments));
     }
 

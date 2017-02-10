@@ -1,9 +1,4 @@
-function agoraJs(elem, entityId, endpoint, endpoint_nested) {
-    this.elem = elem;
-    this.entityId = entityId;
-    this.endpoint = endpoint;
-    this.endpoint_nested = endpoint_nested;
-};
+function agoraJs() {};
 
 agoraJs.prototype = (function(){
 
@@ -18,7 +13,7 @@ agoraJs.prototype = (function(){
     var _agoraCommentJS;
     var _stringHandler;
 
-    var initialize_text_area = function(elem, entityId, endpoint, endpoint_nested) {
+    var init = function(elem, entityId, endpoint, endpoint_nested) {
         _elem = elem;
         _entityId = entityId;
         _endpoint = endpoint;
@@ -41,6 +36,10 @@ agoraJs.prototype = (function(){
             _parentId =  parentId.match(/\d+/)[0];
         else
             _parentId = parentId;
+    };
+
+    var get_parentId = function(){
+        return _parentId;
     };
 
     var set_sentiment = function(sentiment){
@@ -105,7 +104,7 @@ agoraJs.prototype = (function(){
             {
                 _agoraCommentJS.addComment(_level == 0 ? $("#agora_chat_container") : $("#agora_nested_chat_container"),
                                        AGORA.agora_static_resource_url + 'JSSnippet/comment.tpl',
-                                       [(_sentiment == 0 ? 'neutral' : (_sentiment == 1 ?'satisfied' : 'dissatisfied')),AGORA.username, AGORA.user_url,AGORA.user_avatar_src,_message,raw_data.post_id,AGORA.username,'just now','0'],
+                                       [raw_data.post_id, (_sentiment == 0 ? 'neutral' : (_sentiment == 1 ?'satisfied' : 'dissatisfied')),AGORA.username, AGORA.user_url,AGORA.user_avatar_src,_message,raw_data.post_id,AGORA.username,'just now','0'],
                                        raw_data.post_id, ODE.dataletParameters
                 );
 
@@ -128,11 +127,12 @@ agoraJs.prototype = (function(){
         OW.error(textStatus);
     };
 
+    // PUBLIC METHOD
     return {
         construct : agoraJs,
 
-        init : function () {
-            initialize_text_area(this.elem, this.entityId, this.endpoint, this.endpoint_nested);
+        init : function (elem, entityId, endpoint, endpoint_nested) {
+            init(elem, entityId, endpoint, endpoint_nested);
         },
 
         submit : function () {
@@ -149,6 +149,10 @@ agoraJs.prototype = (function(){
 
         set_parentId : function (parentId) {
             set_parentId(parentId);
+        },
+
+        get_parentId : function () {
+            return get_parentId();
         },
 
         set_level_up : function () {

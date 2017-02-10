@@ -92,9 +92,14 @@ class SPODAGORA_BOL_Service
         $ex->andFieldEqual('entityId', $room_id);
         $ex->andFieldEqual('parentId', $parent_id);
         $ex->andFieldEqual('level', $level);
-
+        $ex->setOrder('timestamp asc');
 
         return SPODAGORA_BOL_AgoraRoomCommentDao::getInstance()->findListByExample($ex);
+    }
+
+    public function getCommentById($comment_id)
+    {
+        return SPODAGORA_BOL_AgoraRoomCommentDao::getInstance()->findById($comment_id);
     }
 
 }
