@@ -3,13 +3,30 @@
 
 /**** AGORA RIGHT ****/
 
+body, html {
+    min-width: 100% !important;
+}
+
 #agora_right
 {
     width: 25%;
-    min-width: 380px;
+    /*min-width: 380px;*/
     height: 100%;
 
     background: #00BCD4;
+}
+
+@media (max-width: 1200px) {
+    #agora_right {
+        display: none;
+        width: 0;
+    }
+    #agora_center {
+        width: calc(100% - 124px) !important;
+    }
+    div.agora_fullsize_datalet {
+        width: calc(100vw - 124px - 208px) !important;
+    }
 }
 
 #agora_right_header {
@@ -203,7 +220,7 @@ div.agora_preview_time{
 
 .agora_left_comment div.agora_speech {
     position: relative;
-    max-width: calc(100% - 56px - 16px - 56px - 16px - 32px);
+    max-width: calc(100% - 56px - 16px - 56px - 16px - 32px);/*176*/
     background-color: #EEEEEE;
     border-radius: 0 5px 5px 5px;
     margin-left: 16px;
@@ -245,6 +262,9 @@ div.agora_preview_time{
 
 .agora_speech_text {
     min-height: 24px;
+
+    overflow-wrap: break-word;
+    word-wrap: break-word;
 }
 
 .agora_speech_info
@@ -264,6 +284,7 @@ div.agora_preview_time{
 
     line-height: 16px !important;
     font-size: 14px !important;
+    overflow-x: hidden;
 }
 
 
@@ -334,7 +355,7 @@ div#agora_header_description
     margin: 0 16px;
 }
 
-.agora_body
+#agora_body
 {
     width: 100%;
     /*height: calc( 100% - 56px );*/
@@ -343,14 +364,14 @@ div#agora_header_description
     flex-direction: row;
 }
 
-.agora_left
+#agora_left
 {
     width: 124px;
     height: 100%;
     background: #424242;
 }
 
-.agora_center
+#agora_center
 {
     height: 100%;
     width: calc( 75% - 124px );
@@ -632,7 +653,7 @@ input:checked + .slider:before {
     width: calc( 100% - 32px );
     padding: 0 16px;
     margin: 16px 0;
-    /*height: calc( 100% - 56px - 56px - 2px - 32px - 56px - 32px - 16px);*/
+    height: calc( 100% - 298px );
     overflow-y: hidden;
     /*position: relative;*/
 
@@ -667,24 +688,29 @@ div.agora_speech {
 
 div.agora_fullsize_datalet
 {
-    width: calc( 75vw - 124px - 208px );
-    height: 478px;
+    width: calc( 75vw - 124px - 208px );/*100% la classe deve essere data al commento che contiene la datalet*/
+    height: 400px;
     margin: 12px 0;
+    overflow: hidden;
 }
 
-div.agora_fullsize_datalet.leafletjs-datalet, div.agora_fullsize_datalet.leafletjs-geojson-datalet {
-    /*height: 678px;*/
-    height: 478px;
+div.agora_fullsize_datalet:hover {
+    height: 482px;
 }
 
-div.agora_fullsize_datalet.datatable-datalet  {
-    height: 632px;
-}
+/*div.agora_fullsize_datalet.leafletjs-datalet, div.agora_fullsize_datalet.leafletjs-geojson-datalet {*/
+    /*!*height: 678px;*!*/
+    /*height: 478px;*/
+/*}*/
 
-div.agora_fullsize_datalet.textfree
-{
-    margin: 0 0 12px 0 !important;
-}
+/*div.agora_fullsize_datalet.datatable-datalet  {*/
+    /*height: 632px;*/
+/*}*/
+
+/*div.agora_fullsize_datalet.textfree*/
+/*{*/
+    /*margin: 0 0 12px 0 !important;*/
+/*}*/
 
 /**** NESTED ****/
 
