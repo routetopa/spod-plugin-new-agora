@@ -1,7 +1,6 @@
-var debounce = true;
-
 AGORA = {
-    agoraJS:null
+    agoraJS:null,
+    debounce:true
 };
 
 AGORA.init = function ()
@@ -264,16 +263,6 @@ AGORA.handleRealtimeNotification = function ()
     });
 };
 
-/*AGORA.resize = function()
-{
-   var acc = $("#agora_chat_container");
-    var h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0) - 250 - $('#agora_header_description').height();/!*fixed agora_header_description 48px now*!/
-
-    acc.height(h);
-    acc.scrollTop(acc.prop("scrollHeight"));
-    acc.perfectScrollbar('update');
-};*/
-
 AGORA.scroll_bottom = function ()
 {
     var acc = $("#agora_chat_container");
@@ -289,8 +278,8 @@ AGORA.openDiv = function (tab_id)
     var tab_to_close = $(".agora_tab_opened")[0];
     var tab_to_open = $(".agora_unread_comments")[tab_id];
 
-    if (debounce && tab_to_open != tab_to_close) {
-        debounce = false;
+    if (AGORA.debounce && tab_to_open != tab_to_close) {
+        AGORA.debounce = false;
 
         $(tab_to_close).animate({ //close
             display: "none",
@@ -313,7 +302,7 @@ AGORA.openDiv = function (tab_id)
 
                 $(tab_to_close).css("display", "none");
 
-                debounce = true;
+                AGORA.debounce = true;
             }, 1000);
     }
 };
@@ -337,5 +326,15 @@ AGORA.fadeTo = function(from, to, calbck)
         opacity: 1
     }, 500, calbck ? calbck() : null);
 };
+
+/*AGORA.resize = function()
+ {
+ var acc = $("#agora_chat_container");
+ var h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0) - 250 - $('#agora_header_description').height();/!*fixed agora_header_description 48px now*!/
+
+ acc.height(h);
+ acc.scrollTop(acc.prop("scrollHeight"));
+ acc.perfectScrollbar('update');
+ };*/
 
 
