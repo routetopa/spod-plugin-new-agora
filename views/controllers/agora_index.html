@@ -1,8 +1,8 @@
 <div class="agora_container">
 
-    <div class="agora_body">
+    <div id="agora_body">
 
-        <div class="agora_left">
+        <div id="agora_left">
 
             <div class="agora_bookmark">
                 <svg viewBox="0 0 24 24" preserveAspectRatio="xMidYMid meet"><g class="style-scope iron-icon"><path d="M17 3H7c-1.1 0-1.99.9-1.99 2L5 21l7-3 7 3V5c0-1.1-.9-2-2-2z"></path></g></svg>
@@ -45,7 +45,7 @@
 
         </div>
 
-        <div class="agora_center">
+        <div id="agora_center">
 
             <div class="agora_header">
                 <div class="agora_header_title">TITOLO DELLA STANZA</div>
@@ -108,7 +108,7 @@
                 <div id="" class="agora_unread_comments {if $section@index eq 0} agora_tab_opened {/if}">
 
                     {foreach $section as $comment}
-                    <div class="agora_unread_comment" id="unread_comment_{$comment->id}">
+                    <div class="agora_unread_comment" id="unread_comment_{$comment->id}" parent-id="unread_comment_parent_{$comment->parentId}">
                         <!--{$comment->sentiment_class}-->
                         <div class="ow_avatar style-scope" title="{$comment->username}"><a class="style-scope" href="{$comment->owner_url}"><img alt="" style="max-width: 100%;" class="" src="{$comment->avatar_url}"></a></div>
                         <div class="agora_preview">

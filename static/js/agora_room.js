@@ -17,7 +17,7 @@ AGORA.init = function ()
 
     // Handler for windows resize
     window.addEventListener("resize", function () {
-        AGORA.resize();
+        AGORA.scroll_bottom();
     });
 
     // Handler for comment added
@@ -69,24 +69,44 @@ AGORA.init = function ()
 
     // Handle reply
     $(".agora_speech_reply").click(function (e) {
-        AGORA.onAgoraSpeechReply(e);
+        AGORA.agoraJS.set_level_up();
+        AGORA.agoraJS.set_parentId($(e.currentTarget).parents().eq(2).attr('id'));
+        AGORA.agoraJS.get_nested_comment($("#agora_nested_chat_container"));
     });
 
     // Add nested comment added
     $(window).on("nested_comment_added", function() {
-        AGORA.onNestedCommentAdded();
+        AGORA.levelUp();
     });
 
     // Handler realtime notification (socket.io)
     AGORA.handleRealtimeNotification();
 };
 
-AGORA.onAgoraSpeechReply = function (e)
+AGORA.levelUp = function (parentId)
 {
-    var elem = $(e.currentTarget).parents().eq(2);
-    AGORA.agoraJS.set_level_up();
-    AGORA.agoraJS.set_parentId(elem.attr('id'));
-    AGORA.agoraJS.get_nested_comment($("#agora_nested_chat_container"));
+    var anc = $("#agora_nested_comment");
+    var ans = $("#agora_nested_speech_text");
+    AGORA.fadeTo($("#agora_chat_container")[0], $("#agora_nested_chat_container")[0], null);
+
+    $("#agora_back").click(function () {
+        AGORA.levelDown(function(){$("#agora_nested_chat_container").html("");});
+    });
+
+    anc.mouseover(function () {
+        ans.removeClass("agora_nested_speech_text");
+    });
+
+    anc.mouseout(function () {
+        ans.addClass("agora_nested_speech_text");
+    });
+};
+
+AGORA.levelDown = function (calbck)
+{
+    AGORA.agoraJS.set_parentId(AGORA.roomId);
+    AGORA.agoraJS.set_level_down();
+    AGORA.fadeTo($("#agora_nested_chat_container")[0], $("#agora_chat_container")[0], calbck);
 };
 
 AGORA.onPreviewButtonClick = function ()
@@ -119,7 +139,7 @@ AGORA.onCommentAdded = function (e)
     }
 
     $(elem).parent().find(".agora_speech_reply").click(function (e) {
-        AGORA.onAgoraSpeechReply(e);
+        AGORA.levelUp($(e.currentTarget).parents().eq(2).attr('id'));
     });
 };
 
@@ -151,7 +171,7 @@ AGORA.onDocumentReady = function ()
     $('#agora_nested_chat_container').perfectScrollbar();
     $(".agora_unread_comments").perfectScrollbar();
     $('#agora_comment').autogrow();
-    AGORA.resize();
+    AGORA.scroll_bottom();
 
     // Emoticonize !!
     $('.agora_speech_text').emoticonize();
@@ -159,45 +179,42 @@ AGORA.onDocumentReady = function ()
 
 AGORA.onClickUnreadComment = function (e)
 {
-    var id = e.currentTarget.id.replace("unread_", "");
-    var acc = $('#agora_chat_container');
-    acc.scrollTop(acc.scrollTop() + $("#"+id).position().top);
-    $("#"+id+" .agora_speech").css("background", "#FFEB3B");
+    var id       = e.currentTarget.id.replace("unread_", "");
+    var parentId = e.currentTarget.getAttribute("parent-id").match(/\d+/)[0];
 
-    setTimeout(
-        function()
-        {
-            $("#"+id+" .agora_speech").css("transition", "background-color 1s ease");
-            $("#"+id+" .agora_speech").css("background-color", "#EEEEEE");
-        }, 0);
-
-    setTimeout(
-        function()
-        {
-            $("#"+id+" .agora_speech").css("transition", "");
-        }, 1000);
+    if(AGORA.agoraJS.get_parentId() == parentId)
+    {
+        // da livello 0 a 0
+        AGORA.highlightMessage(id);
+    }
+    else if(parentId == AGORA.roomId && AGORA.agoraJS.get_parentId() != AGORA.roomId)
+    {
+        // da livello 1 a 0
+        AGORA.levelDown(AGORA.highlightMessage);
+    }
+    else
+    {
+        // da livello 0 a 1
+        AGORA.levelUp(parentId);
+    }
 
 };
 
-AGORA.onNestedCommentAdded = function ()
-{
-    var anc = $("#agora_nested_comment");
-    var ans = $("#agora_nested_speech_text");
-    AGORA.slideToNested();
+AGORA.highlightMessage = function(id){
+    var acc = $('#agora_chat_container');
+    acc.scrollTop(acc.scrollTop() + $("#" + id).position().top);
+    $("#" + id + " .agora_speech").css("background", "#FFEB3B");
 
-    $("#agora_back").click(function () {
-        AGORA.slideFromNested();
-        AGORA.agoraJS.set_parentId(AGORA.roomId);
-        AGORA.agoraJS.set_level_down();
-    });
+    setTimeout(
+        function () {
+            $("#" + id + " .agora_speech").css("transition", "background-color 1s ease");
+            $("#" + id + " .agora_speech").css("background-color", "#EEEEEE");
+        }, 0);
 
-    anc.mouseover(function () {
-        ans.removeClass("agora_nested_speech_text");
-    });
-
-    anc.mouseout(function () {
-        ans.addClass("agora_nested_speech_text");
-    });
+    setTimeout(
+        function () {
+            $("#" + id + " .agora_speech").css("transition", "");
+        }, 1000);
 };
 
 AGORA.handleRealtimeNotification = function ()
@@ -247,15 +264,15 @@ AGORA.handleRealtimeNotification = function ()
     });
 };
 
-AGORA.resize = function()
+/*AGORA.resize = function()
 {
-    var acc = $("#agora_chat_container");
-    var h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0) - 250 - $('#agora_header_description').height();/*fixed agora_header_description 48px now*/
+   var acc = $("#agora_chat_container");
+    var h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0) - 250 - $('#agora_header_description').height();/!*fixed agora_header_description 48px now*!/
 
     acc.height(h);
     acc.scrollTop(acc.prop("scrollHeight"));
     acc.perfectScrollbar('update');
-};
+};*/
 
 AGORA.scroll_bottom = function ()
 {
@@ -306,38 +323,19 @@ AGORA.string_handler = function(string)
     return string.replace(/\n/g, "<br/>");
 };
 
-AGORA.slideToNested = function()
+AGORA.fadeTo = function(from, to, calbck)
 {
-    var chat = $("#agora_chat_container")[0];
-    var nested_chat = $("#agora_nested_chat_container")[0];
+    $(to).show();
 
-    $(nested_chat).show();
-
-    $(nested_chat).delay(500).animate({
-        opacity: 1
-    }, 500);
-
-    $(chat).animate({
+    $(from).animate({
         opacity: 0
-    }, 500, function(){$(chat).hide()});
-};
-
-AGORA.slideFromNested = function()
-{
-    var chat = $("#agora_chat_container")[0];
-    var nested_chat = $("#agora_nested_chat_container")[0];
-
-    $(chat).show();
-
-    $(chat).delay(500).animate({
-        opacity: 1
-    }, 500);
-
-    $(nested_chat).animate({
-        opacity: 0
-    }, 500, function(){
-        $(nested_chat).hide();
-        $(nested_chat).html("")
+    }, 500, function () {
+      $(from).hide();
     });
 
+    $(to).delay(500).animate({
+        opacity: 1
+    }, 500, calbck ? calbck() : null);
 };
+
+
