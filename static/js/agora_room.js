@@ -68,9 +68,7 @@ AGORA.init = function ()
 
     // Handle reply
     $(".agora_speech_reply").click(function (e) {
-        AGORA.agoraJS.set_level_up();
-        AGORA.agoraJS.set_parentId($(e.currentTarget).parents().eq(2).attr('id'));
-        AGORA.agoraJS.get_nested_comment().then(AGORA.levelUp);
+        AGORA.onReplyClick(e);
     });
 
     // Add nested comment added
@@ -82,6 +80,13 @@ AGORA.init = function ()
     AGORA.handleRealtimeNotification();
 };
 
+AGORA.onReplyClick = function (e)
+{
+    AGORA.agoraJS.set_level_up();
+    AGORA.agoraJS.set_parentId($(e.currentTarget).parents().eq(2).attr('id'));
+    AGORA.agoraJS.get_nested_comment().then(AGORA.levelUp);
+};
+
 AGORA.levelUp = function (data)
 {
     var anc = $("#agora_nested_comment");
@@ -91,7 +96,7 @@ AGORA.levelUp = function (data)
     ancc.html(data);
 
     $("#agora_back").click(function () {
-        AGORA.levelDown(function(){ancc.html("");});
+        AGORA.levelDown().then(function(){ancc.html("");});
     });
 
     anc.mouseover(function () {
@@ -105,12 +110,39 @@ AGORA.levelUp = function (data)
     return AGORA.fadeToPromise($("#agora_chat_container")[0], ancc[0]);
 };
 
-AGORA.levelDown = function (calbck, id)
+AGORA.levelDown = function ()
 {
     AGORA.agoraJS.set_parentId(AGORA.roomId);
     AGORA.agoraJS.set_level_down();
-    //AGORA.fadeTo($("#agora_nested_chat_container")[0], $("#agora_chat_container")[0], calbck.bind(null, id));
-    AGORA.fadeToPromise($("#agora_nested_chat_container")[0], $("#agora_chat_container")[0]).then(calbck.bind(null, id));
+    return AGORA.fadeToPromise($("#agora_nested_chat_container")[0], $("#agora_chat_container")[0]);
+};
+
+AGORA.switchLevel = function (data)
+{
+    var _data = data;
+
+    return new Promise(function(res, rej) {
+
+        var anc = $("#agora_nested_comment");
+        var ans = $("#agora_nested_speech_text");
+        var ancc = $("#agora_nested_chat_container");
+
+        ancc.html(_data);
+
+        $("#agora_back").click(function () {
+            AGORA.levelDown().then(function(){ancc.html("");});
+        });
+
+        anc.mouseover(function () {
+            ans.removeClass("agora_nested_speech_text");
+        });
+
+        anc.mouseout(function () {
+            ans.addClass("agora_nested_speech_text");
+        });
+
+        res();
+    });
 };
 
 AGORA.onPreviewButtonClick = function ()
@@ -143,7 +175,7 @@ AGORA.onCommentAdded = function (e)
     }
 
     $(elem).parent().find(".agora_speech_reply").click(function (e) {
-        AGORA.levelUp($(e.currentTarget).parents().eq(2).attr('id'));
+        AGORA.onReplyClick(e);
     });
 };
 
@@ -187,15 +219,22 @@ AGORA.onClickUnreadComment = function (e)
     var id       = e.currentTarget.id.replace("unread_", "");
     var parentId = e.currentTarget.getAttribute("parent-id").match(/\d+/)[0];
 
-    if(AGORA.agoraJS.get_parentId() == parentId)
+    if(AGORA.agoraJS.get_parentId() == parentId || AGORA.agoraJS.get_parentId() == parentId)
     {
-        // da livello 0 a 0
+        // da livello 0 a 0 o stesso nested level
         AGORA.highlightMessage(id);
     }
     else if(parentId == AGORA.roomId && AGORA.agoraJS.get_parentId() != AGORA.roomId)
     {
         // da livello 1 a 0
-        AGORA.levelDown(AGORA.highlightMessage, id);
+        AGORA.levelDown().then(AGORA.highlightMessage.bind(null,id));
+    }
+    else if(AGORA.agoraJS.get_parentId() != parentId && parentId != AGORA.roomId && AGORA.agoraJS.get_parentId() != AGORA.roomId)
+    {
+        // da livello 1 a 1
+        AGORA.agoraJS.set_parentId(parentId);
+        AGORA.agoraJS.get_nested_comment().then(AGORA.switchLevel).then(AGORA.highlightMessage.bind(null,id));
+        console.log("da livello 1 a livello 1");
     }
     else
     {
@@ -320,21 +359,6 @@ AGORA.openDiv = function (tab_id)
 AGORA.string_handler = function(string)
 {
     return string.replace(/\n/g, "<br/>");
-};
-
-AGORA.fadeTo = function(from, to, calbck)
-{
-    $(to).show();
-
-    $(from).animate({
-        opacity: 0
-    }, 500, function () {
-      $(from).hide();
-    });
-
-    $(to).delay(500).animate({
-        opacity: 1
-    }, 500, calbck ? calbck() : null);
 };
 
 AGORA.fadeToPromise = function(from, to)

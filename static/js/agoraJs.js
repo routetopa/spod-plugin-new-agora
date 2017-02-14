@@ -24,7 +24,7 @@ agoraJs.prototype = (function(){
         _stringHandler = null;
 
         _agoraCommentJS = new agoraCommentJS();
-        _elem.keyup(return_handler);
+        _elem.keydown(return_handler);
     };
 
     var set_string_handler = function(stringHandler){
@@ -61,6 +61,7 @@ agoraJs.prototype = (function(){
     var return_handler = function (e) {
         var key = e.which || e.keyCode;
         if (key === 13 && !e.shiftKey ) { // 13 is enter
+            e.preventDefault();
             handle_message(_stringHandler ? _stringHandler(_elem.val()) : _elem.val());
         }
     };
@@ -113,6 +114,8 @@ agoraJs.prototype = (function(){
             }
 
             _elem.val("");
+            //Simulate canc in order to shrink textarea
+            _elem.trigger({type:"keyup", ctrlKey:false, which:46});
 
         } catch (e){
             console.log("Error in on_request_success");
