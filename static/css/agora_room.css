@@ -528,7 +528,7 @@ input:checked + .slider:before {
 
 .agora_chat_input textarea
 {
-    width: calc(100% - 292px);
+    width: calc(100% - 292px - 44px);
     height: 24px;
     margin: 14px 16px;
     line-height: 24px;
@@ -703,9 +703,13 @@ div.agora_fullsize_datalet:hover {
     /*height: 478px;*/
 /*}*/
 
-/*div.agora_fullsize_datalet.datatable-datalet  {*/
-    /*height: 632px;*/
-/*}*/
+div.agora_fullsize_datalet.datatable-datalet  {
+    height: 554px;
+}
+
+div.agora_fullsize_datalet:hover.datatable-datalet  {
+    height: 636px;
+}
 
 /*div.agora_fullsize_datalet.textfree*/
 /*{*/
