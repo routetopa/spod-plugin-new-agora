@@ -70,26 +70,28 @@ AGORA.init = function ()
     $(".agora_speech_reply").click(function (e) {
         AGORA.agoraJS.set_level_up();
         AGORA.agoraJS.set_parentId($(e.currentTarget).parents().eq(2).attr('id'));
-        AGORA.agoraJS.get_nested_comment($("#agora_nested_chat_container"));
+        AGORA.agoraJS.get_nested_comment().then(AGORA.levelUp);
     });
 
     // Add nested comment added
-    $(window).on("nested_comment_added", function() {
+    /*$(window).on("nested_comment_added", function() {
         AGORA.levelUp();
-    });
+    });*/
 
     // Handler realtime notification (socket.io)
     AGORA.handleRealtimeNotification();
 };
 
-AGORA.levelUp = function (parentId)
+AGORA.levelUp = function (data)
 {
     var anc = $("#agora_nested_comment");
     var ans = $("#agora_nested_speech_text");
-    AGORA.fadeTo($("#agora_chat_container")[0], $("#agora_nested_chat_container")[0], null);
+    var ancc = $("#agora_nested_chat_container");
+
+    ancc.html(data);
 
     $("#agora_back").click(function () {
-        AGORA.levelDown(function(){$("#agora_nested_chat_container").html("");});
+        AGORA.levelDown(function(){ancc.html("");});
     });
 
     anc.mouseover(function () {
@@ -99,6 +101,8 @@ AGORA.levelUp = function (parentId)
     anc.mouseout(function () {
         ans.addClass("agora_nested_speech_text");
     });
+
+    return AGORA.fadeToPromise($("#agora_chat_container")[0], ancc[0]);
 };
 
 AGORA.levelDown = function (calbck, id)
@@ -177,6 +181,7 @@ AGORA.onDocumentReady = function ()
     $('.agora_speech_text').emoticonize();
 };
 
+// UNREAD
 AGORA.onClickUnreadComment = function (e)
 {
     var id       = e.currentTarget.id.replace("unread_", "");
@@ -195,7 +200,9 @@ AGORA.onClickUnreadComment = function (e)
     else
     {
         // da livello 0 a 1
-        AGORA.levelUp(parentId);
+        AGORA.agoraJS.set_level_up();
+        AGORA.agoraJS.set_parentId(parentId);
+        AGORA.agoraJS.get_nested_comment().then(AGORA.levelUp).then(AGORA.highlightMessage.bind(null,id));
     }
 
 };
@@ -205,21 +212,18 @@ AGORA.highlightMessage = function(id)
     var acc = $('#agora_chat_container');
     var as  = $("#" + id + " .agora_speech");
     acc.scrollTop(acc.scrollTop() + $("#" + id).position().top);
-    console.log("0");
     as.css("background-color", "#FFEB3B");
 
     setTimeout(
         function () {
-            console.log("1");
-            as.css("transition", "background-color 4s ease");
+            as.css("transition", "background-color 1s ease");
             as.css("background-color", "#EEEEEE");
-        }, 0);
+        }, 100);
 
     setTimeout(
         function () {
-            console.log("2");
             as.css("transition", "");
-        }, 5000);
+        }, 1100);
 };
 
 AGORA.handleRealtimeNotification = function ()
@@ -348,10 +352,6 @@ AGORA.fadeToPromise = function(from, to)
             opacity: 1
         }, 500, res);
     });
-};
-
-AGORA.test = function (a) {
-    console.log(a);
 };
 
 /*AGORA.resize = function()

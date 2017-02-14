@@ -24,7 +24,7 @@ agoraJs.prototype = (function(){
         _stringHandler = null;
 
         _agoraCommentJS = new agoraCommentJS();
-        //_elem.keyup(return_handler);
+        _elem.keyup(return_handler);
     };
 
     var set_string_handler = function(stringHandler){
@@ -60,7 +60,7 @@ agoraJs.prototype = (function(){
 
     var return_handler = function (e) {
         var key = e.which || e.keyCode;
-        if (key === 13) { // 13 is enter
+        if (key === 13 && !e.shiftKey ) { // 13 is enter
             handle_message(_stringHandler ? _stringHandler(_elem.val()) : _elem.val());
         }
     };
@@ -171,8 +171,8 @@ agoraJs.prototype = (function(){
             add_rt_comment(target, snippet_url, snippet_data, post_id, datalet);
         },
 
-        get_nested_comment : function (placeholder) {
-            _agoraCommentJS.getNestedComment(_entityId, _parentId, _level, _endpoint_nested, placeholder);
+        get_nested_comment : function () {
+            return _agoraCommentJS.getNestedComment(_entityId, _parentId, _level, _endpoint_nested);
         }
     };
 
@@ -214,15 +214,11 @@ agoraCommentJS.prototype = (function () {
         },
 
         getNestedComment : function (entity_id, parent_id, level, endpoint, placeholder) {
-            $.ajax({
+            return $.ajax({
                 type: 'POST',
                 url : endpoint,
                 data: {entity_id:entity_id, parent_id:parent_id, level:level},
-                dataType : 'TEXT',
-                success : function(data){
-                    placeholder.html(data);
-                    $(window).trigger({type:"nested_comment_added"});
-                }
+                dataType : 'TEXT'
             });
         }
     }
