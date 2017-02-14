@@ -101,11 +101,12 @@ AGORA.levelUp = function (parentId)
     });
 };
 
-AGORA.levelDown = function (calbck)
+AGORA.levelDown = function (calbck, id)
 {
     AGORA.agoraJS.set_parentId(AGORA.roomId);
     AGORA.agoraJS.set_level_down();
-    AGORA.fadeTo($("#agora_nested_chat_container")[0], $("#agora_chat_container")[0], calbck);
+    //AGORA.fadeTo($("#agora_nested_chat_container")[0], $("#agora_chat_container")[0], calbck.bind(null, id));
+    AGORA.fadeToPromise($("#agora_nested_chat_container")[0], $("#agora_chat_container")[0]).then(calbck.bind(null, id));
 };
 
 AGORA.onPreviewButtonClick = function ()
@@ -189,7 +190,7 @@ AGORA.onClickUnreadComment = function (e)
     else if(parentId == AGORA.roomId && AGORA.agoraJS.get_parentId() != AGORA.roomId)
     {
         // da livello 1 a 0
-        AGORA.levelDown(AGORA.highlightMessage);
+        AGORA.levelDown(AGORA.highlightMessage, id);
     }
     else
     {
@@ -199,21 +200,26 @@ AGORA.onClickUnreadComment = function (e)
 
 };
 
-AGORA.highlightMessage = function(id){
+AGORA.highlightMessage = function(id)
+{
     var acc = $('#agora_chat_container');
+    var as  = $("#" + id + " .agora_speech");
     acc.scrollTop(acc.scrollTop() + $("#" + id).position().top);
-    $("#" + id + " .agora_speech").css("background", "#FFEB3B");
+    console.log("0");
+    as.css("background-color", "#FFEB3B");
 
     setTimeout(
         function () {
-            $("#" + id + " .agora_speech").css("transition", "background-color 1s ease");
-            $("#" + id + " .agora_speech").css("background-color", "#EEEEEE");
+            console.log("1");
+            as.css("transition", "background-color 4s ease");
+            as.css("background-color", "#EEEEEE");
         }, 0);
 
     setTimeout(
         function () {
-            $("#" + id + " .agora_speech").css("transition", "");
-        }, 1000);
+            console.log("2");
+            as.css("transition", "");
+        }, 5000);
 };
 
 AGORA.handleRealtimeNotification = function ()
@@ -327,6 +333,27 @@ AGORA.fadeTo = function(from, to, calbck)
     }, 500, calbck ? calbck() : null);
 };
 
+AGORA.fadeToPromise = function(from, to)
+{
+    return new Promise(function(res, rej){
+        $(to).show();
+
+        $(from).animate({
+            opacity: 0
+        }, 500, function () {
+            $(from).hide();
+        });
+
+        $(to).animate({
+            opacity: 1
+        }, 500, res);
+    });
+};
+
+AGORA.test = function (a) {
+    console.log(a);
+};
+
 /*AGORA.resize = function()
  {
  var acc = $("#agora_chat_container");
@@ -336,5 +363,4 @@ AGORA.fadeTo = function(from, to, calbck)
  acc.scrollTop(acc.prop("scrollHeight"));
  acc.perfectScrollbar('update');
  };*/
-
 
