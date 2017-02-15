@@ -1,5 +1,6 @@
 AGORA = {
     agoraJS:null,
+    agoraUserNotification:null,
     debounce:true
 };
 
@@ -11,12 +12,14 @@ AGORA.init = function ()
     // agoraJS
     AGORA.initAgoraJS();
 
+    // agoraUserNotification
+    AGORA.agoraUserNotification = new agoraUserNotificationJS();
+
     // Set plugin preview to 'public-room'
     ODE.pluginPreview = 'public-room';
 
     // Handler for windows resize
     window.addEventListener("resize", function () {
-        AGORA.scroll_bottom();
     });
 
     // Handler for comment added
@@ -71,13 +74,16 @@ AGORA.init = function ()
         AGORA.onReplyClick(e);
     });
 
-    // Add nested comment added
-    /*$(window).on("nested_comment_added", function() {
-        AGORA.levelUp();
-    });*/
+    $("#user_notification_switch").on('click', function(e){
+        AGORA.handleUserNotification(e);
+    });
 
     // Handler realtime notification (socket.io)
     AGORA.handleRealtimeNotification();
+};
+
+AGORA.handleUserNotification = function (e) {
+    AGORA.agoraUserNotification.handleUserNotification($(e.currentTarget).is(':checked'));
 };
 
 AGORA.onReplyClick = function (e)
@@ -121,14 +127,14 @@ AGORA.switchLevel = function (data)
 {
     var _data = data;
 
-    return new Promise(function(res, rej) {
+    var anc = $("#agora_nested_comment");
+    var ans = $("#agora_nested_speech_text");
+    var ancc = $("#agora_nested_chat_container");
 
-        var anc = $("#agora_nested_comment");
-        var ans = $("#agora_nested_speech_text");
-        var ancc = $("#agora_nested_chat_container");
-
+    return $(ancc).animate({
+        opacity: 0
+    }, 250, function () {
         ancc.html(_data);
-
         $("#agora_back").click(function () {
             AGORA.levelDown().then(function(){ancc.html("");});
         });
@@ -140,9 +146,10 @@ AGORA.switchLevel = function (data)
         anc.mouseout(function () {
             ans.addClass("agora_nested_speech_text");
         });
+    }).animate({
+        opacity: 1
+    }, 250).promise();
 
-        res();
-    });
 };
 
 AGORA.onPreviewButtonClick = function ()
@@ -162,7 +169,7 @@ AGORA.initAgoraJS = function ()
 
 AGORA.onCommentAdded = function (e)
 {
-    AGORA.scroll_bottom();
+    AGORA.scroll_to();
 
     var elem = $("#agora_datalet_placeholder_" + e.post_id);
     var parent_children = elem.parent().children()[0];
@@ -207,7 +214,7 @@ AGORA.onDocumentReady = function ()
     $('#agora_nested_chat_container').perfectScrollbar();
     $(".agora_unread_comments").perfectScrollbar();
     $('#agora_comment').autogrow();
-    AGORA.scroll_bottom();
+    AGORA.scroll_to();
 
     // Emoticonize !!
     $('.agora_speech_text').emoticonize();
@@ -234,7 +241,6 @@ AGORA.onClickUnreadComment = function (e)
         // da livello 1 a 1
         AGORA.agoraJS.set_parentId(parentId);
         AGORA.agoraJS.get_nested_comment().then(AGORA.switchLevel).then(AGORA.highlightMessage.bind(null,id));
-        console.log("da livello 1 a livello 1");
     }
     else
     {
@@ -248,9 +254,8 @@ AGORA.onClickUnreadComment = function (e)
 
 AGORA.highlightMessage = function(id)
 {
-    var acc = $('#agora_chat_container');
     var as  = $("#" + id + " .agora_speech");
-    acc.scrollTop(acc.scrollTop() + $("#" + id).position().top);
+    AGORA.scroll_to(id);
     as.css("background-color", "#FFEB3B");
 
     setTimeout(
@@ -312,12 +317,21 @@ AGORA.handleRealtimeNotification = function ()
     });
 };
 
-AGORA.scroll_bottom = function ()
+AGORA.scroll_to = function (id)
 {
-    var acc = $("#agora_chat_container");
+    var st;
 
-    acc.scrollTop(acc.prop("scrollHeight"));
-    acc.perfectScrollbar('update');
+    if(AGORA.agoraJS.get_parentId() == AGORA.roomId)
+        st = $("#agora_chat_container");
+    else
+        st = $("#agora_nested_chat_container");
+
+    if(id)
+        st.scrollTop(st.scrollTop() + $("#" + id).position().top);
+    else
+        st.scrollTop(st.prop("scrollHeight"));
+
+    st.perfectScrollbar('update');
 };
 
 AGORA.openDiv = function (tab_id)
@@ -363,19 +377,17 @@ AGORA.string_handler = function(string)
 
 AGORA.fadeToPromise = function(from, to)
 {
-    return new Promise(function(res, rej){
-        $(to).show();
+    $(to).show();
 
-        $(from).animate({
-            opacity: 0
-        }, 500, function () {
-            $(from).hide();
-        });
-
-        $(to).animate({
-            opacity: 1
-        }, 500, res);
+    $(from).animate({
+        opacity: 0
+    }, 250, function () {
+        $(from).hide();
     });
+
+    return $(to).delay(250).animate({
+        opacity: 1
+    }, 250).promise();
 };
 
 /*AGORA.resize = function()

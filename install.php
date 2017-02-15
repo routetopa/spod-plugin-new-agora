@@ -39,6 +39,14 @@ CREATE TABLE IF NOT EXISTS `' . OW_DB_PREFIX . 'spod_agora_room_user_access` (
   `roomId` int(11) NOT NULL,
   `last_access` TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ;';
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ;
+
+CREATE TABLE IF NOT EXISTS `' . OW_DB_PREFIX . 'spod_agora_room_user_notification` (
+`id` INT NOT NULL AUTO_INCREMENT,
+  `userId` INT NOT NULL,
+  `roomId` INT NOT NULL,
+  PRIMARY KEY (`id`)
+)  ENGINE=MyISAM  DEFAULT CHARSET=utf8 ;'
+;
 
 OW::getDbo()->query($sql);

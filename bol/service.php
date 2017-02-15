@@ -102,4 +102,32 @@ class SPODAGORA_BOL_Service
         return SPODAGORA_BOL_AgoraRoomCommentDao::getInstance()->findById($comment_id);
     }
 
+    public function addUserNotification($roomId, $userId)
+    {
+        $prun = new SPODAGORA_BOL_AgoraRoomUserNotification();
+        $prun->userId = $userId;
+        $prun->roomId = $roomId;
+
+        return SPODAGORA_BOL_AgoraRoomUserNotificationDao::getInstance()->save($prun);
+    }
+
+    public function removeUserNotification($roomId, $userId)
+    {
+        $ex = new OW_Example();
+        $ex->andFieldEqual('userId',$userId);
+        $ex->andFieldEqual('roomId',$roomId);
+
+        return SPODAGORA_BOL_AgoraRoomUserNotificationDao::getInstance()->deleteByExample($ex);
+    }
+
+    public function getUserNotification($roomId, $userId)
+    {
+        $ex = new OW_Example();
+        $ex->andFieldEqual('userId',$userId);
+        $ex->andFieldEqual('roomId',$roomId);
+
+        $a = SPODAGORA_BOL_AgoraRoomUserNotificationDao::getInstance()->findObjectByExample($ex);
+        return $a;
+    }
+
 }

@@ -118,7 +118,7 @@ agoraJs.prototype = (function(){
             _elem.trigger({type:"keyup", ctrlKey:false, which:46});
 
         } catch (e){
-            console.log("Error in on_request_success");
+            console.log("Error on on_request_success");
         }
     };
 
@@ -222,6 +222,24 @@ agoraCommentJS.prototype = (function () {
                 url : endpoint,
                 data: {entity_id:entity_id, parent_id:parent_id, level:level},
                 dataType : 'TEXT'
+            });
+        }
+    }
+})();
+
+function agoraUserNotificationJS(){}
+
+agoraUserNotificationJS.prototype = (function(){
+    return {
+        construct:agoraUserNotificationJS,
+
+        handleUserNotification: function(val)
+        {
+            $.ajax({
+                type: 'POST',
+                url : AGORA.user_notification_url,
+                data: {roomId:AGORA.roomId, addUserNotification:val},
+                dataType : 'JSON'
             });
         }
     }

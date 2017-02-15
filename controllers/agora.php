@@ -36,6 +36,9 @@ class SPODAGORA_CTRL_Agora extends OW_ActionController
         $raw_unread_comments = SPODAGORA_BOL_Service::getInstance()->getUnreadComment(0, $this->userId);
         $this->assign('unread_comments', $this->process_unread_comment($raw_unread_comments));
 
+        $notification = SPODAGORA_BOL_Service::getInstance()->getUserNotification(0, OW::getUser()->getId());
+        $this->assign('user_notification', empty($notification) ? '' : 'checked');
+
         $this->initializeJS();
     }
 
@@ -84,6 +87,7 @@ class SPODAGORA_CTRL_Agora extends OW_ActionController
             AGORA.user_avatar_src = {$user_avatar_src}
             AGORA.user_id = {$user_id}
             AGORA.agora_nested_comment_endpoint = {$agora_nested_comment_endpoint}
+            AGORA.user_notification_url = {$user_notification_url} 
          ', array(
             'roomId' => 0,
             'agora_comment_endpoint' => OW::getRouter()->urlFor('SPODAGORA_CTRL_Ajax', 'addComment'),
@@ -92,7 +96,8 @@ class SPODAGORA_CTRL_Agora extends OW_ActionController
             'user_url' => $avatars[$this->userId]["url"],
             'user_avatar_src' => $avatars[$this->userId]["src"],
             'user_id' => $this->userId,
-            'agora_nested_comment_endpoint' => OW::getRouter()->urlFor('SPODAGORA_CTRL_Ajax', 'getNestedComment')
+            'agora_nested_comment_endpoint' => OW::getRouter()->urlFor('SPODAGORA_CTRL_Ajax', 'getNestedComment'),
+            'user_notification_url' => OW::getRouter()->urlFor('SPODAGORA_CTRL_Ajax', 'handleUserNotification')
         ));
 
         OW::getDocument()->addOnloadScript($js);

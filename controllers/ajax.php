@@ -73,6 +73,17 @@ class SPODAGORA_CTRL_Ajax extends OW_ActionController
         exit;
     }
 
+    public function handleUserNotification()
+    {
+        if($_REQUEST['addUserNotification'] == "true")
+            SPODAGORA_BOL_Service::getInstance()->addUserNotification($_REQUEST['roomId'], OW::getUser()->getId());
+        else
+            SPODAGORA_BOL_Service::getInstance()->removeUserNotification($_REQUEST['roomId'], OW::getUser()->getId());
+
+        echo json_encode(array("status"  => "ok"));
+        exit;
+    }
+
     private function send_realtime_notification($comment)
     {
         try
