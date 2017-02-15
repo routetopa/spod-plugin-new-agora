@@ -255,19 +255,21 @@ AGORA.onClickUnreadComment = function (e)
 AGORA.highlightMessage = function(id)
 {
     var as  = $("#" + id + " .agora_speech");
-    AGORA.scroll_to(id);
-    as.css("background-color", "#FFEB3B");
 
-    setTimeout(
-        function () {
-            as.css("transition", "background-color 1s ease");
-            as.css("background-color", "#EEEEEE");
-        }, 100);
+    AGORA.scroll_to(id).then(function () {
+        as.css("background-color", "#FFEB3B");
 
-    setTimeout(
-        function () {
-            as.css("transition", "");
-        }, 1100);
+        setTimeout(
+            function () {
+                as.css("transition", "background-color 1s ease");
+                as.css("background-color", "#EEEEEE");
+            }, 100);
+
+        setTimeout(
+            function () {
+                as.css("transition", "");
+            }, 1100);
+    });
 };
 
 AGORA.handleRealtimeNotification = function ()
@@ -317,6 +319,7 @@ AGORA.handleRealtimeNotification = function ()
     });
 };
 
+//scroll to element with id, if id empty scroll to bottom
 AGORA.scroll_to = function (id)
 {
     var st;
@@ -331,7 +334,7 @@ AGORA.scroll_to = function (id)
     else
         st.scrollTop(st.prop("scrollHeight"));
 
-    st.perfectScrollbar('update');
+    return st.perfectScrollbar('update').promise();
 };
 
 AGORA.openDiv = function (tab_id)
