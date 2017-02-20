@@ -113,6 +113,12 @@ class SPODAGORA_BOL_Service
     }
 
     // READER
+
+    public function getAgoraById($roomId)
+    {
+        return SPODAGORA_BOL_AgoraRoomDao::getInstance()->findById($roomId);
+    }
+
     public function getAgora()
     {
         //return SPODPUBLIC_BOL_PublicRoomDao::getInstance()->findAll();

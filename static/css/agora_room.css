@@ -1,11 +1,110 @@
 /*https://dribbble.com/shots/1416353-chat-application/attachments/207407*/
 /*https://daneden.github.io/animate.css/*/
 
-/**** AGORA RIGHT ****/
-
 body, html {
     min-width: 100% !important;
 }
+
+div.ow_chat_cont {
+    display: none !important;
+}
+
+/**** AGORA LEFT ****/
+
+#agora_left
+{
+    position: relative;
+
+    width: 124px;
+    height: 100%;
+
+    background: #424242;
+}
+
+#agora_left .agora_button {
+    position: relative;
+
+    padding-top: 38px;
+
+    cursor: pointer;
+    color: #BDBDBD;
+    fill: #BDBDBD;
+}
+
+#agora_left .agora_button:hover {
+    color: #FFFFFF;
+    fill: #FFFFFF;
+    font-weight: 700;
+
+}
+
+#agora_left .agora_button.selected {
+    color: #FFFFFF;
+    fill: #FFFFFF;
+    font-weight: 700;
+}
+
+#agora_left div.count {
+    position: absolute;
+    top: 28px;
+    right: 28px;
+
+    min-width: 16px;
+    height: 16px;
+
+    padding: 4px;
+
+    background-color: #2196F3;
+    color: white;
+    border-radius: 50%;
+    line-height: 16px;
+    font-size: 12px;
+    font-weight: 700;
+    text-align: center;
+}
+
+
+
+#agora_left .agora_button_title {
+    height: 24px;
+
+    padding: 4px 4px 0 4px;
+
+    font-size: 14px;
+    color: inherit;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.agora_button > svg
+{
+    padding: 0px 38px;
+    display: block;
+    width: 48px;
+    height: 48px;
+    fill: inherit;
+}
+
+.agora_bookmark{
+    width: 124px;
+    background: #424242;
+}
+
+.agora_bookmark > svg
+{
+    margin-top: -12px;
+    padding: 0px 30px;
+    display: block;
+    width: 64px;
+    height: 64px;
+    fill: #E65100;
+}
+
+/**** AGORA LEFT END****/
+
+/**** AGORA RIGHT ****/
 
 #agora_right
 {
@@ -14,6 +113,12 @@ body, html {
     height: 100%;
 
     background: #00BCD4;
+}
+
+.agora_right_container {
+    height: calc(100% - 56px);
+
+    display: none;
 }
 
 @media (max-width: 1200px) {
@@ -42,7 +147,9 @@ body, html {
 }
 
 #agora_tab_container {
-    height: calc(100% - 56px);
+    /*height: calc(100% - 56px);*/
+
+    display: block;
 }
 
 div.agora_day_tab {
@@ -113,8 +220,6 @@ div.agora_unread_comments {
     width: 100%;
     height: 0;
 
-
-
     opacity: 0;
     display: none;
 }
@@ -182,7 +287,17 @@ div.agora_preview_time{
     background: url("/ow_static/plugins/agora/images/time_white.svg") no-repeat 0 0;
 }
 
-/**** AGORA RIGHT END****/
+/**** AGORA RIGHT END ****/
+
+/**** DATALETS GRAPH ****/
+
+#agora_datalets_graph_container {
+
+    background-color: red;
+
+}
+
+/**** DATALETS GRAPH END ****/
 
 /**** COMMENT ****/
 
@@ -300,9 +415,13 @@ div.agora_preview_time{
 }
 
 .agora_speech_reply {
-    color: #00bcd4;
+    color: #00BCD4;
     cursor: pointer;
     margin-left: 20px;
+}
+
+.agora_speech_reply:hover {
+    color: #00AABF;
 }
 
 /**** END COMMENT ****/
@@ -364,12 +483,7 @@ div#agora_header_description
     flex-direction: row;
 }
 
-#agora_left
-{
-    width: 124px;
-    height: 100%;
-    background: #424242;
-}
+
 
 #agora_center
 {
@@ -378,28 +492,7 @@ div#agora_header_description
     position: relative;
 }
 
-.agora_graph_button_title
-{
-    height: 24px;
-    /*line-height: ;*/
-    color: inherit;
-    text-align: center;
-    padding-top: 4px;
-}
 
-.agora_graph_button:hover
-{
-    cursor: pointer;
-    color: #FFFFFF;
-    fill: #FFFFFF;
-}
-
-.agora_graph_button
-{
-    padding-top: 38px;
-    color: #BDBDBD;
-    fill: #BDBDBD;
-}
 
 /****************************** SWITCH ****************************************************/
 
@@ -490,29 +583,7 @@ input:checked + .slider:before {
 /****************************** SWITCH ****************************************************/
 
 
-.agora_graph_button > svg
-{
-    padding: 0px 38px;
-    display: block;
-    width: 48px;
-    height: 48px;
-    fill: inherit;
-}
 
-.agora_bookmark{
-    width: 124px;
-    background: #424242;
-}
-
-.agora_bookmark > svg
-{
-    margin-top: -12px;
-    padding: 0px 30px;
-    display: block;
-    width: 64px;
-    height: 64px;
-    fill: #E65100;
-}
 
 .agora_chat_input
 {

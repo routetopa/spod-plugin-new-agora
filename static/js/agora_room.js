@@ -27,6 +27,20 @@ AGORA.init = function ()
         AGORA.onCommentAdded(e)
     });
 
+    // //menu switch
+    $('.agora_button').click(function(){
+
+        var i = $(this).attr('i');
+        console.log(i);
+        $('#agora_right_header').text(i);
+        $('.agora_right_container').css("display", "none");
+        $($('.agora_right_container')[i]).css("display", "block");
+
+        $('.agora_button').removeClass("selected");
+        $($('.agora_button')[i]).addClass("selected");
+    });
+
+
     // Handle for click on send button (submit message)
     $("#agora_comment_send").click(function(){
         if(!AGORA.agoraJS.submit())
@@ -210,6 +224,7 @@ AGORA.onAgoraSentimentButton = function()
 
 AGORA.onDocumentReady = function ()
 {
+    $('#agora_left').perfectScrollbar();
     $('#agora_chat_container').perfectScrollbar();
     $('#agora_nested_chat_container').perfectScrollbar();
     $(".agora_unread_comments").perfectScrollbar();

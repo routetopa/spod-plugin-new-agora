@@ -2,6 +2,7 @@
 
 class SPODAGORA_CTRL_Agora extends OW_ActionController
 {
+    private $agora;
     private $userId;
     private $avatars;
     private $agoraId;
@@ -14,6 +15,7 @@ class SPODAGORA_CTRL_Agora extends OW_ActionController
         }
 
         $this->agoraId = $params['agora_id'];
+        $this->agora = SPODAGORA_BOL_Service::getInstance()->getAgoraById($this->agoraId);
         $this->userId = OW::getUser()->getId();
 
         OW::getDocument()->getMasterPage()->setTemplate(OW::getPluginManager()->getPlugin('spodagora')->getRootDir() . 'master_pages/empty.html');
@@ -90,6 +92,7 @@ class SPODAGORA_CTRL_Agora extends OW_ActionController
             AGORA.user_id = {$user_id}
             AGORA.agora_nested_comment_endpoint = {$agora_nested_comment_endpoint}
             AGORA.user_notification_url = {$user_notification_url} 
+            AGORA.datalet_graph = {$datalet_graph}
          ', array(
             'roomId' => $this->agoraId,
             'agora_comment_endpoint' => OW::getRouter()->urlFor('SPODAGORA_CTRL_Ajax', 'addComment'),
@@ -99,7 +102,8 @@ class SPODAGORA_CTRL_Agora extends OW_ActionController
             'user_avatar_src' => $avatars[$this->userId]["src"],
             'user_id' => $this->userId,
             'agora_nested_comment_endpoint' => OW::getRouter()->urlFor('SPODAGORA_CTRL_Ajax', 'getNestedComment'),
-            'user_notification_url' => OW::getRouter()->urlFor('SPODAGORA_CTRL_Ajax', 'handleUserNotification')
+            'user_notification_url' => OW::getRouter()->urlFor('SPODAGORA_CTRL_Ajax', 'handleUserNotification'),
+            'datalet_graph' => $this->agora->datalet_graph
         ));
 
         OW::getDocument()->addOnloadScript($js);
