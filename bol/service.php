@@ -45,7 +45,92 @@ class SPODAGORA_BOL_Service
         return $c;
     }
 
+    public function addUserNotification($roomId, $userId)
+    {
+        $prun = new SPODAGORA_BOL_AgoraRoomUserNotification();
+        $prun->userId = $userId;
+        $prun->roomId = $roomId;
+
+        return SPODAGORA_BOL_AgoraRoomUserNotificationDao::getInstance()->save($prun);
+    }
+
+    public function removeUserNotification($roomId, $userId)
+    {
+        $ex = new OW_Example();
+        $ex->andFieldEqual('userId',$userId);
+        $ex->andFieldEqual('roomId',$roomId);
+
+        return SPODAGORA_BOL_AgoraRoomUserNotificationDao::getInstance()->deleteByExample($ex);
+    }
+
+    public function addAgoraRoom($ownerId, $subject, $body)
+    {
+        $pr = new SPODAGORA_BOL_AgoraRoom();
+        $pr->ownerId   = $ownerId;
+        $pr->subject   = strip_tags($subject);
+        $pr->body      = strip_tags($body);
+        $pr->views     = 0;
+        $pr->comments  = 0;
+        $pr->opendata  = 0;
+        $pr->post      = json_encode(["timestamp"=>time(), "opendata"=>$pr->opendata, "comments"=>$pr->comments, "views"=>$pr->views]);
+        $pr->timestamp = date('Y-m-d H:i:s',time());
+        SPODAGORA_BOL_AgoraRoomDao::getInstance()->save($pr);
+
+        /*$event = new OW_Event('feed.action', array(
+            'pluginKey' => 'spodpublic',
+            'entityType' => 'spodpublic_public-room',
+            'entityId' => $pr->id,
+            'userId' => $ownerId
+        ), array(
+
+            'time' => time(),
+            'string' => array('key' => 'spodpublic+create_new_room', 'vars'=>array('roomId' => $pr->id, 'roomSubject' => $subject))
+        ));
+        OW::getEventManager()->trigger($event);*/
+
+        return $pr->id;
+    }
+
+    public function addAgoraRoomStat($agoraId, $field)
+    {
+        $sql = "UPDATE ".OW_DB_PREFIX."spod_agora_room SET {$field} = {$field} + 1 WHERE id = {$agoraId};";
+        $dbo = OW::getDbo();
+
+        return $dbo->query($sql);
+    }
+
+    public function addAgoraDataletNode($datalet, $comment, $commentId, $roomId)
+    {
+
+        $dt = json_decode($datalet["params"]);
+        $node = array("url" => $dt->{"data-url"}, "title" => isset($dt->title) ? $dt->title : '', "comment" => $comment, "comment_id" => $commentId);
+        $node = json_encode($node);
+
+        $sql = "UPDATE ".OW_DB_PREFIX."spod_agora_room SET datalet_graph = CONCAT(COALESCE(datalet_graph, ''), '{$node},') WHERE id = {$roomId};";
+        $dbo = OW::getDbo();
+
+        return $dbo->query($sql);
+    }
+
     // READER
+    public function getAgora()
+    {
+        //return SPODPUBLIC_BOL_PublicRoomDao::getInstance()->findAll();
+        $example = new OW_Example();
+        $example->setOrder('timestamp DESC');
+
+        return SPODAGORA_BOL_AgoraRoomDao::getInstance()->findListByExample($example);
+    }
+
+    public function getAgoraByOwner($ownerId)
+    {
+        $example = new OW_Example();
+        $example->andFieldEqual('ownerId', $ownerId);
+        $example->setOrder('timestamp DESC');
+
+        return SPODAGORA_BOL_AgoraRoomDao::getInstance()->findListByExample($example);
+    }
+
     public function getCommentList($roomId)
     {
         $sql = "SELECT F.id, F.entityId, F.ownerId, F.comment, F.level, F.sentiment, F.timestamp, F.total_comment,
@@ -68,6 +153,7 @@ class SPODAGORA_BOL_Service
                 order by F.timestamp asc;";
 
         $dbo = OW::getDbo();
+
         return $dbo->queryForObjectList($sql,'SPODAGORA_BOL_CommentContract');
     }
 
@@ -83,6 +169,7 @@ class SPODAGORA_BOL_Service
                 ORDER BY timestamp DESC";
 
         $dbo = OW::getDbo();
+
         return $dbo->queryForObjectList($sql,'SPODAGORA_BOL_AgoraRoomComment');
     }
 
@@ -102,24 +189,6 @@ class SPODAGORA_BOL_Service
         return SPODAGORA_BOL_AgoraRoomCommentDao::getInstance()->findById($comment_id);
     }
 
-    public function addUserNotification($roomId, $userId)
-    {
-        $prun = new SPODAGORA_BOL_AgoraRoomUserNotification();
-        $prun->userId = $userId;
-        $prun->roomId = $roomId;
-
-        return SPODAGORA_BOL_AgoraRoomUserNotificationDao::getInstance()->save($prun);
-    }
-
-    public function removeUserNotification($roomId, $userId)
-    {
-        $ex = new OW_Example();
-        $ex->andFieldEqual('userId',$userId);
-        $ex->andFieldEqual('roomId',$roomId);
-
-        return SPODAGORA_BOL_AgoraRoomUserNotificationDao::getInstance()->deleteByExample($ex);
-    }
-
     public function getUserNotification($roomId, $userId)
     {
         $ex = new OW_Example();
@@ -127,6 +196,7 @@ class SPODAGORA_BOL_Service
         $ex->andFieldEqual('roomId',$roomId);
 
         $a = SPODAGORA_BOL_AgoraRoomUserNotificationDao::getInstance()->findObjectByExample($ex);
+
         return $a;
     }
 

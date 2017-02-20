@@ -8,6 +8,7 @@ use ElephantIO\Engine\SocketIO\Version1X;
 
 class SPODAGORA_CTRL_Ajax extends OW_ActionController
 {
+    //Writer
     public function addComment()
     {
         if ( !OW::getRequest()->isAjax() )
@@ -26,18 +27,25 @@ class SPODAGORA_CTRL_Ajax extends OW_ActionController
             $_REQUEST['comment'] = str_replace("\n", "<br/>", $_REQUEST['comment']);
 
             $c = SPODAGORA_BOL_Service::getInstance()->addComment($_REQUEST['entityId'],
-                                                                  $_REQUEST['parentId'],
-                                                                  OW::getUser()->getId(),
-                                                                  $_REQUEST['comment'],
-                                                                  $_REQUEST['level'],
-                                                                  $_REQUEST['sentiment']);
+                $_REQUEST['parentId'],
+                OW::getUser()->getId(),
+                $_REQUEST['comment'],
+                $_REQUEST['level'],
+                $_REQUEST['sentiment']);
+
+            //Increment the comments number
+            SPODAGORA_BOL_Service::getInstance()->addAgoraRoomStat($_REQUEST['entityId'], 'comments');
 
             $this->send_realtime_notification($c);
-
 
             /* ODE */
             if( ODE_CLASS_Helper::validateDatalet($_REQUEST['datalet']['component'], $_REQUEST['datalet']['params'], $_REQUEST['datalet']['fields']) )
             {
+                //Increments the opendata number
+                SPODAGORA_BOL_Service::getInstance()->addAgoraRoomStat($_REQUEST['entityId'], 'opendata');
+                //Add a datalet node in the datalet graph
+                SPODAGORA_BOL_Service::getInstance()->addAgoraDataletNode($_REQUEST['datalet'], $_REQUEST['comment'], $c->getId(), $_REQUEST['entityId']);
+
                 ODE_BOL_Service::getInstance()->addDatalet(
                     $_REQUEST['datalet']['component'],
                     $_REQUEST['datalet']['fields'],
@@ -63,6 +71,27 @@ class SPODAGORA_CTRL_Ajax extends OW_ActionController
         exit;
     }
 
+    public function addAgoraRoom()
+    {
+        $clean = ODE_CLASS_InputFilter::getInstance()->sanitizeInputs($_REQUEST);
+        if ($clean == null){
+            /*echo json_encode(array("status" => "error", "massage" => 'Insane inputs detected'));*/
+            OW::getFeedback()->info(OW::getLanguage()->text('cocreationep', 'insane_user_email_value'));
+            exit;
+        }
+
+        $id = SPODAGORA_BOL_Service::getInstance()->addAgoraRoom(OW::getUser()->getId(),
+            $clean['subject'],
+            $clean['body']);
+
+        echo json_encode(array("status"  => "ok",
+            "id"      => $id,
+            "subject" => $clean['subject'],
+            "body"    => $clean['body']));
+        exit;
+    }
+
+    //Reader
     public function getNestedComment()
     {
         $nc = new SPODAGORA_CMP_NestedComment($_REQUEST['entity_id'],
@@ -73,6 +102,7 @@ class SPODAGORA_CTRL_Ajax extends OW_ActionController
         exit;
     }
 
+    //Realtime
     public function handleUserNotification()
     {
         if($_REQUEST['addUserNotification'] == "true")
@@ -113,6 +143,7 @@ class SPODAGORA_CTRL_Ajax extends OW_ActionController
         {}
     }
 
+    //Utils
     private function check_value($params)
     {
         foreach ($params as $var)
@@ -124,14 +155,6 @@ class SPODAGORA_CTRL_Ajax extends OW_ActionController
         return true;
     }
 
-    /*private function check_empty_value(...$params)
-    {
-        foreach ($params as $var)
-        {
-            if(empty($var))
-                return false;
-        }
 
-        return true;
-    }*/
+
 }

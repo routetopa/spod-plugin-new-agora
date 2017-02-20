@@ -1,0 +1,62 @@
+{style}
+    body .floatbox_header
+    {
+    display: none;
+    }
+
+    body .floatbox_bottom
+    {
+    display: none;
+    }
+
+    body .floatbox_body
+    {
+    padding: 0;
+    position: relative;
+    <!--overflow:hidden;-->
+    }
+{/style}
+
+<div class="cocoreation_create_room_container">
+
+    <div class="cocoreation_create_room_header">
+        {text key="spodagora+create_new_agora_room"}
+    </div>
+
+    <div class="cocoreation_create_room_left_menu">
+        <ul>
+            <li class="step-1 cocoreation_create_room_left_menu_selected">{text key="spodagora+new_room_subject"}</li>
+            <li class="step-2">{text key="spodagora+new_room_body"}</li>
+        </ul>
+    </div>
+
+    {form name='AgoraRoomCreatorForm'}
+    <div class="cocoreation_create_room_content">
+
+        <!-- ROOM SUBJECT -->
+        <div class="step in-step-1 in-step-show">
+            <div class="title">
+                <span>{text key="spodagora+new_room_subject"}</span>
+            </div>
+            <div class="input">
+                {input name='subject'}
+            </div>
+        </div>
+
+        <!-- ROOM BODY -->
+        <div class="step in-step-2">
+            <div class="title">
+                <span>{text key="spodagora+new_room_body"}</span>
+            </div>
+            <div class="input">
+                {input name='body'}
+            </div>
+            <div class="submit_container">
+                {submit name='submit' class='ow_ic_new'}
+            </div>
+        </div>
+
+    </div>
+    {/form}
+
+</div>

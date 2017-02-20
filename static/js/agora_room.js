@@ -319,15 +319,10 @@ AGORA.handleRealtimeNotification = function ()
     });
 };
 
-//scroll to element with id, if id empty scroll to bottom
+//scroll to element #id, if id empty scroll to bottom
 AGORA.scroll_to = function (id)
 {
-    var st;
-
-    if(AGORA.agoraJS.get_parentId() == AGORA.roomId)
-        st = $("#agora_chat_container");
-    else
-        st = $("#agora_nested_chat_container");
+    var st = AGORA.agoraJS.get_parentId() == AGORA.roomId ? $("#agora_chat_container") : $("#agora_nested_chat_container");
 
     if(id)
         st.scrollTop(st.scrollTop() + $("#" + id).position().top);

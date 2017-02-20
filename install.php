@@ -8,6 +8,7 @@ $sql = 'CREATE TABLE IF NOT EXISTS `' . OW_DB_PREFIX . 'spod_agora_room` (
   `views` int(11) DEFAULT 0,
   `comments` int(11) DEFAULT 0,
   `opendata` int(11) DEFAULT 0,
+  `datalet_graph` text,
   `timestamp` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   `post` varchar(512),
   PRIMARY KEY (`id`)

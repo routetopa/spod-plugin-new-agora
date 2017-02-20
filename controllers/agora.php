@@ -4,14 +4,16 @@ class SPODAGORA_CTRL_Agora extends OW_ActionController
 {
     private $userId;
     private $avatars;
+    private $agoraId;
 
-    public function index()
+    public function index(array $params)
     {
         if ( !OW::getUser()->isAuthenticated() )
         {
             throw new AuthenticateException();
         }
 
+        $this->agoraId = $params['agora_id'];
         $this->userId = OW::getUser()->getId();
 
         OW::getDocument()->getMasterPage()->setTemplate(OW::getPluginManager()->getPlugin('spodagora')->getRootDir() . 'master_pages/empty.html');
@@ -29,14 +31,14 @@ class SPODAGORA_CTRL_Agora extends OW_ActionController
         OW::getDocument()->addStyleSheet(OW::getPluginManager()->getPlugin('spodagora')->getStaticCssUrl() . 'perfect-scrollbar.min.css');
         OW::getDocument()->addStyleSheet(OW::getPluginManager()->getPlugin('spodagora')->getStaticCssUrl() . 'agora_room.css');
 
-
-        $raw_comments = SPODAGORA_BOL_Service::getInstance()->getCommentList(0);
+        SPODAGORA_BOL_Service::getInstance()->addAgoraRoomStat($this->agoraId, 'views');
+        $raw_comments = SPODAGORA_BOL_Service::getInstance()->getCommentList($this->agoraId);
         $this->assign('comments', $this->process_comment($raw_comments));
 
-        $raw_unread_comments = SPODAGORA_BOL_Service::getInstance()->getUnreadComment(0, $this->userId);
+        $raw_unread_comments = SPODAGORA_BOL_Service::getInstance()->getUnreadComment($this->agoraId, $this->userId);
         $this->assign('unread_comments', $this->process_unread_comment($raw_unread_comments));
 
-        $notification = SPODAGORA_BOL_Service::getInstance()->getUserNotification(0, OW::getUser()->getId());
+        $notification = SPODAGORA_BOL_Service::getInstance()->getUserNotification($this->agoraId, OW::getUser()->getId());
         $this->assign('user_notification', empty($notification) ? '' : 'checked');
 
         $this->initializeJS();
@@ -89,7 +91,7 @@ class SPODAGORA_CTRL_Agora extends OW_ActionController
             AGORA.agora_nested_comment_endpoint = {$agora_nested_comment_endpoint}
             AGORA.user_notification_url = {$user_notification_url} 
          ', array(
-            'roomId' => 0,
+            'roomId' => $this->agoraId,
             'agora_comment_endpoint' => OW::getRouter()->urlFor('SPODAGORA_CTRL_Ajax', 'addComment'),
             'agora_static_resource_url' =>  OW::getPluginManager()->getPlugin('spodagora')->getStaticUrl(),
             'username' => $avatars[$this->userId]["title"],

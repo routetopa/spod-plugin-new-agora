@@ -1,0 +1,74 @@
+<dom-module id="agora-main-polymer-style">
+    <template>
+        <style>
+            paper-toolbar.toolbar-main
+            {
+                --paper-toolbar-background:#2196F3;
+                -moz-box-shadow: 0 0 20px 5px #999;
+                -webkit-box-shadow: 0 0 20px 5px #999;
+            }
+
+            paper-fab#add_room_button
+            {
+                position: absolute;
+                bottom: 55px;
+                right: 40px;
+                --paper-fab-background:#2196F3;
+            }
+
+            search-panel-controllet#search_room
+            {
+                --paper-fab-background:#2196F3;
+                position: absolute;
+                bottom: 60px;
+                right: 100px;
+                --search-box-container-color: #2196F3;
+            }
+
+            paper-toast
+            {
+                opacity: 0.8;
+                background: #000000;
+            }
+
+            #infoToast br {
+                display: block;
+                margin-top: 8px;
+                content: " ";
+            }
+
+            #infoToast p {
+                margin: 0;
+                padding: 0;
+
+                font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+                font-size: 16px;
+                line-height: 24px;
+            }
+
+            #infoToast p .title{
+                font-size: 24px;
+                /*font-weight: 700;*/
+                color: #2196F3;
+            }
+
+            paper-icon-button.clear
+            {
+                /*width: 24px;*/
+                /*height: 24px;*/
+                /*padding: 0px 4px;*/
+                position: absolute;
+                top: 0;
+                right: 0;
+                color: #F44336;
+                --paper-icon-button-ink-color: #FFFFFF;
+            }
+
+            .ow_console_right
+            {
+                position: absolute;
+                right: 0;
+            }
+        </style>
+    </template>
+</dom-module>
