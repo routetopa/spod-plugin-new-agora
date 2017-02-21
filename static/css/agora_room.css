@@ -925,24 +925,6 @@ circle.nodes.datalet.highlighted, circle.nodes.datalet.selected {
     fill: url("#datalet_hover");
 }
 
-/*.d3-tip {*/
-    /*!*line-height: 1px;*!*/
-    /*font-weight: 700;*/
-    /*padding: 8px;*/
-    /*background: rgba(0, 0, 0, 0.8);*/
-    /*color: #FFFFFF;*/
-    /*border-radius: 2px;*/
-
-    /*overflow-wrap: break-word;*/
-    /*word-wrap: break-word;*/
-
-    /*max-width: 584px;*/
-
-    /*font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;*/
-    /*line-height: 16px;*/
-    /*font-size: 14px;*/
-/*}*/
-
 .d3-tip {
     font-weight: 700;
     padding: 8px;
@@ -991,4 +973,10 @@ circle.nodes.datalet.highlighted, circle.nodes.datalet.selected {
     left: 100%;
 }
 
-/**** DATALET GRAPH END****/
+/**** DATALET GRAPH END ****/
+
+/**** SENTIMENTS LIQUID ****/
+
+.fillgauge {
+    margin: 64px 25% 0 25%;
+}

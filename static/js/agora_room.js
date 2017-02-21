@@ -41,6 +41,13 @@ AGORA.init = function ()
     });
 
     AGORA.initDataletGraph();
+    AGORA.initSentimentLiquid();
+
+    // $('#agora_button_sentiments').click(function(){
+    //
+    //     gauge1.update(26);
+    //     gauge2.update(68);
+    // });
 
     // END DDR NEW COS
 
@@ -626,7 +633,6 @@ AGORA.initDataletGraph = function()
             .selectAll("circle")
             .data(nodes)
             .enter().append("circle")
-        //.attr("class", "nodes")
             .attr("class", function (d) {
                 return "nodes " + d.type;
             })
@@ -716,4 +722,42 @@ AGORA.initDataletGraph = function()
             }
         }
     }
+};
+
+AGORA.initSentimentLiquid = function() {
+    // https://gist.github.com/luvaas/5563f33e90b166f32657116cb53afd05
+
+    var w = $("#agora_right").width();
+    $(".fillgauge").attr("width", w/2);
+    $(".fillgauge").attr("height", w/2);
+
+
+    var config1 = liquidFillGaugeDefaultSettings();
+    config1.circleColor = "#4CAF50";//500
+    config1.textColor = "#4CAF50";//500
+    config1.waveTextColor = "#A5D6A7";//200
+    config1.waveColor = "#C8E6C9";//100
+    config1.circleThickness = 0.1;
+    config1.textVertPosition = 0.5;
+    config1.waveAnimateTime = 1000;
+    // config1.waveRiseTime = 3000;
+    var gauge1= loadLiquidFillGauge("fillgauge1", 0, config1);
+
+
+    var config2 = liquidFillGaugeDefaultSettings();
+    config2.circleColor = "#F44336";//500
+    config2.textColor = "#F44336";//500
+    config2.waveTextColor = "#EF9A9A";//200
+    config2.waveColor = "#FFCDD2";//100
+    config2.circleThickness = 0.1;
+    config2.textVertPosition = 0.5;
+    config2.waveAnimateTime = 1000;
+    // config2.waveRiseTime = 3000;
+    var gauge2= loadLiquidFillGauge("fillgauge2", 0, config2);
+
+    $('#agora_button_sentiments').click(function(){
+        gauge1.update(Math.round(Math.random()*100));
+        gauge2.update(Math.round(Math.random()*100));
+    });
+
 };
