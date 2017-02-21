@@ -3,6 +3,7 @@
 
 body, html {
     min-width: 100% !important;
+    overflow: hidden;
 }
 
 div.ow_chat_cont {
@@ -924,19 +925,40 @@ circle.nodes.datalet.highlighted, circle.nodes.datalet.selected {
     fill: url("#datalet_hover");
 }
 
-/*.mydiv {*/
-    /*height: 32px;*/
-    /*width: 32px;*/
-    /*background-color: red;*/
+/*.d3-tip {*/
+    /*!*line-height: 1px;*!*/
+    /*font-weight: 700;*/
+    /*padding: 8px;*/
+    /*background: rgba(0, 0, 0, 0.8);*/
+    /*color: #FFFFFF;*/
+    /*border-radius: 2px;*/
+
+    /*overflow-wrap: break-word;*/
+    /*word-wrap: break-word;*/
+
+    /*max-width: 584px;*/
+
+    /*font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;*/
+    /*line-height: 16px;*/
+    /*font-size: 14px;*/
 /*}*/
 
 .d3-tip {
-    line-height: 1;
-    font-weight: bold;
-    padding: 12px;
+    font-weight: 700;
+    padding: 8px;
     background: rgba(0, 0, 0, 0.8);
-    color: #fff;
+    color: #FFFFFF;
     border-radius: 2px;
+    pointer-events: none;
+
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+
+    max-width: 584px;
+
+    font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    line-height: 16px;
+    font-size: 14px;
 }
 
 /* Creates a small triangle extender for the tooltip */
@@ -947,45 +969,26 @@ circle.nodes.datalet.highlighted, circle.nodes.datalet.selected {
     width: 100%;
     line-height: 1;
     color: rgba(0, 0, 0, 0.8);
-    content: "\25BC";
+
     position: absolute;
+    pointer-events: none;
+}
+
+/* Northward tooltips */
+.d3-tip.n:after {
+    content: "\25BC";
+    margin: -2px 0 0 0;
+    top: 100%;
+    left: 0;
     text-align: center;
 }
 
-/* Style northward tooltips differently */
-.d3-tip.n:after {
-    margin: -1px 0 0 0;
-    top: 100%;
-    left: 0;
+/* Westward tooltips */
+.d3-tip.w:after {
+    content: "\25B6";
+    margin: -5px 0 0 -2px;
+    top: 50%;
+    left: 100%;
 }
-
-/*.d3-tip {*/
-/*line-height: 1;*/
-/*padding: 6px;*/
-/*background: rgba(0, 0, 0, 0.8);*/
-/*color: #fff;*/
-/*border-radius: 4px;*/
-/*font-size: 12px;*/
-/*}*/
-
-/*!* Creates a small triangle extender for the tooltip *!*/
-/*.d3-tip:after {*/
-/*box-sizing: border-box;*/
-/*display: inline;*/
-/*font-size: 10px;*/
-/*width: 100%;*/
-/*line-height: 1;*/
-/*color: rgba(0, 0, 0, 0.8);*/
-/*content: "\25BC";*/
-/*position: absolute;*/
-/*text-align: center;*/
-/*}*/
-
-/*!* Style northward tooltips specifically *!*/
-/*.d3-tip.n:after {*/
-/*margin: -2px 0 0 0;*/
-/*top: 100%;*/
-/*left: 0;*/
-/*}*/
 
 /**** DATALET GRAPH END****/

@@ -271,6 +271,35 @@ AGORA.onClickUnreadComment = function (e)
 
 };
 
+//DDR
+AGORA.goToComment = function (id, parentId)
+{
+    if(AGORA.agoraJS.get_parentId() == parentId || AGORA.agoraJS.get_parentId() == parentId)
+    {
+        // da livello 0 a 0 o stesso nested level
+        AGORA.highlightMessage(id);
+    }
+    else if(parentId == AGORA.roomId && AGORA.agoraJS.get_parentId() != AGORA.roomId)
+    {
+        // da livello 1 a 0
+        AGORA.levelDown().then(AGORA.highlightMessage.bind(null,id));
+    }
+    else if(AGORA.agoraJS.get_parentId() != parentId && parentId != AGORA.roomId && AGORA.agoraJS.get_parentId() != AGORA.roomId)
+    {
+        // da livello 1 a 1
+        AGORA.agoraJS.set_parentId(parentId);
+        AGORA.agoraJS.get_nested_comment().then(AGORA.switchLevel).then(AGORA.highlightMessage.bind(null,id));
+    }
+    else
+    {
+        // da livello 0 a 1
+        AGORA.agoraJS.set_level_up();
+        AGORA.agoraJS.set_parentId(parentId);
+        AGORA.agoraJS.get_nested_comment().then(AGORA.levelUp).then(AGORA.highlightMessage.bind(null,id));
+    }
+
+};
+
 AGORA.highlightMessage = function(id)
 {
     var as  = $("#" + id + " .agora_speech");
@@ -427,7 +456,7 @@ AGORA.initDataletGraph = function()
     var datasets = [];
     for (var i in JSON_dataletGraph)
     {
-        nodes.push({x: w-80, y: 120+i*80, tooltip: (JSON_dataletGraph[i]["title"] != "" ? JSON_dataletGraph[i]["title"] : JSON_dataletGraph[i]["comment"]), type: "datalet", commentId : JSON_dataletGraph[i]["comment_id"]});
+        nodes.push({x: 80, y: 120+i*80, tooltip: (JSON_dataletGraph[i]["title"] != "" ? JSON_dataletGraph[i]["title"] : JSON_dataletGraph[i]["comment"]), type: "datalet", commentId: JSON_dataletGraph[i]["comment_id"], parentId: JSON_dataletGraph[i]["parent_id"]});
 
         if(datasets.indexOf(JSON_dataletGraph[i]["url"]) == -1)
             datasets.push(JSON_dataletGraph[i]["url"]);
@@ -435,7 +464,7 @@ AGORA.initDataletGraph = function()
 
     datasets = datasets.reverse();
     for (var j in datasets)
-        nodes.unshift({x: 80, y: 120 + j*n*80/datasets.length, tooltip: datasets[j], type: "dataset"});
+        nodes.unshift({x: w-80, y: 120 + j*n*80/datasets.length, tooltip: datasets[j], type: "dataset"});
 
     for (var i in JSON_dataletGraph)
         links.push({source: datasets.indexOf(JSON_dataletGraph[i]["url"]), target: datasets.length + parseInt(i)});
@@ -462,16 +491,23 @@ AGORA.initDataletGraph = function()
 
     // Setup the tool tip.  Note that this is just one example, and that many styling options are available.
     // See original documentation for more details on styling: http://labratrevenge.com/d3-tip/
-    var tool_tip = d3.tip()
+    var datalet_tip = d3.tip()
         .attr("class", "d3-tip")
         .offset([-4, 0])
+        .html(function(d) { return d; });
+
+    var dataset_tip = d3.tip()
+        .attr("class", "d3-tip")
+        .offset([0, -4])
+        .direction('w')
         .html(function(d) { return d; });
 
     // Use a timeout to allow the rest of the page to load first.
     d3.timeout(function() {
         loading.remove();
 
-        svg.call(tool_tip);
+        svg.call(datalet_tip);
+        svg.call(dataset_tip);
 
         g.append("g")
             .append("defs")
@@ -527,14 +563,14 @@ AGORA.initDataletGraph = function()
             .attr("fill", "white")
             .attr("x", 40 + (w-160)/4)
             .attr("y", 40)
-            .text("DATASETS");
+            .text("DATALETS");
 
         g.append("g")
             .append("text")
             .attr("fill", "white")
             .attr("x", 40 + (w-160)/4*3)
             .attr("y", 40)
-            .text("DATALETS");
+            .text("DATASETS");
 
 
         //CUT LINE
@@ -605,15 +641,21 @@ AGORA.initDataletGraph = function()
             })
             .attr("r", 16)
 
-            .on("mouseover", function () {
+            .on("mouseover", function (d) {
                 var node = this;
+
                 highlightsPath(node, "highlighted", true);
-                tool_tip.show(d3.select(node).data()[0].tooltip);
+
+                if(d.type == "datalet")
+                    datalet_tip.show(d3.select(node).data()[0].tooltip);
+                else if(d.type == "dataset")
+                    dataset_tip.show(d3.select(node).data()[0].tooltip);
             })
             .on("mouseout", function () {
                 var node = this;
                 highlightsPath(node, "highlighted", false);
-                tool_tip.hide();
+                datalet_tip.hide();
+                dataset_tip.hide();
             })
             .on("click", function () {
                 var node = this;
@@ -623,11 +665,13 @@ AGORA.initDataletGraph = function()
                     flag = false;
 
                 highlightsPath(node, "selected", flag);
-                tool_tip.hide();
+                // tool_tip.hide();
 
                 var commentId = d3.select(node).data()[0].commentId;
+                var parentId = d3.select(node).data()[0].parentId;
                 if(commentId)
-                    console.log(d3.select(node).data()[0].commentId);
+                    AGORA.goToComment(commentId, parentId);
+                // console.log(d3.select(node).data()[0].commentId);
                 //else highlightsPath
             });
 
