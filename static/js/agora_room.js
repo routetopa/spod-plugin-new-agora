@@ -27,11 +27,11 @@ AGORA.init = function ()
         AGORA.onCommentAdded(e)
     });
 
-    // //menu switch
+    // DDR NEW COS
     $('.agora_button').click(function(){
 
         var i = $(this).attr('i');
-        console.log(i);
+        // console.log(i);
         $('#agora_right_header').text(i);
         $('.agora_right_container').css("display", "none");
         $($('.agora_right_container')[i]).css("display", "block");
@@ -40,6 +40,9 @@ AGORA.init = function ()
         $($('.agora_button')[i]).addClass("selected");
     });
 
+    AGORA.initDataletGraph();
+
+    // END DDR NEW COS
 
     // Handle for click on send button (submit message)
     $("#agora_comment_send").click(function(){
@@ -228,6 +231,7 @@ AGORA.onDocumentReady = function ()
     $('#agora_chat_container').perfectScrollbar();
     $('#agora_nested_chat_container').perfectScrollbar();
     $(".agora_unread_comments").perfectScrollbar();
+    $("#agora_datalet_graph_container").perfectScrollbar();/*ddr*/
     $('#agora_comment').autogrow();
     AGORA.scroll_to();
 
@@ -403,13 +407,269 @@ AGORA.fadeToPromise = function(from, to)
     }, 250).promise();
 };
 
-/*AGORA.resize = function()
- {
- var acc = $("#agora_chat_container");
- var h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0) - 250 - $('#agora_header_description').height();/!*fixed agora_header_description 48px now*!/
 
- acc.height(h);
- acc.scrollTop(acc.prop("scrollHeight"));
- acc.perfectScrollbar('update');
- };*/
+//ddr
+AGORA.initDataletGraph = function()
+{
+    if (!AGORA.datalet_graph)
+        return;
 
+    var JSON_dataletGraph = JSON.parse("[" + AGORA.datalet_graph.substring(0, AGORA.datalet_graph.length - 1) + "]");
+
+    var nodes = [];
+    var links = [];
+
+    var n = JSON_dataletGraph.length;
+
+    var w = $("#agora_right").width();
+    var h = 120 + n * 80;
+
+    var datasets = [];
+    for (var i in JSON_dataletGraph)
+    {
+        nodes.push({x: w-80, y: 120+i*80, tooltip: (JSON_dataletGraph[i]["title"] != "" ? JSON_dataletGraph[i]["title"] : JSON_dataletGraph[i]["comment"]), type: "datalet", commentId : JSON_dataletGraph[i]["comment_id"]});
+
+        if(datasets.indexOf(JSON_dataletGraph[i]["url"]) == -1)
+            datasets.push(JSON_dataletGraph[i]["url"]);
+    }
+
+    datasets = datasets.reverse();
+    for (var j in datasets)
+        nodes.unshift({x: 80, y: 120 + j*n*80/datasets.length, tooltip: datasets[j], type: "dataset"});
+
+    for (var i in JSON_dataletGraph)
+        links.push({source: datasets.indexOf(JSON_dataletGraph[i]["url"]), target: datasets.length + parseInt(i)});
+
+    $("#svg_datalet_graph").attr("height", h + 40);
+
+    var svg = d3.select("#svg_datalet_graph"),
+        g = svg.append("g");
+
+    var simulation = d3.forceSimulation(nodes)
+        .force("charge", d3.forceManyBody().strength(-80))
+        .force("link", d3.forceLink(links).distance(20).strength(1).iterations(10))
+        .force("x", d3.forceX())
+        .force("y", d3.forceY())
+        .stop();
+
+    var node_type = d3.scaleOrdinal(["dataset", "datalet"]);/*in json................*/
+
+    var loading = svg.append("text")
+        .attr("dx", "280")
+        .attr("dy", "298")
+        .attr("font-size", 16)
+        .text("Loading...");
+
+    // Setup the tool tip.  Note that this is just one example, and that many styling options are available.
+    // See original documentation for more details on styling: http://labratrevenge.com/d3-tip/
+    var tool_tip = d3.tip()
+        .attr("class", "d3-tip")
+        .offset([-4, 0])
+        .html(function(d) { return d; });
+
+    // Use a timeout to allow the rest of the page to load first.
+    d3.timeout(function() {
+        loading.remove();
+
+        svg.call(tool_tip);
+
+        g.append("g")
+            .append("defs")
+            .append("pattern")
+            .attr("id", "dataset")
+            .attr("patternUnits", "objectBoundingBox")
+            .attr("height", "1")
+            .attr("width", "1")
+            .append("image")
+            .attr("height", "32")
+            .attr("width", "32")
+            .attr("xlink:href", "/ow_static/plugins/agora/images/graph-dataset-node.svg");
+
+        g.append("g")
+            .append("defs")
+            .append("pattern")
+            .attr("id", "dataset_hover")
+            .attr("patternUnits", "objectBoundingBox")
+            .attr("height", "1")
+            .attr("width", "1")
+            .append("image")
+            .attr("height", "64")
+            .attr("width", "64")
+            .attr("xlink:href", "/ow_static/plugins/agora/images/graph-dataset-node.svg");
+
+        g.append("g")
+            .append("defs")
+            .append("pattern")
+            .attr("id", "datalet")
+            .attr("patternUnits", "objectBoundingBox")
+            .attr("height", "1")
+            .attr("width", "1")
+            .append("image")
+            .attr("height", "32")
+            .attr("width", "32")
+            .attr("xlink:href", "/ow_static/plugins/agora/images/graph-datalet-node.svg");
+
+        g.append("g")
+            .append("defs")
+            .append("pattern")
+            .attr("id", "datalet_hover")
+            .attr("patternUnits", "objectBoundingBox")
+            .attr("height", "1")
+            .attr("width", "1")
+            .append("image")
+            .attr("height", "64")
+            .attr("width", "64")
+            .attr("xlink:href", "/ow_static/plugins/agora/images/graph-datalet-node.svg");
+
+        //HEADER
+        g.append("g")
+            .append("text")
+            .attr("fill", "white")
+            .attr("x", 40 + (w-160)/4)
+            .attr("y", 40)
+            .text("DATASETS");
+
+        g.append("g")
+            .append("text")
+            .attr("fill", "white")
+            .attr("x", 40 + (w-160)/4*3)
+            .attr("y", 40)
+            .text("DATALETS");
+
+
+        //CUT LINE
+        g.append("g")
+            .append("line")
+            .attr("class", "cut_line")
+            .attr("x1", w/2)
+            .attr("y1", 40)
+            .attr("x2", w/2)
+            .attr("y2", h)
+            .attr("marker-end", "url(#triangle)");
+
+        g.append("g")
+            .append("text")
+            .attr("fill", "white")
+            .attr("x", w/2 + 4)
+            .attr("y", h-60)
+            .attr("transform", "rotate(90, " + (w/2 + 4) + ", " + (h-60) + ")")
+            .text("TIME");
+
+        svg.append("svg:defs").append("svg:marker")
+            .attr("id", "triangle")
+            .attr("refX", 3)
+            .attr("refY", 6)
+            .attr("markerWidth", 12)
+            .attr("markerHeight", 12)
+            .attr("orient", "auto")
+            .append("path")
+            .attr("d", "M 0 0 12 6 0 12 3 6")
+            .style("fill", "white");
+
+        //LINKS
+        g.append("g")
+            .selectAll("line")
+            .data(links)
+            .enter().append("line")
+            .attr("class", "links")
+            .attr("x1", function (d) {
+                return d.source.x;
+            })
+            .attr("y1", function (d) {
+                return d.source.y;
+            })
+            .attr("x2", function (d) {
+                return d.target.x;
+            })
+            .attr("y2", function (d) {
+                return d.target.y;
+            });
+
+        //NODES
+        g.append("g")
+            .selectAll("circle")
+            .data(nodes)
+            .enter().append("circle")
+        //.attr("class", "nodes")
+            .attr("class", function (d) {
+                return "nodes " + d.type;
+            })
+            .attr("ci", function (d) {
+                return d.index;
+            })
+            .attr("cx", function (d) {
+                return d.x;
+            })
+            .attr("cy", function (d) {
+                return d.y;
+            })
+            .attr("r", 16)
+
+            .on("mouseover", function () {
+                var node = this;
+                highlightsPath(node, "highlighted", true);
+                tool_tip.show(d3.select(node).data()[0].tooltip);
+            })
+            .on("mouseout", function () {
+                var node = this;
+                highlightsPath(node, "highlighted", false);
+                tool_tip.hide();
+            })
+            .on("click", function () {
+                var node = this;
+
+                var flag = true;
+                if (d3.select(node).attr("class").indexOf("selected") > -1)
+                    flag = false;
+
+                highlightsPath(node, "selected", flag);
+                tool_tip.hide();
+
+                var commentId = d3.select(node).data()[0].commentId;
+                if(commentId)
+                    console.log(d3.select(node).data()[0].commentId);
+                //else highlightsPath
+            });
+
+    });
+
+    var highlightsPath = function(node, cssClass, flag) {
+        var classes;
+
+        var links = [].slice.call(d3.selectAll(".links")._groups[0]);
+        var linksArray = links.filter(function(l){
+            return d3.select(l).data()[0].source.index == d3.select(node).data()[0].index || d3.select(l).data()[0].target.index == d3.select(node).data()[0].index;
+        });
+
+        var nodes = [].slice.call(d3.selectAll(".nodes")._groups[0]);
+        var nodesArray = nodes.filter(function(n){
+            for(var l of linksArray)
+                if(d3.select(l).data()[0].target.index == d3.select(n).data()[0].index || d3.select(l).data()[0].source.index == d3.select(n).data()[0].index)
+                    return true;
+            return false;
+        });
+
+        if(flag) {
+            classes = d3.selectAll(linksArray).attr("class");
+            classes += " " + cssClass;
+            d3.selectAll(linksArray).attr("class", classes);
+
+            for(var n of nodesArray) {
+                classes = d3.select(n).attr("class");
+                classes += " " + cssClass;
+                d3.select(n).attr("class", classes);
+            }
+        }
+        else {
+            classes = d3.selectAll(linksArray).attr("class");
+            classes = classes.replace(" " + cssClass, "");
+            d3.selectAll(linksArray).attr("class", classes);
+
+            for(var n of nodesArray) {
+                classes = d3.select(n).attr("class");
+                classes = classes.replace(" " + cssClass, "");
+                d3.select(n).attr("class", classes);
+            }
+        }
+    }
+};

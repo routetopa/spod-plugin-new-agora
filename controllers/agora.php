@@ -33,6 +33,9 @@ class SPODAGORA_CTRL_Agora extends OW_ActionController
         OW::getDocument()->addStyleSheet(OW::getPluginManager()->getPlugin('spodagora')->getStaticCssUrl() . 'perfect-scrollbar.min.css');
         OW::getDocument()->addStyleSheet(OW::getPluginManager()->getPlugin('spodagora')->getStaticCssUrl() . 'agora_room.css');
 
+        OW::getDocument()->addScript('https://d3js.org/d3.v4.min.js');
+        OW::getDocument()->addScript(OW::getPluginManager()->getPlugin('spodagora')->getStaticJsUrl() . 'd3-tip.js');
+
         SPODAGORA_BOL_Service::getInstance()->addAgoraRoomStat($this->agoraId, 'views');
         $raw_comments = SPODAGORA_BOL_Service::getInstance()->getCommentList($this->agoraId);
         $this->assign('comments', $this->process_comment($raw_comments));

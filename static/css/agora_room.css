@@ -289,16 +289,6 @@ div.agora_preview_time{
 
 /**** AGORA RIGHT END ****/
 
-/**** DATALETS GRAPH ****/
-
-#agora_datalets_graph_container {
-
-    background-color: red;
-
-}
-
-/**** DATALETS GRAPH END ****/
-
 /**** COMMENT ****/
 
 .ow_avatar {
@@ -877,3 +867,125 @@ div.agora_fullsize_datalet:hover.datatable-datalet  {
 }
 
 /**** NESTED END ****/
+
+/**** DATALET GRAPH ****/
+
+#agora_datalet_graph_container {
+    position: relative;
+}
+
+line.cut_line {
+    stroke: white;
+    stroke-width: 2px;
+    /*stroke-opacity: 0.6;*/
+}
+
+line.links {
+    stroke: #424242;
+    stroke-width: 2px;
+}
+
+line.links.highlighted{
+    stroke: #FFFFFF;
+    stroke-width: 3px;
+}
+
+line.links.selected {
+    stroke: #FFEB3B;
+    stroke-width: 3px;
+}
+
+circle.nodes {
+    stroke: #00BCD4;
+    stroke-width: 8px;/**//*/*//*/*//*/*/
+    /*fill: #00BCD4;*/
+    cursor: pointer;
+}
+
+circle.nodes.dataset {
+    fill: url("#dataset");
+}
+
+circle.nodes.datalet {
+    fill: url("#datalet");
+}
+
+circle.nodes.highlighted, circle.nodes.selected {
+    r: 32px;
+    stroke-width: 16px;
+    fill: url("#datalet_hover");
+}
+
+circle.nodes.dataset.highlighted, circle.nodes.dataset.selected {
+    fill: url("#dataset_hover");
+}
+
+circle.nodes.datalet.highlighted, circle.nodes.datalet.selected {
+    fill: url("#datalet_hover");
+}
+
+/*.mydiv {*/
+    /*height: 32px;*/
+    /*width: 32px;*/
+    /*background-color: red;*/
+/*}*/
+
+.d3-tip {
+    line-height: 1;
+    font-weight: bold;
+    padding: 12px;
+    background: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    border-radius: 2px;
+}
+
+/* Creates a small triangle extender for the tooltip */
+.d3-tip:after {
+    box-sizing: border-box;
+    display: inline;
+    font-size: 10px;
+    width: 100%;
+    line-height: 1;
+    color: rgba(0, 0, 0, 0.8);
+    content: "\25BC";
+    position: absolute;
+    text-align: center;
+}
+
+/* Style northward tooltips differently */
+.d3-tip.n:after {
+    margin: -1px 0 0 0;
+    top: 100%;
+    left: 0;
+}
+
+/*.d3-tip {*/
+/*line-height: 1;*/
+/*padding: 6px;*/
+/*background: rgba(0, 0, 0, 0.8);*/
+/*color: #fff;*/
+/*border-radius: 4px;*/
+/*font-size: 12px;*/
+/*}*/
+
+/*!* Creates a small triangle extender for the tooltip *!*/
+/*.d3-tip:after {*/
+/*box-sizing: border-box;*/
+/*display: inline;*/
+/*font-size: 10px;*/
+/*width: 100%;*/
+/*line-height: 1;*/
+/*color: rgba(0, 0, 0, 0.8);*/
+/*content: "\25BC";*/
+/*position: absolute;*/
+/*text-align: center;*/
+/*}*/
+
+/*!* Style northward tooltips specifically *!*/
+/*.d3-tip.n:after {*/
+/*margin: -2px 0 0 0;*/
+/*top: 100%;*/
+/*left: 0;*/
+/*}*/
+
+/**** DATALET GRAPH END****/
