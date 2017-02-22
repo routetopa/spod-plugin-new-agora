@@ -676,7 +676,7 @@ AGORA.initDataletGraph = function()
                 var commentId = d3.select(node).data()[0].commentId;
                 var parentId = d3.select(node).data()[0].parentId;
                 if(commentId)
-                    AGORA.goToComment(commentId, parentId);
+                    AGORA.goToComment("comment_" + commentId, parentId);
                 // console.log(d3.select(node).data()[0].commentId);
                 //else highlightsPath
             });

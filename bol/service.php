@@ -45,6 +45,24 @@ class SPODAGORA_BOL_Service
         return $c;
     }
 
+    public function addCommentWithTimestamp($entityId, $parentId, $ownerId,
+                               $comment, $level, $sentiment, $timestamp)
+    {
+        $c = new SPODAGORA_BOL_AgoraRoomComment();
+
+        $c->entityId   = $entityId;
+        $c->parentId   = $parentId;
+        $c->ownerId    = $ownerId;
+        $c->comment    = $comment;
+        $c->level      = $level;
+        $c->sentiment  = $sentiment;
+        $c->timestamp  = $timestamp;
+
+        SPODAGORA_BOL_AgoraRoomCommentDao::getInstance()->save($c);
+
+        return $c;
+    }
+
     public function addUserNotification($roomId, $userId)
     {
         $prun = new SPODAGORA_BOL_AgoraRoomUserNotification();
@@ -65,16 +83,16 @@ class SPODAGORA_BOL_Service
 
     public function addAgoraRoom($ownerId, $subject, $body)
     {
-        $pr = new SPODAGORA_BOL_AgoraRoom();
-        $pr->ownerId   = $ownerId;
-        $pr->subject   = strip_tags($subject);
-        $pr->body      = strip_tags($body);
-        $pr->views     = 0;
-        $pr->comments  = 0;
-        $pr->opendata  = 0;
-        $pr->post      = json_encode(["timestamp"=>time(), "opendata"=>$pr->opendata, "comments"=>$pr->comments, "views"=>$pr->views]);
-        $pr->timestamp = date('Y-m-d H:i:s',time());
-        SPODAGORA_BOL_AgoraRoomDao::getInstance()->save($pr);
+        $ar = new SPODAGORA_BOL_AgoraRoom();
+        $ar->ownerId   = $ownerId;
+        $ar->subject   = strip_tags($subject);
+        $ar->body      = strip_tags($body);
+        $ar->views     = 0;
+        $ar->comments  = 0;
+        $ar->opendata  = 0;
+        $ar->post      = json_encode(["timestamp"=>time(), "opendata"=>$ar->opendata, "comments"=>$ar->comments, "views"=>$ar->views]);
+        $ar->timestamp = date('Y-m-d H:i:s',time());
+        SPODAGORA_BOL_AgoraRoomDao::getInstance()->save($ar);
 
         /*$event = new OW_Event('feed.action', array(
             'pluginKey' => 'spodpublic',
@@ -88,7 +106,7 @@ class SPODAGORA_BOL_Service
         ));
         OW::getEventManager()->trigger($event);*/
 
-        return $pr->id;
+        return $ar->id;
     }
 
     public function addAgoraRoomStat($agoraId, $field)
@@ -99,11 +117,11 @@ class SPODAGORA_BOL_Service
         return $dbo->query($sql);
     }
 
-    public function addAgoraDataletNode($datalet, $comment, $commentId, $roomId)
+    public function addAgoraDataletNode($datalet, $comment, $commentId, $parentId, $roomId)
     {
 
         $dt = json_decode($datalet["params"]);
-        $node = array("url" => $dt->{"data-url"}, "title" => isset($dt->title) ? $dt->title : '', "comment" => $comment, "comment_id" => $commentId);
+        $node = array("url" => $dt->{"data-url"}, "title" => isset($dt->title) ? $dt->title : '', "comment" => $comment, "parent_id" => $parentId, "comment_id" => $commentId);
         $node = json_encode($node);
 
         $sql = "UPDATE ".OW_DB_PREFIX."spod_agora_room SET datalet_graph = CONCAT(COALESCE(datalet_graph, ''), '{$node},') WHERE id = {$roomId};";
@@ -181,13 +199,15 @@ class SPODAGORA_BOL_Service
 
     public function getNestedComment($room_id, $parent_id, $level)
     {
-        $ex = new OW_Example();
-        $ex->andFieldEqual('entityId', $room_id);
-        $ex->andFieldEqual('parentId', $parent_id);
-        $ex->andFieldEqual('level', $level);
-        $ex->setOrder('timestamp asc');
+        $sql = "SELECT T.id, T.entityId, T.ownerId, T.comment, T.level, T.sentiment, T.timestamp,
+                       ow_ode_datalet.component, ow_ode_datalet.data, ow_ode_datalet.fields, ow_ode_datalet.params 
+                FROM (ow_spod_agora_room_comment as T LEFT JOIN ow_ode_datalet_post as T1 on T.id = T1.postId) LEFT JOIN ow_ode_datalet ON T1.dataletId = ow_ode_datalet.id
+                WHERE parentId = {$parent_id} and level = {$level} and entityId = {$room_id}
+                order by T.timestamp asc;";
 
-        return SPODAGORA_BOL_AgoraRoomCommentDao::getInstance()->findListByExample($ex);
+        $dbo = OW::getDbo();
+
+        return $dbo->queryForObjectList($sql,'SPODAGORA_BOL_CommentContract');
     }
 
     public function getCommentById($comment_id)

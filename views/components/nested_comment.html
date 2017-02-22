@@ -18,7 +18,9 @@
         <a class="style-scope" href="{$comments[$i]->owner_url}"><img alt="" style="max-width: 100%;" class="" src="{$comments[$i]->avatar_url}"></a></div>
     <div class="agora_speech">
         <div class="agora_speech_text">{$comments[$i]->comment}</div>
-        <div id="agora_datalet_placeholder_{$comments[$i]->id}" class="{$comments[$i]->datalet_class} {$comments[$i]->component}"></div>
+        <div id="agora_datalet_placeholder_{$comments[$i]->id}" class="{$comments[$i]->datalet_class} {$comments[$i]->component}">
+            {$comments[$i]->datalet_html}
+        </div>
         <div class="agora_speech_info">
             <div class="agora_speech_username">{$comments[$i]->username}</div>
             <div class="agora_speech_time">{$comments[$i]->timestamp}</div>

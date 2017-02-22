@@ -48,6 +48,9 @@ class SPODAGORA_CTRL_Agora extends OW_ActionController
         $notification = SPODAGORA_BOL_Service::getInstance()->getUserNotification($this->agoraId, OW::getUser()->getId());
         $this->assign('user_notification', empty($notification) ? '' : 'checked');
 
+        // AGORA
+        $this->assign('agora', $this->agora);
+
         $this->initializeJS();
     }
 

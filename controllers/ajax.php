@@ -44,7 +44,7 @@ class SPODAGORA_CTRL_Ajax extends OW_ActionController
                 //Increments the opendata number
                 SPODAGORA_BOL_Service::getInstance()->addAgoraRoomStat($_REQUEST['entityId'], 'opendata');
                 //Add a datalet node in the datalet graph
-                SPODAGORA_BOL_Service::getInstance()->addAgoraDataletNode($_REQUEST['datalet'], $_REQUEST['comment'], $c->getId(), $_REQUEST['entityId']);
+                SPODAGORA_BOL_Service::getInstance()->addAgoraDataletNode($_REQUEST['datalet'], $_REQUEST['comment'], $c->getId(), $_REQUEST['parentId'], $_REQUEST['entityId']);
 
                 ODE_BOL_Service::getInstance()->addDatalet(
                     $_REQUEST['datalet']['component'],
