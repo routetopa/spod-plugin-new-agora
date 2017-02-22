@@ -27,31 +27,12 @@ AGORA.init = function ()
         AGORA.onCommentAdded(e)
     });
 
-    // DDR NEW COS
+    // Handle right menu
     $('.agora_button').click(function(){
-
-        var i = $(this).attr('i');
-        // console.log(i);
-        $('#agora_right_header').text(i);
-        $('.agora_right_container').css("display", "none");
-        $($('.agora_right_container')[i]).css("display", "block");
-
-        $('.agora_button').removeClass("selected");
-        $($('.agora_button')[i]).addClass("selected");
+        AGORA.handleRightMenu($(this).attr('i'));
     });
 
-    AGORA.initDataletGraph();
-    AGORA.initSentimentLiquid();
-
-    // $('#agora_button_sentiments').click(function(){
-    //
-    //     gauge1.update(26);
-    //     gauge2.update(68);
-    // });
-
-    // END DDR NEW COS
-
-    // Handle for click on send button (submit message)
+    // Handle click on send button (submit message)
     $("#agora_comment_send").click(function(){
         if(!AGORA.agoraJS.submit())
             OW.error("Messaggio vuoto");
@@ -82,7 +63,6 @@ AGORA.init = function ()
         AGORA.openDiv(e.currentTarget.id);
     });
 
-
     //Handle click on unread message
     $(".agora_unread_comment").click(function(e){
         AGORA.onClickUnreadComment(e);
@@ -104,6 +84,20 @@ AGORA.init = function ()
 
     // Handler realtime notification (socket.io)
     AGORA.handleRealtimeNotification();
+    // Init datalet graph
+    AGORA.initDataletGraph();
+    // Init liquid sentiment
+    AGORA.initSentimentLiquid();
+};
+
+AGORA.handleRightMenu = function(i)
+{
+    $('#agora_right_header').text(i);
+    $('.agora_right_container').css("display", "none");
+    $($('.agora_right_container')[i]).css("display", "block");
+
+    $('.agora_button').removeClass("selected");
+    $($('.agora_button')[i]).addClass("selected");
 };
 
 AGORA.handleUserNotification = function (e) {
@@ -251,34 +245,10 @@ AGORA.onClickUnreadComment = function (e)
 {
     var id       = e.currentTarget.id.replace("unread_", "");
     var parentId = e.currentTarget.getAttribute("parent-id").match(/\d+/)[0];
-
-    if(AGORA.agoraJS.get_parentId() == parentId || AGORA.agoraJS.get_parentId() == parentId)
-    {
-        // da livello 0 a 0 o stesso nested level
-        AGORA.highlightMessage(id);
-    }
-    else if(parentId == AGORA.roomId && AGORA.agoraJS.get_parentId() != AGORA.roomId)
-    {
-        // da livello 1 a 0
-        AGORA.levelDown().then(AGORA.highlightMessage.bind(null,id));
-    }
-    else if(AGORA.agoraJS.get_parentId() != parentId && parentId != AGORA.roomId && AGORA.agoraJS.get_parentId() != AGORA.roomId)
-    {
-        // da livello 1 a 1
-        AGORA.agoraJS.set_parentId(parentId);
-        AGORA.agoraJS.get_nested_comment().then(AGORA.switchLevel).then(AGORA.highlightMessage.bind(null,id));
-    }
-    else
-    {
-        // da livello 0 a 1
-        AGORA.agoraJS.set_level_up();
-        AGORA.agoraJS.set_parentId(parentId);
-        AGORA.agoraJS.get_nested_comment().then(AGORA.levelUp).then(AGORA.highlightMessage.bind(null,id));
-    }
-
+    AGORA.goToComment(id, parentId);
 };
 
-//DDR
+// Go to comment
 AGORA.goToComment = function (id, parentId)
 {
     if(AGORA.agoraJS.get_parentId() == parentId || AGORA.agoraJS.get_parentId() == parentId)
@@ -444,7 +414,7 @@ AGORA.fadeToPromise = function(from, to)
 };
 
 
-//ddr
+// Init datalet graph
 AGORA.initDataletGraph = function()
 {
     if (!AGORA.datalet_graph)
