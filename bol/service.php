@@ -183,18 +183,35 @@ class SPODAGORA_BOL_Service
 
     public function getUnreadComment($roomId, $userId)
     {
-        $sql = "SELECT * 
-                FROM  ow_spod_agora_room_comment
-                WHERE ow_spod_agora_room_comment.timeStamp > 
-                    (SELECT last_access 
-                     FROM ow_spod_agora_room_user_access 
-                     WHERE userId = {$userId}) 
-                AND   ow_spod_agora_room_comment.entityId = {$roomId} AND ow_spod_agora_room_comment.ownerId != {$userId}
-                ORDER BY timestamp DESC";
-
         $dbo = OW::getDbo();
+        $laq = "select id from ow_spod_agora_room_user_access where userId = {$userId} and roomId = {$roomId}";
+        $row = $dbo->queryForRow($laq);
 
-        return $dbo->queryForObjectList($sql,'SPODAGORA_BOL_AgoraRoomComment');
+        if(empty($row))
+        {
+            $sql = "SELECT * 
+                    FROM  ow_spod_agora_room_comment
+                    WHERE ow_spod_agora_room_comment.entityId = {$roomId} AND ow_spod_agora_room_comment.ownerId != {$userId}
+                    ORDER BY timestamp DESC";
+            $laq = "insert into ow_spod_agora_room_user_access (userId, roomId, last_access) values ({$userId},{$roomId},CURRENT_TIMESTAMP());";
+        }
+        else
+        {
+            $sql = "SELECT * 
+                    FROM  ow_spod_agora_room_comment
+                    WHERE ow_spod_agora_room_comment.timeStamp > 
+                        (SELECT last_access 
+                         FROM ow_spod_agora_room_user_access 
+                         WHERE userId = {$userId} and roomId = {$roomId})  
+                    AND   ow_spod_agora_room_comment.entityId = {$roomId} AND ow_spod_agora_room_comment.ownerId != {$userId}
+                    ORDER BY timestamp DESC";
+            $laq = "update ow_spod_agora_room_user_access SET last_access = CURRENT_TIMESTAMP() where userId = {$userId} and roomId = {$roomId}";
+        }
+
+        $unread =  $dbo->queryForObjectList($sql,'SPODAGORA_BOL_AgoraRoomComment');
+        $dbo->query($laq);
+
+        return $unread;
     }
 
     public function getNestedComment($room_id, $parent_id, $level)

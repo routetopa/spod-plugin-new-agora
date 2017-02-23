@@ -6,6 +6,8 @@ class SPODAGORA_CTRL_Agora extends OW_ActionController
     private $userId;
     private $avatars;
     private $agoraId;
+    private $satisfied = 0;
+    private $unsatisfied = 0;
 
     public function index(array $params)
     {
@@ -43,6 +45,7 @@ class SPODAGORA_CTRL_Agora extends OW_ActionController
         $this->assign('comments', $this->process_comment($raw_comments));
 
         $raw_unread_comments = SPODAGORA_BOL_Service::getInstance()->getUnreadComment($this->agoraId, $this->userId);
+        $this->assign('unread_comments_count', count($raw_unread_comments));
         $this->assign('unread_comments', $this->process_unread_comment($raw_unread_comments));
 
         $notification = SPODAGORA_BOL_Service::getInstance()->getUserNotification($this->agoraId, OW::getUser()->getId());
@@ -73,8 +76,8 @@ class SPODAGORA_CTRL_Agora extends OW_ActionController
             $comment->avatar_url = $this->avatars[$comment->ownerId]["src"];
             $section             = date('l', strtotime($comment->timestamp));
             $comment->timestamp  = date('H:i', strtotime($comment->timestamp));
-
             $comment->sentiment_class = $comment->sentiment == 0 ? 'neutral' : ($comment->sentiment == 1 ? 'satisfied' : 'dissatisfied');
+
             array_push($unread_section[$section], $comment);
         }
 
@@ -137,7 +140,13 @@ class SPODAGORA_CTRL_Agora extends OW_ActionController
             $comment->timestamp     = $this->process_timestamp($comment->timestamp, $today, $yesterday);
 
             $comment->css_class       = $user_id == $comment->ownerId ? 'agora_right_comment' : 'agora_left_comment';
-            $comment->sentiment_class = $comment->sentiment == 0 ? 'neutral' : ($comment->sentiment == 1 ? 'satisfied' : 'dissatisfied');
+
+            switch ($comment->sentiment)
+            {
+                case 0 : $comment->sentiment_class = 'neutral'; break;
+                case 1 : $comment->sentiment_class = 'satisfied'; $this->satisfied+=1; break;
+                case 2 : $comment->sentiment_class = 'dissatisfied'; $this->unsatisfied+=1; break;
+            }
 
             if (!empty($comment->component)) {
                 $comment->datalet_class  = 'agora_fullsize_datalet';

@@ -413,7 +413,6 @@ AGORA.fadeToPromise = function(from, to)
     }, 250).promise();
 };
 
-
 // Init datalet graph
 AGORA.initDataletGraph = function()
 {
@@ -694,7 +693,8 @@ AGORA.initDataletGraph = function()
     }
 };
 
-AGORA.initSentimentLiquid = function() {
+AGORA.initSentimentLiquid = function()
+{
     // https://gist.github.com/luvaas/5563f33e90b166f32657116cb53afd05
 
     var w = $("#agora_right").width();
