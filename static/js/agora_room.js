@@ -232,6 +232,7 @@ AGORA.onDocumentReady = function ()
     $('#agora_chat_container').perfectScrollbar();
     $('#agora_nested_chat_container').perfectScrollbar();
     $(".agora_unread_comments").perfectScrollbar();
+    $(".agora_searched_comments").perfectScrollbar();
     $("#agora_datalet_graph_container").perfectScrollbar();/*ddr*/
     $('#agora_comment').autogrow();
     AGORA.scroll_to();
@@ -639,15 +640,15 @@ AGORA.initDataletGraph = function()
                 if (d3.select(node).attr("class").indexOf("selected") > -1)
                     flag = false;
 
-                highlightsPath(node, "selected", flag);
+                // highlightsPath(node, "selected", flag);
                 // tool_tip.hide();
 
                 var commentId = d3.select(node).data()[0].commentId;
                 var parentId = d3.select(node).data()[0].parentId;
                 if(commentId)
                     AGORA.goToComment("comment_" + commentId, parentId);
-                // console.log(d3.select(node).data()[0].commentId);
-                //else highlightsPath
+                else
+                    highlightsPath(node, "selected", flag);
             });
 
     });

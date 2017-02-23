@@ -290,6 +290,80 @@ div.agora_preview_time{
 
 /**** AGORA RIGHT END ****/
 
+/**** AGORA SEARCH ****/
+
+div.agora_searched_comments {
+    max-height: calc(100% - 56px - 65px);
+    /*height: 500px;*/
+    border-top: 1px solid white;
+    border-bottom: 1px solid white;
+
+    position: relative;
+
+    width: 100%;
+}
+
+div.agora_search_tab {
+    background-color: #26C6DA;
+    width: calc(100% - 32px);
+    height: 56px;
+
+    padding: 4px 16px;
+    border-bottom: 1px solid #00AABF;
+
+    display: flex;
+    flex-direction: row;
+}
+
+div.agora_more_tab {
+    background-color: #26C6DA;
+    width: calc(100% - 32px);
+    height: 56px;
+
+    padding: 4px 16px;
+    border-bottom: 1px solid #00AABF;
+
+    cursor: pointer;
+
+    color: #FFFFFF;
+    line-height: 56px !important;
+    font-weight: 700;
+    text-align: center!important;
+}
+
+div.agora_more_tab:hover {
+    background-color: #00AABF;
+}
+
+div.agora_search {
+    width: 40px;
+    height: 40px;
+    padding: 8px;
+    background: url("/ow_static/plugins/agora/images/search.svg") no-repeat 0 0;
+}
+
+input#agora_search_input {
+    width: calc(100% - 112px);
+    /*padding: 10px;*/
+    margin: 8px 16px;
+    border: none;
+    border-bottom: solid 2px #424242;
+    transition: border 0.3s;
+    background: transparent;
+
+    font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    line-height: 24px;
+    color: #FFFFFF
+}
+
+input#agora_search_input:focus {
+    border-bottom: solid 2px white;
+}
+
+
+/**** AGORA SEARCH END ****/
+
 /**** COMMENT ****/
 
 .ow_avatar {
