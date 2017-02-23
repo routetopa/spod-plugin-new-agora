@@ -423,7 +423,7 @@ div.agora_preview_time{
     height: 100%;
 }
 
-.agora_container div
+.agora_container div /*no buonooooooooooooooooooooooOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOooo*/
 {
     font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     font-size: 16px;
@@ -766,11 +766,11 @@ div.agora_fullsize_datalet:hover {
 /*}*/
 
 div.agora_fullsize_datalet.datatable-datalet  {
-    height: 554px;
+    height: 480px;
 }
 
 div.agora_fullsize_datalet:hover.datatable-datalet  {
-    height: 636px;
+    height: 562px;
 }
 
 /*div.agora_fullsize_datalet.textfree*/
