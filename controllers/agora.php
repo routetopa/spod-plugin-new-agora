@@ -8,6 +8,7 @@ class SPODAGORA_CTRL_Agora extends OW_ActionController
     private $agoraId;
     private $satisfied = 0;
     private $unsatisfied = 0;
+    private $tot_comments = 0;
 
     public function index(array $params)
     {
@@ -42,6 +43,7 @@ class SPODAGORA_CTRL_Agora extends OW_ActionController
 
         SPODAGORA_BOL_Service::getInstance()->addAgoraRoomStat($this->agoraId, 'views');
         $raw_comments = SPODAGORA_BOL_Service::getInstance()->getCommentList($this->agoraId);
+        $this->tot_comments = count($raw_comments);
         $this->assign('comments', $this->process_comment($raw_comments));
 
         $raw_unread_comments = SPODAGORA_BOL_Service::getInstance()->getUnreadComment($this->agoraId, $this->userId);
@@ -104,6 +106,8 @@ class SPODAGORA_CTRL_Agora extends OW_ActionController
             AGORA.agora_nested_comment_endpoint = {$agora_nested_comment_endpoint}
             AGORA.user_notification_url = {$user_notification_url} 
             AGORA.datalet_graph = {$datalet_graph}
+            AGORA.sat_prctg = {$sat_prctg}
+            AGORA.unsat_prctg = {$unsat_prctg}
          ', array(
             'roomId' => $this->agoraId,
             'agora_comment_endpoint' => OW::getRouter()->urlFor('SPODAGORA_CTRL_Ajax', 'addComment'),
@@ -114,7 +118,9 @@ class SPODAGORA_CTRL_Agora extends OW_ActionController
             'user_id' => $this->userId,
             'agora_nested_comment_endpoint' => OW::getRouter()->urlFor('SPODAGORA_CTRL_Ajax', 'getNestedComment'),
             'user_notification_url' => OW::getRouter()->urlFor('SPODAGORA_CTRL_Ajax', 'handleUserNotification'),
-            'datalet_graph' => $this->agora->datalet_graph
+            'datalet_graph' => $this->agora->datalet_graph,
+            'sat_prctg' => ($this->satisfied*100)/$this->tot_comments,
+            'unsat_prctg' => ($this->unsatisfied*100)/$this->tot_comments
         ));
 
         OW::getDocument()->addOnloadScript($js);

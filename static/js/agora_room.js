@@ -726,8 +726,8 @@ AGORA.initSentimentLiquid = function()
     var gauge2= loadLiquidFillGauge("fillgauge2", 0, config2);
 
     $('#agora_button_sentiments').click(function(){
-        gauge1.update(Math.round(Math.random()*100));
-        gauge2.update(Math.round(Math.random()*100));
+        gauge1.update(AGORA.sat_prctg);
+        gauge2.update(AGORA.unsat_prctg);
     });
 
 };
