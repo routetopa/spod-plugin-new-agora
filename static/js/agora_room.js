@@ -87,9 +87,16 @@ AGORA.init = function ()
         AGORA.handleUserNotification(e);
     });
 
-    // Handle user research
+    // Handle user research (click)
     $("#agora_search_button").on('click', function () {
        AGORA.handleSearch($("#agora_search_input").val());
+    });
+
+    // Handle user research (return)
+    $("#agora_search_input").keypress(function (e) {
+        if (e.which == 13) {
+            AGORA.handleSearch($("#agora_search_input").val());
+        }
     });
 
     // Handler realtime notification (socket.io)
@@ -102,6 +109,11 @@ AGORA.init = function ()
 
 AGORA.handleSearch = function (search_string)
 {
+    if(search_string.length < 3) {
+        OW.error("Search string at last 3 character");
+        return;
+    }
+
     AGORA.agoraSearchJS.handleSearch(search_string).then(function(data){
         // The search result structure is identical to the unread comment
         // so we can handle it with the same function
