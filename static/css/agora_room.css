@@ -293,17 +293,22 @@ div.agora_preview_time{
 /**** AGORA SEARCH ****/
 
 div.agora_searched_comments {
-    max-height: calc(100% - 56px - 65px);
+    /*max-height: calc(100% - 56px);*/
+    height: calc(100% - 66px);
     /*height: 500px;*/
     border-top: 1px solid white;
-    border-bottom: 1px solid white;
+    /*border-bottom: 1px solid white;*/
 
     position: relative;
 
     width: 100%;
+
+    /*background-color: red;*/
 }
 
 div.agora_search_tab {
+    position: relative;
+
     background-color: #26C6DA;
     width: calc(100% - 32px);
     height: 56px;
@@ -315,31 +320,132 @@ div.agora_search_tab {
     flex-direction: row;
 }
 
-div.agora_more_tab {
+/*div#agora_search_users {*/
+    /*position: absolute;*/
+    /*top: 65px;*/
+    /*left: 0;*/
+
+    /*width: 50px;*/
+    /*height: 500px;*/
+    /*background-color: red;*/
+/*}*/
+
+div#agora_search_users
+{
+    position: absolute;
+    top: 65px;
+    left: 0px;
+
+    max-width: 100%;
+    /*height: 500px;*/
     background-color: #26C6DA;
-    width: calc(100% - 32px);
-    height: 56px;
 
-    padding: 4px 16px;
-    border-bottom: 1px solid #00AABF;
+    border: 1px solid #FFFFFF;
+    border-left: none;
+    border-right: none;
+    /*border-bottom: 1px solid #FFFFFF;*/
+    /*border-right: 1px solid #FFFFFF;*/
 
+    z-index: 1;
+
+    /*display:none;*/
+    /*box-shadow:1px 3px 1px #d4d4d5;*/
+    /*border:1px solid #cacacb;*/
+    /*width: 300px;*/
+    /*max-height: calc(100% - 48px - 56px - 50px - 16px);*/
+    /*overflow-y: auto;*/
+    /*overflow-x: hidden;*/
+}
+
+div#agora_search_users table {
+    width: 100%;
+}
+
+div#agora_search_users table tr {
     cursor: pointer;
-
-    color: #FFFFFF;
-    line-height: 56px !important;
-    font-weight: 700;
-    text-align: center!important;
+    border-bottom: 1px solid #00AABF;
 }
 
-div.agora_more_tab:hover {
+div#agora_search_users table tr:hover {
     background-color: #00AABF;
+    color: #FFFFFF;
 }
+
+div#agora_search_users table td {
+    padding: 0;
+    cursor: pointer;
+}
+
+div#agora_search_users table td.username {
+    line-height: 56px !important;
+    padding: 0 24px 0 0;
+}
+
+div#agora_search_users table td.avatar {
+    width: 56px;
+    padding: 0 16px;
+}
+
+/*#agora_search_users table { width:300px; }*/
+/*#agora_search_users table td:nth-child(odd) { width:30px }*/
+/*#agora_search_users table td > * {  vertical-align : middle;  }*/
+/*#agora_search_users table tr { background-color:#ffffff; cursor:pointer }*/
+/*#agora_search_users table tr:hover { background-color: #ececed }*/
+
+/*div.agora_more_tab {*/
+    /*background-color: #26C6DA;*/
+    /*width: calc(100% - 32px);*/
+    /*height: 56px;*/
+
+    /*padding: 4px 16px;*/
+    /*border-bottom: 1px solid #00AABF;*/
+
+    /*cursor: pointer;*/
+
+    /*color: #FFFFFF;*/
+    /*line-height: 56px !important;*/
+    /*font-weight: 700;*/
+    /*text-align: center!important;*/
+/*}*/
+
+/*div.agora_more_tab:hover {*/
+    /*background-color: #00AABF;*/
+/*}*/
 
 div.agora_search {
     width: 40px;
     height: 40px;
     padding: 8px;
-    background: url("/ow_static/plugins/agora/images/search.svg") no-repeat 0 0;
+    cursor: pointer;
+    /*background: url("/ow_static/plugins/agora/images/search.svg") no-repeat 0 0;*/
+
+    /*NO FIREFOX*/
+    -webkit-mask: url(/ow_static/plugins/agora/images/search.svg) no-repeat 0 0;
+    mask: url(/ow_static/plugins/agora/images/search.svg) no-repeat 0 0;
+    -webkit-mask-size: cover;
+    mask-size: cover;
+
+    background-color: #424242;
+}
+
+div.agora_search:hover {
+    background-color: #FFFFFF;
+}
+
+div.agora_all_users {
+    cursor: pointer;
+
+    /*NO FIREFOX*/
+    -webkit-mask: url(/ow_static/plugins/agora/images/all-users.svg) no-repeat 0 0;
+    mask: url(/ow_static/plugins/agora/images/all-users.svg) no-repeat 0 0;
+    -webkit-mask-size: cover;
+    mask-size: cover;
+
+    background-color: #424242;
+}
+
+div.agora_all_users:hover {
+    background-color: #FFFFFF;
 }
 
 input#agora_search_input {
@@ -362,12 +468,15 @@ input#agora_search_input:focus {
 }
 
 
+
+
 /**** AGORA SEARCH END ****/
 
 /**** COMMENT ****/
 
 .ow_avatar {
     min-width: 40px;
+    max-width: 100%;
     margin: 5px;
     padding: 3px;
 
