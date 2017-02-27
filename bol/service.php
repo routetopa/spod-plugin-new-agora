@@ -259,4 +259,13 @@ class SPODAGORA_BOL_Service
         return SPODAGORA_BOL_AgoraRoomCommentDao::getInstance()->findListByExample($ex);
     }
 
+    public function getAgoraFriendship($users)
+    {
+        $user_join = implode(",", $users);
+        $sql = "SELECT userId, friendId FROM ow_friends_friendship where userId in (".$user_join.") and friendId in (".$user_join.");";
+
+        $dbo = OW::getDbo();
+        return $dbo->queryForObjectList($sql,'SPODAGORA_BOL_AgoraRoomFriendshipContract');
+    }
+
 }

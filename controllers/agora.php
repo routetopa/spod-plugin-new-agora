@@ -9,6 +9,7 @@ class SPODAGORA_CTRL_Agora extends OW_ActionController
     private $satisfied = 0;
     private $unsatisfied = 0;
     private $tot_comments = 0;
+    private $users_id;
 
     public function index(array $params)
     {
@@ -109,6 +110,7 @@ class SPODAGORA_CTRL_Agora extends OW_ActionController
             AGORA.sat_prctg = {$sat_prctg}
             AGORA.unsat_prctg = {$unsat_prctg}
             AGORA.search_url = {$search_url}
+            AGORA.user_friendship = {$user_friendship}
          ', array(
             'roomId' => $this->agoraId,
             'agora_comment_endpoint' => OW::getRouter()->urlFor('SPODAGORA_CTRL_Ajax', 'addComment'),
@@ -122,7 +124,8 @@ class SPODAGORA_CTRL_Agora extends OW_ActionController
             'datalet_graph' => $this->agora->datalet_graph,
             'sat_prctg' => ($this->satisfied*100)/$this->tot_comments,
             'unsat_prctg' => ($this->unsatisfied*100)/$this->tot_comments,
-            'search_url' => OW::getRouter()->urlFor('SPODAGORA_CTRL_Ajax', 'getSearchResult')
+            'search_url' => OW::getRouter()->urlFor('SPODAGORA_CTRL_Ajax', 'getSearchResult'),
+            'user_friendship' => SPODAGORA_BOL_Service::getInstance()->getAgoraFriendship($this->users_id)
         ));
 
         OW::getDocument()->addOnloadScript($js);
@@ -131,9 +134,9 @@ class SPODAGORA_CTRL_Agora extends OW_ActionController
 
     private function process_comment(&$comments)
     {
-        $users_ids      = array_map(function($comments) { return $comments->ownerId;}, $comments);
+        $this->users_id = array_unique(array_map(function($comments) { return $comments->ownerId;}, $comments));
         $user_id        = $this->userId;
-        $this->avatars  = BOL_AvatarService::getInstance()->getDataForUserAvatars($users_ids);
+        $this->avatars  = BOL_AvatarService::getInstance()->getDataForUserAvatars($this->users_id);
         $this->assign('avatars', $this->avatars);
 
         $today = date('Ymd');
