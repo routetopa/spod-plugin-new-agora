@@ -244,3 +244,20 @@ agoraUserNotificationJS.prototype = (function(){
         }
     }
 })();
+
+function agoraSearchJS(){}
+
+agoraSearchJS.prototype = (function () {
+    return {
+        construct:agoraSearchJS,
+
+        handleSearch: function (searchString) {
+            return $.ajax({
+                type: 'POST',
+                url : AGORA.search_url,
+                data: {entity_id:AGORA.roomId, search_string:searchString, user_id:''},
+                dataType : 'TEXT'
+            });
+        }
+    }
+})();

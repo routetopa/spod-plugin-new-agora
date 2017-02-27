@@ -102,6 +102,15 @@ class SPODAGORA_CTRL_Ajax extends OW_ActionController
         exit;
     }
 
+    public function getSearchResult(){
+        $sr = new SPODAGORA_CMP_SearchResult($_REQUEST['entity_id'],
+                                             $_REQUEST['search_string'],
+                                             $_REQUEST['user_id']);
+
+        echo $sr->render();
+        exit;
+    }
+
     //Realtime
     public function handleUserNotification()
     {

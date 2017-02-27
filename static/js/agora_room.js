@@ -1,6 +1,7 @@
 AGORA = {
     agoraJS:null,
     agoraUserNotification:null,
+    agoraSearchJS:null,
     debounce:true
 };
 
@@ -11,6 +12,9 @@ AGORA.init = function ()
 
     // agoraJS
     AGORA.initAgoraJS();
+
+    // agoraSearchJS
+    AGORA.agoraSearchJS = new agoraSearchJS();
 
     // agoraUserNotification
     AGORA.agoraUserNotification = new agoraUserNotificationJS();
@@ -78,8 +82,14 @@ AGORA.init = function ()
         AGORA.onReplyClick(e);
     });
 
+    // Handle user notification toggle
     $("#user_notification_switch").on('click', function(e){
         AGORA.handleUserNotification(e);
+    });
+
+    // Handle user research
+    $("#agora_search_button").on('click', function () {
+       AGORA.handleSearch($("#agora_search_input").val());
     });
 
     // Handler realtime notification (socket.io)
@@ -88,6 +98,18 @@ AGORA.init = function ()
     AGORA.initDataletGraph();
     // Init liquid sentiment
     AGORA.initSentimentLiquid();
+};
+
+AGORA.handleSearch = function (search_string)
+{
+    AGORA.agoraSearchJS.handleSearch(search_string).then(function(data){
+        // The search result structure is identical to the unread comment
+        // so we can handle it with the same function
+        $("#agora_search_results").html(data);
+        $(".agora_unread_comment").click(function(e){
+            AGORA.onClickUnreadComment(e);
+        });
+    });
 };
 
 AGORA.handleRightMenu = function(i)
@@ -100,7 +122,8 @@ AGORA.handleRightMenu = function(i)
     $($('.agora_button')[i]).addClass("selected");
 };
 
-AGORA.handleUserNotification = function (e) {
+AGORA.handleUserNotification = function (e)
+{
     AGORA.agoraUserNotification.handleUserNotification($(e.currentTarget).is(':checked'));
 };
 

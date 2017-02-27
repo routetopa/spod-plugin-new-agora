@@ -243,4 +243,20 @@ class SPODAGORA_BOL_Service
         return $a;
     }
 
+    public function getSearchResult($roomId, $search_string, $userId)
+    {
+        //$n = 10;
+        
+        $ex = new OW_Example();
+        $ex->andFieldEqual('entityId', $roomId);
+        $ex->andFieldLike('comment', '%'.$search_string.'%');
+
+        if(!empty($userId))
+            $ex->andFieldEqual('ownerId', $userId);
+
+        //$ex->setLimitClause($page*$n, $n);
+
+        return SPODAGORA_BOL_AgoraRoomCommentDao::getInstance()->findListByExample($ex);
+    }
+
 }

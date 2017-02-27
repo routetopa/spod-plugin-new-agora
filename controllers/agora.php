@@ -108,6 +108,7 @@ class SPODAGORA_CTRL_Agora extends OW_ActionController
             AGORA.datalet_graph = {$datalet_graph}
             AGORA.sat_prctg = {$sat_prctg}
             AGORA.unsat_prctg = {$unsat_prctg}
+            AGORA.search_url = {$search_url}
          ', array(
             'roomId' => $this->agoraId,
             'agora_comment_endpoint' => OW::getRouter()->urlFor('SPODAGORA_CTRL_Ajax', 'addComment'),
@@ -120,7 +121,8 @@ class SPODAGORA_CTRL_Agora extends OW_ActionController
             'user_notification_url' => OW::getRouter()->urlFor('SPODAGORA_CTRL_Ajax', 'handleUserNotification'),
             'datalet_graph' => $this->agora->datalet_graph,
             'sat_prctg' => ($this->satisfied*100)/$this->tot_comments,
-            'unsat_prctg' => ($this->unsatisfied*100)/$this->tot_comments
+            'unsat_prctg' => ($this->unsatisfied*100)/$this->tot_comments,
+            'search_url' => OW::getRouter()->urlFor('SPODAGORA_CTRL_Ajax', 'getSearchResult')
         ));
 
         OW::getDocument()->addOnloadScript($js);
