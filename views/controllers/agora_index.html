@@ -131,9 +131,23 @@
             <div class="agora_right_container" id="agora_search_container">
 
                     <div class="agora_search_tab" id=4s45s6" parent-id="456">
-                        <div class="agora_search" id="agora_search_button"></div>
+                        <div id="agora_all_users" class="ow_avatar style-scope agora_all_users" title="All users"><img class="" src="/ow_static/plugins/agora/images/all-users.svg"></div>
                         <input id="agora_search_input">
-                        <div class="ow_avatar style-scope" title="ddr"><a class="style-scope" href="ddr"><img alt="" style="max-width: 100%; backgroundcolor: #00BCD4" class="" src="/ow_static/plugins/agora/images/all-users.svg"></a></div>
+                        <div class="agora_search" id="agora_search_button"></div>
+
+                        <div id="agora_search_users">
+
+                            <table>
+                                {foreach $avatars as $avatar}
+                                <tr>
+                                    <td class="avatar"><div class="ow_avatar style-scope" id="user_avatar_{$avatar['userId']}"><img src="{$avatar['src']}"></div></td>
+                                    <td class="username">{$avatar['title']}</td>
+                                </tr>
+                                {/foreach}
+                            </table>
+
+                        </div>
+
                     </div>
 
                 <!--like unread comment-->

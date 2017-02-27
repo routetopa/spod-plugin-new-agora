@@ -2,7 +2,8 @@ AGORA = {
     agoraJS:null,
     agoraUserNotification:null,
     agoraSearchJS:null,
-    debounce:true
+    debounce:true,
+    searchStringLenght:3
 };
 
 AGORA.init = function ()
@@ -109,7 +110,7 @@ AGORA.init = function ()
 
 AGORA.handleSearch = function (search_string)
 {
-    if(search_string.length < 3) {
+    if(search_string.length < AGORA.searchStringLenght) {
         OW.error("Search string at last 3 character");
         return;
     }

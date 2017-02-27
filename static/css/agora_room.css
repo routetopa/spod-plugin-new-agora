@@ -436,12 +436,12 @@ div.agora_all_users {
     cursor: pointer;
 
     /*NO FIREFOX*/
-    -webkit-mask: url(/ow_static/plugins/agora/images/all-users.svg) no-repeat 0 0;
+    /*-webkit-mask: url(/ow_static/plugins/agora/images/all-users.svg) no-repeat 0 0;
     mask: url(/ow_static/plugins/agora/images/all-users.svg) no-repeat 0 0;
     -webkit-mask-size: cover;
-    mask-size: cover;
+    mask-size: cover;*/
 
-    background-color: #424242;
+    /*background-color: #424242;*/
 }
 
 div.agora_all_users:hover {
