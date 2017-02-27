@@ -251,11 +251,11 @@ agoraSearchJS.prototype = (function () {
     return {
         construct:agoraSearchJS,
 
-        handleSearch: function (searchString) {
+        handleSearch: function (searchString, searchUser) {
             return $.ajax({
                 type: 'POST',
                 url : AGORA.search_url,
-                data: {entity_id:AGORA.roomId, search_string:searchString, user_id:''},
+                data: {entity_id:AGORA.roomId, search_string:searchString, user_id:searchUser},
                 dataType : 'TEXT'
             });
         }

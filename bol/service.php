@@ -251,7 +251,7 @@ class SPODAGORA_BOL_Service
         $ex->andFieldEqual('entityId', $roomId);
         $ex->andFieldLike('comment', '%'.$search_string.'%');
 
-        if(!empty($userId))
+        if(!empty($userId) && $userId != -1)
             $ex->andFieldEqual('ownerId', $userId);
 
         //$ex->setLimitClause($page*$n, $n);

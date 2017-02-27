@@ -88,17 +88,8 @@ AGORA.init = function ()
         AGORA.handleUserNotification(e);
     });
 
-    // Handle user research (click)
-    $("#agora_search_button").on('click', function () {
-       AGORA.handleSearch($("#agora_search_input").val());
-    });
-
-    // Handle user research (return)
-    $("#agora_search_input").keypress(function (e) {
-        if (e.which == 13) {
-            AGORA.handleSearch($("#agora_search_input").val());
-        }
-    });
+    // Handle search
+    AGORA.handleSearchDOM();
 
     // Handler realtime notification (socket.io)
     AGORA.handleRealtimeNotification();
@@ -108,14 +99,43 @@ AGORA.init = function ()
     AGORA.initSentimentLiquid();
 };
 
-AGORA.handleSearch = function (search_string)
+AGORA.handleSearchDOM = function ()
+{
+    var selectedUser = -1;
+
+    // Handle user research (click)
+    $("#agora_search_button").on('click', function () {
+        AGORA.handleSearch($("#agora_search_input").val(), selectedUser);
+        $("#agora_search_users").hide();
+    });
+
+    // Handle user research (return)
+    $("#agora_search_input").keypress(function (e) {
+        if (e.which == 13) {
+            AGORA.handleSearch($("#agora_search_input").val(), selectedUser);
+            $("#agora_search_users").hide();
+        }
+    });
+
+    $("#agora_all_users").on('click', function () {
+        $("#agora_search_users").toggle();
+    });
+
+    $(".agora_search_user").on('click', function (e) {
+        $("#search_selected_user").attr("src", $(e.currentTarget).find("img").attr("src"));
+        selectedUser = $(e.currentTarget).find(".ow_avatar").attr("id").replace("user_avatar_", "");
+        $("#agora_search_users").toggle();
+    });
+};
+
+AGORA.handleSearch = function (search_string, search_user)
 {
     if(search_string.length < AGORA.searchStringLenght) {
-        OW.error("Search string at last 3 character");
+        OW.error("Search string at last "+AGORA.searchStringLenght+" character");
         return;
     }
 
-    AGORA.agoraSearchJS.handleSearch(search_string).then(function(data){
+    AGORA.agoraSearchJS.handleSearch(search_string, search_user).then(function(data){
         // The search result structure is identical to the unread comment
         // so we can handle it with the same function
         $("#agora_search_results").html(data);

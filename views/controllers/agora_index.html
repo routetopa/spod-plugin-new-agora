@@ -131,19 +131,19 @@
             <div class="agora_right_container" id="agora_search_container">
 
                     <div class="agora_search_tab" id=4s45s6" parent-id="456">
-                        <div id="agora_all_users" class="ow_avatar style-scope agora_all_users" title="All users"><img class="" src="/ow_static/plugins/agora/images/all-users.svg"></div>
+                        <div id="agora_all_users" class="ow_avatar style-scope agora_all_users" title="All users"><img id="search_selected_user" class="" src="/ow_static/plugins/agora/images/all-users.svg"></div>
                         <input id="agora_search_input">
                         <div class="agora_search" id="agora_search_button"></div>
 
                         <div id="agora_search_users">
 
                             <table>
-                                <tr>
+                                <tr class="agora_search_user">
                                     <td class="avatar"><div class="ow_avatar style-scope" id="user_avatar_-1"><img src="/ow_static/plugins/agora/images/all-users.svg"></div></td>
                                     <td class="username">All Users</td>
                                 </tr>
                                 {foreach $avatars as $avatar}
-                                <tr>
+                                <tr class="agora_search_user">
                                     <td class="avatar"><div class="ow_avatar style-scope" id="user_avatar_{$avatar['userId']}"><img src="{$avatar['src']}"></div></td>
                                     <td class="username">{$avatar['title']}</td>
                                 </tr>

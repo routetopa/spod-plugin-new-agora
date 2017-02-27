@@ -334,7 +334,7 @@ div#agora_search_users
     border-right: none;
 
     z-index: 1;
-
+    display: none;
 }
 
 div#agora_search_users table {
