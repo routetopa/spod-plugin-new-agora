@@ -147,7 +147,7 @@ AGORA.handleSearch = function (search_string, search_user)
 
 AGORA.handleRightMenu = function(i)
 {
-    $('#agora_right_header').text(i);
+    $('#agora_right_header').text($($(".agora_button_title")[i]).text().toUpperCase());
     $('.agora_right_container').css("display", "none");
     $($('.agora_right_container')[i]).css("display", "block");
 
