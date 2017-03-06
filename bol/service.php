@@ -109,6 +109,34 @@ class SPODAGORA_BOL_Service
         return $ar->id;
     }
 
+    public function addAgoraRoomTimestamp($ownerId, $subject, $body, $timestamp, $views)
+    {
+        $ar = new SPODAGORA_BOL_AgoraRoom();
+        $ar->ownerId   = $ownerId;
+        $ar->subject   = strip_tags($subject);
+        $ar->body      = strip_tags($body);
+        $ar->views     = $views;
+        $ar->comments  = 0;
+        $ar->opendata  = 0;
+        $ar->post      = json_encode(["timestamp"=>time(), "opendata"=>$ar->opendata, "comments"=>$ar->comments, "views"=>$ar->views]);
+        $ar->timestamp = $timestamp;
+        SPODAGORA_BOL_AgoraRoomDao::getInstance()->save($ar);
+
+        /*$event = new OW_Event('feed.action', array(
+            'pluginKey' => 'spodpublic',
+            'entityType' => 'spodpublic_public-room',
+            'entityId' => $pr->id,
+            'userId' => $ownerId
+        ), array(
+
+            'time' => time(),
+            'string' => array('key' => 'spodpublic+create_new_room', 'vars'=>array('roomId' => $pr->id, 'roomSubject' => $subject))
+        ));
+        OW::getEventManager()->trigger($event);*/
+
+        return $ar->id;
+    }
+
     public function addAgoraRoomStat($agoraId, $field)
     {
         $sql = "UPDATE ".OW_DB_PREFIX."spod_agora_room SET {$field} = {$field} + 1 WHERE id = {$agoraId};";
