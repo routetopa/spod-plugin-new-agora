@@ -890,16 +890,15 @@ div.agora_fullsize_datalet
     height: 400px;
     margin: 12px 0;
     overflow: hidden;
+
+    transition: 1s height;/**/
 }
 
 div.agora_fullsize_datalet:hover {
     height: 482px;
-}
 
-/*div.agora_fullsize_datalet.leafletjs-datalet, div.agora_fullsize_datalet.leafletjs-geojson-datalet {*/
-    /*!*height: 678px;*!*/
-    /*height: 478px;*/
-/*}*/
+    transition-delay:1s;/**/
+}
 
 div.agora_fullsize_datalet.datatable-datalet  {
     height: 480px;
@@ -908,11 +907,6 @@ div.agora_fullsize_datalet.datatable-datalet  {
 div.agora_fullsize_datalet:hover.datatable-datalet  {
     height: 562px;
 }
-
-/*div.agora_fullsize_datalet.textfree*/
-/*{*/
-    /*margin: 0 0 12px 0 !important;*/
-/*}*/
 
 /**** NESTED ****/
 
