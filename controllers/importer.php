@@ -41,7 +41,7 @@ class SPODAGORA_CTRL_Importer extends OW_ActionController
         {
             $computed_level = $level > 1 ? 1 : $level - 1;
             $c = SPODAGORA_BOL_Service::getInstance()->addCommentWithTimestamp($this->entityId, $father, $curr_comment->userId,
-                $curr_comment->message, $computed_level, isset( $sentiment->sentiment) ? $sentiment->sentiment : 0, date("Y-m-d H:i:s", $curr_comment->createStamp));
+                $curr_comment->message, $computed_level, isset( $sentiment->sentiment) ? $sentiment->sentiment : 1, date("Y-m-d H:i:s", $curr_comment->createStamp));
 
             SPODAGORA_BOL_Service::getInstance()->addAgoraRoomStat($this->entityId, 'comments');
 
