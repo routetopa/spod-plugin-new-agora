@@ -29,7 +29,7 @@ class SPODAGORA_CTRL_Agora extends OW_ActionController
 
         OW::getDocument()->addScript(OW::getPluginManager()->getPlugin('spodagora')->getStaticJsUrl() . 'autogrow.min.js');
         OW::getDocument()->addScript(OW::getPluginManager()->getPlugin('spodagora')->getStaticJsUrl() . 'perfect-scrollbar.jquery.js');
-        OW::getDocument()->addScript('https://cdn.socket.io/socket.io-1.2.0.js');
+        OW::getDocument()->addScript(OW::getPluginManager()->getPlugin('spodagora')->getStaticJsUrl() . 'socket_1_7_3.io.js');
 
         OW::getDocument()->addScript(OW::getPluginManager()->getPlugin('spodagora')->getStaticJsUrl() . 'jquery.cssemoticons.min.js');
         OW::getDocument()->addStyleSheet(OW::getPluginManager()->getPlugin('spodagora')->getStaticCssUrl() . 'jquery.cssemoticons.css');
@@ -111,6 +111,7 @@ class SPODAGORA_CTRL_Agora extends OW_ActionController
             AGORA.unsat_prctg = {$unsat_prctg}
             AGORA.search_url = {$search_url}
             AGORA.user_friendship = {$user_friendship}
+            AGORA.users_avatar = {$users_avatar}
          ', array(
             'roomId' => $this->agoraId,
             'agora_comment_endpoint' => OW::getRouter()->urlFor('SPODAGORA_CTRL_Ajax', 'addComment'),
@@ -125,7 +126,8 @@ class SPODAGORA_CTRL_Agora extends OW_ActionController
             'sat_prctg' => ($this->satisfied*100)/$this->tot_comments,
             'unsat_prctg' => ($this->unsatisfied*100)/$this->tot_comments,
             'search_url' => OW::getRouter()->urlFor('SPODAGORA_CTRL_Ajax', 'getSearchResult'),
-            'user_friendship' => SPODAGORA_BOL_Service::getInstance()->getAgoraFriendship($this->users_id)
+            'user_friendship' => SPODAGORA_BOL_Service::getInstance()->getAgoraFriendship($this->users_id),
+            'users_avatar' => $avatars
         ));
 
         OW::getDocument()->addOnloadScript($js);

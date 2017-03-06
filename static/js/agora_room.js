@@ -356,49 +356,52 @@ AGORA.highlightMessage = function(id)
 
 AGORA.handleRealtimeNotification = function ()
 {
-    // Handle realtime communication
-    var socket = io(window.location.origin + ":3000");
+    try {
+        // Handle realtime communication
+        var socket = io(window.location.origin + ":3000");
 
-    socket.emit('online_notification', {user_id:AGORA.user_id, room_id:AGORA.roomId, plugin:'spodpublic'});
+        socket.emit('online_notification', {user_id: AGORA.user_id, room_id: AGORA.roomId, plugin: 'spodpublic'});
 
-    socket.on('online_notification_' + AGORA.roomId, function(data) {
-        data.forEach(function(e){
-            $("#user_avatar_"+e).addClass("online");
+        socket.on('online_notification_' + AGORA.roomId, function (data) {
+            data.forEach(function (e) {
+                $("#user_avatar_" + e).addClass("online");
+            });
         });
-    });
 
-    socket.on('offline_notification', function(id) {
-        $("#user_avatar_"+id).removeClass("online");
-    });
+        socket.on('offline_notification', function (id) {
+            $("#user_avatar_" + id).removeClass("online");
+        });
 
-    socket.on('realtime_message_' + AGORA.roomId, function(data) {
+        socket.on('realtime_message_' + AGORA.roomId, function (data) {
 
-        var target;
+            var target;
 
-        if(AGORA.user_id != data.user_id)
-        {
-            if(data.comment_level == 0)
-                target = $("#agora_chat_container");
-            else if(AGORA.agoraJS.get_parentId() == data.parent_id)
-                target = $("#agora_nested_chat_container");
-            else
-                return;
+            if (AGORA.user_id != data.user_id) {
+                if (data.comment_level == 0)
+                    target = $("#agora_chat_container");
+                else if (AGORA.agoraJS.get_parentId() == data.parent_id)
+                    target = $("#agora_nested_chat_container");
+                else
+                    return;
 
-            AGORA.agoraJS.add_rt_comment(target,
-                AGORA.agora_static_resource_url + 'JSSnippet/rt_comment.tpl',
-                [   data.message_id,
-                    (data.sentiment == 0 ? 'neutral' : (data.sentiment == 1 ?'satisfied' : 'dissatisfied')),
-                    data.user_display_name,
-                    data.user_url,
-                    data.user_avatar,
-                    data.comment,
-                    data.message_id,
-                    data.user_display_name,
-                    'just now',
-                    '0'],
-                data.message_id, {component:data.component, params:data.params, fields:data.fields, data:''});
-        }
-    });
+                AGORA.agoraJS.add_rt_comment(target,
+                    AGORA.agora_static_resource_url + 'JSSnippet/rt_comment.tpl',
+                    [data.message_id,
+                        (data.sentiment == 0 ? 'neutral' : (data.sentiment == 1 ? 'satisfied' : 'dissatisfied')),
+                        data.user_display_name,
+                        data.user_url,
+                        data.user_avatar,
+                        data.comment,
+                        data.message_id,
+                        data.user_display_name,
+                        'just now',
+                        '0'],
+                    data.message_id, {component: data.component, params: data.params, fields: data.fields, data: ''});
+            }
+        });
+    }catch(e){
+        console.log(e);
+    }
 };
 
 //scroll to element #id, if id empty scroll to bottom

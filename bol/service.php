@@ -262,7 +262,7 @@ class SPODAGORA_BOL_Service
     public function getAgoraFriendship($users)
     {
         $user_join = implode(",", $users);
-        $sql = "SELECT userId, friendId FROM ow_friends_friendship where userId in (".$user_join.") and friendId in (".$user_join.");";
+        $sql = "SELECT userId, friendId FROM ow_friends_friendship where userId in (".$user_join.") and friendId in (".$user_join.") ORDER BY userId;";
 
         $dbo = OW::getDbo();
         return $dbo->queryForObjectList($sql,'SPODAGORA_BOL_AgoraRoomFriendshipContract');
