@@ -46,7 +46,7 @@ class SPODAGORA_CTRL_Importer extends OW_ActionController
 
             $datalet = ODE_BOL_Service::getInstance()->getDataletByPostId($curr_comment->id, "public-room");
             if (count($datalet) > 0) {
-                $this->switchDatalet($curr_comment->id, $c->id, $datalet, $curr_comment->message);
+                $this->switchDatalet($curr_comment->id, $c->id, $datalet, $curr_comment->message, $father);
                 echo "datalet presente -> ";
             }else{
                 echo "datalet non presente -> ";
@@ -69,12 +69,12 @@ class SPODAGORA_CTRL_Importer extends OW_ActionController
 
     }
 
-    private function switchDatalet($idOldPost, $idNewPost, $datalet, $message)
+    private function switchDatalet($idOldPost, $idNewPost, $datalet, $message, $father)
     {
         $sql = "UPDATE ow_ode_datalet_post SET postId = {$idNewPost} where postId = {$idOldPost} and plugin = 'public-room';";
         $dbo = OW::getDbo();
         $dbo->query($sql);
 
-        SPODAGORA_BOL_Service::getInstance()->addAgoraDataletNode($datalet, $message, $idNewPost, $this->entityId);
+        SPODAGORA_BOL_Service::getInstance()->addAgoraDataletNode($datalet, $message, $idNewPost, $father, $this->entityId);
     }
 }
