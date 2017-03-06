@@ -22,14 +22,14 @@ class SPODAGORA_CTRL_Importer extends OW_ActionController
         $room->notCreateMessage = true;
 
         $publicRoom = SPODPUBLIC_BOL_Service::getInstance()->getPublicRoomById($room->id);
-        $this->entityId = $this->createAgora($publicRoom->ownerId, $publicRoom->subject, $publicRoom->body);
+        $this->entityId = $this->createAgora($publicRoom->ownerId, $publicRoom->subject, $publicRoom->body, $publicRoom->timestamp, $publicRoom->views);
         $this->exportRoom($room, 0, $this->entityId);
         exit;
     }
 
-    private function createAgora($owner, $subject, $body)
+    private function createAgora($owner, $subject, $body, $timestamp,  $views)
     {
-        return SPODAGORA_BOL_Service::getInstance()->addAgoraRoom($owner, $subject, $body);
+        return SPODAGORA_BOL_Service::getInstance()->addAgoraRoomTimestamp($owner, $subject, $body, $timestamp, $views);
     }
 
     private function exportRoom($curr_comment, $level, $father)
@@ -42,6 +42,8 @@ class SPODAGORA_CTRL_Importer extends OW_ActionController
             $computed_level = $level > 1 ? 1 : $level - 1;
             $c = SPODAGORA_BOL_Service::getInstance()->addCommentWithTimestamp($this->entityId, $father, $curr_comment->userId,
                 $curr_comment->message, $computed_level, isset( $sentiment->sentiment) ? $sentiment->sentiment : 0, date("Y-m-d H:i:s", $curr_comment->createStamp));
+
+            SPODAGORA_BOL_Service::getInstance()->addAgoraRoomStat($this->entityId, 'comments');
 
 
             $datalet = ODE_BOL_Service::getInstance()->getDataletByPostId($curr_comment->id, "public-room");
@@ -71,10 +73,12 @@ class SPODAGORA_CTRL_Importer extends OW_ActionController
 
     private function switchDatalet($idOldPost, $idNewPost, $datalet, $message, $father)
     {
+
         $sql = "UPDATE ow_ode_datalet_post SET postId = {$idNewPost} where postId = {$idOldPost} and plugin = 'public-room';";
         $dbo = OW::getDbo();
         $dbo->query($sql);
 
+        SPODAGORA_BOL_Service::getInstance()->addAgoraRoomStat($this->entityId, 'opendata');
         SPODAGORA_BOL_Service::getInstance()->addAgoraDataletNode($datalet, $message, $idNewPost, $father, $this->entityId);
     }
 }
