@@ -95,6 +95,8 @@ AGORA.init = function ()
     AGORA.handleRealtimeNotification();
     // Init datalet graph
     AGORA.initDataletGraph();
+    // Init user graph
+    AGORA.initUserGraph();
     // Init liquid sentiment
     AGORA.initSentimentLiquid();
 };
@@ -708,6 +710,185 @@ AGORA.initDataletGraph = function()
                     AGORA.goToComment("comment_" + commentId, parentId);
                 else
                     highlightsPath(node, "selected", flag);
+            });
+
+    });
+
+    var highlightsPath = function(node, cssClass, flag) {
+        var classes;
+
+        var links = [].slice.call(d3.selectAll(".links")._groups[0]);
+        var linksArray = links.filter(function(l){
+            return d3.select(l).data()[0].source.index == d3.select(node).data()[0].index || d3.select(l).data()[0].target.index == d3.select(node).data()[0].index;
+        });
+
+        var nodes = [].slice.call(d3.selectAll(".nodes")._groups[0]);
+        var nodesArray = nodes.filter(function(n){
+            for(var l of linksArray)
+                if(d3.select(l).data()[0].target.index == d3.select(n).data()[0].index || d3.select(l).data()[0].source.index == d3.select(n).data()[0].index)
+                    return true;
+            return false;
+        });
+
+        if(flag) {
+            classes = d3.selectAll(linksArray).attr("class");
+            classes += " " + cssClass;
+            d3.selectAll(linksArray).attr("class", classes);
+
+            for(var n of nodesArray) {
+                classes = d3.select(n).attr("class");
+                classes += " " + cssClass;
+                d3.select(n).attr("class", classes);
+            }
+        }
+        else {
+            classes = d3.selectAll(linksArray).attr("class");
+            classes = classes.replace(" " + cssClass, "");
+            d3.selectAll(linksArray).attr("class", classes);
+
+            for(var n of nodesArray) {
+                classes = d3.select(n).attr("class");
+                classes = classes.replace(" " + cssClass, "");
+                d3.select(n).attr("class", classes);
+            }
+        }
+    }
+};
+
+// Init user graph
+AGORA.initUserGraph = function()
+{
+    var nodes = [];
+    var links = [];
+
+    var w = $("#agora_right").width();
+    // var h = 120 + n * 80;
+    var h = w;
+    var r = w*3/10;
+    var n = Object.keys(AGORA.users_avatar).length;
+
+    var i = 0;
+    for (var user in AGORA.users_avatar) {
+        console.log(user);
+
+        nodes.push({
+            x: w/2 + r * Math.cos((360/n*i) * Math.PI / 180),
+            y: h/2 + r * Math.sin((360/n*i) * Math.PI / 180),
+            tooltip: AGORA.users_avatar[user].title,
+            type: "user",
+            url: AGORA.users_avatar[user].url,
+            fill: AGORA.users_avatar[user].src,
+            id: AGORA.users_avatar[user].userId
+        });
+
+        i++;
+    }
+
+    for (var i in AGORA.user_friendship)
+        links.push({source: Object.keys(AGORA.users_avatar).indexOf(AGORA.user_friendship[i]["userId"]), target: Object.keys(AGORA.users_avatar).indexOf(AGORA.user_friendship[i]["friendId"])});
+
+    Object.keys(AGORA.users_avatar).indexOf("2");
+
+    $("#svg_user_graph").attr("height", h);
+
+    var svg = d3.select("#svg_user_graph"),
+        g = svg.append("g");
+
+    var simulation = d3.forceSimulation(nodes)
+        .force("charge", d3.forceManyBody().strength(-80))
+        .force("link", d3.forceLink(links).distance(20).strength(1).iterations(10))
+        .force("x", d3.forceX())
+        .force("y", d3.forceY())
+        .stop();
+
+    var loading = svg.append("text")
+        .attr("dx", "280")
+        .attr("dy", "298")
+        .attr("font-size", 16)
+        .text("Loading...");
+
+    // Setup the tool tip.  Note that this is just one example, and that many styling options are available.
+    // See original documentation for more details on styling: http://labratrevenge.com/d3-tip/
+    var user_tip = d3.tip()
+        .attr("class", "d3-tip")
+        .offset([-12, 0])
+        .html(function(d) { return d; });
+
+    // Use a timeout to allow the rest of the page to load first.
+    d3.timeout(function() {
+        loading.remove();
+
+        svg.call(user_tip);
+
+
+        for (var user in AGORA.users_avatar) {
+            g.append("g")
+                .append("defs")
+                .append("pattern")
+                .attr("id", AGORA.users_avatar[user].userId)
+                .attr("patternUnits", "objectBoundingBox")
+                .attr("height", "1")
+                .attr("width", "1")
+                .append("image")
+                .attr("height", "64")
+                .attr("width", "64")
+                .attr("xlink:href", AGORA.users_avatar[user].src);
+        }
+
+        //LINKS
+        g.append("g")
+            .selectAll("line")
+            .data(links)
+            .enter().append("line")
+            .attr("class", "links")
+            .attr("x1", function (d) {
+                return d.source.x;
+            })
+            .attr("y1", function (d) {
+                return d.source.y;
+            })
+            .attr("x2", function (d) {
+                return d.target.x;
+            })
+            .attr("y2", function (d) {
+                return d.target.y;
+            });
+
+        //NODES
+        g.append("g")
+            .selectAll("circle")
+            .data(nodes)
+            .enter().append("circle")
+            .attr("class", function (d) {
+                return "nodes " + d.type;
+            })
+            .attr("ci", function (d) {
+                return d.index;
+            })
+            .attr("cx", function (d) {
+                return d.x;
+            })
+            .attr("cy", function (d) {
+                return d.y;
+            })
+            .attr("fill", function () {
+                var node = this;
+                return 'url("#' + d3.select(node).data()[0].id + '")';
+            })
+            .attr("r", 32)
+
+            .on("mouseover", function () {
+                var node = this;
+                highlightsPath(node, "user_highlighted", true);
+                user_tip.show(d3.select(node).data()[0].tooltip);
+            })
+            .on("mouseout", function () {
+                var node = this;
+                highlightsPath(node, "user_highlighted", false);
+                user_tip.hide();
+            })
+            .on("click", function (d) {
+                window.open(d.url, "_blank")
             });
 
     });

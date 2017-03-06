@@ -1,35 +1,176 @@
+<script>
+
+    $(document).ready(function () {
+        $(".agora_room_container").perfectScrollbar();
+    })
+
+</script>
+
+
 <style>
+
+    .ow_page_wrap
+    {
+        height: 100%;
+    }
 
     .agora_container
     {
+        font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        font-size: 16px;
         width: 100%;
         height: 100%;
+        display: flex;
+        flex-direction: row;
     }
 
     .agora_left
     {
-        background: red;
+        background: #23272b;
         height: 100%;
         width: 50%;
     }
 
     .agora_right
     {
-        background: yellow;
+        background: #2e3439;
         height: 100%;
         width: 50%;
     }
+
+    .agora_header
+    {
+        height: 100px;
+    }
+
+    .agora_header_container
+    {
+        padding: 18px 0 16px 16px;
+    }
+
+    .agora_header_title
+    {
+        color: #b4bdc4;
+        font-size: 24px;
+    }
+
+    .agora_room_container
+    {
+        height: calc( 100% - 132px - 56px - 42px );
+    }
+
+    .agora_room_header
+    {
+        display: flex;
+        flex-direction: row;
+    }
+
+    .agora_room
+    {
+        padding: 16px;
+        color: #737a81;
+    }
+
+    .agora_room:hover:not(.agora_room_selected)
+    {
+        background-color: #2e3439;
+        border-left: solid 3px #41464b;
+        cursor: pointer;
+        padding: 16px 16px 16px 13px;
+    }
+
+    .agora_room_date
+    {
+        font-size: 12px;
+    }
+
+    .agora_room_title
+    {
+        padding: 12px 0 12px 0;
+        font-size: 18px;
+        color: #ffffff;
+    }
+
+    .agora_room_description
+    {
+        font-size: 14px;
+    }
+
+    .agora_room_progress_container
+    {
+        height: 4px;
+        background: #41464b;
+        width: 100px;
+        margin-top: 20px;
+        margin-left: 40px;
+    }
+
+    .agora_room_progress
+    {
+        height: 4px;
+    }
+
+    .agora_room_selected
+    {
+        background: #2e3439;
+        border-left: solid 3px #2196f3;
+    }
+
 
 </style>
 
 <div class="agora_container">
 
     <div class="agora_left">
+        <div class="agora_header">
+            <div class="agora_header_container">
+                <div class="agora_header_title">Tuesday, 15 November</div>
+            </div>
+        </div>
+
+        <div class="agora_room_container">
+
+            <div class="agora_room">
+                <div class="agora_room_date">06/03/2017</div>
+                <div class="agora_room_header">
+                    <div class="agora_room_title">Titolo della stanza</div>
+                    <div class="agora_room_progress_container"><div class="agora_room_progress" style="background: #3fd14b;width: 34px;"></div></div>
+                    <div class="agora_room_progress_container"><div class="agora_room_progress" style="background: #d12620;width: 74px;"></div></div>
+                    <div class="agora_room_progress_container"><div class="agora_room_progress" style="background: #6a3cd1;width: 25px;"></div></div>
+                </div>
+                <div class="agora_room_description">Descrizione della stanza, descrizione della stanza, descrizione della stanza, descrizione della stanza, descrizione della stanza, descrizione della stanza</div>
+                <div class="agora_room_stat"></div>
+            </div>
+
+            <div class="agora_room agora_room_selected">
+                <div class="agora_room_date">06/03/2017</div>
+                <div class="agora_room_header">
+                    <div class="agora_room_title">Titolo della stanza</div>
+                    <div class="agora_room_progress_container"><div class="agora_room_progress" style="background: #3fd14b;width: 28px;"></div></div>
+                    <div class="agora_room_progress_container"><div class="agora_room_progress" style="background: #d12620;width: 64px;"></div></div>
+                    <div class="agora_room_progress_container"><div class="agora_room_progress" style="background: #6a3cd1;width: 5px;"></div></div>
+                </div>
+                <div class="agora_room_description">Descrizione della stanza, descrizione della stanza, descrizione della stanza, descrizione della stanza, descrizione della stanza, descrizione della stanza</div>
+                <div class="agora_room_stat"></div>
+            </div>
+
+            <div class="agora_room">
+                <div class="agora_room_date">06/03/2017</div>
+                <div class="agora_room_header">
+                    <div class="agora_room_title">Titolo della stanza</div>
+                    <div class="agora_room_progress_container"><div class="agora_room_progress" style="background: #3fd14b;width: 12px;"></div></div>
+                    <div class="agora_room_progress_container"><div class="agora_room_progress" style="background: #d12620;width: 56px;"></div></div>
+                    <div class="agora_room_progress_container"><div class="agora_room_progress" style="background: #6a3cd1;width: 89px;"></div></div>
+                </div>
+                <div class="agora_room_description">Descrizione della stanza, descrizione della stanza, descrizione della stanza, descrizione della stanza, descrizione della stanza, descrizione della stanza</div>
+                <div class="agora_room_stat"></div>
+            </div>
+
+        </div>
 
     </div>
 
     <div class="agora_right">
-
     </div>
 
 </div>
