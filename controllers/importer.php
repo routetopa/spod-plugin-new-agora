@@ -10,13 +10,15 @@ class SPODAGORA_CTRL_Importer extends OW_ActionController
 {
     private $entityId = 0;
 
-    public function index()
+    public function index(array $params)
     {
+        $roomId = $params['roomId'];
+
         $room = new stdClass();
-        $room->id = 16;
+        $room->id = $roomId;
         $room->createStamp = 0;
         $room->userId = 0;
-        $room->message = "ROOM 16";
+        $room->message = "ROOM ".$roomId;
         $room->notCreateMessage = true;
 
         $publicRoom = SPODPUBLIC_BOL_Service::getInstance()->getPublicRoomById($room->id);
