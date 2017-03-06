@@ -1047,6 +1047,19 @@ circle.nodes.datalet {
     fill: url("#datalet");
 }
 
+circle.nodes.user {
+    stroke-width: 0px;
+}
+
+circle.nodes.user.user_highlighted {
+    stroke-width: 3px;
+    stroke: #FFFFFF;/*FFEB3B*/
+}
+line.links.user_highlighted {
+    stroke: #FFFFFF;
+    stroke-width: 3px;
+}
+
 circle.nodes.highlighted, circle.nodes.selected {
     r: 32px;
     stroke-width: 16px;
