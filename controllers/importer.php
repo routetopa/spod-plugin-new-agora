@@ -78,7 +78,7 @@ class SPODAGORA_CTRL_Importer extends OW_ActionController
         $dbo = OW::getDbo();
         $dbo->query($sql);
 
-        SPODAGORA_BOL_Service::getInstance()->addAgoraRoomStat($this->entityId, 'opendata');
         SPODAGORA_BOL_Service::getInstance()->addAgoraDataletNode($datalet, $message, $idNewPost, $father, $this->entityId);
+        SPODAGORA_BOL_Service::getInstance()->addAgoraRoomStat($this->entityId, 'opendata');
     }
 }
