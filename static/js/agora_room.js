@@ -758,20 +758,20 @@ AGORA.initDataletGraph = function()
 // Init user graph
 AGORA.initUserGraph = function()
 {
-    var nodes = [];
-    var links = [];
+    var u_nodes = [];
+    var u_links = [];
 
     var w = $("#agora_right").width();
     // var h = 120 + n * 80;
     var h = w;
-    var r = w*3/10;
+    var r = w*4/10;
     var n = Object.keys(AGORA.users_avatar).length;
 
     var i = 0;
     for (var user in AGORA.users_avatar) {
         console.log(user);
 
-        nodes.push({
+        u_nodes.push({
             x: w/2 + r * Math.cos((360/n*i) * Math.PI / 180),
             y: h/2 + r * Math.sin((360/n*i) * Math.PI / 180),
             tooltip: AGORA.users_avatar[user].title,
@@ -785,7 +785,7 @@ AGORA.initUserGraph = function()
     }
 
     for (var i in AGORA.user_friendship)
-        links.push({source: Object.keys(AGORA.users_avatar).indexOf(AGORA.user_friendship[i]["userId"]), target: Object.keys(AGORA.users_avatar).indexOf(AGORA.user_friendship[i]["friendId"])});
+        u_links.push({source: Object.keys(AGORA.users_avatar).indexOf(AGORA.user_friendship[i]["userId"]), target: Object.keys(AGORA.users_avatar).indexOf(AGORA.user_friendship[i]["friendId"])});
 
     Object.keys(AGORA.users_avatar).indexOf("2");
 
@@ -794,9 +794,9 @@ AGORA.initUserGraph = function()
     var svg = d3.select("#svg_user_graph"),
         g = svg.append("g");
 
-    var simulation = d3.forceSimulation(nodes)
+    var simulation = d3.forceSimulation(u_nodes)
         .force("charge", d3.forceManyBody().strength(-80))
-        .force("link", d3.forceLink(links).distance(20).strength(1).iterations(10))
+        .force("link", d3.forceLink(u_links).distance(20).strength(1).iterations(10))
         .force("x", d3.forceX())
         .force("y", d3.forceY())
         .stop();
@@ -838,9 +838,9 @@ AGORA.initUserGraph = function()
         //LINKS
         g.append("g")
             .selectAll("line")
-            .data(links)
+            .data(u_links)
             .enter().append("line")
-            .attr("class", "links")
+            .attr("class", "u_links")
             .attr("x1", function (d) {
                 return d.source.x;
             })
@@ -857,10 +857,10 @@ AGORA.initUserGraph = function()
         //NODES
         g.append("g")
             .selectAll("circle")
-            .data(nodes)
+            .data(u_nodes)
             .enter().append("circle")
             .attr("class", function (d) {
-                return "nodes " + d.type;
+                return "u_nodes " + d.type;
             })
             .attr("ci", function (d) {
                 return d.index;
@@ -896,13 +896,13 @@ AGORA.initUserGraph = function()
     var highlightsPath = function(node, cssClass, flag) {
         var classes;
 
-        var links = [].slice.call(d3.selectAll(".links")._groups[0]);
-        var linksArray = links.filter(function(l){
+        var u_links = [].slice.call(d3.selectAll(".u_links")._groups[0]);
+        var linksArray = u_links.filter(function(l){
             return d3.select(l).data()[0].source.index == d3.select(node).data()[0].index || d3.select(l).data()[0].target.index == d3.select(node).data()[0].index;
         });
 
-        var nodes = [].slice.call(d3.selectAll(".nodes")._groups[0]);
-        var nodesArray = nodes.filter(function(n){
+        var u_nodes = [].slice.call(d3.selectAll(".u_nodes")._groups[0]);
+        var nodesArray = u_nodes.filter(function(n){
             for(var l of linksArray)
                 if(d3.select(l).data()[0].target.index == d3.select(n).data()[0].index || d3.select(l).data()[0].source.index == d3.select(n).data()[0].index)
                     return true;

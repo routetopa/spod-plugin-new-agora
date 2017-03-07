@@ -897,7 +897,7 @@ div.agora_fullsize_datalet
 div.agora_fullsize_datalet:hover {
     height: 482px;
 
-    transition-delay:1s;/**/
+    transition-delay: 1s;/**/
 }
 
 div.agora_fullsize_datalet.datatable-datalet  {
@@ -1041,18 +1041,18 @@ circle.nodes.datalet {
     fill: url("#datalet");
 }
 
-circle.nodes.user {
-    stroke-width: 0px;
-}
+/*circle.nodes.user {*/
+    /*stroke-width: 0px;*/
+/*}*/
 
-circle.nodes.user.user_highlighted {
-    stroke-width: 3px;
-    stroke: #FFFFFF;/*FFEB3B*/
-}
-line.links.user_highlighted {
-    stroke: #FFFFFF;
-    stroke-width: 3px;
-}
+/*circle.nodes.user.user_highlighted {*/
+    /*stroke-width: 3px;*/
+    /*stroke: #FFFFFF;!*FFEB3B*!*/
+/*}*/
+/*line.links.user_highlighted {*/
+    /*stroke: #FFFFFF;*/
+    /*stroke-width: 3px;*/
+/*}*/
 
 circle.nodes.highlighted, circle.nodes.selected {
     r: 32px;
@@ -1067,6 +1067,40 @@ circle.nodes.dataset.highlighted, circle.nodes.dataset.selected {
 circle.nodes.datalet.highlighted, circle.nodes.datalet.selected {
     fill: url("#datalet_hover");
 }
+
+/* USER GRAPH */
+
+line.u_links {
+    stroke: #424242;
+    stroke-width: 2px;
+}
+
+line.u_links.user_highlighted {
+    stroke: #FFFFFF;
+    stroke-width: 3px;
+}
+
+line.u_links.user_selected {
+    stroke: #FFEB3B;
+    stroke-width: 3px;
+}
+
+circle.u_nodes {
+    stroke-width: 0px;
+    cursor: pointer;
+}
+
+circle.u_nodes.user_highlighted {
+    stroke-width: 3px;
+    stroke: #FFFFFF;/
+}
+
+circle.u_nodes.user_selected {
+    stroke-width: 3px;
+    stroke: #FFEB3B;
+}
+
+/**** GRAPH TOOLTIP ****/
 
 .d3-tip {
     font-weight: 700;
@@ -1115,8 +1149,6 @@ circle.nodes.datalet.highlighted, circle.nodes.datalet.selected {
     top: 50%;
     left: 100%;
 }
-
-/**** DATALET GRAPH END ****/
 
 /**** SENTIMENTS LIQUID ****/
 
