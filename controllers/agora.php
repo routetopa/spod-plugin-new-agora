@@ -127,7 +127,7 @@ class SPODAGORA_CTRL_Agora extends OW_ActionController
             'unsat_prctg' => ($this->unsatisfied*100)/$this->tot_comments,
             'search_url' => OW::getRouter()->urlFor('SPODAGORA_CTRL_Ajax', 'getSearchResult'),
             'user_friendship' => SPODAGORA_BOL_Service::getInstance()->getAgoraFriendship($this->users_id),
-            'users_avatar' => $avatars
+            'users_avatar' => $this->avatars
         ));
 
         OW::getDocument()->addOnloadScript($js);
