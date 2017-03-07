@@ -149,7 +149,11 @@ class SPODAGORA_BOL_Service
     {
 
         $dt = json_decode($datalet["params"]);
-        $node = array("url" => $dt->{"data-url"}, "title" => isset($dt->title) ? $dt->title : '', "comment" => $comment, "parent_id" => $parentId, "comment_id" => $commentId);
+
+        $comment = str_replace("'", "''",$comment);
+        $title = isset($dt->title) ? str_replace("'", "''",$dt->title) : '';
+
+        $node = array("url" => $dt->{"data-url"}, "title" => $title, "comment" => $comment, "parent_id" => $parentId, "comment_id" => $commentId);
         $node = json_encode($node);
 
         $sql = "UPDATE ".OW_DB_PREFIX."spod_agora_room SET datalet_graph = CONCAT(COALESCE(datalet_graph, ''), '{$node},') WHERE id = {$roomId};";
@@ -289,6 +293,9 @@ class SPODAGORA_BOL_Service
 
     public function getAgoraFriendship($users)
     {
+        if(!count($users))
+            return null;
+
         $user_join = implode(",", $users);
         $sql = "SELECT userId, friendId FROM ow_friends_friendship where userId in (".$user_join.") and friendId in (".$user_join.") ORDER BY userId;";
 

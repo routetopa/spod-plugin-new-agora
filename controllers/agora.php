@@ -123,11 +123,11 @@ class SPODAGORA_CTRL_Agora extends OW_ActionController
             'agora_nested_comment_endpoint' => OW::getRouter()->urlFor('SPODAGORA_CTRL_Ajax', 'getNestedComment'),
             'user_notification_url' => OW::getRouter()->urlFor('SPODAGORA_CTRL_Ajax', 'handleUserNotification'),
             'datalet_graph' => $this->agora->datalet_graph,
-            'sat_prctg' => ($this->satisfied*100)/$this->tot_comments,
-            'unsat_prctg' => ($this->unsatisfied*100)/$this->tot_comments,
+            'sat_prctg' => ($this->satisfied*100)/($this->tot_comments == 0 ? 1 : $this->tot_comments ),
+            'unsat_prctg' => ($this->unsatisfied*100)/($this->tot_comments == 0 ? 1 : $this->tot_comments ),
             'search_url' => OW::getRouter()->urlFor('SPODAGORA_CTRL_Ajax', 'getSearchResult'),
             'user_friendship' => SPODAGORA_BOL_Service::getInstance()->getAgoraFriendship($this->users_id),
-            'users_avatar' => $avatars
+            'users_avatar' => $this->avatars
         ));
 
         OW::getDocument()->addOnloadScript($js);
