@@ -293,6 +293,9 @@ class SPODAGORA_BOL_Service
 
     public function getAgoraFriendship($users)
     {
+        if(!count($users))
+            return null;
+
         $user_join = implode(",", $users);
         $sql = "SELECT userId, friendId FROM ow_friends_friendship where userId in (".$user_join.") and friendId in (".$user_join.") ORDER BY userId;";
 
