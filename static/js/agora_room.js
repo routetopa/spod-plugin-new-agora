@@ -171,11 +171,12 @@ AGORA.onReplyClick = function (e)
 
 AGORA.levelUp = function (data)
 {
-    var anc = $("#agora_nested_comment");
-    var ans = $("#agora_nested_speech_text");
     var ancc = $("#agora_nested_chat_container");
 
     ancc.html(data);
+
+    var anc = $("#agora_nested_comment");
+    var ans = $("#agora_nested_speech_text");
 
     $("#agora_back").click(function () {
         AGORA.levelDown().then(function(){ancc.html("");});
