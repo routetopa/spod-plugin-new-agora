@@ -240,7 +240,7 @@ div#agora_search_svg:hover {
 
     background-color: #00BCD4;
     border: 1px solid #FFFFFF;
-    height: 192px;
+    height: 128px;
 
     border-radius: 5px;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
@@ -278,70 +278,139 @@ div#agora_search_svg:hover {
 /* BOX */
 
 .room .box .box_left {
-    background-color: red;
-    width: 40px;
+    width: 56px;
+    background: url("/ow_static/plugins/agora/images/agora.svg") no-repeat 0 0;
+    background-position: center;
+    background-size: 40px 40px;
 }
 
 .room .box .box_right {
-    background-color: blue;
-    width: calc(100% - 40px);
+    /*background-color: blue;*/
+    width: calc(100% - 56px);
 }
 
 .room .box .box_top {
     display: flex;
     flex-direction: row;
 
-    background-color: yellow;
+    /*background-color: yellow;*/
     width: 100%;
-    height: 96px;
+    /*height: 72px;*/
 }
 
 .room .box .box_bottom {
-    background-color: green;
-    width: 100%;
-    height: 96px;
+    /*width: calc(100% - 1em - 8px);*/
+    width: calc(100% - 32px);
+    /*margin-left: 16px;*/
+    color: #424242;
+    font-size: 16px;
 }
 
 .room .box .box_info {
-    background-color: pink;
-    width: 50%;
+    /*background-color: pink;*/
+    width: 75%;
     /*height: 96px;*/
 }
 
 .room .box .box_stat {
-    background-color: purple;
-    width: 50%;
+    /*background-color: #FFFFFF;*/
+    width: 25%;
+    margin: 4px 0;
     /*height: 96px;*/
 }
 
 .room .box .box_title {
-    background-color: brown;
-    width: 50%;
-    /*height: 96px;*/
+    width: 100%;
+    height: 24px;
+    line-height: 24px;
+    font-size: 18px;
+    color: #FFFFFF;
+    padding-top: 8px;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .room .box .box_date {
-    background-color: orange;
-    width: 50%;
-    /*height: 96px;*/
+    width: 100%;
+    height: 24px;
+    line-height: 24px;
+    font-size: 14px;
+    color: #424242;
+    padding-bottom: 16px;
+}
+
+.room .box .box_line {
+    /*background-color: white;*/
+    border: 1px solid #424242;
+    width: calc(100% - 32px);
+    height: 14px;
+    margin: 4px 32px 0 0;
 }
 
 .room .box .box_views {
-    background-color: aqua;
-    width: 50%;
-    /*height: 96px;*/
+    height: 100%;
+    width: 73%;
+    background-color: #424242;
 }
 
 .room .box .box_comments {
-    background-color: orangered;
-    width: 50%;
-    /*height: 96px;*/
+    height: 100%;
+    width: 100%;
+    background-color: #424242;
 }
 
 .room .box .box_datalets {
-    background-color: firebrick;
-    width: 50%;
-    /*height: 96px;*/
+    height: 100%;
+    width: 46%;
+    background-color: #424242;
+}
+
+/* styles for '...' */
+.block-with-text {
+    /* hide text if it more than N lines  */
+    overflow: hidden;
+    /* for set '...' in absolute position */
+    position: relative;
+    /* use this value to count block height */
+    line-height: 24px;
+    /* max-height = line-height (1.2) * lines max number (3) */
+    max-height: 48px;
+    /* fix problem when last visible word doesn't adjoin right side  */
+    text-align: justify;
+    /* place for '...' */
+    /*margin-right: -1em;*/
+    /*padding-right: 1em;*/
+
+    /*ddr*/
+    margin-right: -16px;
+    padding-right: 16px;
+}
+/* create the ... */
+.block-with-text:before {
+    /* points in the end */
+    content: '...';
+    /* absolute position */
+    position: absolute;
+    /* set position to right bottom corner of block */
+    right: 0;
+    bottom: 0;
+}
+/* hide ... if we have text, which is less than or equal to max lines */
+.block-with-text:after {
+    /* points in the end */
+    content: '';
+    /* absolute position */
+    position: absolute;
+    /* set position to right bottom corner of text */
+    right: 0;
+    /* set width and height */
+    width: 1em;
+    height: 1em;
+    margin-top: 0.2em;
+    /* bg color = bg color under block */
+    background: white;
 }
 
 
