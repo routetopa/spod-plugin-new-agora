@@ -1,3 +1,15 @@
+<style>
+    div.ow_chat_cont {
+        display: none !important;
+    }
+
+    .ow_page_wrap {
+        min-height: calc(100% - 56px) !important;
+        height: calc(100% - 56px) !important;
+    }
+
+</style>
+
 <div class="ow_page_wrap">
 
     <div class="ow_menu_fullpage">
@@ -15,23 +27,24 @@
 
     {$content}
 
-</div>
-<div class="ow_footer">
-    <div class="ow_canvas">
-        <div class="ow_page clearfix">
-            {$bottom_menu}
-            <div class="ow_copyright">
-                <img src="{$themeImagesUrl}eu_flag_24.png" class="eu-flag" alt="European Union Flag" />
-                This project has received funding from <i>European Union's Horizon 2020 research
-                and innovation programme</i> under grant agreement No 645860.
-            </div>
-            <div style="float:right; padding-bottom: 30px;">
-                {$bottomPoweredByLink}
-            </div>
-        </div>
-    </div>
-</div>
+<!--</div>-->
+<!--<div class="ow_footer">-->
+    <!--<div class="ow_canvas">-->
+        <!--<div class="ow_page clearfix">-->
+            <!--{$bottom_menu}-->
+            <!--<div class="ow_copyright">-->
+                <!--<img src="{$themeImagesUrl}eu_flag_24.png" class="eu-flag" alt="European Union Flag" />-->
+                <!--This project has received funding from <i>European Union's Horizon 2020 research-->
+                <!--and innovation programme</i> under grant agreement No 645860.-->
+            <!--</div>-->
+            <!--<div style="float:right; padding-bottom: 30px;">-->
+                <!--{$bottomPoweredByLink}-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+<!--</div>-->
 {decorator name='floatbox'}
+
 <script type="text/javascript">
     $(window).scroll(function() {
         var $menuwrappos = $('.ow_menu_wrap').offset().top;

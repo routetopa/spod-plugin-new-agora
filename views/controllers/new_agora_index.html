@@ -1,187 +1,127 @@
 <script>
 
     $(document).ready(function () {
-        $(".agora_room_container").perfectScrollbar();
+        $("#agora_room_container").perfectScrollbar();
+
+        $(".agora_room").on('click', function () {
+
+            $(".agora_room").removeClass("selected");
+            $(".box").removeClass("selected");
+
+            var box = $(this).find(".box")[0];
+            $(this).addClass("selected");
+            $(box).addClass("selected");
+        });
+
+        $(".tab").on('click', function () {
+
+            $(".tab").removeClass("selected");
+            $(this).addClass("selected");
+        });
     })
+
+
 
 </script>
 
 
 <style>
 
-    .ow_page_wrap
-    {
-        height: 100%;
-    }
 
-    .agora_container
-    {
-        font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-        font-size: 16px;
-        width: 100%;
-        height: 100%;
-        display: flex;
-        flex-direction: row;
-    }
-
-    .agora_left
-    {
-        background: #23272b;
-        height: 100%;
-        width: 50%;
-    }
-
-    .agora_right
-    {
-        background: #2e3439;
-        height: 100%;
-        width: 50%;
-    }
-
-    .agora_header
-    {
-        height: 100px;
-    }
-
-    .agora_header_container
-    {
-        padding: 18px 0 16px 16px;
-    }
-
-    .agora_header_title
-    {
-        color: #b4bdc4;
-        font-size: 24px;
-    }
-
-    .agora_room_container
-    {
-        height: calc( 100% - 132px - 56px - 42px );
-    }
-
-    .agora_room_header
-    {
-        display: flex;
-        flex-direction: row;
-    }
-
-    .agora_room
-    {
-        padding: 16px;
-        color: #737a81;
-    }
-
-    .agora_room:hover:not(.agora_room_selected)
-    {
-        background-color: #2e3439;
-        border-left: solid 3px #41464b;
-        cursor: pointer;
-        padding: 16px 16px 16px 13px;
-    }
-
-    .agora_room_date
-    {
-        font-size: 12px;
-    }
-
-    .agora_room_title
-    {
-        padding: 12px 0 12px 0;
-        font-size: 18px;
-        color: #ffffff;
-    }
-
-    .agora_room_description
-    {
-        font-size: 14px;
-    }
-
-    .agora_room_progress_container
-    {
-        height: 4px;
-        background: #41464b;
-        width: 100px;
-        margin-top: 20px;
-        margin-left: 40px;
-    }
-
-    .agora_room_progress
-    {
-        height: 4px;
-    }
-
-    .agora_room_selected
-    {
-        background: #2e3439;
-        border-left: solid 3px #2196f3;
-    }
 
 
 </style>
 
-<div class="agora_container">
+<div id="agora_container">
 
-    <div class="agora_left">
-        <div class="agora_header">
-            <div class="agora_header_container">
-                <div class="agora_header_title">Tuesday, 15 November</div>
-                <div class="agora_header_add_button">ADD</div>
-                <div class="agora_header_sort">SORT (rilevanza, data, più viste, più commentate)</div>
-                <div class="agora_header_search">SEARCH</div>
+    <div id="agora_left">
+        <div id="agora_header">
+            <div id="agora_header_title">AGORA</div>
+            <div id="agora_header_subtitle">Tuesday, 15 November</div>
+            <!--<div class="agora_header_add_button">ADD</div>-->
+            <!--<div class="agora_header_sort">SORT (rilevanza, data, più viste, più commentate)</div>-->
+            <div id="agora_header_navigator">
+                <div id="tabs">
+                    <div class="tab selected">MOST RELEVANT</div>
+                    <div class="tab">MOST POPULAR</div>
+                    <div class="tab">LATEST</div>
+                </div>
+                <div id="search">
+                    <input id="agora_search_input" placeholder="Search">
+                    <div id="agora_search_svg"></div>
+                </div>
             </div>
         </div>
 
-        <div class="agora_room_container">
+        <div id="agora_room_container">
+
+
+            <div class="agora_room selected"><div class="room"><div class="box selected"></div></div></div>
 
             <div class="agora_room">
-                <div class="agora_room_date">06/03/2017</div>
-                <div class="agora_room_header">
-                    <div class="agora_room_title">Titolo della stanza</div>
-                    <div class="agora_room_progress_container"><div class="agora_room_progress" style="background: #3fd14b;width: 34px;"></div></div>
-                    <div class="agora_room_progress_container"><div class="agora_room_progress" style="background: #d12620;width: 74px;"></div></div>
-                    <div class="agora_room_progress_container"><div class="agora_room_progress" style="background: #6a3cd1;width: 25px;"></div></div>
+
+                <div class="room">
+
+                    <div class="box">
+                        <div class="box_left">icon</div>
+                        <div class="box_right">
+                            <div class="box_top">
+                                <div class="box_info">
+                                    <div class="box_title">title</div>
+                                    <div class="box_date">date</div>
+                                </div>
+                                <div class="box_stat">
+                                    <div class="box_views">1</div>
+                                    <div class="box_comments">2</div>
+                                    <div class="box_datalets">3</div>
+                                </div>
+                            </div>
+                            <div class="box_bottom">descrizione</div>
+                        </div>
+                    </div>
+
+
+                <!--<div class="agora_room_header">-->
+
+                <!--<div class="agora_room_date">06/03/2017</div>-->
+                <!--<div class="agora_room_progress_container"><div class="agora_room_progress" style="background: #3fd14b;width: 34px;"></div></div>-->
+                <!--<div class="agora_room_progress_container"><div class="agora_room_progress" style="background: #d12620;width: 74px;"></div></div>-->
+                <!--<div class="agora_room_progress_container"><div class="agora_room_progress" style="background: #6a3cd1;width: 25px;"></div></div>-->
+                <!--</div>-->
+                <!--<div class="agora_room_description">Descrizione della stanza, descrizione della stanza, descrizione della stanza, descrizione della stanza, descrizione della stanza, descrizione della stanza</div>-->
+                <!--<div class="agora_room_stat"></div>-->
+
                 </div>
-                <div class="agora_room_description">Descrizione della stanza, descrizione della stanza, descrizione della stanza, descrizione della stanza, descrizione della stanza, descrizione della stanza</div>
-                <div class="agora_room_stat"></div>
             </div>
 
-            <div class="agora_room agora_room_selected">
-                <div class="agora_room_date">06/03/2017</div>
-                <div class="agora_room_header">
-                    <div class="agora_room_title">Titolo della stanza</div>
-                    <div class="agora_room_progress_container"><div class="agora_room_progress" style="background: #3fd14b;width: 28px;"></div></div>
-                    <div class="agora_room_progress_container"><div class="agora_room_progress" style="background: #d12620;width: 64px;"></div></div>
-                    <div class="agora_room_progress_container"><div class="agora_room_progress" style="background: #6a3cd1;width: 5px;"></div></div>
-                </div>
-                <div class="agora_room_description">Descrizione della stanza, descrizione della stanza, descrizione della stanza, descrizione della stanza, descrizione della stanza, descrizione della stanza</div>
-                <div class="agora_room_stat"></div>
-            </div>
 
-            <div class="agora_room">
-                <div class="agora_room_date">06/03/2017</div>
-                <div class="agora_room_header">
-                    <div class="agora_room_title">Titolo della stanza</div>
-                    <div class="agora_room_progress_container"><div class="agora_room_progress" style="background: #3fd14b;width: 12px;"></div></div>
-                    <div class="agora_room_progress_container"><div class="agora_room_progress" style="background: #d12620;width: 56px;"></div></div>
-                    <div class="agora_room_progress_container"><div class="agora_room_progress" style="background: #6a3cd1;width: 89px;"></div></div>
-                </div>
-                <div class="agora_room_description">Descrizione della stanza, descrizione della stanza, descrizione della stanza, descrizione della stanza, descrizione della stanza, descrizione della stanza</div>
-                <div class="agora_room_stat"></div>
-            </div>
+            <div class="agora_room"><div class="room"><div class="box"></div></div></div>
+            <!--<div class="agora_room"><div class="room"><div class="box"></div></div></div>-->
+            <!--<div class="agora_room"><div class="room"><div class="box"></div></div></div>-->
 
         </div>
+    </div>
+
+    <div id="agora_right">
 
     </div>
 
-    <div class="agora_right">
-        <div>TITOLO</div>
-        <div>DATA</div>
-        <div>DESCRIZIONE</div>
-        <div>OWNER</div>
-        <div>STAT</div>
-        <div>NOTIFICHE</div>
-        <div>UTENTI (GRAFO ?)</div>
-        <div>UNREAD MESSAGES</div>
-    </div>
+
+
+        <!--</div>-->
+
+    <!--</div>-->
+
+    <!--<div class="agora_right">-->
+        <!--<div>TITOLO</div>-->
+        <!--<div>DATA</div>-->
+        <!--<div>DESCRIZIONE</div>-->
+        <!--<div>OWNER</div>-->
+        <!--<div>STAT</div>-->
+        <!--<div>NOTIFICHE</div>-->
+        <!--<div>UTENTI (GRAFO ?)</div>-->
+        <!--<div>UNREAD MESSAGES</div>-->
+    <!--suggested-->
+    <!--</div>-->
 
 </div>
