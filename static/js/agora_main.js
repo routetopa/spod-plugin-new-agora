@@ -2,23 +2,28 @@ AGORAMAIN = {};
 
 AGORAMAIN.init = function()
 {
+    $("#agora_room_container").perfectScrollbar();
+
     $(".agora_room").on('click', AGORAMAIN.handleAgoraRoomSelection);
-    $(".agora_header_add_button").on('click', AGORAMAIN.handleAgoraRoomCreation);
+    $(".tab").on('click', AGORAMAIN.handleAgoraRoomTab);
+
+    //previewFloatBox = OW.ajaxFloatBox('SPODAGORA_CMP_AgoraRoomCreator', {} , {top: '60px', width:'60%', height:'480px', iconClass: 'ow_ic_add', title: ''});
 };
 
-AGORAMAIN.handleAgoraRoomCreation = function(e)
+AGORAMAIN.handleAgoraRoomTab = function()
 {
-    previewFloatBox = OW.ajaxFloatBox('SPODAGORA_CMP_AgoraRoomCreator', {} , {top: '60px', width:'60%', height:'480px', iconClass: 'ow_ic_add', title: ''});
+    $(".tab").removeClass("selected");
+    $(this).addClass("selected");
 };
 
-AGORAMAIN.handleAgoraRoomSelection = function(e)
+AGORAMAIN.handleAgoraRoomSelection = function()
 {
-    var id_selected_room = e.currentTarget.id.replace("agora_room_","agora_detail_");
+    $(".agora_room").removeClass("selected");
+    $(".box").removeClass("selected");
 
-    $(".agora_room_selected").removeClass("agora_room_selected");
-    $(e.currentTarget).addClass("agora_room_selected");
-    $(".selected_room").removeClass("selected_room");
-    $("#"+id_selected_room).addClass("selected_room");
+    var box = $(this).find(".box")[0];
+    $(this).addClass("selected");
+    $(box).addClass("selected");
 };
 
 AGORAMAIN.addNewRoom = function(event)
