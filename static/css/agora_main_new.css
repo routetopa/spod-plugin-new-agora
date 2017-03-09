@@ -24,6 +24,7 @@
 {
     height: 100%;
     width: 50%;
+    min-width: 666px;
 
     background: #00BCD4;
 }
@@ -32,6 +33,7 @@
 {
     height: 100%;
     width: 50%;
+    min-width: 666px;
 }
 
 /* HEADER */
@@ -81,7 +83,7 @@
 
 #agora_header_navigator .tab {
     width: calc((100% - 0px) / 3);
-    color: #424242;
+    color: #212121;
     cursor: pointer;
     height: 40px;
     line-height: 40px;
@@ -93,6 +95,11 @@
 
     -webkit-transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
     transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding: 0 8px;
 }
 
 #agora_header_navigator .tab:last-child {
@@ -137,11 +144,11 @@ input#agora_search_input:focus {
 }
 
 input#agora_search_input::-webkit-input-placeholder { /* Chrome/Opera/Safari */
-    color: #424242;
+    color: #212121;
 }
 
 input#agora_search_input::-moz-placeholder { /* Firefox 19+ */
-    color: #424242;
+    color: #212121;
 }
 
 input#agora_search_input:focus::-webkit-input-placeholder { /* Chrome/Opera/Safari */
@@ -164,7 +171,7 @@ div#agora_search_svg {
     -webkit-mask-size: cover;
     mask-size: cover;
 
-    background-color: #424242;
+    background-color: #212121;
 }
 
 div#agora_search_svg:hover {
@@ -226,9 +233,7 @@ div#agora_search_svg:hover {
     /*border-bottom: solid 1px #BDBDBD;*/
 }
 
-.agora_room .room .box:hover {
-    background-color: #00AABF;
-}
+
 
 .agora_room .room .box{
     position: relative;
@@ -264,21 +269,26 @@ div#agora_search_svg:hover {
 }
 
 .agora_room .room .box.selected {
-    -webkit-transform: scale(1.01, 1.01);
-    transform: scale(1.01, 1.01);
+    -webkit-transform: scale(1.02, 1.02);
+    transform: scale(1.02, 1.02);
 
     background-color: #00AABF;
+    /*http://tobiasahlin.com/blog/how-to-animate-box-shadow/*/
 }
 
 .agora_room .room .box.selected::after {
     opacity: 1;
 }
 
+.agora_room .room .box:hover {
+    background-color: #00AABF;
+}
+
 
 /* BOX */
 
 .room .box .box_left {
-    width: 56px;
+    width: 72px;
     background: url("/ow_static/plugins/agora/images/agora.svg") no-repeat 0 0;
     background-position: center;
     background-size: 40px 40px;
@@ -286,7 +296,7 @@ div#agora_search_svg:hover {
 
 .room .box .box_right {
     /*background-color: blue;*/
-    width: calc(100% - 56px);
+    width: calc(100% - 72px);
 }
 
 .room .box .box_top {
@@ -300,10 +310,22 @@ div#agora_search_svg:hover {
 
 .room .box .box_bottom {
     /*width: calc(100% - 1em - 8px);*/
-    width: calc(100% - 32px);
-    /*margin-left: 16px;*/
-    color: #424242;
+    width: calc(100% - 16px);
+    margin-right: 16px;
+    color: #212121;
+    font-style: italic;
+
+    display: block; /* Fallback for non-webkit */
+    display: -webkit-box;
+    /*max-width: 400px;*/
+    height: 48px; /* Fallback for non-webkit */
+    /*margin: 0 auto;*/
     font-size: 16px;
+    line-height: 24px;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .room .box .box_info {
@@ -320,12 +342,12 @@ div#agora_search_svg:hover {
 }
 
 .room .box .box_title {
-    width: 100%;
+    /*width: 100%;*/
     height: 24px;
     line-height: 24px;
     font-size: 18px;
     color: #FFFFFF;
-    padding-top: 8px;
+    padding: 8px 8px 0 0;
 
     overflow: hidden;
     text-overflow: ellipsis;
@@ -342,75 +364,125 @@ div#agora_search_svg:hover {
 }
 
 .room .box .box_line {
-    /*background-color: white;*/
-    border: 1px solid #424242;
-    width: calc(100% - 32px);
+    /*background-color: #FFFFFF;*/
+    /*border: 1px solid #424242;*/
+    border: 1px solid #FFFFFF;
+    width: calc(100% - 16px);
     height: 14px;
-    margin: 4px 32px 0 0;
+    margin: 4px 16px 0 0;
 }
 
 .room .box .box_views {
     height: 100%;
     width: 73%;
-    background-color: #424242;
+    background-color: #FF9100;
 }
 
 .room .box .box_comments {
     height: 100%;
     width: 100%;
-    background-color: #424242;
+    background-color: #E65100;
 }
 
 .room .box .box_datalets {
     height: 100%;
     width: 46%;
-    background-color: #424242;
+    background-color: #FFAB40;
 }
 
 /* styles for '...' */
-.block-with-text {
-    /* hide text if it more than N lines  */
-    overflow: hidden;
-    /* for set '...' in absolute position */
-    position: relative;
-    /* use this value to count block height */
-    line-height: 24px;
-    /* max-height = line-height (1.2) * lines max number (3) */
-    max-height: 48px;
-    /* fix problem when last visible word doesn't adjoin right side  */
-    text-align: justify;
-    /* place for '...' */
-    /*margin-right: -1em;*/
-    /*padding-right: 1em;*/
+/*.block-with-text {*/
+    /*!* hide text if it more than N lines  *!*/
+    /*overflow: hidden;*/
+    /*!* for set '...' in absolute position *!*/
+    /*position: relative;*/
+    /*!* use this value to count block height *!*/
+    /*line-height: 24px;*/
+    /*!* max-height = line-height (1.2) * lines max number (3) *!*/
+    /*max-height: 48px;*/
+    /*!* fix problem when last visible word doesn't adjoin right side  *!*/
+    /*text-align: justify;*/
+    /*!* place for '...' *!*/
+    /*!*margin-right: -1em;*!*/
+    /*!*padding-right: 1em;*!*/
 
-    /*ddr*/
-    margin-right: -16px;
-    padding-right: 16px;
+    /*!*ddr*!*/
+    /*margin-right: -16px;*/
+    /*padding-right: 16px;*/
+/*}*/
+/*!* create the ... *!*/
+/*.block-with-text:before {*/
+    /*!* points in the end *!*/
+    /*content: '...';*/
+    /*!* absolute position *!*/
+    /*position: absolute;*/
+    /*!* set position to right bottom corner of block *!*/
+    /*right: 0;*/
+    /*bottom: 0;*/
+/*}*/
+/*!* hide ... if we have text, which is less than or equal to max lines *!*/
+/*.block-with-text:after {*/
+    /*!* points in the end *!*/
+    /*content: '';*/
+    /*!* absolute position *!*/
+    /*position: absolute;*/
+    /*!* set position to right bottom corner of text *!*/
+    /*right: 0;*/
+    /*!* set width and height *!*/
+    /*width: 1em;*/
+    /*height: 1em;*/
+    /*margin-top: 0.2em;*/
+    /*!* bg color = bg color under block *!*/
+    /*background: #00BCD4;*/
+/*}*/
+
+/*!*problem*!*/
+/*.selected .block-with-text:after {*/
+    /*background: #00AABF;*/
+/*}*/
+/*.box:hover .block-with-text:after {*/
+    /*background: #00AABF;*/
+/*}*/
+/*!*end problem*!*/
+
+/* TOOLTIP */
+
+.tooltips {
+    position: relative;
+    /*display: inline;*/
 }
-/* create the ... */
-.block-with-text:before {
-    /* points in the end */
-    content: '...';
-    /* absolute position */
+.tooltips span {
     position: absolute;
-    /* set position to right bottom corner of block */
-    right: 0;
-    bottom: 0;
+    /*padding: 0 8px;*/
+    font-size: 14px;
+    font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    width: 140px;
+    color: #FFFFFF;
+    background: #424242;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    visibility: hidden;
+    border-radius: 5px;
 }
-/* hide ... if we have text, which is less than or equal to max lines */
-.block-with-text:after {
-    /* points in the end */
+.tooltips span:after {
     content: '';
-    /* absolute position */
     position: absolute;
-    /* set position to right bottom corner of text */
-    right: 0;
-    /* set width and height */
-    width: 1em;
-    height: 1em;
-    margin-top: 0.2em;
-    /* bg color = bg color under block */
-    background: white;
+    top: 100%;
+    left: 50%;
+    margin-left: -8px;
+    width: 0; height: 0;
+    border-top: 8px solid #424242;
+    border-right: 8px solid transparent;
+    border-left: 8px solid transparent;
+}
+:hover.tooltips span {
+    visibility: visible;
+    /*opacity: 0.8;*/
+    bottom: 23px;
+    left: 50%;
+    margin-left: -76px;
+    z-index: 999;
 }
 
 
