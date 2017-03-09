@@ -1,129 +1,127 @@
-<link rel="import" href="{$components_url}bower_components/paper-drawer-panel/paper-drawer-panel.html">
-<link rel="import" href="{$components_url}bower_components/paper-toolbar/paper-toolbar.html">
-<link rel="import" href="{$components_url}bower_components/paper-icon-button/paper-icon-button.html">
-<link rel="import" href="{$components_url}bower_components/iron-icons/iron-icons.html">
-<link rel="import" href="{$components_url}bower_components/paper-scroll-header-panel/paper-scroll-header-panel.html">
-<link rel="import" href="{$components_url}bower_components/paper-fab/paper-fab.html">
-<link rel="import" href="{$components_url}bower_components/paper-fab-transitions/paper-fab-speed-dial.html">
-<link rel="import" href="{$components_url}bower_components/paper-menu/paper-menu.html">
-<link rel="import" href="{$components_url}bower_components/paper-item/paper-item.html">
+<script>
 
-<link rel="import" href="{$components_url}controllets/paper-card-controllet/paper-card-controllet.html"/>
-<link rel="import" href="{$components_url}controllets/search-panel-controllet/search-panel-controllet.html"/>
-<link rel="import" href="{$components_url}controllets/animated-grid-controllet/animated-grid-controllet.html"/>
-<link rel="import" href="{$components_url}controllets/fullsize-page-with-card-controllet/fullsize-page-with-card-controllet.html">
-<link rel="import" href="{$components_url}controllets/room-controllet/room-controllet.html">
+    $(document).ready(function () {
+        $("#agora_room_container").perfectScrollbar();
 
-<link rel="import" href="{$components_url}bower_components/paper-card/paper-card.html">
-<link rel="import" href="{$components_url}bower_components/paper-button/paper-button.html">
-<link rel="import" href="{$components_url}bower_components/iron-flex-layout/iron-flex-layout.html">
-<link rel="import" href="{$components_url}bower_components/paper-styles/color.html">
+        $(".agora_room").on('click', function () {
 
+            $(".agora_room").removeClass("selected");
+            $(".box").removeClass("selected");
 
-<link rel="import" href="{$components_url}bower_components/neon-animation/neon-animated-pages.html">
-<link rel="import" href="{$components_url}bower_components/paper-styles/paper-styles.html">
-<link rel="import" href="{$components_url}bower_components/neon-animation/neon-animations.html">
+            var box = $(this).find(".box")[0];
+            $(this).addClass("selected");
+            $(box).addClass("selected");
+        });
 
-<link rel="import" href="{$components_url}bower_components/paper-toast/paper-toast.html">
+        $(".tab").on('click', function () {
 
-<link rel="import" href="{$components_url}bower_components/polymer-element-catalog/app/elements/app-sidebar/app-sidebar.html">
-
-<link rel="import" href="{$ow_url_home}ow_static/plugins/agora/pages/agora-main-polymer-style.pcss">
-<style is="custom-style" include="agora-main-polymer-style"></style>
+            $(".tab").removeClass("selected");
+            $(this).addClass("selected");
+        });
+    })
 
 
-<paper-drawer-panel force-narrow>
 
-    <div drawer>
+</script>
 
-        <paper-toolbar class="toolbar-drawer">
-            <div class="title">My Agora</div>
-        </paper-toolbar>
 
-        <app-sidebar drawer>
-            <paper-menu id="my-public-room-menu">
-                {foreach $userPublicRooms as $userRoom}
-                <paper-item onclick="AGORAMAIN.handleSuggestedDataset({$userRoom->id})">
-                    <!--<iron-icon icon="warning"></iron-icon>-->
-                    <paper-item-body two-lines>
-                        <div>{$userRoom->subject}</div>
-                    </paper-item-body>
-                </paper-item>
-                {/foreach}
-            </paper-menu>
-        </app-sidebar>
+<style>
 
-    </div>
 
-    <div main class="fullbleed layout vertical">
 
-        <paper-toolbar class="toolbar-main">
-            <paper-icon-button paper-drawer-toggle icon="menu" on-tap="menuAction"></paper-icon-button>
-            <!--<div class="title">Agora</div>-->
-            <div class="clearfix" style="background-color:#2196F3;">
-                <a class="ow_logo ow_left" href="{$siteUrl}"></a>
-                <div class="ow_nav_btn"></div>
-                <div class="ow_console_right">
-                    {$console}
+
+</style>
+
+<div id="agora_container">
+
+    <div id="agora_left">
+        <div id="agora_header">
+            <div id="agora_header_title">AGORA</div>
+            <div id="agora_header_subtitle">Tuesday, 15 November</div>
+            <!--<div class="agora_header_add_button">ADD</div>-->
+            <!--<div class="agora_header_sort">SORT (rilevanza, data, più viste, più commentate)</div>-->
+            <div id="agora_header_navigator">
+                <div id="tabs">
+                    <div class="tab selected">MOST RELEVANT</div>
+                    <div class="tab">MOST POPULAR</div>
+                    <div class="tab">LATEST</div>
                 </div>
-                <div class="ow_menu_wrap">
-                    {component class='BASE_CMP_MainMenu' responsive=true}
+                <div id="search">
+                    <input id="agora_search_input" placeholder="Search">
+                    <div id="agora_search_svg"></div>
                 </div>
             </div>
-            <!--<search-panel-controllet right-direction="true"></search-panel-controllet>-->
-            <!--<paper-icon-button icon="more-vert" on-tap="moreAction"></paper-icon-button>-->
-        </paper-toolbar>
+        </div>
 
-        <paper-scroll-header-panel class="flex" fixed>
+        <div id="agora_room_container">
 
-            <template is="dom-bind">
-                <neon-animated-pages id="pages" selected="0" style="height: 100%; width: 100%;">
 
-                    <animated-grid-controllet on-tile-click="_onTileClick">
-                        {foreach $rooms as $room}
+            <div class="agora_room selected"><div class="room"><div class="box selected"></div></div></div>
 
-                        <room-controllet
-                                room-owner="{$room->owner}"
-                                room-shape='["{$room->colorStep}",{if $room->comments > $commentsMedian}"many"{else}"few"{/if},{if $room->opendata > $openDataMedian}"many"{else}"few"{/if}]'
-                                room-id="{$room->id}"
-                                body="{$room->body}"
-                                subject="{$room->subject}"
-                                timestamp="{$room->timestamp}"
-                                room-color="#{$room->color}"
-                                datasets="{$room->opendata}"
-                                comments="{$room->comments}"
-                                room-width={if $room->opendata > $openDataMedian}"grid-item-w40"{else}"grid-item-w20"{/if}
-                            room-height={if $room->comments > $commentsMedian}"grid-item-h400"{else}"grid-item-h200"{/if}
-                            room-views={$room->views}
-                            ></room-controllet>
-                        {/foreach}
-                    </animated-grid-controllet>
+            <div class="agora_room">
 
-                    <fullsize-page-with-card-controllet id="fullsize-card" hero-id="hero" on-click="_onFullsizeClick">
-                    </fullsize-page-with-card-controllet>
+                <div class="room">
 
-                </neon-animated-pages>
+                    <div class="box">
+                        <div class="box_left">icon</div>
+                        <div class="box_right">
+                            <div class="box_top">
+                                <div class="box_info">
+                                    <div class="box_title">title</div>
+                                    <div class="box_date">date</div>
+                                </div>
+                                <div class="box_stat">
+                                    <div class="box_views">1</div>
+                                    <div class="box_comments">2</div>
+                                    <div class="box_datalets">3</div>
+                                </div>
+                            </div>
+                            <div class="box_bottom">descrizione</div>
+                        </div>
+                    </div>
 
-                <!--<paper-toast id="infoToast" duration="10000">
-                    <p>
-                        <span class="title">SPOD PRIVACY</span>
-                        <br>
-                        <span class="description">Le stanze dell'Agora sono pubbliche. Le discussioni saranno visibili anche all'esterno di SPOD.</span>
-                    </p>
-                    <paper-icon-button class="clear" suffix onclick="infoToast.toggle()" icon="clear"></paper-icon-button>
-                </paper-toast>-->
 
-            </template>
+                <!--<div class="agora_room_header">-->
 
-        </paper-scroll-header-panel>
+                <!--<div class="agora_room_date">06/03/2017</div>-->
+                <!--<div class="agora_room_progress_container"><div class="agora_room_progress" style="background: #3fd14b;width: 34px;"></div></div>-->
+                <!--<div class="agora_room_progress_container"><div class="agora_room_progress" style="background: #d12620;width: 74px;"></div></div>-->
+                <!--<div class="agora_room_progress_container"><div class="agora_room_progress" style="background: #6a3cd1;width: 25px;"></div></div>-->
+                <!--</div>-->
+                <!--<div class="agora_room_description">Descrizione della stanza, descrizione della stanza, descrizione della stanza, descrizione della stanza, descrizione della stanza, descrizione della stanza</div>-->
+                <!--<div class="agora_room_stat"></div>-->
 
-        {if 1||$isCreationAuthorizated}
-        <paper-fab id="add_room_button" icon="add" onclick="AGORAMAIN.addRoom()" title='{text key="spodagora+add_room"}'></paper-fab>
-        {/if}
-        <search-panel-controllet id="search_room" paperfab></search-panel-controllet>
+                </div>
+            </div>
+
+
+            <div class="agora_room"><div class="room"><div class="box"></div></div></div>
+            <!--<div class="agora_room"><div class="room"><div class="box"></div></div></div>-->
+            <!--<div class="agora_room"><div class="room"><div class="box"></div></div></div>-->
+
+        </div>
+    </div>
+
+    <div id="agora_right">
 
     </div>
 
-</paper-drawer-panel>
 
-{if !empty($authentication_component)}{$authentication_component}{/if}
+
+        <!--</div>-->
+
+    <!--</div>-->
+
+    <!--<div class="agora_right">-->
+        <!--<div>TITOLO</div>-->
+        <!--<div>DATA</div>-->
+        <!--<div>DESCRIZIONE</div>-->
+        <!--<div>OWNER</div>-->
+        <!--<div>STAT</div>-->
+        <!--<div>NOTIFICHE</div>-->
+        <!--<div>UTENTI (GRAFO ?)</div>-->
+        <!--<div>UNREAD MESSAGES</div>-->
+    <!--suggested-->
+    <!--</div>-->
+
+</div>

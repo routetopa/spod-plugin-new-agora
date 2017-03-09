@@ -171,11 +171,18 @@ class SPODAGORA_BOL_Service
 
     public function getAgora()
     {
-        //return SPODPUBLIC_BOL_PublicRoomDao::getInstance()->findAll();
         $example = new OW_Example();
         $example->setOrder('timestamp DESC');
 
         return SPODAGORA_BOL_AgoraRoomDao::getInstance()->findListByExample($example);
+    }
+
+    public function getMaxAgoraStat()
+    {
+        $sql = "select max(views) as maxView, max(comments) as maxComments, max(opendata) as maxOpendata from ow_spod_agora_room;";
+        $dbo = OW::getDbo();
+
+        return $dbo->queryForRow($sql);
     }
 
     public function getAgoraByOwner($ownerId)
