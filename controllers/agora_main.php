@@ -2,6 +2,9 @@
 
 class SPODAGORA_CTRL_AgoraMain extends OW_ActionController
 {
+
+    private $COLORS = array("#FFD180", "#FFAB40", "#FF9100", "#FF6D00");
+
     public function index()
     {
         OW::getDocument()->getMasterPage()->setTemplate(OW::getPluginManager()->getPlugin('spodagora')->getRootDir() . 'master_pages/main.html');
@@ -37,7 +40,12 @@ class SPODAGORA_CTRL_AgoraMain extends OW_ActionController
 
         foreach ($agoras as &$agora)
         {
-            $agora->stat = array("views" => ($agora->views*100/$maxStat["maxView"]), "comments" => ($agora->comments*100/$maxStat["maxComments"]), "opendata" => ($agora->opendata*100/$maxStat["maxOpendata"]));
+            $views_prctg    = ($agora->views*100/$maxStat["maxView"]);
+            $comments_prctg = ($agora->comments*100/$maxStat["maxComments"]);
+            $opendata_prctg = ($agora->opendata*100/$maxStat["maxOpendata"]);
+            $agora->stat = array("views" => $views_prctg, "viewsColor" => $this->COLORS[(int)($views_prctg/25.1)],
+                                 "comments" => $comments_prctg, "commentsColor" => $this->COLORS[(int)($comments_prctg/25.1)],
+                                 "opendata" => $opendata_prctg, "opendataColor" => $this->COLORS[(int)($opendata_prctg/25.1)]);
             $agora->timestamp = $this->process_timestamp($agora->timestamp, $today, $yesterday);
             $agora->avatar = $avatars[$agora->ownerId];
         }

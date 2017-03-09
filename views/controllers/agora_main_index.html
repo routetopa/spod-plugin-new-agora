@@ -26,7 +26,7 @@
             <div id="agora_room_{$agora->id}" class="agora_room {if $i==0} selected {/if}">
                 <div class="room">
                     <div class="box {if $i==0} selected {/if}">
-                        <div class="box_left">icon</div>
+                        <div class="box_left"></div>
                         <div class="box_right">
                             <div class="box_top">
                                 <div class="box_info">
@@ -34,9 +34,18 @@
                                     <div class="box_date">{$agora->timestamp}</div>
                                 </div>
                                 <div class="box_stat">
-                                    <div class="box_views">{$agora->stat["views"]}</div>
-                                    <div class="box_comments">{$agora->stat["comments"]}</div>
-                                    <div class="box_datalets">{$agora->stat["opendata"]}</div>
+                                    <div class="box_line tooltips">
+                                        <span>{$agora->views} views</span>
+                                        <div class="box_views" style="width: {$agora->stat["views"]}%; background-color:{$agora->stat["viewsColor"]}"></div>
+                                    </div>
+                                    <div class="box_line tooltips">
+                                        <span>{$agora->comments} comments</span>
+                                        <div class="box_comments" style="width: {$agora->stat["comments"]}%; background-color:{$agora->stat["commentsColor"]}"></div>
+                                    </div>
+                                    <div class="box_line tooltips">
+                                        <span>{$agora->opendata} datalets</span>
+                                        <div class="box_datalets" style="width: {$agora->stat["opendata"]}%; background-color:{$agora->stat["opendataColor"]}"></div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="box_bottom">{$agora->body}</div>

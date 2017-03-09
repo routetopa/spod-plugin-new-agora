@@ -103,11 +103,36 @@ agoraJs.prototype = (function(){
         {
             if(raw_data.result == "ok")
             {
-                _agoraCommentJS.addComment(_level == 0 ? $("#agora_chat_container") : $("#agora_nested_chat_container"),
-                                       AGORA.agora_static_resource_url + 'JSSnippet/comment.tpl',
-                                       [raw_data.post_id, (_sentiment == 0 ? 'neutral' : (_sentiment == 1 ?'satisfied' : 'dissatisfied')),AGORA.username, AGORA.user_url,AGORA.user_avatar_src,_message,raw_data.post_id,AGORA.username,'just now','0'],
-                                       raw_data.post_id, ODE.dataletParameters
-                );
+                var container        = (_level == 0) ? $("#agora_chat_container") : $("#agora_nested_chat_container");
+                var snippet_template = (_level == 0) ? AGORA.agora_static_resource_url + 'JSSnippet/comment.tpl' : AGORA.agora_static_resource_url + 'JSSnippet/nested_comment.tpl';
+                var sentiment        = (_sentiment == 0 ? 'neutral' : (_sentiment == 1 ?'satisfied' : 'dissatisfied'));
+                var snippet_data     = [raw_data.post_id, sentiment,AGORA.username, AGORA.user_url,AGORA.user_avatar_src,_message,raw_data.post_id,AGORA.username,'just now','0'];
+                var datalet          = ODE.dataletParameters;
+                var post_id          = raw_data.post_id;
+
+                _agoraCommentJS.addComment(snippet_template).then(function(data){
+                    var re = /{\d}/g;
+                    var index = 0;
+
+                    var k = data.replace(re, function (match, tag, string) {
+                        return snippet_data[index++];
+                    });
+
+                    $(container).append(k);
+
+                    if(datalet.component != "")
+                    {
+                        ODE.loadDatalet(datalet.component,
+                            JSON.parse(datalet.params),
+                            JSON.parse("["+datalet.fields+"]"),
+                            datalet.data,
+                            "agora_datalet_placeholder_" + post_id);
+                    }
+
+                    $(window).trigger({type:"comment_added",
+                        post_id:post_id,
+                        component:datalet.component});
+                });
 
             }else{
                 console.log("Error on comment add");
@@ -181,42 +206,31 @@ agoraJs.prototype = (function(){
 
 })();
 
-function agoraCommentJS(){}
+function agoraCommentJS(){
+    this._snippetCache = {};
+}
 
 agoraCommentJS.prototype = (function () {
     return {
         construct: agoraCommentJS,
 
-        // TODO cache the snippet
-        addComment : function (target, snippet_url, snippet_data, post_id, datalet)
-        {
-            $.get(snippet_url, function(data)
-            {
-                var re = /{\d}/g;
-                var index = 0;
+        addComment : function (snippet_url) {
 
-                var k = data.replace(re, function (match, tag, string) {
-                    return snippet_data[index++];
-                });
+            var cache = this._snippetCache;
 
-                $(target).append(k);
-
-                if(datalet.component != "")
-                {
-                    ODE.loadDatalet(datalet.component,
-                                    JSON.parse(datalet.params),
-                                    JSON.parse("["+datalet.fields+"]"),
-                                    datalet.data,
-                                    "agora_datalet_placeholder_" + post_id);
+            return new Promise(function(res, rej){
+                if(!cache[snippet_url]) {
+                    $.get(snippet_url, function (data) {
+                        cache[snippet_url] = data;
+                        res(cache[snippet_url]);
+                    });
+                }else{
+                    res(cache[snippet_url]);
                 }
-
-                $(window).trigger({type:"comment_added",
-                                   post_id:post_id,
-                                   component:datalet.component});
             });
         },
 
-        getNestedComment : function (entity_id, parent_id, level, endpoint, placeholder) {
+        getNestedComment : function (entity_id, parent_id, level, endpoint) {
             return $.ajax({
                 type: 'POST',
                 url : endpoint,

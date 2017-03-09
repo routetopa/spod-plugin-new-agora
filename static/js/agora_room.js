@@ -770,7 +770,6 @@ AGORA.initUserGraph = function()
 
     var i = 0;
     for (var user in AGORA.users_avatar) {
-        console.log(user);
 
         u_nodes.push({
             x: w/2 + r * Math.cos((360/n*i) * Math.PI / 180),
