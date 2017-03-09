@@ -1,37 +1,3 @@
-<script>
-
-    $(document).ready(function () {
-        $("#agora_room_container").perfectScrollbar();
-
-        $(".agora_room").on('click', function () {
-
-            $(".agora_room").removeClass("selected");
-            $(".box").removeClass("selected");
-
-            var box = $(this).find(".box")[0];
-            $(this).addClass("selected");
-            $(box).addClass("selected");
-        });
-
-        $(".tab").on('click', function () {
-
-            $(".tab").removeClass("selected");
-            $(this).addClass("selected");
-        });
-    })
-
-
-
-</script>
-
-
-<style>
-
-
-
-
-</style>
-
 <div id="agora_container">
 
     <div id="agora_left">
@@ -56,50 +22,32 @@
         <div id="agora_room_container">
 
 
-            <div class="agora_room selected"><div class="room"><div class="box selected"></div></div></div>
-
-            <div class="agora_room">
-
+            {foreach from=$agoras key=i item=$agora}
+            <div id="agora_room_{$agora->id}" class="agora_room {if $i==0} selected {/if}">
                 <div class="room">
-
-                    <div class="box">
+                    <div class="box {if $i==0} selected {/if}">
                         <div class="box_left">icon</div>
                         <div class="box_right">
                             <div class="box_top">
                                 <div class="box_info">
-                                    <div class="box_title">title</div>
-                                    <div class="box_date">date</div>
+                                    <div class="box_title">{$agora->subject}</div>
+                                    <div class="box_date">{$agora->timestamp}</div>
                                 </div>
                                 <div class="box_stat">
-                                    <div class="box_views">1</div>
-                                    <div class="box_comments">2</div>
-                                    <div class="box_datalets">3</div>
+                                    <div class="box_views">{$agora->stat["views"]}</div>
+                                    <div class="box_comments">{$agora->stat["comments"]}</div>
+                                    <div class="box_datalets">{$agora->stat["opendata"]}</div>
                                 </div>
                             </div>
-                            <div class="box_bottom">descrizione</div>
+                            <div class="box_bottom">{$agora->body}</div>
                         </div>
                     </div>
-
-
-                <!--<div class="agora_room_header">-->
-
-                <!--<div class="agora_room_date">06/03/2017</div>-->
-                <!--<div class="agora_room_progress_container"><div class="agora_room_progress" style="background: #3fd14b;width: 34px;"></div></div>-->
-                <!--<div class="agora_room_progress_container"><div class="agora_room_progress" style="background: #d12620;width: 74px;"></div></div>-->
-                <!--<div class="agora_room_progress_container"><div class="agora_room_progress" style="background: #6a3cd1;width: 25px;"></div></div>-->
-                <!--</div>-->
-                <!--<div class="agora_room_description">Descrizione della stanza, descrizione della stanza, descrizione della stanza, descrizione della stanza, descrizione della stanza, descrizione della stanza</div>-->
-                <!--<div class="agora_room_stat"></div>-->
-
                 </div>
             </div>
-
-
-            <div class="agora_room"><div class="room"><div class="box"></div></div></div>
-            <!--<div class="agora_room"><div class="room"><div class="box"></div></div></div>-->
-            <!--<div class="agora_room"><div class="room"><div class="box"></div></div></div>-->
+            {/foreach}
 
         </div>
+
     </div>
 
     <div id="agora_right">
