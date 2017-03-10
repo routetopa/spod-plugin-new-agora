@@ -26,7 +26,7 @@
     width: 50%;
     min-width: 666px;
 
-    background: #00BCD4;
+    background: #E0E0E0;
 }
 
 #agora_right
@@ -40,16 +40,48 @@
 
 #agora_header
 {
+    /*margin-bottom: 20px;*/
+    position: relative;
+    margin: 40px 40px 0 40px;
+}
+
+#agora_header_add {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 40px;
+    width: 40px;
+
+    background-color: #00BCD4;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+
+    border-radius: 50%;
+
+    line-height: 40px;
+    font-size: 32px;
+    color: #212121;
+    text-align: center;
+    cursor: pointer;
+}
+
+#agora_header_add:hover {
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+    background-color: #00ACC1;
+}
+
+#agora_header_add:before {
+    content: '+';
 }
 
 #agora_header_title
 {
-    font-size: 24px;
-    line-height: 24px;
-    height: 24px;
-    color: #FFFFFF;
-    margin: 40px 40px 0 40px;
-    width: calc( 100% - 64px );
+    font-size: 40px;
+    line-height: 40px;
+    height: 40px;
+    color: #212121;
+    /*margin: 20px 0 0 40px;*/
+    /*width: calc( 100% - 64px );*/
 }
 
 #agora_header_subtitle
@@ -58,8 +90,8 @@
     line-height: 24px;
 
     color: #424242;
-    margin: 0 40px;
-    width: calc( 100% - 64px );
+    /*margin: 0 40px;*/
+    /*width: calc( 100% - 64px );*/
 
     height: 24px;
 }
@@ -69,7 +101,8 @@
     display: flex;
     flex-direction: row;
 
-    margin: 40px 40px 0 40px;
+    /*margin: 20px 40px 0 40px;*/
+    margin-top: 20px;
 }
 
 #agora_header_navigator #tabs {
@@ -107,12 +140,12 @@
 }
 
 #agora_header_navigator .tab.selected {
-    background-color: #00AABF;
+    background-color: #2196F3;
     color: #FFFFFF;
 }
 
 #agora_header_navigator .tab:hover {
-    background-color: #00AABF;
+    background-color: #2196F3;
     color: #FFFFFF;
 }
 
@@ -184,9 +217,15 @@ div#agora_search_svg:hover {
 {
     position: relative;
     overflow: hidden !important;
-    height: calc( 100% - 170px - 40px);
+    height: calc( 100% - 226px);
     width: 100%;
     margin-top: 30px;
+    padding-bottom: 20px;
+    margin-bottom: 10px;
+}
+
+.ps-container>.ps-scrollbar-y-rail{
+    right:36px !important;
 }
 
 /*#agora_room_container::-webkit-scrollbar {*/
@@ -224,7 +263,7 @@ div#agora_search_svg:hover {
 .agora_room .room {
     width: calc(100% - 80px - 80px);
 
-    margin: 0 40px 20px 40px;/**/
+    margin: 0 40px 0px 40px;/**/
     padding: 10px 40px;/**/
 
 
@@ -236,52 +275,61 @@ div#agora_search_svg:hover {
 
 
 .agora_room .room .box{
+    background-color: #FFFFFF;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+
+    border-radius: 5px;
+    /*overflow: hidden;*/
+
     position: relative;
     /*display: inline-block;*/
     display: flex;
     flex-direction: row;
 
-    width: 100%;
+    /*width: 100%;*/
 
-    background-color: #00BCD4;
-    border: 1px solid #FFFFFF;
-    height: 128px;
+    /*background-color: #00BCD4;*/
+    /*border: 1px solid #FFFFFF;*/
+    height: 120px;
 
-    border-radius: 5px;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-    -webkit-transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
-    transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+    /*border-radius: 5px;*/
+    /*box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);*/
+    /*-webkit-transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);*/
+    /*transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);*/
 }
 
 .agora_room .room .box::after {
-    content: "";
-    border-radius: 5px;
-    position: absolute;
-    z-index: -1;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-    opacity: 0;
-    -webkit-transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
-    transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+    /*content: "";*/
+    /*border-radius: 5px;*/
+    /*position: absolute;*/
+    /*z-index: -1;*/
+    /*top: 0;*/
+    /*left: 0;*/
+    /*width: 100%;*/
+    /*height: 100%;*/
+    /*box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);*/
+    /*opacity: 0;*/
+    /*-webkit-transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);*/
+    /*transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);*/
 }
 
 .agora_room .room .box.selected {
-    -webkit-transform: scale(1.02, 1.02);
-    transform: scale(1.02, 1.02);
+    box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+    /*-webkit-transform: scale(1.02, 1.02);*/
+    /*transform: scale(1.02, 1.02);*/
 
-    background-color: #00AABF;
+    /*background-color: #00AABF;*/
     /*http://tobiasahlin.com/blog/how-to-animate-box-shadow/*/
 }
 
 .agora_room .room .box.selected::after {
-    opacity: 1;
+    /*opacity: 1;*/
 }
 
 .agora_room .room .box:hover {
-    background-color: #00AABF;
+    box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+    /*background-color: #00AABF;*/
 }
 
 
@@ -292,6 +340,18 @@ div#agora_search_svg:hover {
     background: url("/ow_static/plugins/agora/images/agora.svg") no-repeat 0 0;
     background-position: center;
     background-size: 40px 40px;
+
+    background-color: #FF9800;
+
+    border-radius: 5px 0 0 5px;
+}
+
+.agora_room.selected .room .box .box_left {
+    background-color: #FB8C00;
+}
+
+.agora_room:hover .box .box_left {
+    background-color: #FB8C00;
 }
 
 .room .box .box_right {
@@ -310,17 +370,18 @@ div#agora_search_svg:hover {
 
 .room .box .box_bottom {
     /*width: calc(100% - 1em - 8px);*/
-    width: calc(100% - 16px);
-    margin-right: 16px;
-    color: #212121;
-    font-style: italic;
+    width: calc(100% - 32px);
+    /*margin-right: 16px;*/
+    margin: 0 16px;
+    color: #424242;
+    /*font-style: italic;*/
 
     display: block; /* Fallback for non-webkit */
     display: -webkit-box;
     /*max-width: 400px;*/
     height: 48px; /* Fallback for non-webkit */
     /*margin: 0 auto;*/
-    font-size: 16px;
+    font-size: 14px;
     line-height: 24px;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
@@ -331,14 +392,44 @@ div#agora_search_svg:hover {
 .room .box .box_info {
     /*background-color: pink;*/
     width: 75%;
-    /*height: 96px;*/
+    /*height: 72px;*/
 }
 
 .room .box .box_stat {
     /*background-color: #FFFFFF;*/
-    width: 25%;
-    margin: 4px 0;
+    width: calc(25% - 32px);
+    margin: 4px 16px;
     /*height: 96px;*/
+}
+
+.room .box .box_date {
+    height: 16px;
+    margin: 8px 0 8px 16px;
+
+    padding-left: 20px;
+
+    line-height: 16px;
+    font-size: 14px;
+    color: #9E9E9E;
+
+    background: url("/ow_static/plugins/agora/images/time.svg") no-repeat 0 0;
+
+
+    /*!*width: 100%;*!*/
+    /*height: 16px;*/
+    /*!*line-height: 24px;*!*/
+    /*font-size: 14px;*/
+    /*color: #9E9E9E;*/
+
+    /*!*padding-left: 28px;*!*/
+
+    /*background: url("/ow_static/plugins/agora/images/time.svg") no-repeat 0 0;*/
+
+    /*padding-left: 20px;*/
+
+    /*line-height: 16px;*/
+    /*font-size: 14px;*/
+    /*!*color: white;*!*/
 }
 
 .room .box .box_title {
@@ -346,30 +437,25 @@ div#agora_search_svg:hover {
     height: 24px;
     line-height: 24px;
     font-size: 18px;
-    color: #FFFFFF;
-    padding: 8px 8px 0 0;
+    font-weight: 700;
+    color: #212121;
+    margin: 8px 0 8px 16px;
+    /*margin-left: 16px;*/
 
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-}
 
-.room .box .box_date {
-    width: 100%;
-    height: 24px;
-    line-height: 24px;
-    font-size: 14px;
-    color: #424242;
-    padding-bottom: 16px;
+    /*padding-bottom: 16px;*/
 }
 
 .room .box .box_line {
-    /*background-color: #FFFFFF;*/
+    background-color: #EEEEEE;
     /*border: 1px solid #424242;*/
-    border: 1px solid #FFFFFF;
-    width: calc(100% - 16px);
-    height: 14px;
-    margin: 4px 16px 0 0;
+    /*border: 1px solid #BDBDBD;*/
+    width: 100%;
+    height: 8px;
+    margin: 4px 0 0 0;
 }
 
 .room .box .box_views {
@@ -443,11 +529,9 @@ div#agora_search_svg:hover {
 
 .tooltips {
     position: relative;
-    /*display: inline;*/
 }
 .tooltips span {
     position: absolute;
-    /*padding: 0 8px;*/
     font-size: 14px;
     font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     width: 140px;
@@ -462,72 +546,42 @@ div#agora_search_svg:hover {
 .tooltips span:after {
     content: '';
     position: absolute;
-    top: 100%;
     left: 50%;
     margin-left: -8px;
-    width: 0; height: 0;
-    border-top: 8px solid rgba(0, 0, 0, 0.8);
+    width: 0;
+    height: 0;
     border-right: 8px solid transparent;
     border-left: 8px solid transparent;
 }
 :hover.tooltips span {
     visibility: visible;
-    /*opacity: 0.8;*/
     background-color: rgba(0, 0, 0, 0.8);
-    bottom: 23px;
-    left: 50%;
+    left: calc(50% + 6px);
     margin-left: -76px;
     z-index: 999;
 }
 
+.agora_room:not(:first-child) .tooltips span:after {
+    border-top: 8px solid rgba(0, 0, 0, 0.8);
+    top: 100%;
+}
+.agora_room:not(:first-child) :hover.tooltips span {
+    bottom: 12px;
+}
 
-/*.agora_room_header*/
-/*{*/
-    /*display: flex;*/
-    /*flex-direction: row;*/
-/*}*/
+.agora_room:first-child .tooltips span:after {
+    border-bottom: 8px solid rgba(0, 0, 0, 0.8);
+    bottom: 100%;
+}
+.agora_room:first-child :hover.tooltips span {
+    top: 12px;
+}
 
-/*.agora_room:hover:not(.agora_room_selected)*/
-/*{*/
-    /*background-color: #2e3439;*/
-    /*border-left: solid 3px #41464b;*/
-    /*cursor: pointer;*/
-    /*padding: 16px 16px 16px 13px;*/
-/*}*/
+#agora_header_add.tooltips span:after {
+    border-top: 8px solid rgba(0, 0, 0, 0.8);
+    top: 100%;
+}
+#agora_header_add:hover.tooltips span {
+    top: -40px;
+}
 
-/*.agora_room_date*/
-/*{*/
-    /*font-size: 12px;*/
-/*}*/
-
-/*.agora_room_title*/
-/*{*/
-    /*padding: 12px 0 12px 0;*/
-    /*font-size: 18px;*/
-    /*color: #ffffff;*/
-/*}*/
-
-/*.agora_room_description*/
-/*{*/
-    /*font-size: 14px;*/
-/*}*/
-
-/*.agora_room_progress_container*/
-/*{*/
-    /*height: 4px;*/
-    /*background: #41464b;*/
-    /*width: 100px;*/
-    /*margin-top: 20px;*/
-    /*margin-left: 40px;*/
-/*}*/
-
-/*.agora_room_progress*/
-/*{*/
-    /*height: 4px;*/
-/*}*/
-
-/*.agora_room_selected*/
-/*{*/
-    /*background: #2e3439;*/
-    /*border-left: solid 3px #2196f3;*/
-/*}*/
