@@ -12,6 +12,8 @@ agoraJs.prototype = (function(){
     var _message;
     var _agoraCommentJS;
     var _stringHandler;
+    var _processedUrl;
+    var _preview;
 
     var init = function(elem, entityId, endpoint, endpoint_nested) {
         _elem = elem;
@@ -23,8 +25,12 @@ agoraJs.prototype = (function(){
         _sentiment = 0;
         _stringHandler = null;
 
+        _processedUrl = '';
+        _preview = '';
+
         _agoraCommentJS = new agoraCommentJS();
-        _elem.keydown(return_handler);
+        _elem.keydown(keydown_handler);
+        _elem.keyup(debounce(keyup_handler, 500));
     };
 
     var set_string_handler = function(stringHandler){
@@ -58,7 +64,46 @@ agoraJs.prototype = (function(){
         return _sentiment;
     };
 
-    var return_handler = function (e) {
+    var check_if_link = function(str)
+    {
+        if(str.length == 0) return null;
+
+        var source = (str || '').toString();
+        var matchArray;
+
+        // Regular expression to find FTP, HTTP(S) and email URLs.
+        var regexToken = /(((ftp|https?):\/\/)[\-\w@:%_\+.~#?,&\/\/=]+)|((mailto:)?[_.\w-]+@([\w][\w\-]+\.)+[a-zA-Z]{2,3})/g;
+
+        // Iterate through any URLs in the text.
+        if ( (matchArray = regexToken.exec( source )) !== null )
+        {
+            return matchArray[0];
+        }
+
+        return null;
+    };
+
+    var keyup_handler = function(e) {
+
+        if( (_elem.val().length != 0) && (url = check_if_link(_elem.val())) !== null && url != _processedUrl)
+        {
+            //TODO check if url already processed
+            _agoraCommentJS.getSiteMetaTags(url).then(function(data){
+
+                _processedUrl = url;
+                var snippet_template = AGORA.agora_static_resource_url + 'JSSnippet/site_preview.tpl';
+                var snippet_data     = [data.site_name, data.title, data.description, data.url, data.image];
+
+                _agoraCommentJS.getSnippet(snippet_template).then(function(snippet){
+                    _preview = fill_snippet(snippet, snippet_data);
+                    $("#agora_datalet_preview").html(_preview);
+                    $("#agora_datalet_preview").show();
+                });
+            });
+        }
+    };
+
+    var keydown_handler = function (e) {
         var key = e.which || e.keyCode;
         if (key === 13 && !e.shiftKey ) { // 13 is enter
             e.preventDefault();
@@ -73,7 +118,8 @@ agoraJs.prototype = (function(){
     };
 
     var handle_message = function(message) {
-        _message = message;
+
+        _message = message + _preview;
 
         var send_data = {
             comment: _message,
@@ -103,35 +149,17 @@ agoraJs.prototype = (function(){
         {
             if(raw_data.result == "ok")
             {
-                var container        = (_level == 0) ? $("#agora_chat_container") : $("#agora_nested_chat_container");
-                var snippet_template = (_level == 0) ? AGORA.agora_static_resource_url + 'JSSnippet/comment.tpl' : AGORA.agora_static_resource_url + 'JSSnippet/nested_comment.tpl';
+                var target           = (_level == 0) ? $("#agora_chat_container") : $("#agora_nested_chat_container");
+                var snippet_url      = (_level == 0) ? AGORA.agora_static_resource_url + 'JSSnippet/comment.tpl' : AGORA.agora_static_resource_url + 'JSSnippet/nested_comment.tpl';
                 var sentiment        = (_sentiment == 0 ? 'neutral' : (_sentiment == 1 ?'satisfied' : 'dissatisfied'));
-                var snippet_data     = [raw_data.post_id, sentiment,AGORA.username, AGORA.user_url,AGORA.user_avatar_src,_message,raw_data.post_id,AGORA.username,'just now','0'];
+                var snippet_data     = [raw_data.post_id, sentiment, AGORA.username, AGORA.user_url, AGORA.user_avatar_src, _message, raw_data.post_id, AGORA.username, 'just now', '0'];
                 var datalet          = ODE.dataletParameters;
                 var post_id          = raw_data.post_id;
 
-                _agoraCommentJS.addComment(snippet_template).then(function(data){
-                    var re = /{\d}/g;
-                    var index = 0;
-
-                    var k = data.replace(re, function (match, tag, string) {
-                        return snippet_data[index++];
-                    });
-
-                    $(container).append(k);
-
-                    if(datalet.component != "")
-                    {
-                        ODE.loadDatalet(datalet.component,
-                            JSON.parse(datalet.params),
-                            JSON.parse("["+datalet.fields+"]"),
-                            datalet.data,
-                            "agora_datalet_placeholder_" + post_id);
-                    }
-
-                    $(window).trigger({type:"comment_added",
-                        post_id:post_id,
-                        component:datalet.component});
+                append_comment(snippet_url, snippet_data, datalet, post_id, target).then(function(){
+                    _processedUrl = '';
+                    _preview = '';
+                    $("#agora_datalet_preview").hide()
                 });
 
             }else{
@@ -147,12 +175,63 @@ agoraJs.prototype = (function(){
         }
     };
 
-    var add_rt_comment = function(target, snippet_url, snippet_data, post_id, datalet){
-        _agoraCommentJS.addComment(target, snippet_url, snippet_data, post_id, datalet);
+    var add_rt_comment = function(snippet_url, snippet_data, datalet, post_id, target){
+        append_comment(snippet_url, snippet_data, datalet, post_id, target);
+    };
+
+    var append_comment = function(snippet_template, snippet_data, datalet, post_id, target)
+    {
+        return _agoraCommentJS.getSnippet(snippet_template).then(function(snippet){
+
+            return new Promise(function(res, rej) {
+
+                $(target).append(fill_snippet(snippet, snippet_data));
+
+                if (datalet.component != "") {
+                    ODE.loadDatalet(datalet.component,
+                        JSON.parse(datalet.params),
+                        JSON.parse("[" + datalet.fields + "]"),
+                        datalet.data,
+                        "agora_datalet_placeholder_" + post_id);
+                }
+
+                $(window).trigger({
+                    type: "comment_added",
+                    post_id: post_id,
+                    component: datalet.component
+                });
+
+                res();
+            });
+        });
     };
 
     var on_request_error = function( XMLHttpRequest, textStatus, errorThrown ){
         OW.error(textStatus);
+    };
+
+    var fill_snippet = function(snippet, snippet_data)
+    {
+        var re = /{\d}/g;
+        var index = 0;
+
+        var k = snippet.replace(re, function (match, tag, string) {
+            return snippet_data[index++];
+        });
+
+        return k;
+    };
+
+    var debounce = function(f, debounce)
+    {
+        var timeout;
+        return function()
+        {
+            //var args = arguments;
+            if(timeout)
+                clearTimeout(timeout);
+            timeout = setTimeout(f.bind(null, arguments), debounce)
+        }
     };
 
     // PUBLIC METHOD
@@ -214,7 +293,7 @@ agoraCommentJS.prototype = (function () {
     return {
         construct: agoraCommentJS,
 
-        addComment : function (snippet_url) {
+        getSnippet : function (snippet_url) {
 
             var cache = this._snippetCache;
 
@@ -236,6 +315,15 @@ agoraCommentJS.prototype = (function () {
                 url : endpoint,
                 data: {entity_id:entity_id, parent_id:parent_id, level:level},
                 dataType : 'TEXT'
+            });
+        },
+
+        getSiteMetaTags : function (url) {
+            return $.ajax({
+                type: 'POST',
+                url : AGORA.get_site_tag_endpoint,
+                data: {url:url},
+                dataType : 'JSON'
             });
         }
     }

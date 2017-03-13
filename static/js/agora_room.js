@@ -387,7 +387,7 @@ AGORA.handleRealtimeNotification = function ()
                 else
                     return;
 
-                AGORA.agoraJS.add_rt_comment(target,
+                AGORA.agoraJS.add_rt_comment(
                     AGORA.agora_static_resource_url + 'JSSnippet/rt_comment.tpl',
                     [data.message_id,
                         (data.sentiment == 0 ? 'neutral' : (data.sentiment == 1 ? 'satisfied' : 'dissatisfied')),
@@ -399,7 +399,10 @@ AGORA.handleRealtimeNotification = function ()
                         data.user_display_name,
                         'just now',
                         '0'],
-                    data.message_id, {component: data.component, params: data.params, fields: data.fields, data: ''});
+                    {component: data.component, params: data.params, fields: data.fields, data: ''},
+                    data.message_id,
+                    target
+                );
             }
         });
     }catch(e){

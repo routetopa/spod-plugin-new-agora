@@ -112,6 +112,7 @@ class SPODAGORA_CTRL_Agora extends OW_ActionController
             AGORA.search_url = {$search_url}
             AGORA.user_friendship = {$user_friendship}
             AGORA.users_avatar = {$users_avatar}
+            AGORA.get_site_tag_endpoint = {$get_site_tag_endpoint}
          ', array(
             'roomId' => $this->agoraId,
             'agora_comment_endpoint' => OW::getRouter()->urlFor('SPODAGORA_CTRL_Ajax', 'addComment'),
@@ -127,7 +128,8 @@ class SPODAGORA_CTRL_Agora extends OW_ActionController
             'unsat_prctg' => ($this->unsatisfied*100)/($this->tot_comments == 0 ? 1 : $this->tot_comments ),
             'search_url' => OW::getRouter()->urlFor('SPODAGORA_CTRL_Ajax', 'getSearchResult'),
             'user_friendship' => SPODAGORA_BOL_Service::getInstance()->getAgoraFriendship($this->users_id),
-            'users_avatar' => $this->avatars
+            'users_avatar' => $this->avatars,
+            'get_site_tag_endpoint' => OW::getRouter()->urlFor('SPODAGORA_CTRL_Ajax', 'getSiteMetaTags')
         ));
 
         OW::getDocument()->addOnloadScript($js);
