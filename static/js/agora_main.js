@@ -3,7 +3,7 @@ AGORAMAIN = {};
 AGORAMAIN.init = function()
 {
     $("#agora_room_container").perfectScrollbar();
-    $("#right_scroller_container").perfectScrollbar();
+    $(".right_scroller_container").perfectScrollbar();
 
 
     $(".agora_room").on('click', AGORAMAIN.handleAgoraRoomSelection);

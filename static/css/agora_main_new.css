@@ -606,14 +606,14 @@ div#agora_search_svg:hover {
 
 /* ON THE TOP RIGHT OF THE TOP RIGHT COD*/
 
-#agora_right_header
+.agora_right_header
 {
     /*margin-bottom: 20px;*/
     position: relative;
     margin: 40px;
 }
 
-#agora_right_title
+.agora_right_title
 {
     font-size: 40px;
     line-height: 40px;
@@ -621,7 +621,7 @@ div#agora_search_svg:hover {
     color: #2196F3;
 }
 
-#agora_right_subtitle
+.agora_right_subtitle
 {
 
     height: 16px;
@@ -636,7 +636,7 @@ div#agora_search_svg:hover {
     background: url("/ow_static/plugins/agora/images/time.svg") no-repeat 0 0;
 }
 
-#agora_header_unread {
+.agora_header_unread {
     position: absolute;
     top: 0;
     right: 0;
@@ -690,7 +690,7 @@ div#agora_search_svg:hover {
     line-height: 24px;
 }
 
-#agora_right_stat .body {
+.agora_right_stat .body {
     margin-top: 16px;
 }
 
@@ -698,7 +698,7 @@ div#agora_search_svg:hover {
 
 /* stat */
 
-#agora_right_stat .box_line {
+.agora_right_stat .box_line {
     background-color: #EEEEEE;
     /*border: 1px solid #424242;*/
     /*border: 1px solid #BDBDBD;*/
@@ -711,24 +711,24 @@ div#agora_search_svg:hover {
     box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
-#agora_right_stat .info_line {
+.agora_right_stat .info_line {
     height: 24px;
     line-height: 24px;
     font-size: 14px;
     color: #424242;
 }
 
-#agora_right_stat .box_views {
+.agora_right_stat .box_views {
     height: 100%;
     box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.15);
 }
 
-#agora_right_stat .box_comments {
+.agora_right_stat .box_comments {
     height: 100%;
     box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.15);
 }
 
-#agora_right_stat .box_datalets {
+.agora_right_stat .box_datalets {
     height: 100%;
     box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.15);
 }
@@ -778,10 +778,11 @@ a:hover {
 
 /* bottom */
 
-#right_scroller_container {
+.right_scroller_container {
     position: relative;
     overflow: hidden !important;
-    height: calc( 100% - 140px - 121px);
+    /*height: calc( 100% - 140px - 121px);*/
+    height: calc( 100% - 140px + 40px);
     width: 100%;
     /*margin-top: 40px;*/
     /*padding-bottom: 0;*/
@@ -938,6 +939,17 @@ input:checked + .slider:before {
 
 .slider.round:before {
     border-radius: 50%;
+}
+
+.detail_agora_container
+{
+    display: none;
+    height: calc(100% - 161px);
+}
+
+div.detail_selected_agora
+{
+    display: block;
 }
 
 /* SWITCH END */
