@@ -313,7 +313,7 @@ class SPODAGORA_BOL_Service
     public function getSubscribedNotificationUsersForRoom($roomId)
     {
         $dbo = OW::getDbo();
-        $sql = "SELECT * FROM ow_spod_agora_room_user_notification WHERE roomId = " . $roomId;
+        $sql = "SELECT userId FROM ow_spod_agora_room_user_notification WHERE roomId = " . $roomId;
         return $dbo->queryForList($sql);
     }
 

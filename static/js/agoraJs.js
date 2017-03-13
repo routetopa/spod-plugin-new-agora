@@ -119,10 +119,11 @@ agoraJs.prototype = (function(){
 
     var handle_message = function(message) {
 
-        _message = message + _preview;
+        _message = message;
 
         var send_data = {
             comment: _message,
+            preview: _preview,
             entityId: _entityId,
             parentId: _parentId,
             level: _level,

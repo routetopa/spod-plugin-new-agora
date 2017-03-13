@@ -13,30 +13,34 @@ class SPODAGORA_CLASS_MailNotification extends OW_Component
         return self::$classInstance;
     }
 
-    public function sendEmailNotificationProcess( $roomId )
+    public function sendEmailNotificationProcess($room_id)
     {
+        $userService = BOL_UserService::getInstance();
 
         //GET ALL SUBSCRIBED USERS
-        $users = SPODAGORA_BOL_Service::getInstance()->getSubscribedNotificationUsersForRoom($roomId);
+        $users = SPODAGORA_BOL_Service::getInstance()->getSubscribedNotificationUsersForRoom($room_id);
 
-        foreach($users as $user){
+        $room = SPODAGORA_BOL_Service::getInstance()->getAgoraById($room_id);
+        $template_html = OW::getPluginManager()->getPlugin('spodagora')->getCmpViewDir() . 'email_notification_template_html.html';
+        $template_txt  = OW::getPluginManager()->getPlugin('spodagora')->getCmpViewDir() . 'email_notification_template_text.html';
+        $date = getdate();
+        $time = mktime(0, 0, 0, $date['mon'], $date['mday'], $date['year']);
 
-            $userId = $user->userId;
-            $userService = BOL_UserService::getInstance();
-            $user = $userService->findUserById($userId);
+        foreach($users as $user_id)
+        {
+            $user = $userService->findUserById($user_id["userId"]);
 
-            if ( empty($user) )
-            {
+            if (empty($user))
                 return false;
-            }
 
             $email = $user->email;
+
             try
             {
                 $mail = OW::getMailer()->createMail()
                     ->addRecipientEmail($email)
-                    ->setTextContent($this->getEmailContentText($roomId))
-                    ->setHtmlContent($this->getEmailContentHtml($roomId, $userId))
+                    ->setTextContent($this->getEmailContentText($room_id, $room, $user->username, $template_txt, $time))
+                    ->setHtmlContent($this->getEmailContentHtml($room_id, $user_id["userId"], $room, $user->username, $template_html, $time))
                     ->setSubject("Something interesting is happening on Agora");
 
                 OW::getMailer()->send($mail);
@@ -49,21 +53,17 @@ class SPODAGORA_CLASS_MailNotification extends OW_Component
         }
     }
 
-    private function getEmailContentHtml($roomId, $userId)
+    private function getEmailContentHtml($room_id, $user_id, $room, $user, $template, $time)
     {
-        $date = getdate();
-        $time = mktime(0, 0, 0, $date['mon'], $date['mday'], $date['year']);
-
-        //SET EMAIL TEMPLETE
-        $template = OW::getPluginManager()->getPlugin('spodpublic')->getCmpViewDir() . 'email_notification_template_html.html';
+        //SET EMAIL TEMPLATE
         $this->setTemplate($template);
 
         //USER AVATAR FOR THE NEW MAIL
-        $avatar = BOL_AvatarService::getInstance()->getDataForUserAvatars(array(OW::getUser()->getId()))[OW::getUser()->getId()];
-        $this->assign('userName', BOL_UserService::getInstance()->getDisplayName($userId));
+        $avatar = BOL_AvatarService::getInstance()->getDataForUserAvatars(array($user_id))[$user_id];
+        $this->assign('userName', $user);
         $this->assign('string', OW::getLanguage()->text('spodpublic', 'email_txt_comment') . " <b><a href=\"" .
-            OW::getRouter()->urlForRoute('spodpublic.main')  . "/#!/" . $roomId . "\">" .
-            SPODPUBLIC_BOL_Service::getInstance()->getPublicRoomById($roomId)->subject . "</a></b>");
+            OW::getRouter()->urlForRoute('spodagora.main')  . "/#!/" . $room_id . "\">" .
+            $room->subject . "</a></b>");
         $this->assign('avatar', $avatar);
         $this->assign('time', $time);
 
@@ -71,17 +71,18 @@ class SPODAGORA_CLASS_MailNotification extends OW_Component
 
     }
 
-    private function getEmailContentText($roomId)
+    private function getEmailContentText($room_id, $room, $user, $template, $time)
     {
-        $date = getdate();
-
-        $template = OW::getPluginManager()->getPlugin('spodpublic')->getCmpViewDir() . 'email_notification_template_text.html';
+        //SET EMAIL TEMPLATE
         $this->setTemplate($template);
 
+        $this->assign('userName', $user);
+        $this->assign('time', $time);
         $this->assign('nl', '%%%nl%%%');
         $this->assign('tab', '%%%tab%%%');
         $this->assign('space', '%%%space%%%');
-        $this->assign('string', " has commented on a discussion in the room <b>" . SPODPUBLIC_BOL_Service::getInstance()->getPublicRoomById($roomId)->name . "</b>");
+        $this->assign('string', "There is a new comment in the room <b>" . $room->subject . "</b>");
+        $this->assign('url',"<a href='" . OW::getRouter()->urlForRoute('spodagora.main')  . "/#!/" . $room_id. "'>".$room->body."</a>");
 
         $content = parent::render();
         $search = array('%%%nl%%%', '%%%tab%%%', '%%%space%%%');

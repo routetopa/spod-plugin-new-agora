@@ -24,12 +24,13 @@ class SPODAGORA_CTRL_Ajax extends OW_ActionController
         if($this->check_value(array("entityId", "parentId", "comment", "level", "sentiment")))
         {
             // Change \n to <br> for correct visualization of new line in HTML
-            $_REQUEST['comment'] = str_replace("\n", "<br/>", $_REQUEST['comment']);
+            $comment  = str_replace("\n", "<br/>", strip_tags($_REQUEST['comment']));
+            $comment .= $_REQUEST["preview"];
 
             $c = SPODAGORA_BOL_Service::getInstance()->addComment($_REQUEST['entityId'],
                 $_REQUEST['parentId'],
                 OW::getUser()->getId(),
-                $_REQUEST['comment'],
+                $comment,
                 $_REQUEST['level'],
                 $_REQUEST['sentiment']);
 
