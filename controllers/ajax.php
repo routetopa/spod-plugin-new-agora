@@ -57,6 +57,8 @@ class SPODAGORA_CTRL_Ajax extends OW_ActionController
             }
             /* ODE */
 
+            // SEND EMAIL TO SUBSCRIBED USERS
+            SPODAGORA_CLASS_MailNotification::getInstance()->sendEmailNotificationProcess($_REQUEST['entityId']);
 
             if (!empty($c->id))
                 echo '{"result":"ok", "post_id":"'.$c->id.'"}';
@@ -109,6 +111,40 @@ class SPODAGORA_CTRL_Ajax extends OW_ActionController
 
         echo $sr->render();
         exit;
+    }
+
+    public function getSiteMetaTags()
+    {
+        $list = array();
+        try {
+
+            if(empty($_REQUEST["url"]))
+            {
+                echo json_encode($list);
+                exit;
+            }
+
+            $html = file_get_contents($_REQUEST["url"]);
+
+            @libxml_use_internal_errors(true);
+            $dom = new DomDocument();
+            $dom->loadHTML($html);
+            $xpath = new DOMXPath($dom);
+            $query = '//*/meta[starts-with(@property, \'og:\')]';
+            $result = $xpath->query($query);
+
+            foreach ($result as $meta) {
+                $property = $meta->getAttribute('property');
+                $content = $meta->getAttribute('content');
+                $property = str_replace('og:', '', $property);
+                $list[$property] = $content;
+            }
+        }catch (Exception $e){}
+        finally {
+            echo json_encode($list);
+            exit;
+        }
+
     }
 
     //Realtime
