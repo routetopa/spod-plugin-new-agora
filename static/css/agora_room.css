@@ -1155,3 +1155,68 @@ circle.u_nodes.user_selected {
 .fillgauge {
     margin: 64px 25% 0 25%;
 }
+
+/* PREVIEW */
+
+.preview_container {
+    /*max-width: calc(100% - 176px);*/
+    /*background-color: red;*/
+    /*margin: 0;*/
+    /*border-collapse: collapse;*/
+    /*border-spacing: 0;*/
+    width: 800px;
+    margin: 12px 0;
+}
+
+.preview_container div {
+    width: calc(100% - 18px);
+    padding: 0 8px;
+
+    color: #212121;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    border-left: 1px solid #BDBDBD;
+    border-right: 1px solid #BDBDBD;
+}
+
+div.preview_image_container {
+    padding: 0 !important;
+    border: 0 !important;
+    width: 100%;
+}
+
+.preview_image {
+    max-width: 100%;
+    border:0;
+}
+
+.preview_title {
+    height: 32px;
+    line-height: 32px !important;
+    font-size: 14px !important;
+}
+
+.preview_title a{
+    color: #212121 !important;
+    cursor: pointer;
+}
+
+.preview_description {
+
+    height: 24px;
+    font-size: 12px !important;
+    color: #424242 !important;
+}
+
+.preview_site_name {
+
+    height: 24px;
+    font-size: 14px !important;
+    color: #9E9E9E !important;
+    text-transform: uppercase;
+
+    border-bottom: 1px solid #BDBDBD;
+}

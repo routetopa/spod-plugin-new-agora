@@ -92,7 +92,7 @@ agoraJs.prototype = (function(){
 
                 _processedUrl = url;
                 var snippet_template = AGORA.agora_static_resource_url + 'JSSnippet/site_preview.tpl';
-                var snippet_data     = [data.site_name, data.title, data.description, data.url, data.image];
+                var snippet_data     = [data.url, data.image, data.url, data.title, data.description, data.site_name];
 
                 _agoraCommentJS.getSnippet(snippet_template).then(function(snippet){
                     _preview = fill_snippet(snippet, snippet_data);
