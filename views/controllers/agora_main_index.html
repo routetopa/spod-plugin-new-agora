@@ -9,8 +9,6 @@
             <div id="agora_header_title">AGORA</div>
             <!--<div id="agora_header_subtitle">Tuesday, 15 November</div>-->
             <div id="agora_header_subtitle">Copyright (c) 2017 De Donato Renato and other minor contributors</div>
-            <!--<div class="agora_header_add_button">ADD</div>-->
-            <!--<div class="agora_header_sort">SORT (rilevanza, data, più viste, più commentate)</div>-->
             <div id="agora_header_navigator">
                 <div id="tabs">
                     <div class="tab selected">MOST RELEVANT</div>
@@ -65,26 +63,86 @@
     </div>
 
     <div id="agora_right">
-        <div>TITOLO</div>
-        <div>DATA</div>
-        <div>DESCRIZIONE</div>
-        <div>OWNER</div>
-        <div>STAT</div>
-        <div>NOTIFICHE</div>
-        <div>UTENTI (GRAFO ?)</div>
-        <div>UNREAD MESSAGES</div>
-        suggested
-        entra
+
+        <div id="agora_right_header">
+            <div id="agora_header_unread">
+                75
+            </div>
+
+            <div id="agora_right_title">Title di una stanza Cos</div>
+            <div id="agora_right_subtitle">07:01 03/06</div>
+        </div>
+
+        <div id="right_scroller_container">
+
+            <div id="agora_right_description" class="agora_right_box">
+                <div class="head">DESCRIPTION</div>
+                <div class="body">Descrizione Agora 1 descrizione Agora 1 descrizione Agora 1 descrizione Agora 1 descrizione Agora 1 descrizione Agora 1 descrizione Agora 1 descrizione Agora 1 descrizione Agora 1 descrizione Agora 1 descrizione Agora 1 descrizione Agora 1 descrizione Agora 1 descrizione Agora 1 descrizione Agora 1 descrizione Agora 1 descrizione Agora 1 descrizione Agora 1</div>
+            </div>
+
+            <div id="agora_right_stat" class="agora_right_box">
+                <div class="head">STATISTICS</div>
+                <div class="body">
+
+                        <div class="box_line">
+                            <div class="box_views" style="width: 40%; background-color:orange;"></div>
+                        </div>
+                    <div class="info_line">
+                        315 views
+                    </div>
+
+                        <div class="box_line">
+                            <div class="box_comments" style="width: 80%; background-color:darkorange;"></div>
+                        </div>
+                    <div class="info_line">
+                        112 comments
+                    </div>
+
+                        <div class="box_line">
+                            <div class="box_datalets" style="width: 20%; background-color:orange;"></div>
+                        </div>
+                    <div class="info_line">
+                        7 datalets
+                    </div>
+
+                </div>
+            </div>
+
+            <div id="agora_right_users" class="agora_right_box">
+                <div class="head">USERS</div>
+                <div class="body">
+                    <div class="ow_avatar style-scope creator" id="user_avatar_1"><a class="style-scope" href="http://172.16.15.128/user/rended"><img alt="" style="max-width: 100%;" class="" src="http://172.16.15.128/ow_userfiles/plugins/base/avatars/avatar_1_1478595591.jpg"></a></div>
+                    <div class="ow_avatar style-scope" id="user_avatar_2" title="Akuma Xrex"><a class="style-scope" href="http://172.16.15.128/user/Akuma"><img alt="" style="max-width: 100%;" class="" src="http://172.16.15.128/ow_userfiles/plugins/base/avatars/avatar_2_1486043838.jpg"></a></div>
+                    <div class="ow_avatar style-scope" id="user_avatar_2" title="Akuma Xrex"><a class="style-scope" href="http://172.16.15.128/user/Akuma"><img alt="" style="max-width: 100%;" class="" src="http://172.16.15.128/ow_userfiles/plugins/base/avatars/avatar_2_1486043838.jpg"></a></div>
+                    <div class="ow_avatar style-scope" id="user_avatar_2" title="Akuma Xrex"><a class="style-scope" href="http://172.16.15.128/user/Akuma"><img alt="" style="max-width: 100%;" class="" src="http://172.16.15.128/ow_userfiles/plugins/base/avatars/avatar_2_1486043838.jpg"></a></div>
+                    <div class="ow_avatar style-scope" id="user_avatar_2" title="Akuma Xrex"><a class="style-scope" href="http://172.16.15.128/user/Akuma"><img alt="" style="max-width: 100%;" class="" src="http://172.16.15.128/ow_userfiles/plugins/base/avatars/avatar_2_1486043838.jpg"></a></div>
+                </div>
+            </div>
+
+            <div id="agora_right_datasets" class="agora_right_box">
+                <div class="head">SUGGESTED DATASETS</div>
+                <div class="body">
+                    <div class="datasetUrl"><a href="http://www.html.it/guide/img/bootstrap/ref/progress.html" target="_blank">http://www.html.it/guide/img/bootstrap/ref/progress.html</a></div>
+                    <div class="datasetUrl"><a href="http://www.html.it/guide/img/bootstrap/ref/progress.html" target="_blank">http://www.html.it/guide/img/bootstrap/ref/progress.html</a></div>
+                    <div class="datasetUrl"><a href="http://www.html.it/guide/img/bootstrap/ref/progress.html" target="_blank">http://www.html.it/guide/img/bootstrap/ref/progress.html</a></div>
+
+                </div>
+            </div>
+
+        </div>
+
+        <div id="right_bottom">
+                <!-- Rounded switch -->
+                <label class="switch">
+                    <input type="checkbox" id="user_notification_switch" {$user_notification}>
+                    <div class="slider round"></div>
+                </label>
+                <div id="agora_notifications">Enable Notifications</div>
+
+            <div id="agora_enter_button">ENTER</div>
+        </div>
+
     </div>
 
-
-
-        <!--</div>-->
-
-    <!--</div>-->
-
-    <!--<div class="agora_right">-->
-
-    <!--</div>-->
 
 </div>
