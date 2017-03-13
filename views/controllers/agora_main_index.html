@@ -65,7 +65,7 @@
     <div id="agora_right">
 
         {foreach from=$agoras key=i item=$agora}
-        <div class="detail_agora_container {if $i==0} detail_selected_agora {/if}">
+        <div id="agora_room_detail_{$agora->id}" class="detail_agora_container {if $i==0} detail_selected_agora {/if}">
             <div class="agora_right_header">
                 <div class="agora_header_unread">
                     75
