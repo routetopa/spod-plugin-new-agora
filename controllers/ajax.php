@@ -170,7 +170,7 @@ class SPODAGORA_CTRL_Ajax extends OW_ActionController
             $client->emit('realtime_notification',
                 ['plugin' => 'spodpublic',
                 'room_id' => $_REQUEST['entityId'],
-                'comment' => $_REQUEST['comment'],
+                'comment' => $comment->comment,
                 'message_id' => $comment->id,
                 'parent_id' => $_REQUEST['parentId'],
                 'user_id' => OW::getUser()->getId(),
