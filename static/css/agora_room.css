@@ -1159,12 +1159,7 @@ circle.u_nodes.user_selected {
 /* PREVIEW */
 
 .preview_container {
-    /*max-width: calc(100% - 176px);*/
-    /*background-color: red;*/
-    /*margin: 0;*/
-    /*border-collapse: collapse;*/
-    /*border-spacing: 0;*/
-    width: 800px;
+    width: 600px;
     margin: 12px 0;
 }
 
@@ -1189,7 +1184,8 @@ div.preview_image_container {
 }
 
 .preview_image {
-    max-width: 100%;
+    /*max-width: 100%;*/
+    width: 100%;
     border:0;
 }
 
@@ -1212,7 +1208,6 @@ div.preview_image_container {
 }
 
 .preview_site_name {
-
     height: 24px;
     font-size: 14px !important;
     color: #9E9E9E !important;
