@@ -153,7 +153,7 @@ agoraJs.prototype = (function(){
                 var target           = (_level == 0) ? $("#agora_chat_container") : $("#agora_nested_chat_container");
                 var snippet_url      = (_level == 0) ? AGORA.agora_static_resource_url + 'JSSnippet/comment.tpl' : AGORA.agora_static_resource_url + 'JSSnippet/nested_comment.tpl';
                 var sentiment        = (_sentiment == 0 ? 'neutral' : (_sentiment == 1 ?'satisfied' : 'dissatisfied'));
-                var snippet_data     = [raw_data.post_id, sentiment, AGORA.username, AGORA.user_url, AGORA.user_avatar_src, _message, raw_data.post_id, AGORA.username, 'just now', '0'];
+                var snippet_data     = [raw_data.post_id, sentiment, AGORA.username, AGORA.user_url, AGORA.user_avatar_src, (_message + _preview), raw_data.post_id, AGORA.username, 'just now', '0'];
                 var datalet          = ODE.dataletParameters;
                 var post_id          = raw_data.post_id;
 
