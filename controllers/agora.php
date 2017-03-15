@@ -22,7 +22,7 @@ class SPODAGORA_CTRL_Agora extends OW_ActionController
         $this->agora = SPODAGORA_BOL_Service::getInstance()->getAgoraById($this->agoraId);
         $this->userId = OW::getUser()->getId();
 
-        OW::getDocument()->getMasterPage()->setTemplate(OW::getPluginManager()->getPlugin('spodagora')->getRootDir() . 'master_pages/empty.html');
+        OW::getDocument()->getMasterPage()->setTemplate(OW::getPluginManager()->getPlugin('spodagora')->getRootDir() . 'master_pages/main.html');
 
         OW::getDocument()->addScript(OW::getPluginManager()->getPlugin('spodagora')->getStaticJsUrl() . 'agora_room.js');
         OW::getDocument()->addScript(OW::getPluginManager()->getPlugin('spodagora')->getStaticJsUrl() . 'agoraJs.js');

@@ -10,6 +10,10 @@ div.ow_chat_cont {
     display: none !important;
 }
 
+#agora_body {
+    background: #FFFFFF;
+}
+
 /**** AGORA LEFT ****/
 
 #agora_left
