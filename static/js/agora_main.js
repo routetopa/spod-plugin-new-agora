@@ -17,7 +17,7 @@ AGORAMAIN.init = function(agora_id)
         previewFloatBox = OW.ajaxFloatBox('SPODAGORA_CMP_AgoraRoomCreator', {} , {top: '60px', width:'60%', height:'480px', iconClass: 'ow_ic_add', title: ''});
     });
 
-    $(".add_suggested_dataset").on
+    $(".add_suggested_dataset").on('click', function(){});
 
     $("#agora_enter_button").on('click', function(){
         console.log("ENTER INTO " + AGORAMAIN._selected_Room);
