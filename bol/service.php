@@ -317,4 +317,19 @@ class SPODAGORA_BOL_Service
         return $dbo->queryForList($sql);
     }
 
+    public function getAllLevesCommentsFromAgoraId($roomId)
+    {
+        $ex = new OW_Example();
+        $ex->andFieldEqual('entityId', $roomId);
+
+        return SPODAGORA_BOL_AgoraRoomCommentDao::getInstance()->findListByExample($ex);
+    }
+
+    public function getAgoraSuggestedDataset($roomId)
+    {
+        $ex = new OW_Example();
+        $ex->andFieldEqual('agoraRoomId', $roomId);
+
+        return SPODAGORA_BOL_AgoraRoomSuggestionDao::getInstance()->findListByExample($ex);
+    }
 }

@@ -796,7 +796,7 @@ a:hover {
     /*margin: 40px 40px;*/
 /*}*/
 
-#add_suggestd_dataset {
+div.add_suggested_dataset {
     float: right;
     margin: 8px;
     height: 24px;
@@ -815,11 +815,11 @@ a:hover {
     transition: all 0.3s cubic-bezier(.25,.8,.25,1);
 }
 
-#add_suggestd_dataset:before {
+div.add_suggested_dataset:before {
     content: '+';
 }
 
-#add_suggestd_dataset:hover {
+div.add_suggested_dataset:hover {
     box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
     background-color: #FB8C00;
     /*color: #FFFFFF;*/

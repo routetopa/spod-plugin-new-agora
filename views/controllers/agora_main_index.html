@@ -113,17 +113,27 @@
                 <div class="agora_right_users agora_right_box">
                     <div class="head">USERS</div>
                     <div class="body">
-                        <div class="ow_avatar style-scope creator" id="user_avatar_1"><a class="style-scope" href="http://172.16.15.128/user/rended"><img alt="" style="max-width: 100%;" class="" src="http://172.16.15.128/ow_userfiles/plugins/base/avatars/avatar_1_1478595591.jpg"></a></div>
-                        <div class="ow_avatar style-scope" title="Akuma Xrex"><a class="style-scope" href="http://172.16.15.128/user/Akuma"><img alt="" style="max-width: 100%;" class="" src="http://172.16.15.128/ow_userfiles/plugins/base/avatars/avatar_2_1486043838.jpg"></a></div>
+                        <div class="ow_avatar style-scope creator" title="{$agora->owner_avatar[$agora->ownerId]["title"]}">
+                            <a class="style-scope" href="{$agora->owner_avatar[$agora->ownerId]["url"]}">
+                                <img alt="" style="max-width: 100%;" class="" src="{$agora->owner_avatar[$agora->ownerId]["src"]}">
+                            </a>
+                        </div>
+                        {foreach from=$agora->avatars key=j item=$avatar}
+                        <div class="ow_avatar style-scope" title="{$avatar["title"]}">
+                            <a class="style-scope" href="{$avatar["url"]}"><img alt="" style="max-width: 100%;" class="" src="{$avatar["src"]}"></a>
+                        </div>
+                        {/foreach}
                     </div>
                 </div>
 
                 <div class="agora_right_datasets agora_right_box">
                     <div class="head">SUGGESTED DATASETS
-                        <div class="add_suggestd_dataset"></div>
+                        <div class="add_suggested_dataset"></div>
                     </div>
                     <div class="body">
-                        <div class="datasetUrl"><a href="http://www.html.it/guide/img/bootstrap/ref/progress.html" target="_blank">http://www.html.it/guide/img/bootstrap/ref/progress.html</a></div>
+                        {foreach from=$agora->suggestions key=j item=$suggestion}
+                            <div class="datasetUrl"><a href="{$suggestion->dataset}" target="_blank">{$suggestion->comment}</a></div>
+                        {/foreach}
                     </div>
                 </div>
 

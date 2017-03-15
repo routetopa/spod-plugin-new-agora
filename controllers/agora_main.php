@@ -29,9 +29,6 @@ class SPODAGORA_CTRL_AgoraMain extends OW_ActionController
 
     private function process_agora($agoras)
     {
-        $users_id = array_unique(array_map(function($agoras) { return $agoras->ownerId;}, $agoras));
-        $avatars  = BOL_AvatarService::getInstance()->getDataForUserAvatars($users_id);
-
         //maxView, maxComments, maxOpendata
         $maxStat = SPODAGORA_BOL_Service::getInstance()->getMaxAgoraStat();
 
@@ -40,6 +37,11 @@ class SPODAGORA_CTRL_AgoraMain extends OW_ActionController
 
         foreach ($agoras as &$agora)
         {
+            $comments = SPODAGORA_BOL_Service::getInstance()->getAllLevesCommentsFromAgoraId($agora->id);
+            $users_id = array_diff(array_unique(array_map(function($comments) { return $comments->ownerId; }, $comments)), [$agora->ownerId]);
+            $avatars  = BOL_AvatarService::getInstance()->getDataForUserAvatars($users_id);
+
+
             $views_prctg    = ($agora->views*100/$maxStat["maxView"]);
             $comments_prctg = ($agora->comments*100/$maxStat["maxComments"]);
             $opendata_prctg = ($agora->opendata*100/$maxStat["maxOpendata"]);
@@ -47,7 +49,9 @@ class SPODAGORA_CTRL_AgoraMain extends OW_ActionController
                                  "comments" => $comments_prctg, "commentsColor" => $this->COLORS[(int)($comments_prctg/25.1)],
                                  "opendata" => $opendata_prctg, "opendataColor" => $this->COLORS[(int)($opendata_prctg/25.1)]);
             $agora->timestamp = $this->process_timestamp($agora->timestamp, $today, $yesterday);
-            $agora->avatar = $avatars[$agora->ownerId];
+            $agora->avatars = $avatars;
+            $agora->owner_avatar = BOL_AvatarService::getInstance()->getDataForUserAvatars(array($agora->ownerId));
+            $agora->suggestions = SPODAGORA_BOL_Service::getInstance()->getAgoraSuggestedDataset($agora->id);
         }
 
         return $agoras;
