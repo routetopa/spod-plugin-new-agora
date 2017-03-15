@@ -86,8 +86,8 @@
 
                 <div class="agora_datalet_preview" id="agora_datalet_preview" style=""></div>
 
-                <textarea name="agora_comment" placeholder="Add a comment ..." id="agora_comment"></textarea>
-                <input type="button" name="agora_comment_send" id="agora_comment_send" value="Send">
+                <textarea name="agora_comment" placeholder="{text key='spodagora+add_a_comment'}<" id="agora_comment"></textarea>
+                <input type="button" name="agora_comment_send" id="agora_comment_send" value="{text key='spodagora+send'}">
                 <div id="agora_sentiment_button"></div>
                 <div class="agora_myspace_button" id="agora_myspace_button"></div>
                 <div class="agora_controllet_button" id="agora_controllet_button"></div>
@@ -98,7 +98,7 @@
 
         <div id="agora_right">
 
-            <div id="agora_right_header">MESSAGES</div>
+            <div id="agora_right_header">{text key="spodagora+messages"}</div>
 
             <div class="agora_right_container" id="agora_tab_container">
                 {foreach $unread_comments as $section}
@@ -118,7 +118,7 @@
                         <div class="agora_preview">
                             <div class="agora_preview_comment" title="{$comment->comment}">
                                 <span class="name">{$comment->username}</span>
-                                <span class="says">says</span>
+                                <span class="says">{text key="spodagora+says"}</span>
                                 <span class="text">"{$comment->comment}"</span>
                             </div>
                             <div class="agora_preview_time">
@@ -144,7 +144,7 @@
                             <table>
                                 <tr class="agora_search_user">
                                     <td class="avatar"><div class="ow_avatar style-scope" id="user_avatar_-1"><img src="/ow_static/plugins/agora/images/all-users.svg"></div></td>
-                                    <td class="username">All Users</td>
+                                    <td class="username">{text key="spodagora+all_users"}</td>
                                 </tr>
                                 {foreach $avatars as $avatar}
                                 <tr class="agora_search_user">

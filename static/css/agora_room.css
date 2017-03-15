@@ -4,14 +4,16 @@
 body, html {
     min-width: 100% !important;
     overflow: hidden;
+    background: #FFFFFF;
 }
 
 div.ow_chat_cont {
     display: none !important;
 }
 
-#agora_body {
-    background: #FFFFFF;
+#agora_body
+{
+    background-color: #FFFFFF;
 }
 
 /**** AGORA LEFT ****/
@@ -646,10 +648,16 @@ div#agora_header_description
 
 .agora_notification_switch_title {
     height: 24px;
-    /*line-height: ;*/
+
+    padding-top: 8px;
+
+    font-size: 14px !important;
     color: inherit;
     text-align: center;
-    padding-top: 8px;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 /* The switch - the box around the slider */

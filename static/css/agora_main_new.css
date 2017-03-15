@@ -561,6 +561,9 @@ div#agora_search_svg:hover {
     text-align: center;
     visibility: hidden;
     border-radius: 5px;
+
+    overflow: hidden;
+    max-height: 30px;
 }
 .tooltips span:after {
     content: '';
@@ -636,6 +639,11 @@ div#agora_search_svg:hover {
     line-height: 40px;
     height: 40px;
     color: #2196F3;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding-right: 40px;
 }
 
 .agora_right_subtitle

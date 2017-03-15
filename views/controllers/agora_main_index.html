@@ -3,20 +3,20 @@
     <div id="agora_left">
         <div id="agora_header">
             <div id="agora_header_add" class="tooltips">
-                <span>Add new Agora</span>
+                <span>{text key="spodagora+t_add_new_agora"}</span>
             </div>
 
-            <div id="agora_header_title">AGORA</div>
+            <div id="agora_header_title">{text key="spodagora+agora"}</div>
             <!--<div id="agora_header_subtitle">Tuesday, 15 November</div>-->
-            <div id="agora_header_subtitle">Copyright (c) 2017 De Donato Renato and other minor contributors</div>
+            <div id="agora_header_subtitle">A communi observantia non est recedendum.</div>
             <div id="agora_header_navigator">
                 <div id="tabs">
-                    <div class="tab selected">MOST RELEVANT</div>
-                    <div class="tab">MOST POPULAR</div>
-                    <div class="tab">LATEST</div>
+                    <div class="tab selected">{text key="spodagora+most_relevant"}</div>
+                    <div class="tab">{text key="spodagora+most_popular"}</div>
+                    <div class="tab">{text key="spodagora+latest"}</div>
                 </div>
                 <div id="search">
-                    <input id="agora_search_input" placeholder="Search">
+                    <input id="agora_search_input" placeholder="{text key='spodagora+search'}">
                     <div id="agora_search_svg"></div>
                 </div>
             </div>
@@ -38,15 +38,15 @@
                                 </div>
                                 <div class="box_stat">
                                     <div class="box_line tooltips">
-                                        <span>{$agora->views} views</span>
+                                        <span>{$agora->views} {text key="spodagora+t_views"}</span>
                                         <div class="box_views" style="width: {$agora->stat["views"]}%; background-color:{$agora->stat["viewsColor"]}"></div>
                                     </div>
                                     <div class="box_line tooltips">
-                                        <span>{$agora->comments} comments</span>
+                                        <span>{$agora->comments} {text key="spodagora+t_comments"}</span>
                                         <div class="box_comments" style="width: {$agora->stat["comments"]}%; background-color:{$agora->stat["commentsColor"]}"></div>
                                     </div>
                                     <div class="box_line tooltips">
-                                        <span>{$agora->opendata} datalets</span>
+                                        <span>{$agora->opendata} {text key="spodagora+t_datalets"}</span>
                                         <div class="box_datalets" style="width: {$agora->stat["opendata"]}%; background-color:{$agora->stat["opendataColor"]}"></div>
                                     </div>
                                 </div>
@@ -68,7 +68,7 @@
         <div id="agora_room_detail_{$agora->id}" class="detail_agora_container {if $i==0} detail_selected_agora {/if}">
             <div class="agora_right_header">
                 <div class="agora_header_unread tooltips">
-                    <span>Messages</span>
+                    <span>{text key="spodagora+t_messages"}</span>
                     75
                 </div>
 
@@ -79,40 +79,40 @@
             <div class="right_scroller_container">
 
                 <div class="agora_right_description agora_right_box">
-                    <div class="head">DESCRIPTION</div>
+                    <div class="head">{text key="spodagora+description"}</div>
                     <div class="body">{$agora->body}</div>
                 </div>
 
                 <div class="agora_right_stat agora_right_box">
-                    <div class="head">STATISTICS</div>
+                    <div class="head">{text key="spodagora+statistics"}</div>
                     <div class="body">
 
                             <div class="box_line">
                                 <div class="box_views" style="width: {$agora->stat["views"]}%; background-color:orange;"></div>
                             </div>
                         <div class="info_line">
-                             {$agora->views} views
+                             {$agora->views} {text key="spodagora+views"}
                         </div>
 
                             <div class="box_line">
                                 <div class="box_comments" style="width: {$agora->stat["comments"]}%; background-color:darkorange;"></div>
                             </div>
                         <div class="info_line">
-                            {$agora->comments} comments
+                            {$agora->comments} {text key="spodagora+comments"}
                         </div>
 
                             <div class="box_line">
                                 <div class="box_datalets" style="width: {$agora->stat["opendata"]}%; background-color:orange;"></div>
                             </div>
                         <div class="info_line">
-                            {$agora->opendata} datalets
+                            {$agora->opendata} {text key="spodagora+datalets"}
                         </div>
 
                     </div>
                 </div>
 
                 <div class="agora_right_users agora_right_box">
-                    <div class="head">USERS</div>
+                    <div class="head">{text key="spodagora+users"}</div>
                     <div class="body">
                         <div class="ow_avatar style-scope creator" title="{$agora->owner_avatar[$agora->ownerId]["title"]}">
                             <a class="style-scope" href="{$agora->owner_avatar[$agora->ownerId]["url"]}">
@@ -128,9 +128,9 @@
                 </div>
 
                 <div class="agora_right_datasets agora_right_box">
-                    <div class="head">SUGGESTED DATASETS
+                    <div class="head">{text key="spodagora+suggested_datasets"}
                         <div class="add_suggested_dataset tooltips">
-                            <span>Add new Dataset</span>
+                            <span>{text key="spodagora+t_add_new_dataset"}</span>
                         </div>
                     </div>
                     <div class="body">
@@ -150,9 +150,9 @@
                     <input type="checkbox" id="user_notification_switch">
                     <div class="slider round"></div>
                 </label>
-                <div id="agora_notifications">Enable Notifications</div>
+                <div id="agora_notifications">{text key="spodagora+enable_notifications"}</div>
 
-            <div id="agora_enter_button">ENTER</div>
+            <div id="agora_enter_button">{text key="spodagora+enter"}</div>
         </div>
 
     </div>
