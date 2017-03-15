@@ -51,3 +51,6 @@ CREATE TABLE IF NOT EXISTS `' . OW_DB_PREFIX . 'spod_agora_room_user_notificatio
 ;
 
 OW::getDbo()->query($sql);
+
+$path = OW::getPluginManager()->getPlugin('spodagora')->getRootDir() . 'langs.zip';
+BOL_LanguageService::getInstance()->importPrefixFromZip($path, 'spodagora');
