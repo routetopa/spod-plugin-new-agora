@@ -19,12 +19,12 @@ class SPODAGORA_CTRL_AgoraMain extends OW_ActionController
         $raw_agora = SPODAGORA_BOL_Service::getInstance()->getAgora();
         $this->assign('agoras', $this->process_agora($raw_agora));
 
-        $this->initializeJS();
+        $this->initializeJS($raw_agora[0]);
     }
 
-    private function initializeJS()
+    private function initializeJS($first_agora)
     {
-        OW::getDocument()->addOnloadScript('AGORAMAIN.init();');
+        OW::getDocument()->addOnloadScript('AGORAMAIN.init('.$first_agora->id.');');
     }
 
     private function process_agora($agoras)
