@@ -67,7 +67,8 @@
         {foreach from=$agoras key=i item=$agora}
         <div id="agora_room_detail_{$agora->id}" class="detail_agora_container {if $i==0} detail_selected_agora {/if}">
             <div class="agora_right_header">
-                <div class="agora_header_unread">
+                <div class="agora_header_unread tooltips">
+                    <span>Messages</span>
                     75
                 </div>
 
@@ -128,7 +129,9 @@
 
                 <div class="agora_right_datasets agora_right_box">
                     <div class="head">SUGGESTED DATASETS
-                        <div class="add_suggested_dataset"></div>
+                        <div class="add_suggested_dataset tooltips">
+                            <span>Add new Dataset</span>
+                        </div>
                     </div>
                     <div class="body">
                         {foreach from=$agora->suggestions key=j item=$suggestion}

@@ -553,7 +553,7 @@ div#agora_search_svg:hover {
     position: absolute;
     font-size: 14px;
     font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    width: 140px;
+    width: 0;
     color: #FFFFFF;
     background: #424242;
     height: 30px;
@@ -573,6 +573,7 @@ div#agora_search_svg:hover {
     border-left: 8px solid transparent;
 }
 :hover.tooltips span {
+    width: 140px;
     visibility: visible;
     background-color: rgba(0, 0, 0, 0.8);
     left: calc(50% + 6px);
@@ -580,7 +581,7 @@ div#agora_search_svg:hover {
     z-index: 999;
 }
 
-.agora_room:not(:first-child) .tooltips span:after {
+.agora_room:not(:first-child) .tooltips span:after { /*non risolve.... tt left*/
     border-top: 8px solid rgba(0, 0, 0, 0.8);
     top: 100%;
 }
@@ -596,11 +597,27 @@ div#agora_search_svg:hover {
     top: 12px;
 }
 
-#agora_header_add.tooltips span:after {
+/* agora_header_add, agora_header_unread */
+#agora_header_add.tooltips span:after, .agora_header_unread.tooltips span:after {
+    top: 50%;
+    left: 100%;
+    margin-top: -8px;
+    margin-left: -0 !important;
+    border-left: 8px solid rgba(0, 0, 0, 0.8);
+    border-top: 8px solid transparent;
+    border-bottom: 8px solid transparent;
+}
+#agora_header_add:hover.tooltips span, .agora_header_unread:hover.tooltips span {
+    top: 5px;
+    left: -80px;
+}
+
+/*add_suggested_dataset*/
+.add_suggested_dataset.tooltips span:after {
     border-top: 8px solid rgba(0, 0, 0, 0.8);
     top: 100%;
 }
-#agora_header_add:hover.tooltips span {
+.add_suggested_dataset:hover.tooltips span {
     top: -40px;
 }
 
