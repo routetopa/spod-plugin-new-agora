@@ -14,7 +14,7 @@ AGORAMAIN.init = function(agora_id)
     $(".tab").on('click', AGORAMAIN.handleAgoraRoomTab);
 
     $("#agora_header_add").on('click', function(){
-        previewFloatBox = OW.ajaxFloatBox('SPODAGORA_CMP_AgoraRoomCreator', {} , {top: '60px', width:'60%', height:'480px', iconClass: 'ow_ic_add', title: ''});
+        previewFloatBox = OW.ajaxFloatBox('SPODAGORA_CMP_AgoraRoomCreator', {} , {top: '64px', width:'60%', height:'480px', iconClass: 'ow_ic_add', title: ''});
     });
 
     $(".add_suggested_dataset").on('click', function(){});
