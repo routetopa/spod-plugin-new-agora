@@ -42,6 +42,11 @@ class SPODAGORA_CTRL_Agora extends OW_ActionController
 
         OW::getDocument()->addScript(OW::getPluginManager()->getPlugin('spodagora')->getStaticJsUrl() . 'liquidFillGauge.js');
 
+        OW::getLanguage()->addKeyForJs('spodagora', 'just_now');
+        OW::getLanguage()->addKeyForJs('spodagora', 'datalets');
+        OW::getLanguage()->addKeyForJs('spodagora', 'datasets');
+        OW::getLanguage()->addKeyForJs('spodagora', 'time');
+
         SPODAGORA_BOL_Service::getInstance()->addAgoraRoomStat($this->agoraId, 'views');
         $raw_comments = SPODAGORA_BOL_Service::getInstance()->getCommentList($this->agoraId);
         $this->tot_comments = count($raw_comments);
@@ -67,7 +72,8 @@ class SPODAGORA_CTRL_Agora extends OW_ActionController
         $unread_section = array();
 
         for($i = 0; $i < $max_day; $i++)
-            $unread_section[date_create('today - '.$i.' day')->format('l')] = array();
+//            $unread_section[date_create('today - '.$i.' day')->format('l')] = array();
+            $unread_section[OW::getLanguage()->text('spodagora', date_create('today - '.$i.' day')->format('l'))] = array();
 
         foreach ($unread_commnets as &$comment)
         {
@@ -77,7 +83,8 @@ class SPODAGORA_CTRL_Agora extends OW_ActionController
             $comment->username   = $this->avatars[$comment->ownerId]["title"];
             $comment->owner_url  = $this->avatars[$comment->ownerId]["url"];
             $comment->avatar_url = $this->avatars[$comment->ownerId]["src"];
-            $section             = date('l', strtotime($comment->timestamp));
+//            $section             = 'pippo'.date('l', strtotime($comment->timestamp));
+            $section             = OW::getLanguage()->text('spodagora', date('l', strtotime($comment->timestamp)));
             $comment->timestamp  = date('H:i', strtotime($comment->timestamp));
             $comment->sentiment_class = $comment->sentiment == 0 ? 'neutral' : ($comment->sentiment == 1 ? 'satisfied' : 'dissatisfied');
 
@@ -185,7 +192,7 @@ class SPODAGORA_CTRL_Agora extends OW_ActionController
             return date('H:i', strtotime($timestamp));
 
         if($date == $yesterday)
-            return "yesterday " . date('H:i', strtotime($timestamp));
+            return OW::getLanguage()->text('spodagora', 'yesterday'). " " . date('H:i', strtotime($timestamp));
 
         return date('H:i m/d', strtotime($timestamp));
     }

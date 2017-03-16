@@ -44,7 +44,7 @@ class SPODAGORA_CMP_SearchResult extends OW_Component
             return date('H:i', strtotime($timestamp));
 
         if($date == $yesterday)
-            return "yesterday " . date('H:i', strtotime($timestamp));
+            return OW::getLanguage()->text('spodagora', 'yesterday'). " " . date('H:i', strtotime($timestamp));
 
         return date('H:i m/d', strtotime($timestamp));
     }

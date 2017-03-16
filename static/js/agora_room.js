@@ -398,7 +398,7 @@ AGORA.handleRealtimeNotification = function ()
                         data.comment,
                         data.message_id,
                         data.user_display_name,
-                        'just now',
+                        OW.getLanguageText('spodagora', 'just_now'),
                         '0'],
                     {component: data.component, params: data.params, fields: data.fields, data: ''},
                     data.message_id,
@@ -606,14 +606,14 @@ AGORA.initDataletGraph = function()
             .attr("fill", "white")
             .attr("x", 40 + (w-160)/4)
             .attr("y", 40)
-            .text("DATALETS");
+            .text(OW.getLanguageText('spodagora', 'datalets'));
 
         g.append("g")
             .append("text")
             .attr("fill", "white")
             .attr("x", 40 + (w-160)/4*3)
             .attr("y", 40)
-            .text("DATASETS");
+            .text(OW.getLanguageText('spodagora', 'datasets'));
 
 
         //CUT LINE
@@ -632,7 +632,7 @@ AGORA.initDataletGraph = function()
             .attr("x", w/2 + 4)
             .attr("y", h-60)
             .attr("transform", "rotate(90, " + (w/2 + 4) + ", " + (h-60) + ")")
-            .text("TIME");
+            .text(OW.getLanguageText('spodagora', 'time'));
 
         svg.append("svg:defs").append("svg:marker")
             .attr("id", "triangle")

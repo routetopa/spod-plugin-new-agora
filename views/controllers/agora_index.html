@@ -72,7 +72,7 @@
                         <div class="agora_speech_info">
                             <div class="agora_speech_username">{$comment->username}</div>
                             <div class="agora_speech_time">{$comment->timestamp}</div>
-                            <div class="agora_speech_reply">reply ({$comment->total_comment})</div>
+                            <div class="agora_speech_reply">{text key="spodagora+reply"} ({$comment->total_comment})</div>
                         </div>
                     </div>
                 </div>
@@ -86,7 +86,7 @@
 
                 <div class="agora_datalet_preview" id="agora_datalet_preview" style=""></div>
 
-                <textarea name="agora_comment" placeholder="{text key='spodagora+add_a_comment'}<" id="agora_comment"></textarea>
+                <textarea name="agora_comment" placeholder="{text key='spodagora+add_a_comment'}" id="agora_comment"></textarea>
                 <input type="button" name="agora_comment_send" id="agora_comment_send" value="{text key='spodagora+send'}">
                 <div id="agora_sentiment_button"></div>
                 <div class="agora_myspace_button" id="agora_myspace_button"></div>

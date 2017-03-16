@@ -16,6 +16,8 @@ class SPODAGORA_CTRL_AgoraMain extends OW_ActionController
 
         OW::getDocument()->addStyleSheet(OW::getPluginManager()->getPlugin('spodagora')->getStaticCssUrl() . 'agora_main_new.css');
 
+        OW::getLanguage()->addKeyForJs('spodagora', 'just_now');
+
         $raw_agora = SPODAGORA_BOL_Service::getInstance()->getAgora();
         $this->assign('agoras', $this->process_agora($raw_agora));
 
@@ -65,7 +67,7 @@ class SPODAGORA_CTRL_AgoraMain extends OW_ActionController
             return date('H:i', strtotime($timestamp));
 
         if($date == $yesterday)
-            return "yesterday " . date('H:i', strtotime($timestamp));
+            return OW::getLanguage()->text('spodagora', 'yesterday'). " " . date('H:i', strtotime($timestamp));
 
         return date('H:i m/d', strtotime($timestamp));
     }
