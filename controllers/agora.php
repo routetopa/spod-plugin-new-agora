@@ -86,11 +86,12 @@ class SPODAGORA_CTRL_Agora extends OW_ActionController
             if(date_diff($today, date_create($comment->timestamp))->d > 7)
                 break;
 
-            $comment->username   = $this->avatars[$comment->ownerId]["title"];
-            $comment->owner_url  = $this->avatars[$comment->ownerId]["url"];
-            $comment->avatar_url = $this->avatars[$comment->ownerId]["src"];
-            $section             = OW::getLanguage()->text('spodagora', date('l', strtotime($comment->timestamp)));
-            $comment->timestamp  = date('H:i', strtotime($comment->timestamp));
+            $comment->comment         = strip_tags($comment->comment);
+            $comment->username        = $this->avatars[$comment->ownerId]["title"];
+            $comment->owner_url       = $this->avatars[$comment->ownerId]["url"];
+            $comment->avatar_url      = $this->avatars[$comment->ownerId]["src"];
+            $section                  = OW::getLanguage()->text('spodagora', date('l', strtotime($comment->timestamp)));
+            $comment->timestamp       = date('H:i', strtotime($comment->timestamp));
             $comment->sentiment_class = $comment->sentiment == 0 ? 'neutral' : ($comment->sentiment == 1 ? 'satisfied' : 'dissatisfied');
 
             array_push($unread_section[$section], $comment);

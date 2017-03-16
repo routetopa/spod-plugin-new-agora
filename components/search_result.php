@@ -12,9 +12,9 @@ class SPODAGORA_CMP_SearchResult extends OW_Component
     private function process_comment(&$comments)
     {
         $users_ids      = array_map(function($comments) { return $comments->ownerId;}, $comments);
-        $avatars  = BOL_AvatarService::getInstance()->getDataForUserAvatars($users_ids);
+        $avatars        = BOL_AvatarService::getInstance()->getDataForUserAvatars($users_ids);
 
-        $today = date('Ymd');
+        $today     = date('Ymd');
         $yesterday = date('Ymd', strtotime('yesterday'));
 
         foreach ($comments as &$comment)
@@ -23,7 +23,7 @@ class SPODAGORA_CMP_SearchResult extends OW_Component
             $comment->owner_url     = $avatars[$comment->ownerId]["url"];
             $comment->avatar_url    = $avatars[$comment->ownerId]["src"];
             $comment->timestamp     = $this->process_timestamp($comment->timestamp, $today, $yesterday);
-
+            $comment->comment       = strip_tags($comment->comment);
 
             switch ($comment->sentiment)
             {
