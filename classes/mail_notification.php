@@ -58,6 +58,7 @@ class SPODAGORA_CLASS_MailNotification extends OW_Component
         //SET EMAIL TEMPLATE
         $this->setTemplate($template);
 
+
         //USER AVATAR FOR THE NEW MAIL
         $avatar = BOL_AvatarService::getInstance()->getDataForUserAvatars(array($user_id))[$user_id];
         $this->assign('user', $user);
@@ -75,7 +76,6 @@ class SPODAGORA_CLASS_MailNotification extends OW_Component
 
         $this->assign('user', $user);
         $this->assign('time', $time);
-        $this->assign('string', "There is a new comment in the room <b>" . $room->subject . "</b>");
         $this->assign('agora', $room->subject);
         $this->assign('url', OW::getRouter()->urlForRoute('spodagora.main') . "/#!/" . $room_id);
         $this->assign('nl', '%%%nl%%%');
