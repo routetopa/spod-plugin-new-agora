@@ -286,19 +286,15 @@ class SPODAGORA_BOL_Service
         $ex->andFieldEqual('userId',$userId);
         $ex->andFieldEqual('roomId',$roomId);
 
-        $a = SPODAGORA_BOL_AgoraRoomUserNotificationDao::getInstance()->findObjectByExample($ex);
-
-        return $a;
+        return SPODAGORA_BOL_AgoraRoomUserNotificationDao::getInstance()->findObjectByExample($ex);
     }
 
     public function getAllUserNotification($userId)
     {
-        $ex = new OW_Example();
-        $ex->andFieldEqual('userId',$userId);
+        $sql = "select roomId from ow_spod_agora_room_user_notification where userId = ".$userId.";";
+        $dbo = OW::getDbo();
 
-        $a = SPODAGORA_BOL_AgoraRoomUserNotificationDao::getInstance()->findListByExample($ex);
-
-        return $a;
+        return $dbo->queryForColumnList($sql);
     }
 
     public function getSearchResult($roomId, $search_string, $userId)

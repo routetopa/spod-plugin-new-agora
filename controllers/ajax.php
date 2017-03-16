@@ -103,6 +103,7 @@ class SPODAGORA_CTRL_Ajax extends OW_ActionController
             "comment"    => $_REQUEST['comment']));
         exit;
     }
+
     //Reader
     public function getNestedComment()
     {
@@ -167,6 +168,7 @@ class SPODAGORA_CTRL_Ajax extends OW_ActionController
         echo json_encode(array("status"  => "ok"));
         exit;
     }
+
     //Realtime
     private function send_realtime_notification($comment)
     {
