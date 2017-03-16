@@ -80,4 +80,5 @@ class SPODAGORA_CTRL_AgoraMain extends OW_ActionController
 
         return date('H:i m/d', strtotime($timestamp));
     }
+
 }

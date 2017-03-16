@@ -72,7 +72,6 @@ class SPODAGORA_CTRL_Agora extends OW_ActionController
         $unread_section = array();
 
         for($i = 0; $i < $max_day; $i++)
-//            $unread_section[date_create('today - '.$i.' day')->format('l')] = array();
             $unread_section[OW::getLanguage()->text('spodagora', date_create('today - '.$i.' day')->format('l'))] = array();
 
         foreach ($unread_commnets as &$comment)
@@ -83,7 +82,6 @@ class SPODAGORA_CTRL_Agora extends OW_ActionController
             $comment->username   = $this->avatars[$comment->ownerId]["title"];
             $comment->owner_url  = $this->avatars[$comment->ownerId]["url"];
             $comment->avatar_url = $this->avatars[$comment->ownerId]["src"];
-//            $section             = 'pippo'.date('l', strtotime($comment->timestamp));
             $section             = OW::getLanguage()->text('spodagora', date('l', strtotime($comment->timestamp)));
             $comment->timestamp  = date('H:i', strtotime($comment->timestamp));
             $comment->sentiment_class = $comment->sentiment == 0 ? 'neutral' : ($comment->sentiment == 1 ? 'satisfied' : 'dissatisfied');
@@ -145,8 +143,8 @@ class SPODAGORA_CTRL_Agora extends OW_ActionController
 
     private function process_comment(&$comments)
     {
-        $this->users_id = array_unique(array_map(function($comments) { return $comments->ownerId;}, $comments));
-        $user_id        = $this->userId;
+        $all_level_comments = SPODAGORA_BOL_Service::getInstance()->getAllLevesCommentsFromAgoraId($this->agoraId);
+        $this->users_id = array_unique( array_map(function($comments) { return $comments->ownerId; }, $all_level_comments) );
         $this->avatars  = BOL_AvatarService::getInstance()->getDataForUserAvatars($this->users_id);
         $this->assign('avatars', $this->avatars);
 
@@ -161,7 +159,7 @@ class SPODAGORA_CTRL_Agora extends OW_ActionController
             $comment->total_comment = isset($comment->total_comment) ? $comment->total_comment : 0;
             $comment->timestamp     = $this->process_timestamp($comment->timestamp, $today, $yesterday);
 
-            $comment->css_class       = $user_id == $comment->ownerId ? 'agora_right_comment' : 'agora_left_comment';
+            $comment->css_class       = $this->userId == $comment->ownerId ? 'agora_right_comment' : 'agora_left_comment';
 
             switch ($comment->sentiment)
             {
