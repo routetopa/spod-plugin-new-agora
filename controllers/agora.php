@@ -22,6 +22,13 @@ class SPODAGORA_CTRL_Agora extends OW_ActionController
         $this->agora = SPODAGORA_BOL_Service::getInstance()->getAgoraById($this->agoraId);
         $this->userId = OW::getUser()->getId();
 
+        // AVATARS
+        $all_level_comments = SPODAGORA_BOL_Service::getInstance()->getAllLevesCommentsFromAgoraId($this->agoraId);
+        $this->users_id = array_unique($this->array_push_return(array_map(function($comments) { return $comments->ownerId; }, $all_level_comments), $this->userId) );
+
+        $this->avatars  = BOL_AvatarService::getInstance()->getDataForUserAvatars($this->users_id);
+        $this->assign('avatars', $this->avatars);
+
         OW::getDocument()->getMasterPage()->setTemplate(OW::getPluginManager()->getPlugin('spodagora')->getRootDir() . 'master_pages/main.html');
 
         OW::getDocument()->addScript(OW::getPluginManager()->getPlugin('spodagora')->getStaticJsUrl() . 'agora_room.js');
@@ -143,11 +150,6 @@ class SPODAGORA_CTRL_Agora extends OW_ActionController
 
     private function process_comment(&$comments)
     {
-        $all_level_comments = SPODAGORA_BOL_Service::getInstance()->getAllLevesCommentsFromAgoraId($this->agoraId);
-        $this->users_id = array_unique( array_map(function($comments) { return $comments->ownerId; }, $all_level_comments) );
-        $this->avatars  = BOL_AvatarService::getInstance()->getDataForUserAvatars($this->users_id);
-        $this->assign('avatars', $this->avatars);
-
         $today = date('Ymd');
         $yesterday = date('Ymd', strtotime('yesterday'));
 
@@ -193,6 +195,12 @@ class SPODAGORA_CTRL_Agora extends OW_ActionController
             return OW::getLanguage()->text('spodagora', 'yesterday'). " " . date('H:i', strtotime($timestamp));
 
         return date('H:i m/d', strtotime($timestamp));
+    }
+
+    private function array_push_return($array, $val)
+    {
+        array_push($array, $val);
+        return $array;
     }
 
 }

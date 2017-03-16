@@ -6,7 +6,7 @@
         <div class="agora_speech_info">
             <div class="agora_speech_username">{7}</div>
             <div class="agora_speech_time">{8}</div>
-            <div class="agora_speech_reply">{text key="spodagora+reply"} ({9})</div>
+            <div class="agora_speech_reply">{text key="spodagora+c_reply"} ({9})</div>
         </div>
     </div>
 </div>
