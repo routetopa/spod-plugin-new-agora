@@ -41,7 +41,7 @@ class SPODAGORA_CLASS_MailNotification extends OW_Component
                     ->addRecipientEmail($email)
                     ->setTextContent($this->getEmailContentText($room_id, $room, $user->username, $template_txt, $time))
                     ->setHtmlContent($this->getEmailContentHtml($room_id, $user_id["userId"], $room, $user->username, $template_html, $time))
-                    ->setSubject("Something interesting is happening on Agora");
+                    ->setSubject(OW::getLanguage()->text('spodagora', 'email_subject') . "\"" . $room->subject . "\"");
 
                 OW::getMailer()->send($mail);
             }
@@ -60,15 +60,12 @@ class SPODAGORA_CLASS_MailNotification extends OW_Component
 
         //USER AVATAR FOR THE NEW MAIL
         $avatar = BOL_AvatarService::getInstance()->getDataForUserAvatars(array($user_id))[$user_id];
-        $this->assign('userName', $user);
-        $this->assign('string', OW::getLanguage()->text('spodpublic', 'email_txt_comment') . " <b><a href=\"" .
-            OW::getRouter()->urlForRoute('spodagora.main')  . "/#!/" . $room_id . "\">" .
-            $room->subject . "</a></b>");
-        $this->assign('avatar', $avatar);
+        $this->assign('user', $user);
         $this->assign('time', $time);
+        $this->assign('avatar', $avatar);
+        $this->assign('agora', "<b><a href='" . OW::getRouter()->urlForRoute('spodagora.main') . "/#!/" . $room_id . "'>" . $room->subject . "</a></b>");
 
         return parent::render();
-
     }
 
     private function getEmailContentText($room_id, $room, $user, $template, $time)
@@ -76,13 +73,14 @@ class SPODAGORA_CLASS_MailNotification extends OW_Component
         //SET EMAIL TEMPLATE
         $this->setTemplate($template);
 
-        $this->assign('userName', $user);
+        $this->assign('user', $user);
         $this->assign('time', $time);
+        $this->assign('string', "There is a new comment in the room <b>" . $room->subject . "</b>");
+        $this->assign('agora', $room->subject);
+        $this->assign('url', OW::getRouter()->urlForRoute('spodagora.main') . "/#!/" . $room_id);
         $this->assign('nl', '%%%nl%%%');
         $this->assign('tab', '%%%tab%%%');
         $this->assign('space', '%%%space%%%');
-        $this->assign('string', "There is a new comment in the room <b>" . $room->subject . "</b>");
-        $this->assign('url',"<a href='" . OW::getRouter()->urlForRoute('spodagora.main')  . "/#!/" . $room_id. "'>".$room->body."</a>");
 
         $content = parent::render();
         $search = array('%%%nl%%%', '%%%tab%%%', '%%%space%%%');

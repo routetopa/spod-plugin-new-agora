@@ -49,10 +49,11 @@ class SPODAGORA_CTRL_Agora extends OW_ActionController
 
         OW::getDocument()->addScript(OW::getPluginManager()->getPlugin('spodagora')->getStaticJsUrl() . 'liquidFillGauge.js');
 
-        OW::getLanguage()->addKeyForJs('spodagora', 'just_now');
-        OW::getLanguage()->addKeyForJs('spodagora', 'datalets');
-        OW::getLanguage()->addKeyForJs('spodagora', 'datasets');
-        OW::getLanguage()->addKeyForJs('spodagora', 'time');
+        OW::getLanguage()->addKeyForJs('spodagora', 'c_just_now');
+        OW::getLanguage()->addKeyForJs('spodagora', 'c_reply');
+        OW::getLanguage()->addKeyForJs('spodagora', 'g_datalets');
+        OW::getLanguage()->addKeyForJs('spodagora', 'g_datasets');
+        OW::getLanguage()->addKeyForJs('spodagora', 'g_time');
 
         SPODAGORA_BOL_Service::getInstance()->addAgoraRoomStat($this->agoraId, 'views');
         $raw_comments = SPODAGORA_BOL_Service::getInstance()->getCommentList($this->agoraId);

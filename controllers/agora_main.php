@@ -16,7 +16,7 @@ class SPODAGORA_CTRL_AgoraMain extends OW_ActionController
 
         OW::getDocument()->addStyleSheet(OW::getPluginManager()->getPlugin('spodagora')->getStaticCssUrl() . 'agora_main_new.css');
 
-        OW::getLanguage()->addKeyForJs('spodagora', 'just_now');
+        OW::getLanguage()->addKeyForJs('spodagora', 'c_just_now');
 
         $raw_agora = SPODAGORA_BOL_Service::getInstance()->getAgora();
         $this->assign('agoras', $this->process_agora($raw_agora));
