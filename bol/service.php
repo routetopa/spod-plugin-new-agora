@@ -296,7 +296,7 @@ class SPODAGORA_BOL_Service
         $ex = new OW_Example();
         $ex->andFieldEqual('userId',$userId);
 
-        $a = SPODAGORA_BOL_AgoraRoomUserNotificationDao::getInstance()->findObjectByExample($ex);
+        $a = SPODAGORA_BOL_AgoraRoomUserNotificationDao::getInstance()->findListByExample($ex);
 
         return $a;
     }
