@@ -1,13 +1,31 @@
+{style}
+    body .floatbox_header
+    {
+        display: none;
+    }
+
+        body .floatbox_bottom
+    {
+        display: none;
+    }
+
+    body .floatbox_body
+    {
+        padding: 0;
+        position: relative;
+    }
+{/style}
+
 <div class="cocoreation_create_room_container">
 
     <div class="cocoreation_create_room_header">
-        {text key="spodpublic+add_suggested_dataset"}
+        {text key="spodagora+add_new_dataset"}
     </div>
 
     <div class="cocoreation_create_room_left_menu">
         <ul>
-            <li class="step-1 cocoreation_create_room_left_menu_selected">{text key="spodpublic+suggested_dataset"}</li>
-            <li class="step-2">{text key="spodpublic+suggested_comment"}</li>
+            <li class="step-1 cocoreation_create_room_left_menu_selected">{text key="spodagora+dataset_url"}</li>
+            <li class="step-2">{text key="spodagora+comment"}</li>
         </ul>
     </div>
 
@@ -17,7 +35,7 @@
         <!-- ROOM DATASET -->
         <div class="step in-step-1 in-step-show">
             <div class="title">
-                <span>{text key="spodpublic+suggested_dataset"}</span>
+                <span>{text key="spodagora+dataset_url"}</span>
             </div>
             <div class="input">
                 {input name='dataset'}
@@ -27,7 +45,7 @@
         <!-- ROOM COMMENT -->
         <div class="step in-step-2">
             <div class="title">
-                <span>{text key="spodpublic+suggested_comment"}</span>
+                <span>{text key="spodagora+comment"}</span>
             </div>
             <div class="input">
                 {input name='comment'}

@@ -18,7 +18,7 @@ AGORAMAIN.init = function(agora_id)
     });
 
     $(".add_suggested_dataset").on('click', function(){
-        previewFloatBox = OW.ajaxFloatBox('SPODAGORA_CMP_AgoraRoomSuggestion', {room_id:AGORAMAIN._selected_Room} , {top: '60px', width:'60%', height:'480px', iconClass: 'ow_ic_add', title: ''});
+        previewFloatBox = OW.ajaxFloatBox('SPODAGORA_CMP_AgoraRoomSuggestion', {room_id:AGORAMAIN._selected_Room} , {top: '64px', width:'60%', height:'480px', iconClass: 'ow_ic_add', title: ''});
     });
 
     $("#agora_enter_button").on('click', function(){

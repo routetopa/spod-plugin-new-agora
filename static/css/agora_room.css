@@ -942,7 +942,7 @@ div.agora_fullsize_datalet:hover.datatable-datalet  {
 #agora_nested_comment
 {
     position: fixed;
-    top: 178px;
+    top: 234px;/*178*/
     left: initial;
 
     width: calc(75% - 172px);

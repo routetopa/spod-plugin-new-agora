@@ -1,32 +1,31 @@
 {style}
     body .floatbox_header
     {
-    display: none;
+        display: none;
     }
 
     body .floatbox_bottom
     {
-    display: none;
+        display: none;
     }
 
     body .floatbox_body
     {
-    padding: 0;
-    position: relative;
-    <!--overflow:hidden;-->
+        padding: 0;
+        position: relative;
     }
 {/style}
 
 <div class="cocoreation_create_room_container">
 
     <div class="cocoreation_create_room_header">
-        {text key="spodagora+create_new_agora_room"}
+        {text key="spodagora+add_new_agora"}
     </div>
 
     <div class="cocoreation_create_room_left_menu">
         <ul>
-            <li class="step-1 cocoreation_create_room_left_menu_selected">{text key="spodagora+new_room_subject"}</li>
-            <li class="step-2">{text key="spodagora+new_room_body"}</li>
+            <li class="step-1 cocoreation_create_room_left_menu_selected">{text key="spodagora+subject"}</li>
+            <li class="step-2">{text key="spodagora+body"}</li>
         </ul>
     </div>
 
@@ -36,7 +35,7 @@
         <!-- ROOM SUBJECT -->
         <div class="step in-step-1 in-step-show">
             <div class="title">
-                <span>{text key="spodagora+new_room_subject"}</span>
+                <span>{text key="spodagora+subject"}</span>
             </div>
             <div class="input">
                 {input name='subject'}
@@ -46,7 +45,7 @@
         <!-- ROOM BODY -->
         <div class="step in-step-2">
             <div class="title">
-                <span>{text key="spodagora+new_room_body"}</span>
+                <span>{text key="spodagora+body"}</span>
             </div>
             <div class="input">
                 {input name='body'}

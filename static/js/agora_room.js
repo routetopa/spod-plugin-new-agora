@@ -426,7 +426,7 @@ AGORA.scroll_to = function (id)
 
 AGORA.openDiv = function (tab_id)
 {
-    var h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0) - 56 - 345;
+    var h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0) - 56 - 56 - 345;
 
     var tab_to_close = $(".agora_tab_opened")[0];
     var tab_to_open = $(".agora_unread_comments")[tab_id];
