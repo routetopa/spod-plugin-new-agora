@@ -26,6 +26,15 @@ class SPODAGORA_CTRL_AgoraMain extends OW_ActionController
 
     private function initializeJS($first_agora)
     {
+        $js = UTIL_JsGenerator::composeJsString('
+            AGORAMAIN.user_room_notification = {$user_room_notification}           
+            AGORAMAIN.notification_endpoint  = {$notification_endpoint}           
+         ', array(
+            'user_room_notification' => SPODAGORA_BOL_Service::getInstance()->getAllUserNotification(OW::getUser()->getId()),
+            'notification_endpoint' => OW::getRouter()->urlFor('SPODAGORA_CTRL_Ajax', 'handleUserNotification')
+        ));
+
+        OW::getDocument()->addOnloadScript($js);
         OW::getDocument()->addOnloadScript('AGORAMAIN.init('.$first_agora->id.');');
     }
 

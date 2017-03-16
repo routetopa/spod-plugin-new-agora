@@ -7,8 +7,6 @@ class SPODAGORA_CMP_AgoraRoomCreator extends OW_Component
         OW::getDocument()->addScript(OW::getPluginManager()->getPlugin('cocreation')->getStaticJsUrl() . 'input-menu.js');
         OW::getDocument()->addStyleSheet(OW::getPluginManager()->getPlugin('cocreation')->getStaticCssUrl() . 'input-menu.css');
 
-        $this->assign('components_url', SPODPR_COMPONENTS_URL);
-
         $form = new Form('AgoraRoomCreatorForm');
 
         $form->setAjax();
@@ -34,7 +32,7 @@ class SPODAGORA_CMP_AgoraRoomCreator extends OW_Component
         $js = UTIL_JsGenerator::composeJsString('
             owForms["AgoraRoomCreatorForm"].bind( "success", function( r )
             {
-                AGORAMAIN.addNewRoom(r)
+                AGORAMAIN.addNewRoom(r);
 
                 if ( r.error )
                 {

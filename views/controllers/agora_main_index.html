@@ -24,7 +24,6 @@
 
         <div id="agora_room_container">
 
-
             {foreach from=$agoras key=i item=$agora}
             <div id="agora_room_{$agora->id}" class="agora_room {if $i==0} selected {/if}">
                 <div class="room">
@@ -133,7 +132,7 @@
                             <span>{text key="spodagora+t_add_new_dataset"}</span>
                         </div>
                     </div>
-                    <div class="body">
+                    <div class="body suggestion_dataset_container">
                         {foreach from=$agora->suggestions key=j item=$suggestion}
                             <div class="datasetUrl"><a href="{$suggestion->dataset}" target="_blank">{$suggestion->comment}</a></div>
                         {/foreach}

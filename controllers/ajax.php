@@ -76,24 +76,33 @@ class SPODAGORA_CTRL_Ajax extends OW_ActionController
 
     public function addAgoraRoom()
     {
-        $clean = ODE_CLASS_InputFilter::getInstance()->sanitizeInputs($_REQUEST);
-        if ($clean == null){
-            /*echo json_encode(array("status" => "error", "massage" => 'Insane inputs detected'));*/
-            OW::getFeedback()->info(OW::getLanguage()->text('cocreationep', 'insane_user_email_value'));
-            exit;
-        }
-
         $id = SPODAGORA_BOL_Service::getInstance()->addAgoraRoom(OW::getUser()->getId(),
-            $clean['subject'],
-            $clean['body']);
+            $_REQUEST['subject'],
+            $_REQUEST['body']);
+
+        $html_cmp = new SPODAGORA_CMP_AgoraAddRoom($id, $_REQUEST['subject'], $_REQUEST['body']);
+        $html = $html_cmp->render();
 
         echo json_encode(array("status"  => "ok",
             "id"      => $id,
-            "subject" => $clean['subject'],
-            "body"    => $clean['body']));
+            "subject" => $_REQUEST['subject'],
+            "body"    => $_REQUEST['body'],
+            "html"    => $html));
         exit;
     }
 
+    public function addAgoraRoomSuggestion(){
+        $id = SPODAGORA_BOL_Service::getInstance()->addAgoraRoomSuggestion($_REQUEST['room_id'],
+            $_REQUEST['dataset'],
+            $_REQUEST['comment']);
+
+        echo json_encode(array("status"  => "ok",
+            "id"         => $id,
+            "room_id"    => $_REQUEST['room_id'],
+            "dataset"    => $_REQUEST['dataset'],
+            "comment"    => $_REQUEST['comment']));
+        exit;
+    }
     //Reader
     public function getNestedComment()
     {
@@ -148,7 +157,6 @@ class SPODAGORA_CTRL_Ajax extends OW_ActionController
 
     }
 
-    //Realtime
     public function handleUserNotification()
     {
         if($_REQUEST['addUserNotification'] == "true")
@@ -159,7 +167,7 @@ class SPODAGORA_CTRL_Ajax extends OW_ActionController
         echo json_encode(array("status"  => "ok"));
         exit;
     }
-
+    //Realtime
     private function send_realtime_notification($comment)
     {
         try

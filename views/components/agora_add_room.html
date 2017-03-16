@@ -1,0 +1,98 @@
+<div id="agora_room_{$room_id}" class="agora_room">
+    <div class="room">
+        <div class="box">
+            <div class="box_left"></div>
+            <div class="box_right">
+                <div class="box_top">
+                    <div class="box_info">
+                        <div class="box_date">just now</div>
+                        <div class="box_title">{$subject}</div>
+                    </div>
+                    <div class="box_stat">
+                        <div class="box_line tooltips">
+                            <span>0 views</span>
+                            <div class="box_views" style="width: 0;"></div>
+                        </div>
+                        <div class="box_line tooltips">
+                            <span>0 comments</span>
+                            <div class="box_comments" style="width: 0;"></div>
+                        </div>
+                        <div class="box_line tooltips">
+                            <span>0 datalets</span>
+                            <div class="box_datalets" style="width: 0;"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="box_bottom">{$body}</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="agora_room_detail_{$room_id}" class="detail_agora_container">
+    <div class="agora_right_header">
+        <div class="agora_header_unread tooltips">
+            <span>Messages</span>
+            0
+        </div>
+
+        <div class="agora_right_title">{$subject}</div>
+        <div class="agora_right_subtitle">just now</div>
+    </div>
+
+    <div class="right_scroller_container">
+
+        <div class="agora_right_description agora_right_box">
+            <div class="head">DESCRIPTION</div>
+            <div class="body">{$body}</div>
+        </div>
+
+        <div class="agora_right_stat agora_right_box">
+            <div class="head">STATISTICS</div>
+            <div class="body">
+                <div class="box_line">
+                    <div class="box_views" style="width: 0; background-color:orange;"></div>
+                </div>
+                <div class="info_line">
+                    0 views
+                </div>
+
+                <div class="box_line">
+                    <div class="box_comments" style="width: 0; background-color:darkorange;"></div>
+                </div>
+                <div class="info_line">
+                    0 comments
+                </div>
+
+                <div class="box_line">
+                    <div class="box_datalets" style="width: 0; background-color:orange;"></div>
+                </div>
+                <div class="info_line">
+                    0 datalets
+                </div>
+            </div>
+        </div>
+
+
+        <div class="agora_right_users agora_right_box">
+            <div class="head">USERS</div>
+            <div class="body">
+                <div class="ow_avatar style-scope" title="{$avatar["title"]}">
+                    <a class="style-scope" href="{$avatar["url"]}"><img alt="" style="max-width: 100%;" class="" src="{$avatar["src"]}"></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="agora_right_datasets agora_right_box">
+            <div class="head">SUGGESTED DATASETS
+                <div class="add_suggested_dataset tooltips">
+                    <span>Add new Dataset</span>
+                </div>
+            </div>
+            <div class="body suggestion_dataset_container">
+            </div>
+        </div>
+
+    </div>
+</div>

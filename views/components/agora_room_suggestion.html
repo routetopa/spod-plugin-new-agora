@@ -1,0 +1,42 @@
+<div class="cocoreation_create_room_container">
+
+    <div class="cocoreation_create_room_header">
+        {text key="spodpublic+add_suggested_dataset"}
+    </div>
+
+    <div class="cocoreation_create_room_left_menu">
+        <ul>
+            <li class="step-1 cocoreation_create_room_left_menu_selected">{text key="spodpublic+suggested_dataset"}</li>
+            <li class="step-2">{text key="spodpublic+suggested_comment"}</li>
+        </ul>
+    </div>
+
+    {form name='AgoraRoomSuggestionForm'}
+    <div class="cocoreation_create_room_content">
+
+        <!-- ROOM DATASET -->
+        <div class="step in-step-1 in-step-show">
+            <div class="title">
+                <span>{text key="spodpublic+suggested_dataset"}</span>
+            </div>
+            <div class="input">
+                {input name='dataset'}
+            </div>
+        </div>
+
+        <!-- ROOM COMMENT -->
+        <div class="step in-step-2">
+            <div class="title">
+                <span>{text key="spodpublic+suggested_comment"}</span>
+            </div>
+            <div class="input">
+                {input name='comment'}
+            </div>
+            <div class="submit_container">
+                {submit name='submit' class='ow_ic_new'}
+            </div>
+        </div>
+    </div>
+    {/form}
+
+</div>

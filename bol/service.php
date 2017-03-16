@@ -162,6 +162,15 @@ class SPODAGORA_BOL_Service
         return $dbo->query($sql);
     }
 
+    public function addAgoraRoomSuggestion($roomId, $dataset, $comment)
+    {
+        $agoraRoomSuggestion = new SPODAGORA_BOL_AgoraRoomSuggestion();
+        $agoraRoomSuggestion->agoraRoomId  = intval($roomId);
+        $agoraRoomSuggestion->dataset      = $dataset;
+        $agoraRoomSuggestion->comment      = $comment;
+        SPODAGORA_BOL_AgoraRoomSuggestionDao::getInstance()->save($agoraRoomSuggestion);
+        return $agoraRoomSuggestion->id;
+    }
     // READER
 
     public function getAgoraById($roomId)
@@ -276,6 +285,16 @@ class SPODAGORA_BOL_Service
         $ex = new OW_Example();
         $ex->andFieldEqual('userId',$userId);
         $ex->andFieldEqual('roomId',$roomId);
+
+        $a = SPODAGORA_BOL_AgoraRoomUserNotificationDao::getInstance()->findObjectByExample($ex);
+
+        return $a;
+    }
+
+    public function getAllUserNotification($userId)
+    {
+        $ex = new OW_Example();
+        $ex->andFieldEqual('userId',$userId);
 
         $a = SPODAGORA_BOL_AgoraRoomUserNotificationDao::getInstance()->findObjectByExample($ex);
 
