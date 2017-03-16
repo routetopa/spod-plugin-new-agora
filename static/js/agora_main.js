@@ -4,7 +4,8 @@ AGORAMAIN = {
 
 AGORAMAIN.init = function(agora_id)
 {
-    AGORAMAIN._selected_Room = agora_id;
+    AGORAMAIN._selected_Room = agora_id.toString();
+    $("#user_notification_switch").attr('checked', (AGORAMAIN.user_room_notification.indexOf(AGORAMAIN._selected_Room) != -1 ? true : false));
 
     $("#agora_room_container").perfectScrollbar();
     $(".right_scroller_container").perfectScrollbar();
@@ -23,6 +24,27 @@ AGORAMAIN.init = function(agora_id)
 
     $("#agora_enter_button").on('click', function(){
         window.open("/agora/" + AGORAMAIN._selected_Room,"_self");
+    });
+
+    $("#user_notification_switch").on('click', function(e){
+        AGORAMAIN.handleUseNotificationSwitch($(e.currentTarget).is(':checked'));
+    });
+};
+
+AGORAMAIN.handleUseNotificationSwitch = function(value)
+{
+    $.ajax({
+        type: 'POST',
+        url : AGORAMAIN.notification_endpoint,
+        data: {addUserNotification:value, roomId:AGORAMAIN._selected_Room},
+        dataType : 'JSON',
+        success : function(){
+            if(value && AGORAMAIN.user_room_notification.indexOf(AGORAMAIN._selected_Room) == -1){
+                AGORAMAIN.user_room_notification.push(AGORAMAIN._selected_Room);
+            }else if(!value && AGORAMAIN.user_room_notification.indexOf(AGORAMAIN._selected_Room) != -1){
+                AGORAMAIN.user_room_notification.splice(AGORAMAIN.user_room_notification.indexOf(AGORAMAIN._selected_Room), 1);
+            }
+        }
     });
 };
 
@@ -47,6 +69,9 @@ AGORAMAIN.handleAgoraRoomSelection = function(e)
     var box = $(this).find(".box")[0];
     $(this).addClass("selected");
     $(box).addClass("selected");
+
+    $("#user_notification_switch").attr('checked', (AGORAMAIN.user_room_notification.indexOf(AGORAMAIN._selected_Room) != -1 ? true : false));
+
 };
 
 AGORAMAIN.addNewRoom = function(data)
