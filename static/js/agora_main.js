@@ -23,7 +23,9 @@ AGORAMAIN.init = function(agora_id)
     });
 
     $("#agora_enter_button").on('click', function(){
-        window.open("./" + AGORAMAIN._selected_Room,"_self");
+        var url = window.location.href;
+        url = url[url.length-1] == '/' ? url : url + '/';
+        window.open(url + AGORAMAIN._selected_Room,"_self");
     });
 
     $("#user_notification_switch").on('click', function(e){
