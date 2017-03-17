@@ -3,7 +3,7 @@
 class SPODAGORA_CTRL_AgoraMain extends OW_ActionController
 {
 
-    private $COLORS = array("#FFD180", "#FFAB40", "#FF9100", "#FF6D00");
+    private $COLORS = array("#FFFFFF", "#FFF3E0", "#FFE0B2", "#FFCC80", "#FFB74D", "#FFA726", "#FF9800", "#FF9800", "#F57C00", "#EF6C00", "#E65100");
 
     public function index()
     {
@@ -42,25 +42,48 @@ class SPODAGORA_CTRL_AgoraMain extends OW_ActionController
 
     private function process_agora($agoras)
     {
-        //maxView, maxComments, maxOpendata
-        $maxStat = SPODAGORA_BOL_Service::getInstance()->getMaxAgoraStat();
+//        $maxStat = SPODAGORA_BOL_Service::getInstance()->getMaxAgoraStat();
 
         $today = date('Ymd');
         $yesterday = date('Ymd', strtotime('yesterday'));
 
+        $views_array = array();
+        $comments_array = array();
+        $opendata_array = array();
+
         foreach ($agoras as &$agora)
         {
+            array_push($views_array, $agora->views);
+            array_push($comments_array, $agora->comments);
+            array_push($opendata_array, $agora->opendata);
+        }
+
+        sort($views_array);
+        sort($comments_array);
+        sort($opendata_array);
+
+        foreach ($agoras as &$agora)
+        {
+            $view_index = array_search($agora->views, $views_array);
+            $view_index = round($view_index / (count($views_array) - 1), 1) * 10;
+
+            $comments_index = array_search($agora->comments, $comments_array);
+            $comments_index = round($comments_index / (count($comments_array) - 1), 1) * 10;
+
+            $opendata_index = array_search($agora->opendata, $opendata_array);
+            $opendata_index = round($opendata_index / (count($opendata_array) - 1), 1) * 10;
+
             $comments = SPODAGORA_BOL_Service::getInstance()->getAllLevesCommentsFromAgoraId($agora->id);
             $users_id = array_diff(array_unique(array_map(function($comments) { return $comments->ownerId; }, $comments)), [$agora->ownerId]);
             $avatars  = BOL_AvatarService::getInstance()->getDataForUserAvatars($users_id);
 
+//            $views_prctg    = ($agora->views*100/$maxStat["maxView"]);
+//            $comments_prctg = ($agora->comments*100/$maxStat["maxComments"]);
+//            $opendata_prctg = ($agora->opendata*100/$maxStat["maxOpendata"]);
 
-            $views_prctg    = ($agora->views*100/$maxStat["maxView"]);
-            $comments_prctg = ($agora->comments*100/$maxStat["maxComments"]);
-            $opendata_prctg = ($agora->opendata*100/$maxStat["maxOpendata"]);
-            $agora->stat = array("views" => $views_prctg, "viewsColor" => $this->COLORS[(int)($views_prctg/25.1)],
-                                 "comments" => $comments_prctg, "commentsColor" => $this->COLORS[(int)($comments_prctg/25.1)],
-                                 "opendata" => $opendata_prctg, "opendataColor" => $this->COLORS[(int)($opendata_prctg/25.1)]);
+            $agora->stat = array("views" => $view_index * 10, "viewsColor" => $this->COLORS[$view_index],
+                "comments" => $comments_index * 10, "commentsColor" => $this->COLORS[$comments_index],
+                "opendata" => $opendata_index * 10, "opendataColor" => $this->COLORS[$opendata_index]);
             $agora->timestamp = $this->process_timestamp($agora->timestamp, $today, $yesterday);
             $agora->avatars = $avatars;
             $agora->owner_avatar = BOL_AvatarService::getInstance()->getDataForUserAvatars(array($agora->ownerId));
