@@ -30,7 +30,7 @@
             <div id="agora_room_{$agora->id}" class="agora_room {if $i==0} selected {/if} {if $agora->ownerId == $user_id} owner {/if}">
                 <div class="room">
                     <div class="box {if $i==0} selected {/if}">
-                        <div class="box_left"></div>
+                        <div class="box_left">{$agora->unread_messages}</div>
                         <div class="box_right">
                             <div class="box_top">
                                 <div class="box_info">
