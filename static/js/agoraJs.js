@@ -107,6 +107,7 @@ agoraJs.prototype = (function(){
         var key = e.which || e.keyCode;
         if (key === 13 && !e.shiftKey ) { // 13 is enter
             e.preventDefault();
+            if(_elem.val() == "") return false;
             handle_message(_stringHandler ? _stringHandler(_elem.val()) : _elem.val());
         }
     };
