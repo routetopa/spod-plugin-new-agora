@@ -367,6 +367,23 @@ div#agora_search_svg:hover {
     width: calc(100% - 72px);
 }
 
+.agora_room.owner .room .box .box_right .box_owner{
+    width: 0;
+    height: 0;
+
+    border: 8px solid;
+
+    border-color: transparent #00BCD4 #00BCD4  transparent;
+
+    position: absolute;
+    bottom: 0;
+    right: 0;
+}
+
+.agora_room.owner:hover .room .box .box_right .box_owner{
+    border-color: transparent #00ACC1 #00ACC1  transparent;
+}
+
 .room .box .box_top {
     display: flex;
     flex-direction: row;
