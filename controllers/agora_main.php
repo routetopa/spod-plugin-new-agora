@@ -22,6 +22,7 @@ class SPODAGORA_CTRL_AgoraMain extends OW_ActionController
         $this->assign('agoras', $this->process_agora($raw_agora));
 
         $this->assign('isAuth_creation', OW::getAuthorization()->isUserAuthorized(OW::getUser()->getId(), 'spodagora', 'create_room'));
+        $this->assign('user_id', OW::getUser()->getId());
 
         $this->initializeJS($raw_agora[0]);
     }
@@ -88,6 +89,7 @@ class SPODAGORA_CTRL_AgoraMain extends OW_ActionController
             $agora->avatars = $avatars;
             $agora->owner_avatar = BOL_AvatarService::getInstance()->getDataForUserAvatars(array($agora->ownerId));
             $agora->suggestions = SPODAGORA_BOL_Service::getInstance()->getAgoraSuggestedDataset($agora->id);
+            $agora->unread_messages = count(SPODAGORA_BOL_Service::getInstance()->getUnreadCommentNumber($agora->id, OW::getUser()->getId()));
         }
 
         return $agoras;

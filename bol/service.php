@@ -262,6 +262,22 @@ class SPODAGORA_BOL_Service
         return $unread;
     }
 
+    public function getUnreadCommentNumber($roomId, $userId)
+    {
+        $dbo = OW::getDbo();
+
+        $sql = "SELECT * 
+                FROM  ow_spod_agora_room_comment
+                WHERE ow_spod_agora_room_comment.timeStamp > 
+                    (SELECT IFNULL( (SELECT last_access
+                     FROM ow_spod_agora_room_user_access 
+                     WHERE userId = {$userId} and roomId = {$roomId}), '1990-01-01 00:00:00') as last_access)  
+                AND   ow_spod_agora_room_comment.entityId = {$roomId} AND ow_spod_agora_room_comment.ownerId != {$userId}
+                ORDER BY timestamp DESC";
+
+        return $dbo->queryForObjectList($sql,'SPODAGORA_BOL_AgoraRoomComment');
+    }
+
     public function getNestedComment($room_id, $parent_id, $level)
     {
         $sql = "SELECT T.id, T.entityId, T.ownerId, T.comment, T.level, T.sentiment, T.timestamp,

@@ -27,7 +27,7 @@
         <div id="agora_room_container">
 
             {foreach from=$agoras key=i item=$agora}
-            <div id="agora_room_{$agora->id}" class="agora_room {if $i==0} selected {/if}">
+            <div id="agora_room_{$agora->id}" class="agora_room {if $i==0} selected {/if} {if $agora->ownerId == $user_id} owner {/if}">
                 <div class="room">
                     <div class="box {if $i==0} selected {/if}">
                         <div class="box_left"></div>
@@ -70,7 +70,7 @@
             <div class="agora_right_header">
                 <div class="agora_header_unread tooltips">
                     <span>{text key="spodagora+t_messages"}</span>
-                    --
+                    {$agora->unread_messages}
                 </div>
 
                 <div class="agora_right_title">{$agora->subject}</div>
