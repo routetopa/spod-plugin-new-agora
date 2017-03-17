@@ -3,7 +3,7 @@
     <div id="agora_left">
         <div id="agora_header">
             {if $isAuth_creation}
-            <div id="agora_header_add" class="tooltips left">
+            <div id="agora_header_add" class="tooltips">
                 <span>{text key="spodagora+t_add_new_agora"}</span>
             </div>
             {/if}
@@ -13,10 +13,10 @@
             <div id="agora_header_subtitle">A communi observantia non est recedendum.</div>
             <div id="agora_header_navigator">
                 <div id="tabs">
-                    <div class="tab selected">{text key="spodagora+most_relevant"}</div>
-                    <div class="tab">{text key="spodagora+most_popular"}</div>
-                    <div class="tab">{text key="spodagora+latest"}</div>
-                    <div class="tab">{text key="spodagora+my_agora"}</div>
+                    <div order-by="latest"   class="tab selected">{text key="spodagora+latest"}</div>
+                    <div order-by="relevant" class="tab">{text key="spodagora+most_relevant"}</div>
+                    <div order-by="popular"  class="tab">{text key="spodagora+most_popular"}</div>
+                    <div order-by="myagora"  class="tab">{text key="spodagora+my_agora"}</div>
                 </div>
                 <div id="search">
                     <input id="agora_search_input" placeholder="{text key='spodagora+search'}">
@@ -28,12 +28,10 @@
         <div id="agora_room_container">
 
             {foreach from=$agoras key=i item=$agora}
-            <div id="agora_room_{$agora->id}" class="agora_room {if $i==0} selected {/if} {if $agora->ownerId == $user_id} owner {/if}">
+            <div id="agora_room_{$agora->id}" data-latest="{count($agoras)-$i}" data-relevant="{$agora->unread_messages}" data-popular="{$agora->comments}" class="agora_room {if $i==0} selected {/if} {if $agora->ownerId == $user_id} owner {/if}">
                 <div class="room">
                     <div class="box {if $i==0} selected {/if}">
-                        <div class="box_left">
-                            <div class="box_unread">{$agora->unread_messages}</div>
-                        </div>
+                        <div class="box_left">{$agora->unread_messages}</div>
                         <div class="box_right">
                             <div class="box_top">
                                 <div class="box_info">
@@ -41,22 +39,22 @@
                                     <div class="box_title">{$agora->subject}</div>
                                 </div>
                                 <div class="box_stat">
-                                    <div class="box_line tooltips left">
+                                    <div class="box_line tooltips">
                                         <span>{$agora->views} {text key="spodagora+t_views"}</span>
                                         <div class="box_views" style="width: {$agora->stat["views"]}%; background-color:{$agora->stat["viewsColor"]}"></div>
                                     </div>
-                                    <div class="box_line tooltips left">
+                                    <div class="box_line tooltips">
                                         <span>{$agora->comments} {text key="spodagora+t_comments"}</span>
                                         <div class="box_comments" style="width: {$agora->stat["comments"]}%; background-color:{$agora->stat["commentsColor"]}"></div>
                                     </div>
-                                    <div class="box_line tooltips left">
+                                    <div class="box_line tooltips">
                                         <span>{$agora->opendata} {text key="spodagora+t_datalets"}</span>
                                         <div class="box_datalets" style="width: {$agora->stat["opendata"]}%; background-color:{$agora->stat["opendataColor"]}"></div>
                                     </div>
                                 </div>
                             </div>
                             <div class="box_bottom">{$agora->body}</div>
-                            <div class="box_owner tooltips left"><span>{text key="spodagora+my_owner"}</span></div>
+                            <div class="box_owner tooltips"><span>{text key="spodagora+my_owner"}</span></div>
                         </div>
                     </div>
                 </div>
@@ -72,7 +70,7 @@
         {foreach from=$agoras key=i item=$agora}
         <div id="agora_room_detail_{$agora->id}" class="detail_agora_container {if $i==0} detail_selected_agora {/if}">
             <div class="agora_right_header">
-                <div class="agora_header_unread tooltips left">
+                <div class="agora_header_unread tooltips">
                     <span>{text key="spodagora+t_messages"}</span>
                     {$agora->unread_messages}
                 </div>
@@ -134,9 +132,11 @@
 
                 <div class="agora_right_datasets agora_right_box">
                     <div class="head">{text key="spodagora+suggested_datasets"}
-                        <div class="add_suggested_dataset tooltips left">
+                        {if $user_id == $agora->ownerId}
+                        <div class="add_suggested_dataset tooltips">
                             <span>{text key="spodagora+t_add_new_dataset"}</span>
                         </div>
+                        {/if}
                     </div>
                     <div class="body suggestion_dataset_container">
                         {foreach from=$agora->suggestions key=j item=$suggestion}

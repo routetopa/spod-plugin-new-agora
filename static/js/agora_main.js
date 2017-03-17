@@ -50,10 +50,35 @@ AGORAMAIN.handleUseNotificationSwitch = function(value)
     });
 };
 
-AGORAMAIN.handleAgoraRoomTab = function()
+AGORAMAIN.handleAgoraRoomTab = function(e)
 {
     $(".tab").removeClass("selected");
     $(this).addClass("selected");
+
+    AGORAMAIN.sortAgoraRoom("latest");
+    $("#agora_room_container div.agora_room:not(.owner)").show();
+
+    switch (e.currentTarget.attributes["order-by"].value)
+    {
+        case "myagora"  : $("#agora_room_container div.agora_room:not(.owner)").hide(); break;
+        case "latest"   : break;
+        default         : AGORAMAIN.sortAgoraRoom(e.currentTarget.attributes["order-by"].value); break;
+    }
+
+};
+
+AGORAMAIN.sortAgoraRoom = function(param)
+{
+    var container = $('#agora_room_container');
+    var room = container.find('.agora_room');
+
+    [].sort.call(room, function(a,b) {
+        return +$(b).attr('data-'+param) - +$(a).attr('data-'+param);
+    });
+
+    room.each(function(){
+        container.append(this);
+    });
 };
 
 AGORAMAIN.handleAgoraRoomSelection = function(e)
