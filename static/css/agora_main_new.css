@@ -362,6 +362,29 @@ div#agora_search_svg:hover {
     background-color: #FB8C00;
 }
 
+.agora_room .box .box_left .box_unread{
+    position: relative;
+    top: 32px;
+    left: 40px;
+
+    width: 16px;
+    height: 16px;
+
+    padding: 4px;
+
+    background-color: #2196F3;
+    color: white;
+    border-radius: 50%;
+    line-height: 16px;
+    font-size: 12px;
+    font-weight: 700;
+    text-align: center;
+}
+
+.agora_room:hover .box .box_left .box_unread{
+    background-color: #1E88E5;
+}
+
 .room .box .box_right {
     /*background-color: blue;*/
     width: calc(100% - 72px);
@@ -561,85 +584,93 @@ div#agora_search_svg:hover {
 /*}*/
 /*!*end problem*!*/
 
-/* TOOLTIP */
+/* TOOLTIPS */
 
 .tooltips {
     position: relative;
 }
 .tooltips span {
     position: absolute;
+    height: 30px;
     font-size: 14px;
     font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    width: 0;
+    width: 140px;
     color: #FFFFFF;
-    background: #424242;
-    height: 30px;
+    /*background: #424242;*/
+    background-color: rgba(0, 0, 0, 0.8);
     line-height: 30px;
     text-align: center;
-    visibility: hidden;
+    display: none;
     border-radius: 5px;
-
-    overflow: hidden;
-    max-height: 30px;
+    z-index: 999;
 }
 .tooltips span:after {
     content: '';
     position: absolute;
-    left: 50%;
-    margin-left: -8px;
     width: 0;
     height: 0;
-    border-right: 8px solid transparent;
-    border-left: 8px solid transparent;
+    border: 8px solid transparent;
 }
 :hover.tooltips span {
-    width: 140px;
-    visibility: visible;
-    background-color: rgba(0, 0, 0, 0.8);
-    left: calc(50% + 6px);
-    margin-left: -76px;
-    z-index: 999;
+    display: inline;
 }
 
-.agora_room:not(:first-child) .tooltips span:after { /*non risolve.... tt left*/
-    border-top: 8px solid rgba(0, 0, 0, 0.8);
-    top: 100%;
-}
-.agora_room:not(:first-child) :hover.tooltips span {
-    bottom: 12px;
-}
+/*LEFT*/
 
-.agora_room:first-child .tooltips span:after {
-    border-bottom: 8px solid rgba(0, 0, 0, 0.8);
-    bottom: 100%;
+.tooltips.left span {
+    top: calc(50% - 15px);/*h/2*/
+    right: calc(100% + 12px);/*border 8 margin 4*/
 }
-.agora_room:first-child :hover.tooltips span {
-    top: 12px;
-}
-
-/* agora_header_add, agora_header_unread */
-#agora_header_add.tooltips span:after, .agora_header_unread.tooltips span:after {
-    top: 50%;
+.tooltips.left span:after {
+    top: 7px;
     left: 100%;
-    margin-top: -8px;
-    margin-left: -0 !important;
     border-left: 8px solid rgba(0, 0, 0, 0.8);
-    border-top: 8px solid transparent;
-    border-bottom: 8px solid transparent;
-}
-#agora_header_add:hover.tooltips span, .agora_header_unread:hover.tooltips span {
-    top: 5px;
-    left: -80px;
 }
 
-/*add_suggested_dataset*/
-.add_suggested_dataset.tooltips span:after {
-    border-top: 8px solid rgba(0, 0, 0, 0.8);
-    top: 100%;
-}
-.add_suggested_dataset:hover.tooltips span {
-    top: -40px;
-}
+/*shit*/
+
+
+/*.agora_room:not(:first-child) .tooltips span:after { !*non risolve.... tt left*!*/
+    /*border-top: 8px solid rgba(0, 0, 0, 0.8);*/
+    /*top: 100%;*/
+/*}*/
+/*.agora_room:not(:first-child) :hover.tooltips span {*/
+    /*bottom: 12px;*/
+/*}*/
+
+/*.agora_room:first-child .tooltips span:after {*/
+    /*border-bottom: 8px solid rgba(0, 0, 0, 0.8);*/
+    /*bottom: 100%;*/
+/*}*/
+/*.agora_room:first-child :hover.tooltips span {*/
+    /*top: 12px;*/
+/*}*/
+
+/*!* agora_header_add, agora_header_unread *!*/
+/*#agora_header_add.tooltips span:after, .agora_header_unread.tooltips span:after {*/
+    /*top: 50%;*/
+    /*left: 100%;*/
+    /*margin-top: -8px;*/
+    /*margin-left: -0 !important;*/
+    /*border-left: 8px solid rgba(0, 0, 0, 0.8);*/
+    /*border-top: 8px solid transparent;*/
+    /*border-bottom: 8px solid transparent;*/
+/*}*/
+/*#agora_header_add:hover.tooltips span, .agora_header_unread:hover.tooltips span {*/
+    /*top: 5px;*/
+    /*left: -80px;*/
+/*}*/
+
+/*!*add_suggested_dataset*!*/
+/*.add_suggested_dataset.tooltips span:after {*/
+    /*border-top: 8px solid rgba(0, 0, 0, 0.8);*/
+    /*top: 100%;*/
+/*}*/
+/*.add_suggested_dataset:hover.tooltips span {*/
+    /*top: -40px;*/
+/*}*/
+
+/* END TOOLTIP */
 
 /* ON THE TOP RIGHT OF THE TOP RIGHT COD*/
 
