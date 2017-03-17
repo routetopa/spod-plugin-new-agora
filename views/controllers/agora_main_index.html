@@ -2,9 +2,11 @@
 
     <div id="agora_left">
         <div id="agora_header">
+            {if $isAuth_creation}
             <div id="agora_header_add" class="tooltips">
                 <span>{text key="spodagora+t_add_new_agora"}</span>
             </div>
+            {/if}
 
             <div id="agora_header_title">{text key="spodagora+agora"}</div>
             <!--<div id="agora_header_subtitle">Tuesday, 15 November</div>-->

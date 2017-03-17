@@ -21,6 +21,8 @@ class SPODAGORA_CTRL_AgoraMain extends OW_ActionController
         $raw_agora = SPODAGORA_BOL_Service::getInstance()->getAgora();
         $this->assign('agoras', $this->process_agora($raw_agora));
 
+        $this->assign('isAuth_creation', OW::getAuthorization()->isUserAuthorized(OW::getUser()->getId(), 'spodagora', 'create_room'));
+
         $this->initializeJS($raw_agora[0]);
     }
 

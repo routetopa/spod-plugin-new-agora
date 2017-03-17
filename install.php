@@ -54,3 +54,9 @@ OW::getDbo()->query($sql);
 
 $path = OW::getPluginManager()->getPlugin('spodagora')->getRootDir() . 'langs.zip';
 BOL_LanguageService::getInstance()->importPrefixFromZip($path, 'spodagora');
+
+// Authorization
+$authorization = OW::getAuthorization();
+$groupName = 'spodagora';
+$authorization->addGroup($groupName);
+$authorization->addAction($groupName, 'create_room', true);
