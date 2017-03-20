@@ -603,8 +603,10 @@ div#agora_header_description
 .agora_header_users
 {
     width: calc( 100% - 32px );
+    height: 56px;
+    overflow-y: scroll;
     text-align: right;
-    margin: 0 16px;
+    padding: 0 16px;
 }
 
 #agora_body
@@ -847,6 +849,15 @@ input:checked + .slider:before {
 
     background: url("/ow_static/plugins/agora/images/eye.svg") no-repeat 0 0;
     display: none;
+}
+
+.agora_link_preview
+{
+    display: none;
+    width: calc(100% - 16px);
+    /*height: 402px;*/
+    overflow: hidden;
+    padding: 8px;
 }
 
 .agora_datalet_preview

@@ -65,14 +65,26 @@ class SPODAGORA_CTRL_AgoraMain extends OW_ActionController
 
         foreach ($agoras as &$agora)
         {
-            $view_index = array_search($agora->views, $views_array);
-            $view_index = round($view_index / (count($views_array) - 1), 1) * 10;
+            if(count($views_array) > 1) {
+                $view_index = array_search($agora->views, $views_array);
+                $view_index = round($view_index / (count($views_array) - 1), 1) * 10;
+            }
+            else
+                $view_index = 0;
 
-            $comments_index = array_search($agora->comments, $comments_array);
-            $comments_index = round($comments_index / (count($comments_array) - 1), 1) * 10;
+            if(count($comments_array) > 1) {
+                $comments_index = array_search($agora->comments, $comments_array);
+                $comments_index = round($comments_index / (count($comments_array) - 1), 1) * 10;
+            }
+            else
+                $comments_index = 0;
 
-            $opendata_index = array_search($agora->opendata, $opendata_array);
-            $opendata_index = round($opendata_index / (count($opendata_array) - 1), 1) * 10;
+            if(count($opendata_array) > 1) {
+                $opendata_index = array_search($agora->opendata, $opendata_array);
+                $opendata_index = round($opendata_index / (count($opendata_array) - 1), 1) * 10;
+            }
+            else
+                $opendata_index = 0;
 
             $comments = SPODAGORA_BOL_Service::getInstance()->getAllLevesCommentsFromAgoraId($agora->id);
             $users_id = array_diff(array_unique(array_map(function($comments) { return $comments->ownerId; }, $comments)), [$agora->ownerId]);
