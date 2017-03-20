@@ -21,7 +21,7 @@ AGORA.init = function ()
     AGORA.agoraUserNotification = new agoraUserNotificationJS();
 
     // Set plugin preview to 'public-room'
-    ODE.pluginPreview = 'public-room';
+    ODE.pluginPreview = 'agora';
 
     // Handler for windows resize
     window.addEventListener("resize", function () {
@@ -364,7 +364,7 @@ AGORA.handleRealtimeNotification = function ()
         // Handle realtime communication
         var socket = io(window.location.origin + ":3000");
 
-        socket.emit('online_notification', {user_id: AGORA.user_id, room_id: AGORA.roomId, plugin: 'spodpublic'});
+        socket.emit('online_notification', {user_id: AGORA.user_id, room_id: AGORA.roomId, plugin: 'agora'});
 
         socket.on('online_notification_' + AGORA.roomId, function (data) {
             data.forEach(function (e) {

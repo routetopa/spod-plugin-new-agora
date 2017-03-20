@@ -74,7 +74,8 @@ class SPODAGORA_CTRL_Importer extends OW_ActionController
     private function switchDatalet($idOldPost, $idNewPost, $datalet, $message, $father)
     {
 
-        $sql = "UPDATE ow_ode_datalet_post SET postId = {$idNewPost} where postId = {$idOldPost} and plugin = 'public-room';";
+        //$sql = "UPDATE ow_ode_datalet_post SET postId = {$idNewPost} where postId = {$idOldPost} and plugin = 'public-room';";
+        $sql = "INSERT INTO ow_ode_datalet_post (postId, dataletId, plugin) VALUES ('{$idNewPost}', '{$datalet["dataletId"]}', 'agora');";
         $dbo = OW::getDbo();
         $dbo->query($sql);
 

@@ -171,8 +171,8 @@ class SPODAGORA_BOL_Service
         SPODAGORA_BOL_AgoraRoomSuggestionDao::getInstance()->save($agoraRoomSuggestion);
         return $agoraRoomSuggestion->id;
     }
-    // READER
 
+    // READER
     public function getAgoraById($roomId)
     {
         return SPODAGORA_BOL_AgoraRoomDao::getInstance()->findById($roomId);
@@ -217,7 +217,7 @@ class SPODAGORA_BOL_Service
                              WHERE entityId = {$roomId} AND level = 1 
                              GROUP BY parentId) AS T ON ow_spod_agora_room_comment.id = T.parentId ) 
                          AS K LEFT JOIN 
-                            (SELECT dataletId, postId FROM ow_ode_datalet_post WHERE plugin = 'public-room') AS W ON K.id = W.postId ) 
+                            (SELECT dataletId, postId FROM ow_ode_datalet_post WHERE plugin = 'agora') AS W ON K.id = W.postId ) 
                             AS F LEFT JOIN ow_ode_datalet 
                             AS J ON F.dataletId = J.id
                 
