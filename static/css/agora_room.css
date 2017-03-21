@@ -604,7 +604,7 @@ div#agora_header_description
 {
     width: calc( 100% - 32px );
     height: 56px;
-    overflow-y: scroll;
+    overflow-y: auto;
     text-align: right;
     padding: 0 16px;
 }
