@@ -64,7 +64,7 @@ class SPODAGORA_CLASS_MailNotification extends OW_Component
         $this->assign('user', $user);
         $this->assign('time', $time);
         $this->assign('avatar', $avatar);
-        $this->assign('agora', "<b><a href='" . OW::getRouter()->urlForRoute('spodagora.main') . "/#!/" . $room_id . "'>" . $room->subject . "</a></b>");
+        $this->assign('agora', "<b><a href='" . OW::getRouter()->urlForRoute('spodagora.main') . "/" . $room_id . "'>" . $room->subject . "</a></b>");
 
         return parent::render();
     }
@@ -77,7 +77,7 @@ class SPODAGORA_CLASS_MailNotification extends OW_Component
         $this->assign('user', $user);
         $this->assign('time', $time);
         $this->assign('agora', $room->subject);
-        $this->assign('url', OW::getRouter()->urlForRoute('spodagora.main') . "/#!/" . $room_id);
+        $this->assign('url', OW::getRouter()->urlForRoute('spodagora.main') . "/" . $room_id);
         $this->assign('nl', '%%%nl%%%');
         $this->assign('tab', '%%%tab%%%');
         $this->assign('space', '%%%space%%%');
