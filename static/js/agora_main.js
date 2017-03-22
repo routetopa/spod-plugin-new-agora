@@ -4,7 +4,7 @@ AGORAMAIN = {
 
 AGORAMAIN.init = function(agora_id)
 {
-    AGORAMAIN._selected_Room = agora_id.toString();
+    AGORAMAIN._selected_Room = agora_id ? agora_id.toString() : '';
     $("#user_notification_switch").attr('checked', (AGORAMAIN.user_room_notification.indexOf(AGORAMAIN._selected_Room) != -1 ? true : false));
 
     $("#agora_room_container").perfectScrollbar();
@@ -23,9 +23,11 @@ AGORAMAIN.init = function(agora_id)
     });
 
     $("#agora_enter_button").on('click', function(){
-        var url = window.location.href;
-        url = url[url.length-1] == '/' ? url : url + '/';
-        window.open(url + AGORAMAIN._selected_Room,"_self");
+        if(AGORAMAIN._selected_Room != '') {
+            var url = window.location.href;
+            url = url[url.length - 1] == '/' ? url : url + '/';
+            window.open(url + AGORAMAIN._selected_Room, "_self");
+        }
     });
 
     $("#user_notification_switch").on('click', function(e){

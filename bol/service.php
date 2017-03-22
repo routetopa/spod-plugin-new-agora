@@ -363,4 +363,11 @@ class SPODAGORA_BOL_Service
 
         return SPODAGORA_BOL_AgoraRoomSuggestionDao::getInstance()->findListByExample($ex);
     }
+
+    public function getRoomSentiments($roomId)
+    {
+        $dbo = OW::getDbo();
+        $sql = "SELECT count(sentiment) as tot, sentiment FROM ow_spod_agora_room_comment where entityId = ". $roomId." group by sentiment order by sentiment;";
+        return $dbo->queryForList($sql);
+    }
 }

@@ -6,9 +6,6 @@ class SPODAGORA_CTRL_Agora extends OW_ActionController
     private $userId;
     private $avatars;
     private $agoraId;
-    private $satisfied = 0;
-    private $unsatisfied = 0;
-    private $tot_comments = 0;
     private $users_id;
 
     public function index(array $params)
@@ -57,7 +54,6 @@ class SPODAGORA_CTRL_Agora extends OW_ActionController
 
         SPODAGORA_BOL_Service::getInstance()->addAgoraRoomStat($this->agoraId, 'views');
         $raw_comments = SPODAGORA_BOL_Service::getInstance()->getCommentList($this->agoraId);
-        $this->tot_comments = count($raw_comments);
         $this->assign('comments', $this->process_comment($raw_comments));
 
         $raw_unread_comments = SPODAGORA_BOL_Service::getInstance()->getUnreadComment($this->agoraId, $this->userId);
@@ -103,7 +99,9 @@ class SPODAGORA_CTRL_Agora extends OW_ActionController
 
     private function initializeJS()
     {
-        $avatars = $this->avatars;
+        $avatars          = $this->avatars;
+        $sentiments       = SPODAGORA_BOL_Service::getInstance()->getRoomSentiments($this->agoraId);
+        $sentiments_count = $sentiments[0]['tot'] + $sentiments[1]['tot'] + $sentiments[2]['tot'];
 
         if(empty($avatars[$this->userId]))
         {
@@ -138,8 +136,8 @@ class SPODAGORA_CTRL_Agora extends OW_ActionController
             'agora_nested_comment_endpoint' => OW::getRouter()->urlFor('SPODAGORA_CTRL_Ajax', 'getNestedComment'),
             'user_notification_url' => OW::getRouter()->urlFor('SPODAGORA_CTRL_Ajax', 'handleUserNotification'),
             'datalet_graph' => $this->agora->datalet_graph,
-            'sat_prctg' => ($this->satisfied*100)/($this->tot_comments == 0 ? 1 : $this->tot_comments ),
-            'unsat_prctg' => ($this->unsatisfied*100)/($this->tot_comments == 0 ? 1 : $this->tot_comments ),
+            'sat_prctg' => ($sentiments[1]['tot']*100)/($sentiments_count == 0 ? 1 : $sentiments_count),
+            'unsat_prctg' => ($sentiments[2]['tot']*100)/($sentiments_count == 0 ? 1 : $sentiments_count),
             'search_url' => OW::getRouter()->urlFor('SPODAGORA_CTRL_Ajax', 'getSearchResult'),
             'user_friendship' => SPODAGORA_BOL_Service::getInstance()->getAgoraFriendship($this->users_id),
             'users_avatar' => $this->avatars,
@@ -168,8 +166,8 @@ class SPODAGORA_CTRL_Agora extends OW_ActionController
             switch ($comment->sentiment)
             {
                 case 0 : $comment->sentiment_class = 'neutral'; break;
-                case 1 : $comment->sentiment_class = 'satisfied'; $this->satisfied+=1; break;
-                case 2 : $comment->sentiment_class = 'dissatisfied'; $this->unsatisfied+=1; break;
+                case 1 : $comment->sentiment_class = 'satisfied'; break;
+                case 2 : $comment->sentiment_class = 'dissatisfied'; break;
             }
 
             if (!empty($comment->component)) {
