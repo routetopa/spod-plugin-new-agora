@@ -21,7 +21,8 @@ class SPODAGORA_CTRL_Agora extends OW_ActionController
 
         // AVATARS
         $all_level_comments = SPODAGORA_BOL_Service::getInstance()->getAllLevesCommentsFromAgoraId($this->agoraId);
-        $this->users_id = array_unique($this->array_push_return(array_map(function($comments) { return $comments->ownerId; }, $all_level_comments), $this->userId) );
+        //$this->users_id = array_unique($this->array_push_return(array_map(function($comments) { return $comments->ownerId; }, $all_level_comments), $this->agora->ownerId) );
+        $this->users_id = array_unique(array_merge(array_map(function($comments) { return $comments->ownerId; }, $all_level_comments), [$this->agora->ownerId, $this->userId]));
 
         $this->avatars  = BOL_AvatarService::getInstance()->getDataForUserAvatars($this->users_id);
         $this->assign('avatars', $this->avatars);
@@ -101,7 +102,9 @@ class SPODAGORA_CTRL_Agora extends OW_ActionController
     {
         $avatars          = $this->avatars;
         $sentiments       = SPODAGORA_BOL_Service::getInstance()->getRoomSentiments($this->agoraId);
-        $sentiments_count = $sentiments[0]['tot'] + $sentiments[1]['tot'] + $sentiments[2]['tot'];
+        $sentiments_count = ( (empty($sentiments[0]['tot']) ? $sentiments[0]['tot'] = 0 : $sentiments[0]['tot'])  +
+                              (empty($sentiments[1]['tot']) ? $sentiments[1]['tot'] = 0 : $sentiments[1]['tot'])  +
+                              (empty($sentiments[2]['tot']) ? $sentiments[2]['tot'] = 0 : $sentiments[2]['tot']) );
 
         if(empty($avatars[$this->userId]))
         {

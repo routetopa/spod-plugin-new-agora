@@ -33,6 +33,21 @@ AGORAMAIN.init = function(agora_id)
     $("#user_notification_switch").on('click', function(e){
         AGORAMAIN.handleUseNotificationSwitch($(e.currentTarget).is(':checked'));
     });
+
+    $("#agora_search_input").on('keyup', function(e){
+        var room = $('#agora_room_container').find('.agora_room');
+        room.show();
+
+        if(e.currentTarget.value == '')
+            return;
+
+        room.each(function(){
+            if($(this).find(".box_title")[0].innerHTML.toLowerCase().indexOf(e.currentTarget.value.toLowerCase()) == -1 &&
+                    $(this).find(".box_bottom")[0].innerHTML.toLowerCase().indexOf(e.currentTarget.value.toLowerCase()) == -1) {
+                $(this).hide();
+            }
+        });
+    });
 };
 
 AGORAMAIN.handleUseNotificationSwitch = function(value)
