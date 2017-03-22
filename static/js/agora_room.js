@@ -462,7 +462,9 @@ AGORA.openDiv = function (tab_id)
 
 AGORA.string_handler = function(string)
 {
-    return string.replace(/\n/g, "<br/>");
+    string = $('<div/>').text(string).html();
+    string = string.replace(/\n/g, "<br/>");
+    return string;
 };
 
 AGORA.fadeToPromise = function(from, to)
