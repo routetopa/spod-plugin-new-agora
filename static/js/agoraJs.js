@@ -91,10 +91,17 @@ agoraJs.prototype = (function(){
             _agoraCommentJS.getSiteMetaTags(url).then(function(data){
 
                 _processedUrl = url;
-                var snippet_template = AGORA.agora_static_resource_url + 'JSSnippet/site_preview.tpl';
-                var snippet_data     = [data.url, data.image, data.url, data.title, data.description, data.site_name];
 
-                _agoraCommentJS.getSnippet(snippet_template).then(function(snippet){
+                if(data.image) {
+                    var snippet_template = AGORA.agora_static_resource_url + 'JSSnippet/site_preview.tpl';
+                    var snippet_data = [data.url, data.image, data.url, data.title, data.description, data.site_name];
+                }
+                else {
+                    var snippet_template = AGORA.agora_static_resource_url + 'JSSnippet/site_preview_text.tpl';
+                    var snippet_data = [data.url, data.title ? data.title : "link", data.description ? data.description : "", data.site_name];
+                }
+
+                _agoraCommentJS.getSnippet(snippet_template).then(function (snippet) {
                     _preview = fill_snippet(snippet, snippet_data);
                     $("#agora_datalet_preview").html(_preview);
                     $("#agora_datalet_preview").show();

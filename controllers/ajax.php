@@ -150,6 +150,27 @@ class SPODAGORA_CTRL_Ajax extends OW_ActionController
                 $property = str_replace('og:', '', $property);
                 $list[$property] = $content;
             }
+
+            if (!$list["title"]) {
+                $node = $xpath->query('//title');
+                $list["title"] = $node->item(0)->nodeValue;
+            }
+            if (!$list["description"]) {
+                $node = $xpath->query('//p');
+                $list["description"] = $node->item(0)->nodeValue;
+            }
+            if (!$list["image"]) {
+                $node = $xpath->query('//img');
+                $list["image"] = $node->item(0)->getAttribute('src');
+            }
+            if (!$list["url"]) {
+                $list["url"] = $_REQUEST["url"];
+            }
+            if (!$list["site_name"]) {
+                $parse = parse_url($_REQUEST["url"]);
+                $list["site_name"] = $parse['host'];
+            }
+
         }catch (Exception $e){}
         finally {
             echo json_encode($list);
