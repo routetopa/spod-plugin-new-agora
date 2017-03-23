@@ -2,7 +2,7 @@
 
     <div id="agora_left">
         <div id="agora_header">
-            {if $isAuth_creation}
+            {if $isAuth && $isAuth_creation}
             <div id="agora_header_add" class="tooltips left">
                 <span>{text key="spodagora+t_add_new_agora"}</span>
             </div>
@@ -153,17 +153,17 @@
 
         <div id="right_bottom">
                 <!-- Rounded switch -->
+                {if $isAuth}
                 <label class="switch">
                     <input type="checkbox" id="user_notification_switch">
                     <div class="slider round"></div>
                 </label>
                 <div id="agora_notifications">{text key="spodagora+enable_notifications"}</div>
-
+                {/if}
             <div id="agora_enter_button">{text key="spodagora+enter"}</div>
         </div>
 
     </div>
-
 
 </div>
 

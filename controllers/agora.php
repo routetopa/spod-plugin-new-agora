@@ -78,6 +78,9 @@ class SPODAGORA_CTRL_Agora extends OW_ActionController
         // AGORA
         $this->assign('agora', $this->agora);
 
+        // IS AUTH
+        $this->assign('isAuth', OW::getUser()->isAuthenticated());
+
         $this->initializeJS();
     }
 

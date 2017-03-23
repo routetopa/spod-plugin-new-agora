@@ -38,6 +38,7 @@
                 <div class="agora_button_title">{text key="spodagora+m_datalets_graph"}</div>
             </div>
 
+            {if $isAuth}
             <div class="agora_notification_switch">
                 <!-- Rounded switch -->
                 <label class="switch">
@@ -46,6 +47,7 @@
                 </label>
                 <div class="agora_notification_switch_title">{text key="spodagora+m_notifications"}</div>
             </div>
+            {/if}
 
         </div>
 
@@ -82,6 +84,7 @@
 
             <div id="agora_nested_chat_container"></div>
 
+            {if $isAuth}
             <div class="agora_chat_input">
 
                 <div class="agora_datalet_preview" id="agora_datalet_preview" style=""></div>
@@ -93,6 +96,7 @@
                 <div class="agora_controllet_button" id="agora_controllet_button"></div>
                 <div class="agora_preview_button" id="agora_preview_button"></div>
             </div>
+            {/if}
 
         </div>
 
