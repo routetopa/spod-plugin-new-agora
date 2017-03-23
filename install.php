@@ -55,6 +55,8 @@ OW::getDbo()->query($sql);
 $path = OW::getPluginManager()->getPlugin('spodagora')->getRootDir() . 'langs.zip';
 BOL_LanguageService::getInstance()->importPrefixFromZip($path, 'spodagora');
 
+OW::getPluginManager()->addPluginSettingsRouteName('spodagora', 'agora-settings');
+
 // Authorization
 $authorization = OW::getAuthorization();
 $groupName = 'spodagora';

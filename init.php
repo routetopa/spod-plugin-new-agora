@@ -7,3 +7,6 @@ OW::getRouter()->addRoute(new OW_Route('spodagora.importer', 'agoraImporter/:roo
 
 // TEMP
 OW::getRouter()->addRoute(new OW_Route('spodagora.old.agora', 'oldAgora', "SPODAGORA_CTRL_AgoraMainOld", 'index'));
+
+//ADMIN
+OW::getRouter()->addRoute(new OW_Route('agora-settings', '/agora/settings', 'SPODAGORA_CTRL_Admin', 'settings'));

@@ -10,9 +10,20 @@ class SPODAGORA_CTRL_Agora extends OW_ActionController
 
     public function index(array $params)
     {
-        if ( !OW::getUser()->isAuthenticated() )
+        //Check if user can view this page
+        $preference = BOL_PreferenceService::getInstance()->findPreference('agora_is_visible_not_logged');
+        $is_visible_pref = empty($preference) ? "false" : $preference->defaultValue;
+
+        if ( !$is_visible_pref && !OW::getUser()->isAuthenticated())
         {
             throw new AuthenticateException();
+        }
+        else
+        {
+            if(!OW::getUser()->isAuthenticated() && OW::getPluginManager()->isPluginActive('openidconnect'))
+            {
+                $this->addComponent('authentication_component', new SPODAGORA_CMP_AuthenticationComponent());
+            }
         }
 
         $this->agoraId = $params['agora_id'];

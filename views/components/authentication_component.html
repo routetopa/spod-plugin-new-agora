@@ -1,0 +1,45 @@
+<style>
+    #authentication_component {
+        position: fixed;
+        right: 100px;
+        bottom: 120px;
+        background-color: #fff;
+        padding: 16px;
+        box-shadow: 2px 2px 2px #ccc;
+        border: 1px solid #ccc;
+        width: 375px;
+    }
+</style>
+
+<form id="authentication_component" method="post" action="{$url_openid_login}" class="openid_login">
+    <input type="hidden" name="redirect_success" value="{$url_redirect_success}">
+    <input type="hidden" name="redirect_failure" value="{$url_redirect_failure}">
+    <p>
+        Per partecipare alle discussioni su SPOD, accedi con le tue credenziali, o
+        clicca sul collegamento in basso per iscriverti.
+    </p>
+    <table>
+        <tr>
+            <th><label for="openid_url">{text key='openwall+oid_email'}:</label></th>
+            <td><input type="text" name="openid_url" value="" id="openid_url" /></td>
+        </tr>
+        <tr>
+            <th><label for="openid_pass">{text key='openwall+oid_password'}:</label></th>
+            <td><input type="password" name="openid_pass" value="" id="openid_pass" /></td>
+        </tr>
+        <tr>
+            <td colspan="2" class="form_commands">
+                <p>
+                <span class="ow_button">
+                    <span class="ow_positive">
+                        <input type="submit" value="{text key='openwall+oid_submit'}" class="ow_positive" />
+                    </span>
+                </span>
+                </p>
+                <p><a class="" href="{$url_password_reset}">{text key='openwall+oid_forgot'}</a>
+                    &nbsp;&nbsp;&bull;&nbsp;&nbsp;
+                    <a class="" href="{$url_openid_signup}">{text key='openwall+oid_register'}</a></p>
+            </td>
+        </tr>
+    </table>
+</form>

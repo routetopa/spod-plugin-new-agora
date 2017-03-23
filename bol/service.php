@@ -172,6 +172,20 @@ class SPODAGORA_BOL_Service
         return $agoraRoomSuggestion->id;
     }
 
+    public function removeAgora($roomId)
+    {
+        $this->deleteAgoraComments($roomId);
+        SPODAGORA_BOL_AgoraRoomDao::getInstance()->deleteById($roomId);
+    }
+
+    public function editAgora($roomId, $title, $body)
+    {
+        $agora = $this->getAgoraById($roomId);
+        $agora->subject = $title;
+        $agora->body = $body;
+        SPODAGORA_BOL_AgoraRoomDao::getInstance()->save($agora);
+    }
+
     // READER
     public function getAgoraById($roomId)
     {
@@ -369,5 +383,29 @@ class SPODAGORA_BOL_Service
         $dbo = OW::getDbo();
         $sql = "SELECT count(sentiment) as tot, sentiment FROM ow_spod_agora_room_comment where entityId = ". $roomId." group by sentiment order by sentiment;";
         return $dbo->queryForList($sql);
+    }
+
+    //Utils
+    private function deleteAgoraComments($agoraId)
+    {
+        $dbo = OW::getDbo();
+        $all_level_comments = $this->getAllLevesCommentsFromAgoraId($agoraId);
+        foreach ($all_level_comments as $comment)
+        {
+            $datalet = ODE_BOL_Service::getInstance()->getDataletByPostId($comment->id, 'agora');
+            if(!empty($datalet))
+            {
+                //Delete Association
+                $sql = "DELETE FROM ow_ode_datalet_post WHERE postId = {$comment->id} AND dataletId = {$datalet['id']} AND plugin = 'agora'; ";
+                $dbo->query($sql);
+                //Delete Datalet
+                $sql = "DELETE FROM ow_ode_datalet WHERE id = {$datalet['id']}; ";
+                $dbo->query($sql);
+            }
+            //Delete comment
+            $sql = "DELETE FROM ow_spod_agora_room_comment WHERE id = {$comment->id}; ";
+            $dbo->query($sql);
+        }
+
     }
 }
