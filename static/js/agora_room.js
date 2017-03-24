@@ -96,8 +96,8 @@ AGORA.init = function ()
     AGORA.handleSearchDOM();
 
     // Handle user comment
-    $(".agora_editor").on('click', function (e) {
-        AGORA.user_delete_comment(e, e.currentTarget);
+    $(".delete_comment").on('click', function (e) {
+        AGORA.user_delete_comment(e);
     });
 
     // Handler realtime notification (socket.io)
@@ -110,13 +110,14 @@ AGORA.init = function ()
     AGORA.initSentimentLiquid();
 };
 
-AGORA.user_delete_comment = function (evt, comment_dom)
+AGORA.user_delete_comment = function (e)
 {
-    var comment_id = $(evt.currentTarget).parent()[0].id.replace("comment_", "");
+    var comment = $(e.currentTarget).parent().parent().parent()[0];
+    var comment_id = comment.id.replace("comment_", "");
 
     AGORA.agoraUserCommentHandling.deleteComment(comment_id).then(function(data){
         if(data.result == 'ok')
-            $(comment_dom).parent().remove();
+            comment.remove();
     });
 };
 
@@ -283,8 +284,8 @@ AGORA.onCommentAdded = function (e)
     });
 
     // Handle user comment
-    $(".agora_editor").on('click', function (e) {
-        AGORA.user_delete_comment(e, e.currentTarget);
+    $(".delete_comment").on('click', function (e) {
+        AGORA.user_delete_comment(e);
     });
 };
 

@@ -43,9 +43,16 @@ CREATE TABLE IF NOT EXISTS `' . OW_DB_PREFIX . 'spod_agora_room_user_access` (
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ;
 
 CREATE TABLE IF NOT EXISTS `' . OW_DB_PREFIX . 'spod_agora_room_user_notification` (
-`id` INT NOT NULL AUTO_INCREMENT,
+  `id` INT NOT NULL AUTO_INCREMENT,
   `userId` INT NOT NULL,
   `roomId` INT NOT NULL,
+  PRIMARY KEY (`id`)
+)  ENGINE=MyISAM  DEFAULT CHARSET=utf8 ;
+
+CREATE TABLE IF NOT EXISTS `' . OW_DB_PREFIX . 'spod_agora_room_hashtag` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `roomId` INT NOT NULL,
+  `hashtag` VARCHAR(512),
   PRIMARY KEY (`id`)
 )  ENGINE=MyISAM  DEFAULT CHARSET=utf8 ;'
 ;
