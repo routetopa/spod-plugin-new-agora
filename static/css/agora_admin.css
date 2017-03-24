@@ -1,11 +1,79 @@
-.agora_editor
-{
+div.agora_editor_container {
     display: none;
+    margin-top: 8px;
+    width: 20px;
+
     align-items: center;
-    margin-left: 10px;
-    margin-right: 10px;
 }
 
-.agora_right_comment:hover .agora_editor, .agora_left_comment:hover .agora_editor{
+div.agora_editor
+{
+    color: #9E9E9E;
+    font-weight: 700;
+
+    cursor: pointer;
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+    text-align: center;
+
+    /*background-color: red;*/
+}
+
+div.agora_editor:before {
+    content: '...';
+}
+
+.agora_right_comment:hover .agora_editor_container, .agora_left_comment:hover .agora_editor_container{
     display: flex;
 }
+
+/* TOOLTIPS */
+
+.tooltips {
+    position: relative;
+}
+.tooltips span {
+    position: absolute;
+    height: 30px;
+    font-size: 14px;
+    font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    width: 140px;
+    color: #FFFFFF;
+    /*background: #424242;*/
+    background-color: rgba(0, 0, 0, 0.8);
+    line-height: 30px;
+    text-align: center;
+    display: none;
+    border-radius: 5px;
+    z-index: 999;
+}
+.tooltips span:after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 0;
+    border: 8px solid transparent;
+}
+:hover.tooltips span {
+    display: inline;
+}
+
+:hover.tooltips span:hover {
+    cursor: pointer;
+    /*text-decoration: underline;*/
+}
+
+/*TOP*/
+
+.tooltips.left span {
+    top: -38px;
+    left: -60px;
+}
+.tooltips.left span:after {
+    top: 30px;
+    right: calc(50% - 8px);
+    border-top: 8px solid rgba(0, 0, 0, 0.8);
+}
+
+/* END TOOLTIP */

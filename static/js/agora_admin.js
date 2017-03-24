@@ -1,6 +1,7 @@
 AGORA.admin_delete_comment = function() {
-    $(".agora_editor").on('click', function (e) {
-        var comment_id = $(e.currentTarget).parent()[0].id.replace("comment_", "");
+    $(".delete_comment").on('click', function (e) {
+        var comment = $(e.currentTarget).parent().parent().parent()[0];
+        var comment_id = comment.id.replace("comment_", "");
         $.ajax({
             type: 'POST',
             url: AGORA.delete_comment_endpoint,
@@ -9,7 +10,7 @@ AGORA.admin_delete_comment = function() {
 
         }).done(function (data) {
             if (data.result == 'ok') {
-                $(e.currentTarget).parent().remove();
+                comment.remove();
             }
         });
     });
