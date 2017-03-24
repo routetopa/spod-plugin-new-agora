@@ -78,7 +78,9 @@ class SPODAGORA_CTRL_Ajax extends OW_ActionController
     {
         if(OW::getUser()->isAdmin())
         {
-            SPODAGORA_BOL_Service::getInstance()->deleteComment($_REQUEST['commentId']);
+            $comment = SPODAGORA_BOL_Service::getInstance()->getCommentById($_REQUEST['commentId']);
+
+            SPODAGORA_BOL_Service::getInstance()->deleteComment($comment);
             echo '{"result":"ok", "comment_id":"' . $_REQUEST['commentId'] . '"}';
         }
         else
