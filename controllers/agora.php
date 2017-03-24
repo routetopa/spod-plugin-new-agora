@@ -195,7 +195,7 @@ class SPODAGORA_CTRL_Agora extends OW_ActionController
             $comment->owner_url     = $this->avatars[$comment->ownerId]["url"];
             $comment->avatar_url    = $this->avatars[$comment->ownerId]["src"];
             $comment->total_comment = isset($comment->total_comment) ? $comment->total_comment : 0;
-            $comment->timestamp     = $this->process_timestamp($comment->timestamp, $today, $yesterday);
+            $comment->timestamp     = SPODAGORA_CLASS_Tools::getInstance()->process_timestamp($comment->timestamp, $today, $yesterday);
 
             $comment->css_class       = $this->userId == $comment->ownerId ? 'agora_right_comment' : 'agora_left_comment';
 
@@ -218,25 +218,6 @@ class SPODAGORA_CTRL_Agora extends OW_ActionController
         }
 
         return $comments;
-    }
-
-    private function process_timestamp($timestamp, $today, $yesterday)
-    {
-        $date = date('Ymd', strtotime($timestamp));
-
-        if($date == $today)
-            return date('H:i', strtotime($timestamp));
-
-        if($date == $yesterday)
-            return OW::getLanguage()->text('spodagora', 'yesterday'). " " . date('H:i', strtotime($timestamp));
-
-        return date('H:i m/d', strtotime($timestamp));
-    }
-
-    private function array_push_return($array, $val)
-    {
-        array_push($array, $val);
-        return $array;
     }
 
 }

@@ -116,7 +116,7 @@ class SPODAGORA_CTRL_AgoraMain extends OW_ActionController
             $agora->stat = array("views" => $view_index * 10, "viewsColor" => $this->COLORS[$view_index],
                 "comments" => $comments_index * 10, "commentsColor" => $this->COLORS[$comments_index],
                 "opendata" => $opendata_index * 10, "opendataColor" => $this->COLORS[$opendata_index]);
-            $agora->timestamp = $this->process_timestamp($agora->timestamp, $today, $yesterday);
+            $agora->timestamp = SPODAGORA_CLASS_Tools::getInstance()->process_timestamp($agora->timestamp, $today, $yesterday);
             $agora->avatars = $avatars;
             $agora->owner_avatar = BOL_AvatarService::getInstance()->getDataForUserAvatars(array($agora->ownerId));
             $agora->suggestions = SPODAGORA_BOL_Service::getInstance()->getAgoraSuggestedDataset($agora->id);
@@ -124,19 +124,6 @@ class SPODAGORA_CTRL_AgoraMain extends OW_ActionController
         }
 
         return $agoras;
-    }
-
-    private function process_timestamp($timestamp, $today, $yesterday)
-    {
-        $date = date('Ymd', strtotime($timestamp));
-
-        if($date == $today)
-            return date('H:i', strtotime($timestamp));
-
-        if($date == $yesterday)
-            return OW::getLanguage()->text('spodagora', 'yesterday'). " " . date('H:i', strtotime($timestamp));
-
-        return date('H:i m/d', strtotime($timestamp));
     }
 
 }
