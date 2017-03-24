@@ -58,6 +58,12 @@ class SPODAGORA_CTRL_Agora extends OW_ActionController
 
         OW::getDocument()->addScript(OW::getPluginManager()->getPlugin('spodagora')->getStaticJsUrl() . 'liquidFillGauge.js');
 
+        if(OW::getUser()->isAdmin())
+        {
+            OW::getDocument()->addScript(OW::getPluginManager()->getPlugin('spodagora')->getStaticJsUrl() . 'agora_admin.js');
+            OW::getDocument()->addStyleSheet(OW::getPluginManager()->getPlugin('spodagora')->getStaticCssUrl() . 'agora_admin.css');
+        }
+
         OW::getLanguage()->addKeyForJs('spodagora', 'c_just_now');
         OW::getLanguage()->addKeyForJs('spodagora', 'c_reply');
         OW::getLanguage()->addKeyForJs('spodagora', 'g_datalets');

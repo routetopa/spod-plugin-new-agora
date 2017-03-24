@@ -88,23 +88,6 @@ AGORA.init = function ()
         AGORA.handleUserNotification(e);
     });
 
-    /* MOVE TO SEPARATE JS !!!! */
-    $(".agora_editor").on('click', function(e){
-        var comment_id = $(e.currentTarget).parent()[0].id.replace("comment_","");
-        $.ajax({
-            type: 'POST',
-            url : AGORA.delete_comment_endpoint,
-            data: {commentId:comment_id},
-            dataType : 'JSON'
-
-        }).done(function(data){
-            if(data.result == 'ok'){
-                $(e.currentTarget).parent().remove();
-            }
-        });
-    });
-    /* MOVE TO SEPARATE JS !!!! */
-
     // Handle search
     AGORA.handleSearchDOM();
 
