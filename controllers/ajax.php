@@ -74,6 +74,19 @@ class SPODAGORA_CTRL_Ajax extends OW_ActionController
         exit;
     }
 
+    public function deleteComment()
+    {
+        if(OW::getUser()->isAdmin())
+        {
+            SPODAGORA_BOL_Service::getInstance()->deleteComment($_REQUEST['commentId']);
+            echo '{"result":"ok", "comment_id":"' . $_REQUEST['commentId'] . '"}';
+        }
+        else
+            echo '{"result":"ko"}';
+
+        exit;
+    }
+
     public function addAgoraRoom()
     {
         $id = SPODAGORA_BOL_Service::getInstance()->addAgoraRoom(OW::getUser()->getId(),

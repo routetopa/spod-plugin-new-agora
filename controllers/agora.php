@@ -162,6 +162,18 @@ class SPODAGORA_CTRL_Agora extends OW_ActionController
         ));
 
         OW::getDocument()->addOnloadScript($js);
+
+        if(OW::getUser()->isAdmin())
+        {
+            $js = UTIL_JsGenerator::composeJsString('
+            AGORA.delete_comment_endpoint = {$delete_comment_endpoint}
+            ',array(
+                'delete_comment_endpoint' => OW::getRouter()->urlFor('SPODAGORA_CTRL_Ajax', 'deleteComment')
+            ));
+
+            OW::getDocument()->addOnloadScript($js);
+        }
+
         OW::getDocument()->addOnloadScript('AGORA.init();');
     }
 

@@ -45,6 +45,11 @@ class SPODAGORA_BOL_Service
         return $c;
     }
 
+    public function deleteComment($commentId)
+    {
+        SPODAGORA_BOL_AgoraRoomCommentDao::getInstance()->deleteById($commentId);
+    }
+
     public function addCommentWithTimestamp($entityId, $parentId, $ownerId,
                                $comment, $level, $sentiment, $timestamp)
     {
