@@ -66,10 +66,12 @@ class SPODAGORA_BOL_Service
                 $dbo->query($sql);
                 //Delete Datalet
                 $sql = "DELETE FROM ow_ode_datalet WHERE id = {$datalet['id']}; ";
+                $this->subAgoraRoomStat($comment->entityId, 'opendata');
                 $dbo->query($sql);
             }
             //Delete comment
             $sql = "DELETE FROM ow_spod_agora_room_comment WHERE id = {$comment->id}; ";
+            $this->subAgoraRoomStat($comment->entityId, 'comments');
             $dbo->query($sql);
         }
     }
@@ -169,6 +171,14 @@ class SPODAGORA_BOL_Service
     public function addAgoraRoomStat($agoraId, $field)
     {
         $sql = "UPDATE ".OW_DB_PREFIX."spod_agora_room SET {$field} = {$field} + 1 WHERE id = {$agoraId};";
+        $dbo = OW::getDbo();
+
+        return $dbo->query($sql);
+    }
+
+    public function subAgoraRoomStat($agoraId, $field)
+    {
+        $sql = "UPDATE ".OW_DB_PREFIX."spod_agora_room SET {$field} = {$field} - 1 WHERE id = {$agoraId};";
         $dbo = OW::getDbo();
 
         return $dbo->query($sql);
