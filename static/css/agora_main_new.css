@@ -343,12 +343,14 @@ input#agora_search_input:focus::-moz-placeholder { /* Chrome/Opera/Safari */
 }
 
 .room .box .box_info {
-    width: 75%;
+    /*width: 75%;*/
+    width: calc(100% - 160px);
     height: 48px;
 }
 
 .room .box .box_stat {
-    width: calc(25% - 32px);
+    /*width: calc(25% - 32px);*/
+    width: 128px;
     height: 40px;
     margin: 4px 16px;
 }
