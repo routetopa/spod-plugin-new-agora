@@ -45,9 +45,33 @@ class SPODAGORA_BOL_Service
         return $c;
     }
 
-    public function deleteComment($commentId)
+    public function deleteComment($comment)
     {
-        SPODAGORA_BOL_AgoraRoomCommentDao::getInstance()->deleteById($commentId);
+        $dbo = OW::getDbo();
+        $comments = [$comment];
+
+        $ex = new OW_Example();
+        $ex->andFieldEqual('parentId', $comment->id);
+        $nested_comment = SPODAGORA_BOL_AgoraRoomCommentDao::getInstance()->findListByExample($ex);
+
+        $comments = array_merge($comments, $nested_comment);
+
+        foreach ($comments as $comment)
+        {
+            $datalet = ODE_BOL_Service::getInstance()->getDataletByPostId($comment->id, 'agora');
+            if(!empty($datalet))
+            {
+                //Delete Association
+                $sql = "DELETE FROM ow_ode_datalet_post WHERE postId = {$comment->id} AND dataletId = {$datalet['id']} AND plugin = 'agora'; ";
+                $dbo->query($sql);
+                //Delete Datalet
+                $sql = "DELETE FROM ow_ode_datalet WHERE id = {$datalet['id']}; ";
+                $dbo->query($sql);
+            }
+            //Delete comment
+            $sql = "DELETE FROM ow_spod_agora_room_comment WHERE id = {$comment->id}; ";
+            $dbo->query($sql);
+        }
     }
 
     public function addCommentWithTimestamp($entityId, $parentId, $ownerId,

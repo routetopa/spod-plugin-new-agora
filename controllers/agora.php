@@ -148,6 +148,7 @@ class SPODAGORA_CTRL_Agora extends OW_ActionController
             AGORA.user_friendship = {$user_friendship}
             AGORA.users_avatar = {$users_avatar}
             AGORA.get_site_tag_endpoint = {$get_site_tag_endpoint}
+            AGORA.delete_user_comment_endpoint = {$delete_user_comment_endpoint}
          ', array(
             'roomId' => $this->agoraId,
             'agora_comment_endpoint' => OW::getRouter()->urlFor('SPODAGORA_CTRL_Ajax', 'addComment'),
@@ -164,10 +165,12 @@ class SPODAGORA_CTRL_Agora extends OW_ActionController
             'search_url' => OW::getRouter()->urlFor('SPODAGORA_CTRL_Ajax', 'getSearchResult'),
             'user_friendship' => SPODAGORA_BOL_Service::getInstance()->getAgoraFriendship($this->users_id),
             'users_avatar' => $this->avatars,
-            'get_site_tag_endpoint' => OW::getRouter()->urlFor('SPODAGORA_CTRL_Ajax', 'getSiteMetaTags')
+            'get_site_tag_endpoint' => OW::getRouter()->urlFor('SPODAGORA_CTRL_Ajax', 'getSiteMetaTags'),
+            'delete_user_comment_endpoint' => OW::getRouter()->urlFor('SPODAGORA_CTRL_Ajax', 'deleteUserComment')
         ));
 
         OW::getDocument()->addOnloadScript($js);
+        OW::getDocument()->addOnloadScript('AGORA.init();');
 
         if(OW::getUser()->isAdmin())
         {
@@ -179,8 +182,6 @@ class SPODAGORA_CTRL_Agora extends OW_ActionController
 
             OW::getDocument()->addOnloadScript($js);
         }
-
-        OW::getDocument()->addOnloadScript('AGORA.init();');
     }
 
     private function process_comment(&$comments)

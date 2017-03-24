@@ -9,4 +9,5 @@
             <div class="agora_speech_reply">{9}</div>
         </div>
     </div>
+    <div class="agora_editor">...</div>
 </div>

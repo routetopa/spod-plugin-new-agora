@@ -1245,3 +1245,15 @@ div.no_img .preview_title {
 
     border-bottom: 1px solid #BDBDBD;
 }
+
+.agora_editor
+{
+    display: none;
+    align-items: center;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.agora_right_comment:hover .agora_editor {
+    display: flex;
+}

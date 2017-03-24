@@ -2,6 +2,7 @@ AGORA = {
     agoraJS:null,
     agoraUserNotification:null,
     agoraSearchJS:null,
+    agoraUserCommentHandling:null,
     debounce:true,
     searchStringLenght:3
 };
@@ -19,6 +20,9 @@ AGORA.init = function ()
 
     // agoraUserNotification
     AGORA.agoraUserNotification = new agoraUserNotificationJS();
+
+    // agoraUseCommentHandling
+    AGORA.agoraUserCommentHandling = new agoraUserCommentHandling();
 
     // Set plugin preview to 'public-room'
     ODE.pluginPreview = 'agora';
@@ -91,6 +95,11 @@ AGORA.init = function ()
     // Handle search
     AGORA.handleSearchDOM();
 
+    // Handle user comment
+    $(".agora_editor").on('click', function (e) {
+        AGORA.user_delete_comment(e, e.currentTarget);
+    });
+
     // Handler realtime notification (socket.io)
     AGORA.handleRealtimeNotification();
     // Init datalet graph
@@ -99,6 +108,16 @@ AGORA.init = function ()
     AGORA.initUserGraph();
     // Init liquid sentiment
     AGORA.initSentimentLiquid();
+};
+
+AGORA.user_delete_comment = function (evt, comment_dom)
+{
+    var comment_id = $(evt.currentTarget).parent()[0].id.replace("comment_", "");
+
+    AGORA.agoraUserCommentHandling.deleteComment(comment_id).then(function(data){
+        if(data.result == 'ok')
+            $(comment_dom).parent().remove();
+    });
 };
 
 AGORA.handleSearchDOM = function ()
@@ -261,6 +280,11 @@ AGORA.onCommentAdded = function (e)
 
     $(elem).parent().find(".agora_speech_reply").click(function (e) {
         AGORA.onReplyClick(e);
+    });
+
+    // Handle user comment
+    $(".agora_editor").on('click', function (e) {
+        AGORA.user_delete_comment(e, e.currentTarget);
     });
 };
 

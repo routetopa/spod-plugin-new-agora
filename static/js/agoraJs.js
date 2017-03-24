@@ -96,7 +96,8 @@ agoraJs.prototype = (function(){
                     var snippet_template = AGORA.agora_static_resource_url + 'JSSnippet/site_preview.tpl';
                     var snippet_data = [data.url, data.image, data.url, data.title, data.description, data.site_name];
                 }
-                else {
+                else
+                {
                     var snippet_template = AGORA.agora_static_resource_url + 'JSSnippet/site_preview_text.tpl';
                     var snippet_data = [data.url, data.title ? data.title : "link", data.description ? data.description : "", data.site_name];
                 }
@@ -371,4 +372,24 @@ agoraSearchJS.prototype = (function () {
             });
         }
     }
+})();
+
+function agoraUserCommentHandling(){}
+
+agoraUserCommentHandling.prototype = (function(){
+
+    return {
+        construct:agoraUserCommentHandling,
+
+        deleteComment: function(comment_id) {
+            return $.ajax({
+                type: 'POST',
+                url : AGORA.delete_user_comment_endpoint,
+                data: {commentId:comment_id},
+                dataType : 'JSON'
+            });
+        }
+
+    }
+
 })();

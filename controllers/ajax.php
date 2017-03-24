@@ -87,6 +87,21 @@ class SPODAGORA_CTRL_Ajax extends OW_ActionController
         exit;
     }
 
+    public function deleteUserComment()
+    {
+        $comment = SPODAGORA_BOL_Service::getInstance()->getCommentById($_REQUEST['commentId']);
+
+        if(OW::getUser()->getId() == $comment->ownerId)
+        {
+            SPODAGORA_BOL_Service::getInstance()->deleteComment($comment);
+            echo '{"result":"ok", "comment_id":"' . $_REQUEST['commentId'] . '"}';
+        }
+        else
+            echo '{"result":"ko", "error":"it is not your comment"}';
+
+        exit;
+    }
+
     public function addAgoraRoom()
     {
         $id = SPODAGORA_BOL_Service::getInstance()->addAgoraRoom(OW::getUser()->getId(),

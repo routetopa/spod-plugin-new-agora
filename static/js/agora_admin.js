@@ -13,4 +13,4 @@ AGORA.admin_delete_comment = function() {
             }
         });
     });
-}
+}();
