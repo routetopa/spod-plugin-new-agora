@@ -183,19 +183,23 @@ class SPODAGORA_CTRL_Ajax extends OW_ActionController
 
             if (!$list["title"]) {
                 $node = $xpath->query('//title');
-                $list["title"] = $node->item(0)->nodeValue;
+                if($node->length > 0)
+                    $list["title"] = $node->item(0)->nodeValue;
             }
             if (!$list["description"]) {
                 $node = $xpath->query('//p');
-                $list["description"] = $node->item(0)->nodeValue;
+                if($node->length > 0)
+                    $list["description"] = $node->item(0)->nodeValue;
             }
             if (!$list["image"]) {
                 $node = $xpath->query('//img');
-                $list["image"] = $node->item(0)->getAttribute('src');
+                if($node->length > 0)
+                    $list["image"] = $node->item(0)->getAttribute('src');
             }
             if (!$list["url"]) {
                 $list["url"] = $_REQUEST["url"];
             }
+
             if (!$list["site_name"]) {
                 $parse = parse_url($_REQUEST["url"]);
                 $list["site_name"] = $parse['host'];
@@ -206,7 +210,6 @@ class SPODAGORA_CTRL_Ajax extends OW_ActionController
             echo json_encode($list);
             exit;
         }
-
     }
 
     public function handleUserNotification()
