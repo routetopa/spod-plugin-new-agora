@@ -89,10 +89,10 @@
                 </div>
 
                 <div class="agora_right_hashtag agora_right_box">
-                    <div class="head">HASHTAGS</div>
+                    <div class="head">{text key="spodagora+hashtags"}</div>
                     <div class="body">
                         {foreach from=$agora->hashtags item=$ht}
-                        <span>#{$ht->hashtag}</span>
+                        <span class="hashtag">#{$ht->hashtag}</span>
                         {/foreach}
                     </div>
                 </div>

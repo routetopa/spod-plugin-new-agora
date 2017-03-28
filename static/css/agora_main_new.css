@@ -786,3 +786,9 @@ div.detail_selected_agora
 }
 
 /* SWITCH END */
+
+/*hashtag*/
+span.hashtag {
+    color: #00BCD4;/*00BCD4 FF9800*/
+    font-weight: 700;
+}

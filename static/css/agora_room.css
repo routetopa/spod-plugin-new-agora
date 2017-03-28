@@ -1326,3 +1326,9 @@ div.agora_editor:before {
 }
 
 /* END TOOLTIP */
+
+/*hashtag*/
+.agora_speech_text span.hashtag {
+    color: #00BCD4;/*00BCD4 FF9800*/
+    font-weight: 700;
+}
