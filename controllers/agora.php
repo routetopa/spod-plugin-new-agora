@@ -40,6 +40,9 @@ class SPODAGORA_CTRL_Agora extends OW_ActionController
 
         OW::getDocument()->getMasterPage()->setTemplate(OW::getPluginManager()->getPlugin('spodagora')->getRootDir() . 'master_pages/main.html');
 
+        OW::getDocument()->setTitle($this->agora->subject);
+        OW::getDocument()->setDescription($this->agora->body);
+
         OW::getDocument()->addScript(OW::getPluginManager()->getPlugin('spodagora')->getStaticJsUrl() . 'agora_room.js');
         OW::getDocument()->addScript(OW::getPluginManager()->getPlugin('spodagora')->getStaticJsUrl() . 'agoraJs.js');
 
