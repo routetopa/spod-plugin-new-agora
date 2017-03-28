@@ -4,6 +4,7 @@ class SPODAGORA_CTRL_AgoraMain extends OW_ActionController
 {
 
     private $COLORS = array("#FFFFFF", "#FFF3E0", "#FFE0B2", "#FFCC80", "#FFB74D", "#FFA726", "#FF9800", "#FF9800", "#F57C00", "#EF6C00", "#E65100");
+    private $hashtags = [];
 
     public function index()
     {
@@ -23,6 +24,9 @@ class SPODAGORA_CTRL_AgoraMain extends OW_ActionController
             }
         }
 
+        OW::getDocument()->setTitle('Agora');
+        OW::getDocument()->setDescription('Agora agora');
+
         OW::getDocument()->getMasterPage()->setTemplate(OW::getPluginManager()->getPlugin('spodagora')->getRootDir() . 'master_pages/main.html');
 
         OW::getDocument()->addScript(OW::getPluginManager()->getPlugin('spodagora')->getStaticJsUrl() . 'agora_main.js');
@@ -31,6 +35,10 @@ class SPODAGORA_CTRL_AgoraMain extends OW_ActionController
         OW::getDocument()->addStyleSheet(OW::getPluginManager()->getPlugin('spodagora')->getStaticCssUrl() . 'perfect-scrollbar.min.css');
 
         OW::getDocument()->addStyleSheet(OW::getPluginManager()->getPlugin('spodagora')->getStaticCssUrl() . 'agora_main_new.css');
+
+        // Autocomplete
+        OW::getDocument()->addScript(OW::getPluginManager()->getPlugin('spodagora')->getStaticJsUrl() . 'auto-complete.min.js');
+        OW::getDocument()->addStyleSheet(OW::getPluginManager()->getPlugin('spodagora')->getStaticCssUrl() . 'auto-complete.css');
 
         OW::getLanguage()->addKeyForJs('spodagora', 'c_just_now');
 
@@ -51,9 +59,11 @@ class SPODAGORA_CTRL_AgoraMain extends OW_ActionController
         $js = UTIL_JsGenerator::composeJsString('
             AGORAMAIN.user_room_notification = {$user_room_notification}           
             AGORAMAIN.notification_endpoint  = {$notification_endpoint}           
+            AGORAMAIN.hashtag = {$hashtag}           
          ', array(
             'user_room_notification' => SPODAGORA_BOL_Service::getInstance()->getAllUserNotification(OW::getUser()->getId()),
-            'notification_endpoint' => OW::getRouter()->urlFor('SPODAGORA_CTRL_Ajax', 'handleUserNotification')
+            'notification_endpoint' => OW::getRouter()->urlFor('SPODAGORA_CTRL_Ajax', 'handleUserNotification'),
+            'hashtag' => $this->hashtags
         ));
 
         OW::getDocument()->addOnloadScript($js);
@@ -123,6 +133,10 @@ class SPODAGORA_CTRL_AgoraMain extends OW_ActionController
             $agora->unread_messages = count(SPODAGORA_BOL_Service::getInstance()->getUnreadCommentNumber($agora->id, OW::getUser()->getId()));
 
             $agora->hashtags = SPODAGORA_BOL_Service::getInstance()->getRoomHashtag($agora->id);
+            foreach ($agora->hashtags as $ht)
+            {
+                $this->hashtags[] = '#'.$ht->hashtag;
+            }
         }
 
         return $agoras;

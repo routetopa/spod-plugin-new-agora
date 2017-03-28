@@ -34,6 +34,20 @@ AGORAMAIN.init = function(agora_id)
         AGORAMAIN.handleUseNotificationSwitch($(e.currentTarget).is(':checked'));
     });
 
+    new autoComplete({
+        selector: '#agora_search_input',
+        minChars: 2,
+        source: function(term, suggest){
+            term = term.toLowerCase();
+            var choices =  AGORAMAIN.hashtag;
+            var matches = [];
+            for (let i=0; i<choices.length; i++)
+                if (~choices[i].toLowerCase().indexOf(term)) matches.push(choices[i]);
+            suggest(matches);
+        }
+    });
+
+
     $("#agora_search_input").on('keyup', function(e){
         var room = $('#agora_room_container').find('.agora_room');
         room.show();
@@ -43,18 +57,18 @@ AGORAMAIN.init = function(agora_id)
 
         room.each(function(){
             //search on room hashtags
-            if(e.currentTarget.value[0] == '#')
+            if(e.currentTarget.value[0] === '#')
             {
                 if(e.currentTarget.value.length < 2)
                     return;
 
-                if($(this).attr('data-hashtag').toLowerCase().indexOf(e.currentTarget.value.toLowerCase() + ' ') == -1){
+                if($(this).attr('data-hashtag').toLowerCase().indexOf(e.currentTarget.value.toLowerCase() + ' ') === -1){
                     $(this).hide();
                 }
             }
             //search on title and description
-            else if($(this).find(".box_title")[0].innerHTML.toLowerCase().indexOf(e.currentTarget.value.toLowerCase()) == -1 &&
-                    $(this).find(".box_bottom")[0].innerHTML.toLowerCase().indexOf(e.currentTarget.value.toLowerCase()) == -1) {
+            else if($(this).find(".box_title")[0].innerHTML.toLowerCase().indexOf(e.currentTarget.value.toLowerCase()) === -1 &&
+                    $(this).find(".box_bottom")[0].innerHTML.toLowerCase().indexOf(e.currentTarget.value.toLowerCase()) === -1) {
                 $(this).hide();
             }
         });

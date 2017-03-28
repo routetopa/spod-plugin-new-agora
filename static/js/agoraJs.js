@@ -159,10 +159,11 @@ agoraJs.prototype = (function(){
         {
             if(raw_data.result == "ok")
             {
-                var target           = (_level == 0) ? $("#agora_chat_container") : $("#agora_nested_chat_container");
-                var snippet_url      = (_level == 0) ? AGORA.agora_static_resource_url + 'JSSnippet/comment.tpl' : AGORA.agora_static_resource_url + 'JSSnippet/nested_comment.tpl';
-                var sentiment        = (_sentiment == 0 ? 'neutral' : (_sentiment == 1 ?'satisfied' : 'dissatisfied'));
-                var snippet_data     = [raw_data.post_id, sentiment, AGORA.username, AGORA.user_url, AGORA.user_avatar_src, (_stringHandler(_message) + _preview), raw_data.post_id, AGORA.username, OW.getLanguageText('spodagora', 'c_just_now'), OW.getLanguageText('spodagora', 'c_reply')+' (0)', OW.getLanguageText('spodagora', 't_delete')];
+                var target           = (_level === 0) ? $("#agora_chat_container") : $("#agora_nested_chat_container");
+                var snippet_url      = (_level === 0) ? AGORA.agora_static_resource_url + 'JSSnippet/comment.tpl' : AGORA.agora_static_resource_url + 'JSSnippet/nested_comment.tpl';
+                var sentiment        = (_sentiment === 0 ? 'neutral' : (_sentiment === 1 ?'satisfied' : 'dissatisfied'));
+                var snippet_data     = (_level === 0) ? [raw_data.post_id, sentiment, AGORA.username, AGORA.user_url, AGORA.user_avatar_src, (_stringHandler(_message) + _preview), raw_data.post_id, AGORA.username, OW.getLanguageText('spodagora', 'c_just_now'), OW.getLanguageText('spodagora', 'c_reply')+' (0)', OW.getLanguageText('spodagora', 't_delete')] :
+                                                [raw_data.post_id, sentiment, AGORA.username, AGORA.user_url, AGORA.user_avatar_src, (_stringHandler(_message) + _preview), raw_data.post_id, AGORA.username, OW.getLanguageText('spodagora', 'c_just_now'), OW.getLanguageText('spodagora', 't_delete')];
                 var datalet          = ODE.dataletParameters;
                 var post_id          = raw_data.post_id;
 
