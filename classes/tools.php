@@ -31,4 +31,21 @@ class SPODAGORA_CLASS_Tools
         return $array;
     }
 
+    public function check_value($params)
+    {
+        foreach ($params as $var)
+        {
+            if(!isset($_REQUEST[$var]))
+                return false;
+        }
+
+        return true;
+    }
+
+    public function get_hashtag($str)
+    {
+        preg_match_all('/(^|[^a-z0-9_])#([a-z0-9_]+)/i', $str, $matches);
+        return array_unique($matches[2]);
+    }
+
 }

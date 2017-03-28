@@ -28,7 +28,7 @@ class SPODAGORA_BOL_Service
 
     // WRITER
     public function addComment($entityId, $parentId, $ownerId,
-                               $comment, $level, $sentiment)
+                               $comment, $level, $sentiment, $hast_tags)
     {
         $c = new SPODAGORA_BOL_AgoraRoomComment();
 
@@ -41,6 +41,15 @@ class SPODAGORA_BOL_Service
         //$c->timestamp  = time();
 
         SPODAGORA_BOL_AgoraRoomCommentDao::getInstance()->save($c);
+
+        foreach ($hast_tags as $ht)
+        {
+            $h_t = new SPODAGORA_BOL_AgoraRoomHashtag();
+            $h_t->roomId = $entityId;
+            $h_t->commentId = $c->id;
+            $h_t->hashtag = $ht;
+            SPODAGORA_BOL_AgoraRoomHashtagDao::getInstance()->save($h_t);
+        }
 
         return $c;
     }
@@ -69,6 +78,12 @@ class SPODAGORA_BOL_Service
                 $this->subAgoraRoomStat($comment->entityId, 'opendata');
                 $dbo->query($sql);
             }
+
+            //Delete comment hashtag
+            $ex = new OW_Example();
+            $ex->andFieldEqual('commentId', $comment->id);
+            SPODAGORA_BOL_AgoraRoomHashtagDao::getInstance()->deleteByExample($ex);
+
             //Delete comment
             $sql = "DELETE FROM ow_spod_agora_room_comment WHERE id = {$comment->id}; ";
             $this->subAgoraRoomStat($comment->entityId, 'comments');
@@ -213,7 +228,15 @@ class SPODAGORA_BOL_Service
 
     public function removeAgora($roomId)
     {
+        // delete all comments, datalets, datalet-post association
         $this->deleteAgoraComments($roomId);
+
+        // delete all room hashtags
+        $ex = new OW_Example();
+        $ex->andFieldEqual('roomId', $roomId);
+        SPODAGORA_BOL_AgoraRoomHashtagDao::getInstance()->deleteByExample($ex);
+
+        // delete room
         SPODAGORA_BOL_AgoraRoomDao::getInstance()->deleteById($roomId);
     }
 
@@ -422,6 +445,14 @@ class SPODAGORA_BOL_Service
         $dbo = OW::getDbo();
         $sql = "SELECT count(sentiment) as tot, sentiment FROM ow_spod_agora_room_comment where entityId = ". $roomId." group by sentiment order by sentiment;";
         return $dbo->queryForList($sql);
+    }
+
+    public function getRoomHashtag($roomId)
+    {
+        $ex = new OW_Example();
+        $ex->andFieldEqual('roomId', $roomId);
+
+        return SPODAGORA_BOL_AgoraRoomHashtagDao::getInstance()->findListByExample($ex);
     }
 
     //Utils

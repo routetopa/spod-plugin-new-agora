@@ -121,6 +121,8 @@ class SPODAGORA_CTRL_AgoraMain extends OW_ActionController
             $agora->owner_avatar = BOL_AvatarService::getInstance()->getDataForUserAvatars(array($agora->ownerId));
             $agora->suggestions = SPODAGORA_BOL_Service::getInstance()->getAgoraSuggestedDataset($agora->id);
             $agora->unread_messages = count(SPODAGORA_BOL_Service::getInstance()->getUnreadCommentNumber($agora->id, OW::getUser()->getId()));
+
+            $agora->hashtags = SPODAGORA_BOL_Service::getInstance()->getRoomHashtag($agora->id);
         }
 
         return $agoras;

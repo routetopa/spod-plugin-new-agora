@@ -42,7 +42,18 @@ AGORAMAIN.init = function(agora_id)
             return;
 
         room.each(function(){
-            if($(this).find(".box_title")[0].innerHTML.toLowerCase().indexOf(e.currentTarget.value.toLowerCase()) == -1 &&
+            //search on room hashtags
+            if(e.currentTarget.value[0] == '#')
+            {
+                if(e.currentTarget.value.length < 2)
+                    return;
+
+                if($(this).attr('data-hashtag').toLowerCase().indexOf(e.currentTarget.value.toLowerCase() + ' ') == -1){
+                    $(this).hide();
+                }
+            }
+            //search on title and description
+            else if($(this).find(".box_title")[0].innerHTML.toLowerCase().indexOf(e.currentTarget.value.toLowerCase()) == -1 &&
                     $(this).find(".box_bottom")[0].innerHTML.toLowerCase().indexOf(e.currentTarget.value.toLowerCase()) == -1) {
                 $(this).hide();
             }

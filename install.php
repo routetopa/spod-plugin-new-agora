@@ -52,6 +52,7 @@ CREATE TABLE IF NOT EXISTS `' . OW_DB_PREFIX . 'spod_agora_room_user_notificatio
 CREATE TABLE IF NOT EXISTS `' . OW_DB_PREFIX . 'spod_agora_room_hashtag` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `roomId` INT NOT NULL,
+  `commentId` INT NOT NULL,
   `hashtag` VARCHAR(512),
   PRIMARY KEY (`id`)
 )  ENGINE=MyISAM  DEFAULT CHARSET=utf8 ;'

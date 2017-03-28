@@ -27,7 +27,8 @@
         <div id="agora_room_container">
 
             {foreach from=$agoras key=i item=$agora}
-            <div id="agora_room_{$agora->id}" data-latest="{count($agoras)-$i}" data-relevant="{$agora->unread_messages}" data-popular="{$agora->comments}" class="agora_room {if $i==0} selected {/if} {if $agora->ownerId == $user_id} owner {/if}">
+            <div id="agora_room_{$agora->id}" data-latest="{count($agoras)-$i}" data-relevant="{$agora->unread_messages}" data-popular="{$agora->comments}" data-hashtag="{foreach from=$agora->hashtags item=$ht}#{$ht->hashtag} {/foreach}"
+                    class="agora_room {if $i==0} selected {/if} {if $agora->ownerId == $user_id} owner {/if}">
                 <div class="room">
                     <div class="box {if $i==0} selected {/if}">
                         <div class="box_left">
@@ -85,6 +86,15 @@
                 <div class="agora_right_description agora_right_box">
                     <div class="head">{text key="spodagora+description"}</div>
                     <div class="body">{$agora->body}</div>
+                </div>
+
+                <div class="agora_right_hashtag agora_right_box">
+                    <div class="head">HASHTAGS</div>
+                    <div class="body">
+                        {foreach from=$agora->hashtags item=$ht}
+                        <span>#{$ht->hashtag}</span>
+                        {/foreach}
+                    </div>
                 </div>
 
                 <div class="agora_right_stat agora_right_box">

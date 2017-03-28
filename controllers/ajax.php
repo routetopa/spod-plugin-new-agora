@@ -21,8 +21,11 @@ class SPODAGORA_CTRL_Ajax extends OW_ActionController
             throw new AuthenticateException();
         }
 
-        if($this->check_value(array("entityId", "parentId", "comment", "level", "sentiment")))
+        if(SPODAGORA_CLASS_Tools::getInstance()->check_value(["entityId", "parentId", "comment", "level", "sentiment"]))
         {
+            //Get hashtag
+            $ht = SPODAGORA_CLASS_Tools::getInstance()->get_hashtag($_REQUEST['comment']);
+
             // Change \n to <br> for correct visualization of new line in HTML
             $comment  = str_replace("\n", "<br/>", htmlentities($_REQUEST['comment']));
             $comment .= $_REQUEST["preview"];
@@ -32,7 +35,8 @@ class SPODAGORA_CTRL_Ajax extends OW_ActionController
                 OW::getUser()->getId(),
                 $comment,
                 $_REQUEST['level'],
-                $_REQUEST['sentiment']);
+                $_REQUEST['sentiment'],
+                $ht);
 
             //Increment the comments number
             SPODAGORA_BOL_Service::getInstance()->addAgoraRoomStat($_REQUEST['entityId'], 'comments');
@@ -251,18 +255,6 @@ class SPODAGORA_CTRL_Ajax extends OW_ActionController
         }
         catch(Exception $e)
         {}
-    }
-
-    //Utils
-    private function check_value($params)
-    {
-        foreach ($params as $var)
-        {
-            if(!isset($_REQUEST[$var]))
-                return false;
-        }
-
-        return true;
     }
 
 

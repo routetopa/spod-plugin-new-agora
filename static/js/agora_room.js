@@ -24,7 +24,7 @@ AGORA.init = function ()
     // agoraUseCommentHandling
     AGORA.agoraUserCommentHandling = new agoraUserCommentHandling();
 
-    // Set plugin preview to 'public-room'
+    // Set plugin preview to 'agora'
     ODE.pluginPreview = 'agora';
 
     // Handler for windows resize
@@ -187,7 +187,7 @@ AGORA.onReplyClick = function (e)
 {
     AGORA.agoraJS.set_level_up();
     AGORA.agoraJS.set_parentId($(e.currentTarget).parents().eq(2).attr('id'));
-    AGORA.agoraJS.get_nested_comment().then(AGORA.levelUp);
+    AGORA.agoraJS.get_nested_comment().then(AGORA.levelUp).then();
 };
 
 AGORA.levelUp = function (data)
@@ -210,6 +210,14 @@ AGORA.levelUp = function (data)
     anc.mouseout(function () {
         ans.addClass("agora_nested_speech_text");
     });
+
+    // Handle user comment
+    $(".delete_comment").on('click', function (e) {
+        AGORA.user_delete_comment(e);
+    });
+
+    //Emoticonize
+    $('.agora_speech_text').emoticonize();
 
     return AGORA.fadeToPromise($("#agora_chat_container")[0], ancc[0]);
 };
