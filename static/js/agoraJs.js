@@ -223,7 +223,7 @@ agoraJs.prototype = (function(){
 
     var fill_snippet = function(snippet, snippet_data)
     {
-        var re = /{[0-9]*}/g;
+        var re = /{[0-9]+}/g;
         var index = 0;
 
         var k = snippet.replace(re, function (match, tag, string) {

@@ -415,13 +415,25 @@ AGORA.handleRealtimeNotification = function ()
 
             var target;
 
+            // Increment reply count
+            if(AGORA.roomId != data.parent_id)
+            {
+                var reply_el = $("#comment_" + data.parent_id).find('.agora_speech_reply');
+                var reply_text = reply_el.html().replace(/([0-9]+)/g, function (match, tag, string) {
+                    return ++match;
+                });
+                reply_el.html(reply_text);
+            }
+
             if (AGORA.user_id != data.user_id) {
-                if (data.comment_level == 0)
+
+                if (data.comment_level == 0) {
                     target = $("#agora_chat_container");
-                else if (AGORA.agoraJS.get_parentId() == data.parent_id)
+                }else if(AGORA.agoraJS.get_parentId() == data.parent_id){
                     target = $("#agora_nested_chat_container");
-                else
+                }else{
                     return;
+                }
 
                 AGORA.agoraJS.add_rt_comment(
                     AGORA.agora_static_resource_url + 'JSSnippet/rt_comment.tpl',
