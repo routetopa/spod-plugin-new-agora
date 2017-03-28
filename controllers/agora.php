@@ -66,6 +66,7 @@ class SPODAGORA_CTRL_Agora extends OW_ActionController
 
         OW::getLanguage()->addKeyForJs('spodagora', 'c_just_now');
         OW::getLanguage()->addKeyForJs('spodagora', 'c_reply');
+        OW::getLanguage()->addKeyForJs('spodagora', 't_delete');
         OW::getLanguage()->addKeyForJs('spodagora', 'g_datalets');
         OW::getLanguage()->addKeyForJs('spodagora', 'g_datasets');
         OW::getLanguage()->addKeyForJs('spodagora', 'g_time');
