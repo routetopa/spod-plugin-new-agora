@@ -107,7 +107,7 @@ AGORAMAIN.handleAgoraRoomTab = function(e)
     $(this).removeClass("unsort");
     $(this).addClass(_class);
 
-    AGORAMAIN.sortAgoraRoom("latest");
+    AGORAMAIN.sortAgoraRoom("latest", (_class == 'sort-down'));
     $("#agora_room_container div.agora_room:not(.owner)").show();
 
     switch (e.currentTarget.attributes["order-by"].value)
@@ -118,13 +118,13 @@ AGORAMAIN.handleAgoraRoomTab = function(e)
     }
 };
 
-AGORAMAIN.sortAgoraRoom = function(param)
+AGORAMAIN.sortAgoraRoom = function(param, asc=true)
 {
     var container = $('#agora_room_container');
     var room = container.find('.agora_room');
 
     [].sort.call(room, function(a,b) {
-        return +$(b).attr('data-'+param) - +$(a).attr('data-'+param);
+        return asc ?  +$(b).attr('data-'+param) - +$(a).attr('data-'+param) : +$(a).attr('data-'+param) - +$(b).attr('data-'+param);
     });
 
     room.each(function(){

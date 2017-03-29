@@ -63,7 +63,7 @@ class SPODAGORA_CTRL_AgoraMain extends OW_ActionController
          ', array(
             'user_room_notification' => SPODAGORA_BOL_Service::getInstance()->getAllUserNotification(OW::getUser()->getId()),
             'notification_endpoint' => OW::getRouter()->urlFor('SPODAGORA_CTRL_Ajax', 'handleUserNotification'),
-            'hashtag' => array_values(array_unique($this->hashtags))
+            'hashtag' => $this->hashtags
         ));
 
         OW::getDocument()->addOnloadScript($js);
@@ -135,7 +135,8 @@ class SPODAGORA_CTRL_AgoraMain extends OW_ActionController
             $agora->hashtags = SPODAGORA_BOL_Service::getInstance()->getRoomHashtag($agora->id);
             foreach ($agora->hashtags as $ht)
             {
-                $this->hashtags[] = '#'.$ht->hashtag;
+                if(!in_array('#'.$ht->hashtag, $this->hashtags))
+                    $this->hashtags[] = '#'.$ht->hashtag;
             }
         }
 
