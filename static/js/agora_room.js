@@ -221,6 +221,9 @@ AGORA.levelUp = function (data)
     //Emoticonize
     $('.agora_speech_text').emoticonize();
 
+    //Hashtag
+    $('.agora_speech_text').highlightHashtag('#');
+
     return AGORA.fadeToPromise($("#agora_chat_container")[0], ancc[0]);
 };
 
@@ -282,6 +285,7 @@ AGORA.onCommentAdded = function (e)
     var elem = $("#agora_datalet_placeholder_" + e.post_id);
     var parent_children = elem.parent().children()[0];
     $(parent_children).emoticonize();
+    $(parent_children).highlightHashtag('#');
 
     if(e.component != "") {
         elem.addClass("agora_fullsize_datalet " + e.component);
@@ -297,6 +301,8 @@ AGORA.onCommentAdded = function (e)
     $(".delete_comment").on('click', function (e) {
         AGORA.user_delete_comment(e);
     });
+
+
 };
 
 AGORA.onAgoraSentimentButton = function()
