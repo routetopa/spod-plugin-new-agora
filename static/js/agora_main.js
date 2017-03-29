@@ -47,7 +47,6 @@ AGORAMAIN.init = function(agora_id)
         }
     });
 
-
     $("#agora_search_input").on('keyup', function(e){
         var room = $('#agora_room_container').find('.agora_room');
         room.show();

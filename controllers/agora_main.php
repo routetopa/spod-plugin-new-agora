@@ -63,7 +63,7 @@ class SPODAGORA_CTRL_AgoraMain extends OW_ActionController
          ', array(
             'user_room_notification' => SPODAGORA_BOL_Service::getInstance()->getAllUserNotification(OW::getUser()->getId()),
             'notification_endpoint' => OW::getRouter()->urlFor('SPODAGORA_CTRL_Ajax', 'handleUserNotification'),
-            'hashtag' => $this->hashtags
+            'hashtag' => array_values(array_unique($this->hashtags))
         ));
 
         OW::getDocument()->addOnloadScript($js);
