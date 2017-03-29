@@ -104,7 +104,8 @@
     cursor: pointer;
     height: 10px;
     line-height: 12px;
-    font-size: 12px;
+    /*font-size: 12px;*/
+    font-size: 0.8vw;
     text-align: center;
 
     border-top: 1px solid #BDBDBD;
@@ -114,7 +115,26 @@
     transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
 
     padding: 14px 4px;
+
+    /*background:  url("/ow_static/plugins/agora/images/arrow-drop.svg") right no-repeat;*/
+    /*background-size: 20px 20px;*/
 }
+
+#agora_header_navigator .tab.sort-down {
+    background:  url("/ow_static/plugins/agora/images/arrow-drop-down.svg") right no-repeat;
+    background-size: 20px 20px;
+}
+
+#agora_header_navigator .tab.sort-up {
+    background:  url("/ow_static/plugins/agora/images/arrow-drop-up.svg") right no-repeat;
+    background-size: 20px 20px;
+}
+
+#agora_header_navigator .tab.unsort {
+    background:  url("/ow_static/plugins/agora/images/arrow-drop.svg") right no-repeat;
+    background-size: 20px 20px;
+}
+
 
 #agora_header_navigator .tab:last-child {
     border-right: 1px solid #BDBDBD;
@@ -153,7 +173,7 @@ input#agora_search_input {
 
     background:  url("/ow_static/plugins/agora/images/search.svg") right no-repeat;
     background-size: 20px 20px;
-    padding-right:20px;
+    padding-right: 20px;
 }
 
 input#agora_search_input:focus {
@@ -184,10 +204,13 @@ input#agora_search_input:focus::-moz-placeholder { /* Chrome/Opera/Safari */
     overflow: hidden !important;
     height: calc( 100% - 136px);/*-24px*/
     width: 100%;
+
+    z-index: 9;
 }
 
 .ps-container>.ps-scrollbar-y-rail{
     right: 20px !important;
+    z-index: 1;
 }
 
 .agora_room
@@ -203,7 +226,7 @@ input#agora_search_input:focus::-moz-placeholder { /* Chrome/Opera/Safari */
     width: 0;
     height: 0;
     right: 0;
-    top: calc(50% - 16px);
+    top: calc(50% - 16px - 12px);
     border: 16px solid;
     border-color: transparent #FFFFFF transparent transparent;
 }

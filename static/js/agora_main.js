@@ -94,8 +94,19 @@ AGORAMAIN.handleUseNotificationSwitch = function(value)
 
 AGORAMAIN.handleAgoraRoomTab = function(e)
 {
-    $(".tab").removeClass("selected");
+    var _class;
+    if ($(this).hasClass("unsort"))
+        _class = "sort-down";
+    else if ($(this).hasClass("sort-down"))
+        _class = "sort-up";
+    else //sort-up
+        _class = "sort-down"; // _class = "unsort";
+
+    $(".tab").removeClass("selected sort-down sort-up");
+    $(".tab").addClass("unsort");
     $(this).addClass("selected");
+    $(this).removeClass("unsort");
+    $(this).addClass(_class);
 
     AGORAMAIN.sortAgoraRoom("latest");
     $("#agora_room_container div.agora_room:not(.owner)").show();
@@ -106,7 +117,6 @@ AGORAMAIN.handleAgoraRoomTab = function(e)
         case "latest"   : break;
         default         : AGORAMAIN.sortAgoraRoom(e.currentTarget.attributes["order-by"].value); break;
     }
-
 };
 
 AGORAMAIN.sortAgoraRoom = function(param)
