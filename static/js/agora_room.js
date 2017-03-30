@@ -139,7 +139,7 @@ AGORA.user_edit_comment = function (e)
         {
             AGORA.agoraUserCommentHandling.editComment(comment_id, e.currentTarget.value).then(function(data){
                 if(data.result == 'ok')
-                    $(e.currentTarget).parent().html($(e.currentTarget).val());
+                    $(e.currentTarget).parent().html(AGORA.string_handler($(e.currentTarget).val()));
             });
         }
     });
