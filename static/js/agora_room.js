@@ -240,12 +240,16 @@ AGORA.levelUp = function (data)
     $(".delete_comment").on('click', function (e) {
         AGORA.user_delete_comment(e);
     });
+    $(".modify_comment").on('click', function(e){
+        AGORA.user_edit_comment(e);
+    });
 
     //Emoticonize
     $('.agora_speech_text').emoticonize();
 
     //Hashtag
     $('.agora_speech_text').highlightHashtag('#');
+
 
     return AGORA.fadeToPromise($("#agora_chat_container")[0], ancc[0]);
 };
