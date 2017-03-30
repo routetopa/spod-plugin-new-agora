@@ -1297,32 +1297,37 @@ div.agora_editor:before {
     border-radius: 5px;
     z-index: 999;
 }
+.tooltips > span span {
+    display: inline-block;
+    width: 90px;
+    text-align: center;
+}
 .tooltips > span span:hover {
     color: #00BCD4;
 }
-.tooltips span:after {
+.tooltips > span:after {
     content: '';
     position: absolute;
     width: 0;
     height: 0;
     border: 8px solid transparent;
 }
-:hover.tooltips span {
+:hover.tooltips > span {
     display: inline;
 }
 
-:hover.tooltips span:hover {
+:hover.tooltips > span:hover {
     cursor: pointer;
     /*text-decoration: underline;*/
 }
 
 /*TOP*/
 
-.tooltips.left span {
+.tooltips.left > span {
     top: -38px;
     left: -80px;
 }
-.tooltips.left span:after {
+.tooltips.left > span:after {
     top: 30px;
     right: calc(50% - 8px);
     border-top: 8px solid rgba(0, 0, 0, 0.8);

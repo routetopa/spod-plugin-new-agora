@@ -98,14 +98,16 @@ AGORAMAIN.handleAgoraRoomTab = function(e)
         _class = "sort-down";
     else if ($(this).hasClass("sort-down"))
         _class = "sort-up";
-    else //sort-up
-        _class = "sort-down"; // _class = "unsort";
+    else if ($(this).hasClass("sort-up"))
+        _class = "sort-down";
+    else
+        _class = "unsort";
 
-    $(".tab").removeClass("selected sort-down sort-up");
-    $(".tab").addClass("unsort");
+    $($(".tab")[0]).removeClass("unsort sort-down sort-up");
+    $($(".tab")[0]).addClass(_class);
+
+    $(".tab").removeClass("selected");
     $(this).addClass("selected");
-    $(this).removeClass("unsort");
-    $(this).addClass(_class);
 
     AGORAMAIN.sortAgoraRoom("latest", (_class == 'sort-down'));
     $("#agora_room_container div.agora_room:not(.owner)").show();

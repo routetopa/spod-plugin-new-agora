@@ -13,9 +13,9 @@
             <div id="agora_header_navigator">
                 <div id="tabs">
                     <div order-by="latest"   class="tab sort-down selected">{text key="spodagora+latest"}</div>
-                    <div order-by="relevant" class="tab unsort">{text key="spodagora+most_relevant"}</div>
-                    <div order-by="popular"  class="tab unsort">{text key="spodagora+most_popular"}</div>
-                    <div order-by="myagora"  class="tab unsort">{text key="spodagora+my_agora"}</div>
+                    <div order-by="relevant" class="tab">{text key="spodagora+most_relevant"}</div>
+                    <div order-by="popular"  class="tab">{text key="spodagora+most_popular"}</div>
+                    <div order-by="myagora"  class="tab">{text key="spodagora+my_agora"}</div>
                 </div>
                 <div id="search">
                     <input id="agora_search_input" placeholder="{text key='spodagora+search'}">
@@ -25,6 +25,33 @@
         </div>
 
         <div id="agora_room_container">
+
+            <!-- Death Star -->
+            <script type="text/javascript">
+
+            </script>
+            <div id="deathStar" data-latest="0" data-relevant="0" data-popular="0" data-hashtag="#deathStar"
+                 class="agora_room {if $agora->ownerId == $user_id} owner {/if}"
+                 onclick="$('#agora_right').toggle(); $('#agora_right_sw').toggle(); setTimeout(function() { $('#sw_audio')[0].play(); }, 4000)">
+                <div class="room">
+                    <div class="box">
+                        <div class="box_left">
+                        </div>
+                        <div class="box_right">
+                            <div class="box_top">
+                                <div class="box_info">
+                                    <div class="box_date">21 October 1977</div>
+                                    <div class="box_title">Death Star</div>
+                                </div>
+                                <div class="box_stat">
+                                </div>
+                            </div>
+                            <div class="box_bottom">The first Death Star was stated to be over 100 km in diameter with a volume of 7,240,000 cubic kilometers, or approximately 1/25 the size of Earth's Moon. It was crewed by an estimated 1.7 million military personnel and 400,000 droids. Its superweapon delivered enough energies on a scale equivalent to all the energy released by the Sun in an entire week.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Death Star End -->
 
             {foreach from=$agoras key=i item=$agora}
             <div id="agora_room_{$agora->id}" data-latest="{count($agoras)-$i}" data-relevant="{$agora->unread_messages}" data-popular="{$agora->comments}" data-hashtag="{foreach from=$agora->hashtags item=$ht}#{$ht->hashtag} {/foreach}"
@@ -173,6 +200,50 @@
         </div>
 
     </div>
+
+    <!-- Death Star -->
+    <div id="agora_right_sw">
+        <!--<audio id="sw_audio" controls="controls" onloadeddata="var audioPlayer = this; setTimeout(function() { audioPlayer.play(); }, 4000)">-->
+        <audio id="sw_audio" controls="controls">
+            <source src="http://www.thesoundarchive.com/starwars/star-wars-theme-song.mp3" type="audio/mpeg">
+        </audio>
+
+        <p id="start">A short time ago in a browser very, very close…</p>
+
+        <h1>SPOD AGORA<sub>by ISISLAb</sub></h1>
+
+        <div id="titles">
+            <div id="titlecontent">
+
+                <p class="center">EPISODE IV<br>A NEW HOPE FOR AGORA</p>
+
+                <p>It is a period of developer war.</p>
+
+                <p>Rebel programmer, striking
+                    from a hidden base, have won
+                    their first victory against
+                    the evil Galactic Empire.</p>
+
+                <p>During the battle, Rebel
+                    spies managed to steal secret
+                    plans to the Empire's
+                    ultimate weapon, the COMMENT
+                    GRAPH, an armored space
+                    script with enough power
+                    to destroy the entire web.</p>
+
+                <p>Pursued by the Empire's
+                    sinister agents, Princess
+                    Diletta races home aboard her
+                    starship, custodian of the
+                    stolen plans that can save her
+                    people and restore
+                    freedom to the galaxy....</p>
+
+            </div>
+        </div>
+    </div>
+    <!-- Death Star End -->
 
 </div>
 
