@@ -1282,12 +1282,12 @@ div.agora_editor:before {
 .tooltips {
     position: relative;
 }
-.tooltips span {
+.tooltips > span {
     position: absolute;
     height: 30px;
     font-size: 14px;
     font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    width: 140px;
+    width: 180px;
     color: #FFFFFF;
     /*background: #424242;*/
     background-color: rgba(0, 0, 0, 0.8);
@@ -1296,6 +1296,9 @@ div.agora_editor:before {
     display: none;
     border-radius: 5px;
     z-index: 999;
+}
+.tooltips > span span:hover {
+    color: #00BCD4;
 }
 .tooltips span:after {
     content: '';
@@ -1317,7 +1320,7 @@ div.agora_editor:before {
 
 .tooltips.left span {
     top: -38px;
-    left: -60px;
+    left: -80px;
 }
 .tooltips.left span:after {
     top: 30px;
