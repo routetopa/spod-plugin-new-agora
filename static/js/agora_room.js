@@ -102,7 +102,7 @@ AGORA.init = function ()
         AGORA.user_delete_comment(e);
     });
 
-    $(".agora_right_comment .agora_speech_text").on('dblclick', function(e){
+    $(".modify_comment").on('click', function(e){
         AGORA.user_edit_comment(e);
     });
 
@@ -118,27 +118,28 @@ AGORA.init = function ()
 
 AGORA.user_delete_comment = function (e)
 {
-    var comment = $(e.currentTarget).parent().parent().parent()[0];
+    var comment = $(e.currentTarget).parents().eq(3)[0];
     var comment_id = comment.id.replace("comment_", "");
 
     AGORA.agoraUserCommentHandling.deleteComment(comment_id).then(function(data){
-        if(data.result == 'ok')
+        if(data.result === 'ok')
             comment.remove();
     });
 };
 
 AGORA.user_edit_comment = function (e)
 {
-    $(e.currentTarget).off('dblclick');
-    var comment = $(e.currentTarget).parent().parent()[0];
+    var comment = $(e.currentTarget).parents().eq(3)[0];
+    var comment_txt = $(comment).find(".agora_speech_text");
     var comment_id = comment.id.replace("comment_", "");
-    $(e.currentTarget).html(`<input id="edit_${comment_id}" type="text" value="${$(e.currentTarget).clone().children().remove().end().text()}">`);
+
+    $(comment_txt).html(`<input id="edit_${comment_id}" type="text" value="${$(comment_txt).clone().children().remove().end().text()}">`);
 
     $(`#edit_${comment_id}`).keyup(function(e){
         if(e.keyCode === 13)
         {
             AGORA.agoraUserCommentHandling.editComment(comment_id, e.currentTarget.value).then(function(data){
-                if(data.result == 'ok')
+                if(data.result === 'ok')
                     $(e.currentTarget).parent().html(AGORA.string_handler($(e.currentTarget).val()));
             });
         }
