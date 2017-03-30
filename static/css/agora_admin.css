@@ -1,3 +1,7 @@
-.agora_left_comment:hover .agora_editor_container{
+.agora_left_comment:hover .agora_editor_container {
     display: flex;
+}
+
+.agora_left_comment:hover .agora_editor_container .tooltips > span span.modify_comment {
+    display: none;
 }

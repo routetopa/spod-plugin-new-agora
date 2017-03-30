@@ -10,6 +10,10 @@
         </div>
     </div>
     <div class="agora_editor_container">
-        <div class="agora_editor tooltips left"><span class="delete_comment">{10}</span></div>
+        <div class="agora_editor tooltips left">
+            <span>
+                <span class="delete_comment">{10}</span><span class="modify_comment">{11}</span>
+            </span>
+        </div>
     </div>
 </div>
