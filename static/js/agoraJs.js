@@ -389,6 +389,15 @@ agoraUserCommentHandling.prototype = (function(){
                 data: {commentId:comment_id},
                 dataType : 'JSON'
             });
+        },
+
+        editComment: function(comment_id, comment) {
+            return $.ajax({
+                type: 'POST',
+                url : AGORA.edit_user_comment_endpoint,
+                data: {commentId:comment_id, comment:comment},
+                dataType : 'JSON'
+            });
         }
 
     }

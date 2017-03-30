@@ -108,6 +108,27 @@ class SPODAGORA_CTRL_Ajax extends OW_ActionController
         exit;
     }
 
+    public function editUserComment()
+    {
+        $comment = SPODAGORA_BOL_Service::getInstance()->getCommentById($_REQUEST['commentId']);
+
+        //Get hashtag
+        $ht = SPODAGORA_CLASS_Tools::getInstance()->get_hashtag($_REQUEST['comment']);
+
+        // Change \n to <br> for correct visualization of new line in HTML
+        $comment_txt  = str_replace("\n", "<br/>", htmlentities($_REQUEST['comment']));
+
+        if(OW::getUser()->getId() == $comment->ownerId)
+        {
+            SPODAGORA_BOL_Service::getInstance()->editComment($comment, $comment_txt, $ht);
+            echo '{"result":"ok", "comment_id":"' . $_REQUEST['commentId'] . '"}';
+        }
+        else
+            echo '{"result":"ko", "error":"it is not your comment"}';
+
+        exit;
+    }
+
     public function addAgoraRoom()
     {
         $id = SPODAGORA_BOL_Service::getInstance()->addAgoraRoom(OW::getUser()->getId(),

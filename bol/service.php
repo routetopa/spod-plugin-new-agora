@@ -91,6 +91,28 @@ class SPODAGORA_BOL_Service
         }
     }
 
+    public function editComment($comment, $comment_text, $hast_tags)
+    {
+        //Delete comment hashtag
+        $ex = new OW_Example();
+        $ex->andFieldEqual('commentId', $comment->id);
+        SPODAGORA_BOL_AgoraRoomHashtagDao::getInstance()->deleteByExample($ex);
+
+        // Insert new ht
+        foreach ($hast_tags as $ht)
+        {
+            $h_t = new SPODAGORA_BOL_AgoraRoomHashtag();
+            $h_t->roomId = $comment->entityId;
+            $h_t->commentId = $comment->id;
+            $h_t->hashtag = $ht;
+            SPODAGORA_BOL_AgoraRoomHashtagDao::getInstance()->save($h_t);
+        }
+
+        // Edit comment
+        $comment->comment = $comment_text;
+        SPODAGORA_BOL_AgoraRoomCommentDao::getInstance()->save($comment);
+    }
+
     public function addCommentWithTimestamp($entityId, $parentId, $ownerId,
                                $comment, $level, $sentiment, $timestamp)
     {
