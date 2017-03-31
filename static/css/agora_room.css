@@ -434,7 +434,7 @@ input#agora_search_input:focus {
 /**** COMMENT ****/
 
 .ow_avatar {
-    min-width: 40px;
+    /*min-width: 40px;*/
     max-width: 100%;
     margin: 5px;
     padding: 3px;
@@ -450,6 +450,7 @@ input#agora_search_input:focus {
 
     height: 34px;
     width: 34px;
+    /*padding: 6px;*/
     border: 3px solid transparent;
 }
 .ow_avatar.no_img img{
@@ -473,34 +474,18 @@ input#agora_search_input:focus {
     background-color: #CDDC39;
 }
 
-/*.ow_avatar:before {*/
-    /*content: 'A';*/
-    /*line-height: 40px;*/
-    /*font-size: 20px;*/
-    /*text-align: center;*/
-    /*color: #FFFFFF;*/
-    /*font-weight: 700;*/
-    /*position: absolute;*/
-    /*top: 3px;*/
-    /*right: 3px;*/
-    /*width: 40px;*/
-    /*height: 40px;*/
-    /*background-color: #FF9800;*/
-    /*border-radius: 50%;*/
-/*}*/
-
 .ow_avatar.neutral {
-    background-color: transparent;
+    /*background-color: transparent;*/
     border-color: transparent;
 }
 
 .ow_avatar.satisfied {
-    background-color: #4CAF50;
+    /*background-color: #4CAF50;*/
     border-color: #4CAF50;
 }
 
 .ow_avatar.dissatisfied {
-    background-color: #F44336;
+    /*background-color: #F44336;*/
     border-color: #F44336;
 }
 
