@@ -1,4 +1,4 @@
-<div class="agora_right_comment" id="{0}">
+<div class="agora_right_comment" id="comment_{0}">
     <div class="ow_avatar style-scope {1}" title="{2}"><a class="style-scope" href="{3}"><img alt="" style="max-width: 100%;" class="" src="{4}"></a></div>
     <div class="agora_speech">
         <div class="agora_speech_text">{5}</div>

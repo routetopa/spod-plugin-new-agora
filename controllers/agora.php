@@ -7,6 +7,7 @@ class SPODAGORA_CTRL_Agora extends OW_ActionController
     private $avatars;
     private $agoraId;
     private $users_id;
+    private $avatar_colors = ['avatar_orange', 'avatar_purple', 'avatar_lime'];
 
     public function index(array $params)
     {
@@ -35,7 +36,7 @@ class SPODAGORA_CTRL_Agora extends OW_ActionController
         //$this->users_id = array_unique($this->array_push_return(array_map(function($comments) { return $comments->ownerId; }, $all_level_comments), $this->agora->ownerId) );
         $this->users_id = array_unique(array_merge(array_map(function($comments) { return $comments->ownerId; }, $all_level_comments), [$this->agora->ownerId, $this->userId]));
 
-        $this->avatars  = BOL_AvatarService::getInstance()->getDataForUserAvatars($this->users_id);
+        $this->avatars  = $this->process_avatar(BOL_AvatarService::getInstance()->getDataForUserAvatars($this->users_id));
         $this->assign('avatars', $this->avatars);
 
         OW::getDocument()->getMasterPage()->setTemplate(OW::getPluginManager()->getPlugin('spodagora')->getRootDir() . 'master_pages/main.html');
@@ -225,6 +226,26 @@ class SPODAGORA_CTRL_Agora extends OW_ActionController
         }
 
         return $comments;
+    }
+
+    private function process_avatar($avatars)
+    {
+        foreach ($avatars as &$avatar)
+        {
+            if(strpos( $avatar['src'], 'no-avatar'))
+            {
+                $avatar['css'] = 'no_img no_img_color' . $this->avatar_colors[rand(0,count($this->avatar_colors)-1)];
+                $avatar['initial'] = strtoupper($avatar['title'][0]);
+            }
+            else
+            {
+                $avatar['css'] = '';
+                $avatar['initial'] = '';
+            }
+
+        }
+
+        return $avatars;
     }
 
 }

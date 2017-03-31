@@ -58,7 +58,9 @@
                 <div id="agora_header_description">{$agora->body}</div>
                 <div class="agora_header_users">
                     {foreach $avatars as $avatar}
-                        <div class="ow_avatar style-scope" id="user_avatar_{$avatar['userId']}" title="{$avatar['title']}"><a class="style-scope" href="{$avatar['url']}"><img alt="" style="max-width: 100%;" class="" src="{$avatar['src']}"></a></div>
+                        <div class="ow_avatar style-scope {$avatar['css']}" id="user_avatar_{$avatar['userId']}" title="{$avatar['title']}">
+                            <a class="style-scope" href="{$avatar['url']}"><img src="{$avatar['src']}">{$avatar['initial']}</a>
+                        </div>
                     {/foreach}
                 </div>
             </div>
