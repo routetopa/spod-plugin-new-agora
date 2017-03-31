@@ -199,13 +199,15 @@ class SPODAGORA_CTRL_Agora extends OW_ActionController
 
         foreach ($comments as &$comment)
         {
-            $comment->username      = $this->avatars[$comment->ownerId]["title"];
-            $comment->owner_url     = $this->avatars[$comment->ownerId]["url"];
-            $comment->avatar_url    = $this->avatars[$comment->ownerId]["src"];
-            $comment->total_comment = isset($comment->total_comment) ? $comment->total_comment : 0;
-            $comment->timestamp     = SPODAGORA_CLASS_Tools::getInstance()->process_timestamp($comment->timestamp, $today, $yesterday);
+            $comment->username       = $this->avatars[$comment->ownerId]["title"];
+            $comment->owner_url      = $this->avatars[$comment->ownerId]["url"];
+            $comment->avatar_url     = $this->avatars[$comment->ownerId]["src"];
+            $comment->avatar_css     = $this->avatars[$comment->ownerId]["css"];
+            $comment->avatar_initial = $this->avatars[$comment->ownerId]["initial"];
+            $comment->total_comment  = isset($comment->total_comment) ? $comment->total_comment : 0;
+            $comment->timestamp      = SPODAGORA_CLASS_Tools::getInstance()->process_timestamp($comment->timestamp, $today, $yesterday);
 
-            $comment->css_class       = $this->userId == $comment->ownerId ? 'agora_right_comment' : 'agora_left_comment';
+            $comment->css_class      = $this->userId == $comment->ownerId ? 'agora_right_comment' : 'agora_left_comment';
 
             switch ($comment->sentiment)
             {
