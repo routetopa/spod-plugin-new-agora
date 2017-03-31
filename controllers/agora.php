@@ -234,7 +234,7 @@ class SPODAGORA_CTRL_Agora extends OW_ActionController
         {
             if(strpos( $avatar['src'], 'no-avatar'))
             {
-                $avatar['css'] = 'no_img no_img_color' . $this->avatar_colors[rand(0,count($this->avatar_colors)-1)];
+                $avatar['css'] = 'no_img ' . $this->avatar_colors[rand(0,count($this->avatar_colors)-1)];
                 $avatar['initial'] = strtoupper($avatar['title'][0]);
                 $avatar['src'] = '';
             }
