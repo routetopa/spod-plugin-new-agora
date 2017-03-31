@@ -434,24 +434,25 @@ input#agora_search_input:focus {
 /**** COMMENT ****/
 
 .ow_avatar {
-    /*min-width: 40px;*/
+    min-width: 40px;
     max-width: 100%;
     margin: 5px;
-    padding: 3px;
+    padding: 0;
+    border: 3px solid #FFFFFF;
 
     border-radius: 50%;
 }
 
 .ow_avatar.no_img {
-    min-width: 34px;
-    line-height: 34px;
+    /*min-width: 34px;*/
+    line-height: 40px;
     font-size: 20px;
     text-align: center;
 
-    height: 34px;
-    width: 34px;
+    /*height: 34px;*/
+    /*width: 34px;*/
     /*padding: 6px;*/
-    border: 3px solid white;
+    /*border: 3px solid white;*/
 }
 .ow_avatar.no_img img{
     display: none;
@@ -476,7 +477,7 @@ input#agora_search_input:focus {
 
 .ow_avatar.neutral {
     /*background-color: transparent;*/
-    border-color: transparent;
+    border-color: #FFFFFF;
 }
 
 .ow_avatar.satisfied {
@@ -496,8 +497,8 @@ input#agora_search_input:focus {
     width: 10px;
     height:  10px;
     border-radius: 50%;
-    right: 3px;
-    bottom: 3px;
+    right: 0;
+    bottom: 0;
     border: 2px solid white;
 }
 
