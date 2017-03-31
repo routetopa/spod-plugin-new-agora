@@ -69,7 +69,9 @@
 
                 {foreach $comments as $comment}
                 <div class="{$comment->css_class}" id="comment_{$comment->id}">
-                    <div class="ow_avatar style-scope {$comment->sentiment_class}" title="{$comment->username}"><a class="style-scope" href="{$comment->owner_url}"><img alt="" style="max-width: 100%;" class="" src="{$comment->avatar_url}"></a></div>
+                    <div class="ow_avatar style-scope {$avatar['css']} {$comment->sentiment_class}" title="{$comment->username}">
+                        <a class="style-scope" href="{$comment->owner_url}"><img src="{$comment->avatar_url}">{$avatar['initial']}</a>
+                    </div>
                     <div class="agora_speech">
                         <div class="agora_speech_text">{$comment->comment}</div>
                         <div id="agora_datalet_placeholder_{$comment->id}" class="{$comment->datalet_class} {$comment->component}"></div>
