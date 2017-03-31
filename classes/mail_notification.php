@@ -13,7 +13,7 @@ class SPODAGORA_CLASS_MailNotification extends OW_Component
         return self::$classInstance;
     }
 
-    public function sendEmailNotificationProcess($room_id)
+    public function sendEmailNotificationProcess($room_id, $owner_id)
     {
         $userService = BOL_UserService::getInstance();
 
@@ -25,6 +25,9 @@ class SPODAGORA_CLASS_MailNotification extends OW_Component
         $template_txt  = OW::getPluginManager()->getPlugin('spodagora')->getCmpViewDir() . 'email_notification_template_text.html';
         $date = getdate();
         $time = mktime(0, 0, 0, $date['mon'], $date['mday'], $date['year']);
+
+
+        $avatar = BOL_AvatarService::getInstance()->getDataForUserAvatars(array($owner_id))[$owner_id];
 
         foreach($users as $user_id)
         {
@@ -40,7 +43,7 @@ class SPODAGORA_CLASS_MailNotification extends OW_Component
                 $mail = OW::getMailer()->createMail()
                     ->addRecipientEmail($email)
                     ->setTextContent($this->getEmailContentText($room_id, $room, $user->username, $template_txt, $time))
-                    ->setHtmlContent($this->getEmailContentHtml($room_id, $user_id["userId"], $room, $user->username, $template_html, $time))
+                    ->setHtmlContent($this->getEmailContentHtml($room_id, $avatar, $room, $user->username, $template_html, $time))
                     ->setSubject(OW::getLanguage()->text('spodagora', 'email_subject') . "\"" . $room->subject . "\"");
 
                 OW::getMailer()->send($mail);
@@ -53,14 +56,13 @@ class SPODAGORA_CLASS_MailNotification extends OW_Component
         }
     }
 
-    private function getEmailContentHtml($room_id, $user_id, $room, $user, $template, $time)
+    private function getEmailContentHtml($room_id, $avatar, $room, $user, $template, $time)
     {
         //SET EMAIL TEMPLATE
         $this->setTemplate($template);
 
 
         //USER AVATAR FOR THE NEW MAIL
-        $avatar = BOL_AvatarService::getInstance()->getDataForUserAvatars(array($user_id))[$user_id];
         $this->assign('user', $user);
         $this->assign('time', $time);
         $this->assign('avatar', $avatar);
