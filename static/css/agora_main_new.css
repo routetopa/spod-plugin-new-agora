@@ -606,19 +606,75 @@ input#agora_search_input:focus::-moz-placeholder { /* Chrome/Opera/Safari */
 
 /* users */
 
+/* OW_AVATAR */
 .ow_avatar {
+    min-width: 40px;
+    max-width: 100%;
+    margin: 5px;
+    padding: 0;
+    border: 3px solid #FFFFFF;
+
+    border-radius: 50%;
+}
+
+.ow_avatar.no_img {
+    line-height: 40px;
+    font-size: 20px;
+    text-align: center;
+}
+.ow_avatar.no_img img{
+    display: none;
+}
+.ow_avatar.no_img a {
+    color: #FFFFFF;
+    font-weight: 700;
+}
+.ow_avatar.no_img a:hover {
+    text-decoration: none;
+}
+
+.ow_avatar.avatar_orange {
+    background-color: #FF9800;
+}
+.ow_avatar.avatar_purple {
+    background-color: #9C27B0;
+}
+.ow_avatar.avatar_lime {
+    background-color: #CDDC39;
+}
+
+.ow_avatar.neutral {
+    border-color: #FFFFFF;
+}
+
+.ow_avatar.satisfied {
+    border-color: #4CAF50;
+}
+
+.ow_avatar.dissatisfied {
+    border-color: #F44336;
+}
+
+.ow_avatar.creator {
+    border-color: #FF9800;
+    margin-right: 21px;
+}
+
+/*.ow_avatar {
     min-width: 40px;
     max-width: 100%;
     margin: 5px;
     padding: 3px;
 
     border-radius: 50%;
-}
+}*/
 
-.ow_avatar.creator {
-    background-color: #FF9800;
-    margin-right: 21px;
-}
+/*.ow_avatar.creator {*/
+    /*background-color: #FF9800;*/
+    /*margin-right: 21px;*/
+/*}*/
+
+/* OW_AVATAR END*/
 
 /* datasets */
 
