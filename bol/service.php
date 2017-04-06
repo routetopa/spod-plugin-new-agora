@@ -477,6 +477,18 @@ class SPODAGORA_BOL_Service
         return SPODAGORA_BOL_AgoraRoomHashtagDao::getInstance()->findListByExample($ex);
     }
 
+    public function getCommentByParentId($parentId)
+    {
+        $dbo = OW::getDbo();
+        $sql = "SELECT T.id, T.entityId, T.ownerId, T.comment, T.level, T.sentiment, T.timestamp,
+                       ow_ode_datalet.component, ow_ode_datalet.fields, ow_ode_datalet.params, username 
+                FROM (ow_spod_agora_room_comment as T LEFT JOIN ow_ode_datalet_post
+                    ON T.id = ow_ode_datalet_post.postId) LEFT JOIN ow_ode_datalet ON dataletId = ow_ode_datalet.id LEFT JOIN ow_base_user ON T.ownerId = ow_base_user.id
+                WHERE T.parentId =".$parentId." ORDER BY T.id ASC;";
+
+        return $dbo->queryForObjectList($sql,'SPODAGORA_BOL_CommentContract');
+    }
+
     //Utils
     private function deleteAgoraComments($agoraId)
     {
