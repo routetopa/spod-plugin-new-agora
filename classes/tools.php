@@ -2,7 +2,11 @@
 
 class SPODAGORA_CLASS_Tools
 {
-    private $avatar_colors = ['avatar_orange', 'avatar_purple', 'avatar_lime'];
+    private $avatar_colors =    ['avatar_pink', 'avatar_purple', 'avatar_deeppurple', 'avatar_indigo',
+                                 'avatar_lightblue', 'avatar_teal', 'avatar_lightgreen', 'avatar_lime',
+                                 'avatar_yellow', 'avatar_amber', 'avatar_deeporange',
+                                 'avatar_brown', 'avatar_grey', 'avatar_bluegrey'];
+
     private static $classInstance;
 
     public static function getInstance()

@@ -106,7 +106,7 @@ div.ow_chat_cont {
     display: block;
     width: 64px;
     height: 64px;
-    fill: #E65100;
+    fill: #FF9800;/*E65100*/
 }
 
 /**** AGORA LEFT END****/
@@ -433,6 +433,7 @@ input#agora_search_input:focus {
 
 /**** COMMENT ****/
 
+/* OW_AVATAR */
 .ow_avatar {
     min-width: 40px;
     max-width: 100%;
@@ -457,16 +458,6 @@ input#agora_search_input:focus {
 }
 .ow_avatar.no_img a:hover {
     text-decoration: none;
-}
-
-.ow_avatar.avatar_orange {
-    background-color: #FF9800;
-}
-.ow_avatar.avatar_purple {
-    background-color: #9C27B0;
-}
-.ow_avatar.avatar_lime {
-    background-color: #CDDC39;
 }
 
 .agora_unread_comment .ow_avatar {
@@ -508,6 +499,51 @@ input#agora_search_input:focus {
     bottom: 0;
     border: 2px solid white;
 }
+
+.ow_avatar.avatar_pink {
+    background-color: #E91E63;
+}
+.ow_avatar.avatar_purple {
+    background-color: #9C27B0;
+}
+.ow_avatar.avatar_deeppurple {
+    background-color: #673AB7;
+}
+.ow_avatar.avatar_indigo {
+    background-color: #3F51B5;
+}
+.ow_avatar.avatar_lightblue {
+    background-color: #03A9F4;
+}
+.ow_avatar.avatar_teal {
+    background-color: #009688;
+}
+.ow_avatar.avatar_lightgreen {
+    background-color: #8BC34A;
+}
+.ow_avatar.avatar_lime {
+    background-color: #CDDC39;
+}
+.ow_avatar.avatar_yellow {
+    background-color: #FFEB3B;
+}
+.ow_avatar.avatar_amber {
+    background-color: #FFC107;
+}
+.ow_avatar.avatar_deeporange {
+    background-color: #FF5722;
+}
+.ow_avatar.avatar_brown {
+    background-color: #795548;
+}
+.ow_avatar.avatar_grey {
+    background-color: #9E9E9E;
+}
+.ow_avatar.avatar_bluegrey {
+    background-color: #607D8B;
+}
+
+/* OW_AVATAR END */
 
 .agora_left_comment div.agora_speech {
     position: relative;
@@ -683,10 +719,7 @@ div#agora_header_description
 
 .agora_notification_switch
 {
-    /*width: 100%;*/
-    /*height: 100px;*/
-    /*background-color: yellow;*/
-    border-top: 2px solid #E65100;
+    border-top: 2px solid #FFFFFF;/*#E65100*/
     padding-top: 42px;
     margin: 38px 16px 0 16px;
     text-align: center;

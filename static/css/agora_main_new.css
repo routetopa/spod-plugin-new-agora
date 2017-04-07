@@ -638,16 +638,6 @@ input#agora_search_input:focus::-moz-placeholder { /* Chrome/Opera/Safari */
     text-decoration: none;
 }
 
-.ow_avatar.avatar_orange {
-    background-color: #FF9800;
-}
-.ow_avatar.avatar_purple {
-    background-color: #9C27B0;
-}
-.ow_avatar.avatar_lime {
-    background-color: #CDDC39;
-}
-
 .ow_avatar.neutral {
     border-color: #FFFFFF;
 }
@@ -665,19 +655,48 @@ input#agora_search_input:focus::-moz-placeholder { /* Chrome/Opera/Safari */
     margin-right: 21px;
 }
 
-/*.ow_avatar {
-    min-width: 40px;
-    max-width: 100%;
-    margin: 5px;
-    padding: 3px;
-
-    border-radius: 50%;
-}*/
-
-/*.ow_avatar.creator {*/
-    /*background-color: #FF9800;*/
-    /*margin-right: 21px;*/
-/*}*/
+.ow_avatar.avatar_pink {
+    background-color: #E91E63;
+}
+.ow_avatar.avatar_purple {
+    background-color: #9C27B0;
+}
+.ow_avatar.avatar_deeppurple {
+    background-color: #673AB7;
+}
+.ow_avatar.avatar_indigo {
+    background-color: #3F51B5;
+}
+.ow_avatar.avatar_lightblue {
+    background-color: #03A9F4;
+}
+.ow_avatar.avatar_teal {
+    background-color: #009688;
+}
+.ow_avatar.avatar_lightgreen {
+    background-color: #8BC34A;
+}
+.ow_avatar.avatar_lime {
+    background-color: #CDDC39;
+}
+.ow_avatar.avatar_yellow {
+    background-color: #FFEB3B;
+}
+.ow_avatar.avatar_amber {
+    background-color: #FFC107;
+}
+.ow_avatar.avatar_deeporange {
+    background-color: #FF5722;
+}
+.ow_avatar.avatar_brown {
+    background-color: #795548;
+}
+.ow_avatar.avatar_grey {
+    background-color: #9E9E9E;
+}
+.ow_avatar.avatar_bluegrey {
+    background-color: #607D8B;
+}
 
 /* OW_AVATAR END*/
 

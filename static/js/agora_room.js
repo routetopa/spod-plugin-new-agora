@@ -857,7 +857,6 @@ AGORA.initUserGraph = function()
 
     var i = 0;
     for (var user in AGORA.users_avatar) {
-
         u_nodes.push({
             x: w/2 + r * Math.cos((360/n*i) * Math.PI / 180),
             y: h/2 + r * Math.sin((360/n*i) * Math.PI / 180),
@@ -907,7 +906,6 @@ AGORA.initUserGraph = function()
 
         svg.call(user_tip);
 
-
         for (var user in AGORA.users_avatar) {
             g.append("g")
                 .append("defs")
@@ -919,7 +917,7 @@ AGORA.initUserGraph = function()
                 .append("image")
                 .attr("height", "64")
                 .attr("width", "64")
-                .attr("xlink:href", AGORA.users_avatar[user].src);
+                .attr("xlink:href", AGORA.users_avatar[user].src != "" ? AGORA.users_avatar[user].src : ODE.ow_url_home + "ow_static/themes/spod_theme_matter/images/no-avatar.png");
         }
 
         //LINKS
