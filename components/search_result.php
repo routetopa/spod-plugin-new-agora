@@ -12,18 +12,20 @@ class SPODAGORA_CMP_SearchResult extends OW_Component
     private function process_comment(&$comments)
     {
         $users_ids      = array_map(function($comments) { return $comments->ownerId;}, $comments);
-        $avatars        = BOL_AvatarService::getInstance()->getDataForUserAvatars($users_ids);
+        $avatars        = SPODAGORA_CLASS_Tools::getInstance()->process_avatar(BOL_AvatarService::getInstance()->getDataForUserAvatars($users_ids));
 
         $today     = date('Ymd');
         $yesterday = date('Ymd', strtotime('yesterday'));
 
         foreach ($comments as &$comment)
         {
-            $comment->username      = $avatars[$comment->ownerId]["title"];
-            $comment->owner_url     = $avatars[$comment->ownerId]["url"];
-            $comment->avatar_url    = $avatars[$comment->ownerId]["src"];
-            $comment->timestamp     = $this->process_timestamp($comment->timestamp, $today, $yesterday);
-            $comment->comment       = strip_tags($comment->comment);
+            $comment->username       = $avatars[$comment->ownerId]["title"];
+            $comment->owner_url      = $avatars[$comment->ownerId]["url"];
+            $comment->avatar_url     = $avatars[$comment->ownerId]["src"];
+            $comment->avatar_css     = $avatars[$comment->ownerId]["css"];
+            $comment->avatar_initial = $avatars[$comment->ownerId]["initial"];
+            $comment->timestamp      = SPODAGORA_CLASS_Tools::getInstance()->process_timestamp($comment->timestamp, $today, $yesterday);
+            $comment->comment        = strip_tags($comment->comment);
 
             switch ($comment->sentiment)
             {
@@ -35,18 +37,4 @@ class SPODAGORA_CMP_SearchResult extends OW_Component
 
         return $comments;
     }
-
-    private function process_timestamp($timestamp, $today, $yesterday)
-    {
-        $date = date('Ymd', strtotime($timestamp));
-
-        if($date == $today)
-            return date('H:i', strtotime($timestamp));
-
-        if($date == $yesterday)
-            return OW::getLanguage()->text('spodagora', 'yesterday'). " " . date('H:i', strtotime($timestamp));
-
-        return date('H:i m/d', strtotime($timestamp));
-    }
-
 }

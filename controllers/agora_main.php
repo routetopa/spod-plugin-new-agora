@@ -117,18 +117,15 @@ class SPODAGORA_CTRL_AgoraMain extends OW_ActionController
 
             $comments = SPODAGORA_BOL_Service::getInstance()->getAllLevesCommentsFromAgoraId($agora->id);
             $users_id = array_diff(array_unique(array_map(function($comments) { return $comments->ownerId; }, $comments)), [$agora->ownerId]);
-            $avatars  = BOL_AvatarService::getInstance()->getDataForUserAvatars($users_id);
-
-//            $views_prctg    = ($agora->views*100/$maxStat["maxView"]);
-//            $comments_prctg = ($agora->comments*100/$maxStat["maxComments"]);
-//            $opendata_prctg = ($agora->opendata*100/$maxStat["maxOpendata"]);
+            $avatars  = SPODAGORA_CLASS_Tools::getInstance()->process_avatar(BOL_AvatarService::getInstance()->getDataForUserAvatars($users_id));
 
             $agora->stat = array("views" => $view_index * 10, "viewsColor" => $this->COLORS[$view_index],
                 "comments" => $comments_index * 10, "commentsColor" => $this->COLORS[$comments_index],
                 "opendata" => $opendata_index * 10, "opendataColor" => $this->COLORS[$opendata_index]);
+
             $agora->timestamp = SPODAGORA_CLASS_Tools::getInstance()->process_timestamp($agora->timestamp, $today, $yesterday);
             $agora->avatars = $avatars;
-            $agora->owner_avatar = BOL_AvatarService::getInstance()->getDataForUserAvatars(array($agora->ownerId));
+            $agora->owner_avatar = SPODAGORA_CLASS_Tools::getInstance()->process_avatar(BOL_AvatarService::getInstance()->getDataForUserAvatars(array($agora->ownerId)));
             $agora->suggestions = SPODAGORA_BOL_Service::getInstance()->getAgoraSuggestedDataset($agora->id);
             $agora->unread_messages = count(SPODAGORA_BOL_Service::getInstance()->getUnreadCommentNumber($agora->id, OW::getUser()->getId()));
 

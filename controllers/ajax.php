@@ -265,6 +265,8 @@ class SPODAGORA_CTRL_Ajax extends OW_ActionController
                 'user_id' => OW::getUser()->getId(),
                 'user_display_name' => $_REQUEST['username'],
                 'user_avatar' => $_REQUEST['user_avatar_src'],
+                'user_avatar_css' => $_REQUEST['user_avatar_css'],
+                'user_avatar_initial' => $_REQUEST['user_avatar_initial'],
                 'user_url' => $_REQUEST['user_url'],
                 'comment_level' => $_REQUEST['level'],
                 'sentiment' => $_REQUEST['sentiment'],

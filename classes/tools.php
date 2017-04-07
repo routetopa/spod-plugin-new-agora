@@ -2,6 +2,7 @@
 
 class SPODAGORA_CLASS_Tools
 {
+    private $avatar_colors = ['avatar_orange', 'avatar_purple', 'avatar_lime'];
     private static $classInstance;
 
     public static function getInstance()
@@ -46,6 +47,30 @@ class SPODAGORA_CLASS_Tools
     {
         preg_match_all('/(^|[^a-z0-9_])#([a-z0-9_]+)/i', $str, $matches);
         return array_unique($matches[2]);
+    }
+
+    public function process_avatar($avatars)
+    {
+        if (empty($avatars))
+            return;
+
+        foreach ($avatars as &$avatar)
+        {
+            if(strpos( $avatar['src'], 'no-avatar'))
+            {
+                $avatar['css'] = 'no_img ' . $this->avatar_colors[$avatar["userId"] % count($this->avatar_colors)];
+                $avatar['initial'] = strtoupper($avatar['title'][0]);
+                $avatar['src'] = '';
+            }
+            else
+            {
+                $avatar['css'] = '';
+                $avatar['initial'] = '';
+            }
+
+        }
+
+        return $avatars;
     }
 
 }

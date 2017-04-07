@@ -129,13 +129,15 @@
                     <div class="head">{text key="spodagora+users"}</div>
                     <div class="body">
                         <div class="ow_avatar style-scope creator" title="{$agora->owner_avatar[$agora->ownerId]["title"]}">
-                            <a class="style-scope" href="{$agora->owner_avatar[$agora->ownerId]["url"]}">
-                                <img alt="" style="max-width: 100%;" class="" src="{$agora->owner_avatar[$agora->ownerId]["src"]}">
+                            <a class="style-scope {$agora->owner_avatar[$agora->ownerId]["css"]}" href="{$agora->owner_avatar[$agora->ownerId]["url"]}">
+                                <img src="{$agora->owner_avatar[$agora->ownerId]["src"]}">{$agora->owner_avatar[$agora->ownerId]["initial"]}
                             </a>
                         </div>
                         {foreach from=$agora->avatars key=j item=$avatar}
-                        <div class="ow_avatar style-scope" title="{$avatar["title"]}">
-                            <a class="style-scope" href="{$avatar["url"]}"><img alt="" style="max-width: 100%;" class="" src="{$avatar["src"]}"></a>
+                        <div class="ow_avatar style-scope {$avatar["css"]}" title="{$avatar["title"]}">
+                            <a class="style-scope" href="{$avatar["url"]}">
+                                <img src="{$avatar["src"]}">{$avatar["initial"]}
+                            </a>
                         </div>
                         {/foreach}
                     </div>

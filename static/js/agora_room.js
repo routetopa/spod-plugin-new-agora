@@ -471,10 +471,11 @@ AGORA.handleRealtimeNotification = function ()
                 AGORA.agoraJS.add_rt_comment(
                     AGORA.agora_static_resource_url + 'JSSnippet/rt_comment.tpl',
                     [data.message_id,
-                        (data.sentiment == 0 ? 'neutral' : (data.sentiment == 1 ? 'satisfied' : 'dissatisfied')),
+                        (data.sentiment == 0 ? 'neutral ' : (data.sentiment == 1 ? 'satisfied ' : 'dissatisfied ')) + data.user_avatar_css,
                         data.user_display_name,
                         data.user_url,
                         data.user_avatar,
+                        data.user_avatar_initial,
                         data.comment,
                         data.message_id,
                         data.user_display_name,

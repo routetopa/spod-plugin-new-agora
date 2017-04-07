@@ -1,7 +1,11 @@
 {foreach $search_results as $comment}
 <div class="agora_unread_comment" id="unread_comment_{$comment->id}" parent-id="unread_comment_parent_{$comment->parentId}">
     <!--{$comment->sentiment_class}-->
-    <div class="ow_avatar style-scope" title="{$comment->username}"><a class="style-scope" href="{$comment->owner_url}"><img alt="" style="max-width: 100%;" class="" src="{$comment->avatar_url}"></a></div>
+    <div class="ow_avatar style-scope {$comment->avatar_css}" title="{$comment->username}">
+        <a class="style-scope" href="{$comment->owner_url}">
+            <img src="{$comment->avatar_url}">{$comment->avatar_initial}
+        </a>
+    </div>
     <div class="agora_preview">
         <div class="agora_preview_comment" title="{$comment->comment}">
             <span class="name">{$comment->username}</span>

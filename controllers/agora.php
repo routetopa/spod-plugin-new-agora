@@ -2,12 +2,12 @@
 
 class SPODAGORA_CTRL_Agora extends OW_ActionController
 {
+
     private $agora;
     private $userId;
     private $avatars;
     private $agoraId;
     private $users_id;
-    private $avatar_colors = ['avatar_orange', 'avatar_purple', 'avatar_lime'];
 
     public function index(array $params)
     {
@@ -36,7 +36,7 @@ class SPODAGORA_CTRL_Agora extends OW_ActionController
         //$this->users_id = array_unique($this->array_push_return(array_map(function($comments) { return $comments->ownerId; }, $all_level_comments), $this->agora->ownerId) );
         $this->users_id = array_unique(array_merge(array_map(function($comments) { return $comments->ownerId; }, $all_level_comments), [$this->agora->ownerId, $this->userId]));
 
-        $this->avatars  = $this->process_avatar(BOL_AvatarService::getInstance()->getDataForUserAvatars($this->users_id));
+        $this->avatars  = SPODAGORA_CLASS_Tools::getInstance()->process_avatar(BOL_AvatarService::getInstance()->getDataForUserAvatars($this->users_id));
         $this->assign('avatars', $this->avatars);
 
         OW::getDocument()->getMasterPage()->setTemplate(OW::getPluginManager()->getPlugin('spodagora')->getRootDir() . 'master_pages/main.html');
@@ -114,6 +114,8 @@ class SPODAGORA_CTRL_Agora extends OW_ActionController
             $comment->username        = $this->avatars[$comment->ownerId]["title"];
             $comment->owner_url       = $this->avatars[$comment->ownerId]["url"];
             $comment->avatar_url      = $this->avatars[$comment->ownerId]["src"];
+            $comment->avatar_css     = $this->avatars[$comment->ownerId]["css"];
+            $comment->avatar_initial = $this->avatars[$comment->ownerId]["initial"];
             $section                  = OW::getLanguage()->text('spodagora', date('l', strtotime($comment->timestamp)));
             $comment->timestamp       = date('H:i', strtotime($comment->timestamp));
             $comment->sentiment_class = $comment->sentiment == 0 ? 'neutral' : ($comment->sentiment == 1 ? 'satisfied' : 'dissatisfied');
@@ -134,7 +136,7 @@ class SPODAGORA_CTRL_Agora extends OW_ActionController
 
         if(empty($avatars[$this->userId]))
         {
-            $avatars = BOL_AvatarService::getInstance()->getDataForUserAvatars(array($this->userId));
+            $avatars = SPODAGORA_CLASS_Tools::getInstance()->process_avatar(BOL_AvatarService::getInstance()->getDataForUserAvatars(array($this->userId)));
         }
 
         $js = UTIL_JsGenerator::composeJsString('
@@ -144,6 +146,8 @@ class SPODAGORA_CTRL_Agora extends OW_ActionController
             AGORA.username = {$username}
             AGORA.user_url = {$user_url}
             AGORA.user_avatar_src = {$user_avatar_src}
+            AGORA.user_avatar_css = {$user_avatar_css}
+            AGORA.user_avatar_initial = {$user_avatar_initial}
             AGORA.user_id = {$user_id}
             AGORA.agora_nested_comment_endpoint = {$agora_nested_comment_endpoint}
             AGORA.user_notification_url = {$user_notification_url} 
@@ -163,6 +167,8 @@ class SPODAGORA_CTRL_Agora extends OW_ActionController
             'username' => $avatars[$this->userId]["title"],
             'user_url' => $avatars[$this->userId]["url"],
             'user_avatar_src' => $avatars[$this->userId]["src"],
+            'user_avatar_css' => $avatars[$this->userId]["css"],
+            'user_avatar_initial' => $avatars[$this->userId]["initial"],
             'user_id' => $this->userId,
             'agora_nested_comment_endpoint' => OW::getRouter()->urlFor('SPODAGORA_CTRL_Ajax', 'getNestedComment'),
             'user_notification_url' => OW::getRouter()->urlFor('SPODAGORA_CTRL_Ajax', 'handleUserNotification'),
@@ -228,27 +234,6 @@ class SPODAGORA_CTRL_Agora extends OW_ActionController
         }
 
         return $comments;
-    }
-
-    private function process_avatar($avatars)
-    {
-        foreach ($avatars as &$avatar)
-        {
-            if(strpos( $avatar['src'], 'no-avatar'))
-            {
-                $avatar['css'] = 'no_img ' . $this->avatar_colors[rand(0,count($this->avatar_colors)-1)];
-                $avatar['initial'] = strtoupper($avatar['title'][0]);
-                $avatar['src'] = '';
-            }
-            else
-            {
-                $avatar['css'] = '';
-                $avatar['initial'] = '';
-            }
-
-        }
-
-        return $avatars;
     }
 
 }
