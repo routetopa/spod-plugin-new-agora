@@ -1,7 +1,9 @@
 <div id="agora_nested_comment">
     <div id="agora_back"></div>
-    <div class="ow_avatar style-scope {$comments[0]->sentiment_class}" title="{$comments[0]->username}">
-        <a class="style-scope" href="{$comments[0]->owner_url}"><img alt="" style="max-width: 100%;" class="" src="{$comments[0]->avatar_url}"></a>
+    <div class="ow_avatar style-scope {$comments[0]->sentiment_class} {$comments[0]->avatar_css}" title="{$comments[0]->username}">
+        <a class="style-scope" href="{$comments[0]->owner_url}">
+            <img src="{$comments[0]->avatar_url}">{$comments[0]->avatar_initial}
+        </a>
         <div class="agora_comment_sentiment"></div>
     </div>
     <div class="agora_speech">
@@ -14,8 +16,11 @@
 </div>
 {for $i = 1 to count($comments) - 1}
 <div class="{$comments[$i]->css_class}" id="comment_{$comments[$i]->id}">
-    <div class="ow_avatar style-scope {$comments[$i]->sentiment_class}" title="{$comments[$i]->username}">
-        <a class="style-scope" href="{$comments[$i]->owner_url}"><img alt="" style="max-width: 100%;" class="" src="{$comments[$i]->avatar_url}"></a></div>
+    <div class="ow_avatar style-scope {$comments[$i]->sentiment_class} {$comments[$i]->avatar_css}" title="{$comments[$i]->username}">
+        <a class="style-scope" href="{$comments[$i]->owner_url}">
+            <img src="{$comments[$i]->avatar_url}">{$comments[$i]->avatar_initial}
+        </a>
+    </div>
     <div class="agora_speech">
         <div class="agora_speech_text">{$comments[$i]->comment}</div>
         <div id="agora_datalet_placeholder_{$comments[$i]->id}" class="{$comments[$i]->datalet_class} {$comments[$i]->component}">
