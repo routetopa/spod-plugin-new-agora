@@ -167,7 +167,14 @@
                                 </tr>
                                 {foreach $avatars as $avatar}
                                 <tr class="agora_search_user">
-                                    <td class="avatar"><div class="ow_avatar style-scope" id="user_avatar_{$avatar['userId']}"><img src="{$avatar['src']}"></div></td>
+                                    <td class="avatar">
+                                        <!--<div class="ow_avatar style-scope" id="user_avatar_{$avatar['userId']}"><img src="{$avatar['src']}"></div>-->
+
+                                        <div class="ow_avatar style-scope {$avatar['css']}" id="user_avatar_{$avatar['userId']}" title="{$avatar['title']}">
+                                            <a class="style-scope" href="{$avatar['url']}"><img src="{$avatar['src']}">{$avatar['initial']}</a>
+                                        </div>
+
+                                    </td>
                                     <td class="username">{$avatar['title']}</td>
                                 </tr>
                                 {/foreach}

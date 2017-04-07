@@ -565,6 +565,11 @@ input#agora_search_input:focus::-moz-placeholder { /* Chrome/Opera/Safari */
     margin-top: 16px;
 }
 
+.agora_right_users .body {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;}
+
 /* description */
 
 /* stat */

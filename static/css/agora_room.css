@@ -372,9 +372,9 @@ div#agora_search_users table td.avatar {
     padding: 0 16px;
 }
 
-div#agora_search_users table tr:hover .ow_avatar{
-    background-color: #FFFFFF;
-}
+/*div#agora_search_users table tr:hover .ow_avatar{*/
+    /*border-color: #FFFFFF;*/
+/*}*/
 
 
 div.agora_search {
@@ -444,15 +444,9 @@ input#agora_search_input:focus {
 }
 
 .ow_avatar.no_img {
-    /*min-width: 34px;*/
     line-height: 40px;
     font-size: 20px;
     text-align: center;
-
-    /*height: 34px;*/
-    /*width: 34px;*/
-    /*padding: 6px;*/
-    /*border: 3px solid white;*/
 }
 .ow_avatar.no_img img{
     display: none;
@@ -475,18 +469,31 @@ input#agora_search_input:focus {
     background-color: #CDDC39;
 }
 
+.agora_unread_comment .ow_avatar {
+    border-color: #00BCD4 !important;
+}
+
+.agora_unread_comment:hover .ow_avatar {
+    border-color: #00AABF !important;
+}
+
+.agora_search_user .ow_avatar, .agora_search_tab .ow_avatar {
+    border-color: #26C6DA !important;
+}
+
+.agora_search_user:hover .ow_avatar, .agora_search_tab .ow_avatar:hover {
+    border-color: #FFFFFF !important;
+}
+
 .ow_avatar.neutral {
-    /*background-color: transparent;*/
     border-color: #FFFFFF;
 }
 
 .ow_avatar.satisfied {
-    /*background-color: #4CAF50;*/
     border-color: #4CAF50;
 }
 
 .ow_avatar.dissatisfied {
-    /*background-color: #F44336;*/
     border-color: #F44336;
 }
 
