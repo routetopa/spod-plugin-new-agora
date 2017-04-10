@@ -224,10 +224,13 @@ class SPODAGORA_CTRL_Agora extends OW_ActionController
 
             if (!empty($comment->component)) {
                 $comment->datalet_class  = 'agora_fullsize_datalet';
+
+                $comment->data = empty($comment->data) ? "" : $comment->data;
+
                 OW::getDocument()->addOnloadScript('ODE.loadDatalet("'. $comment->component . '",
                                                                     ' . $comment->params . ',
                                                                     ['. $comment->fields . '],
-                                                                    ' . !empty($comment->data) ? $comment->data : "" . ',
+                                                                    ' . $comment->data . ',
                                                                     "agora_datalet_placeholder_' . $comment->id . '");');
             }
 
