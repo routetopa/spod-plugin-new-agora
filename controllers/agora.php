@@ -227,7 +227,7 @@ class SPODAGORA_CTRL_Agora extends OW_ActionController
                 OW::getDocument()->addOnloadScript('ODE.loadDatalet("'. $comment->component . '",
                                                                     ' . $comment->params . ',
                                                                     ['. $comment->fields . '],
-                                                                    undefined,
+                                                                    ' . $comment->data . ',
                                                                     "agora_datalet_placeholder_' . $comment->id . '");');
             }
 
