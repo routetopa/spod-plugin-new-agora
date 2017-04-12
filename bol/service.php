@@ -380,7 +380,7 @@ class SPODAGORA_BOL_Service
     {
         $sql = "SELECT T.id, T.entityId, T.ownerId, T.comment, T.level, T.sentiment, T.timestamp,
                        ow_ode_datalet.component, ow_ode_datalet.data, ow_ode_datalet.fields, ow_ode_datalet.params 
-                FROM (ow_spod_agora_room_comment as T LEFT JOIN ow_ode_datalet_post as T1 on T.id = T1.postId) LEFT JOIN ow_ode_datalet ON T1.dataletId = ow_ode_datalet.id
+                FROM (ow_spod_agora_room_comment as T LEFT JOIN (SELECT dataletId, postId FROM ow_ode_datalet_post WHERE plugin = 'agora') as T1 on T.id = T1.postId) LEFT JOIN ow_ode_datalet ON T1.dataletId = ow_ode_datalet.id
                 WHERE parentId = {$parent_id} and level = {$level} and entityId = {$room_id}
                 order by T.timestamp asc;";
 

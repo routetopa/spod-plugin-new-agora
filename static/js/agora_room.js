@@ -4,7 +4,8 @@ AGORA = {
     agoraSearchJS:null,
     agoraUserCommentHandling:null,
     debounce:true,
-    searchStringLenght:3
+    searchStringLenght:3,
+    lastScrollPosition:100000000
 };
 
 AGORA.init = function ()
@@ -356,18 +357,33 @@ AGORA.onAgoraSentimentButton = function()
 
 AGORA.onDocumentReady = function ()
 {
-    $('#agora_left').perfectScrollbar();
-    $('#agora_chat_container').perfectScrollbar();
-    $('#agora_nested_chat_container').perfectScrollbar();
+    $("#agora_left").perfectScrollbar();
+    $("#agora_chat_container").perfectScrollbar();
+    $("#agora_nested_chat_container").perfectScrollbar();
     $(".agora_unread_comments").perfectScrollbar();
     $(".agora_searched_comments").perfectScrollbar();
     $("#agora_datalet_graph_container").perfectScrollbar();/*ddr*/
-    $('#agora_comment').autogrow();
+    $("#agora_comment").autogrow();
+    //$("#agora_chat_container").on("scroll", AGORA.onChatContainerScroll);
     AGORA.scroll_to();
 
     // Emoticonize !!
     $('.agora_speech_text').emoticonize();
 };
+
+/*AGORA.onChatContainerScroll = function()
+{
+  if(document.getElementById('agora_chat_container').scrollTop < AGORA.lastScrollPosition)
+  {
+    AGORA.lastScrollPosition = document.getElementById('agora_chat_container').scrollTop;
+    console.log("GO UP");
+    if(document.getElementById('agora_chat_container').scrollTop < 100)
+    {
+        console.log("TOP");
+    }
+  }
+
+};*/
 
 // UNREAD
 AGORA.onClickUnreadComment = function (e)
