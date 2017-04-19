@@ -1,0 +1,25 @@
+{foreach $comments as $comment}
+<div class="{$comment->css_class}" id="comment_{$comment->id}">
+    <div class="ow_avatar style-scope {$comment->avatar_css} {$comment->sentiment_class}" title="{$comment->username}">
+        <a class="style-scope" href="{$comment->owner_url}"><img src="{$comment->avatar_url}">{$comment->avatar_initial}</a>
+    </div>
+    <div class="agora_speech">
+        <div class="agora_speech_text">{$comment->comment}</div>
+        <div id="agora_datalet_placeholder_{$comment->id}" class="{$comment->datalet_class} {$comment->component}">
+            {$comment->datalet_html}
+        </div>
+        <div class="agora_speech_info">
+            <div class="agora_speech_username">{$comment->username}</div>
+            <div class="agora_speech_time">{$comment->timestamp}</div>
+            <div class="agora_speech_reply">{text key="spodagora+c_reply"} ({$comment->total_comment})</div>
+        </div>
+    </div>
+    <div class="agora_editor_container">
+        <div class="agora_editor tooltips left">
+            <span>
+                <span class="delete_comment">{text key="spodagora+t_delete"}</span><span class="modify_comment">{text key="spodagora+t_modify"}</span>
+            </span>
+        </div>
+    </div>
+</div>
+{/foreach}

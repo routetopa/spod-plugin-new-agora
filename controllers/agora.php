@@ -77,8 +77,10 @@ class SPODAGORA_CTRL_Agora extends OW_ActionController
         OW::getLanguage()->addKeyForJs('spodagora', 'g_time');
 
         SPODAGORA_BOL_Service::getInstance()->addAgoraRoomStat($this->agoraId, 'views');
-        $raw_comments = SPODAGORA_BOL_Service::getInstance()->getCommentList($this->agoraId);
-        $this->assign('comments', $this->process_comment($raw_comments));
+
+
+        $this->addComponent('comments', new SPODAGORA_CMP_AgoraMainComment($this->agoraId));
+
 
         $raw_unread_comments = SPODAGORA_BOL_Service::getInstance()->getUnreadComment($this->agoraId, $this->userId);
         $this->assign('unread_comments_count', count($raw_unread_comments));
@@ -160,6 +162,8 @@ class SPODAGORA_CTRL_Agora extends OW_ActionController
             AGORA.get_site_tag_endpoint = {$get_site_tag_endpoint}
             AGORA.delete_user_comment_endpoint = {$delete_user_comment_endpoint}
             AGORA.edit_user_comment_endpoint = {$edit_user_comment_endpoint}
+            AGORA.get_comment_page_endpoint = {$get_comment_page_endpoint}
+            AGORA.get_comment_missing_endpoint = {$get_comment_missing_endpoint}
          ', array(
             'roomId' => $this->agoraId,
             'agora_comment_endpoint' => OW::getRouter()->urlFor('SPODAGORA_CTRL_Ajax', 'addComment'),
@@ -180,7 +184,9 @@ class SPODAGORA_CTRL_Agora extends OW_ActionController
             'users_avatar' => $this->avatars,
             'get_site_tag_endpoint' => OW::getRouter()->urlFor('SPODAGORA_CTRL_Ajax', 'getSiteMetaTags'),
             'delete_user_comment_endpoint' => OW::getRouter()->urlFor('SPODAGORA_CTRL_Ajax', 'deleteUserComment'),
-            'edit_user_comment_endpoint' => OW::getRouter()->urlFor('SPODAGORA_CTRL_Ajax', 'editUserComment')
+            'edit_user_comment_endpoint' => OW::getRouter()->urlFor('SPODAGORA_CTRL_Ajax', 'editUserComment'),
+            'get_comment_page_endpoint' => OW::getRouter()->urlFor('SPODAGORA_CTRL_Ajax', 'getCommentPage'),
+            'get_comment_missing_endpoint' => OW::getRouter()->urlFor('SPODAGORA_CTRL_Ajax', 'getMissingComment')
         ));
 
         OW::getDocument()->addOnloadScript($js);
@@ -196,47 +202,6 @@ class SPODAGORA_CTRL_Agora extends OW_ActionController
 
             OW::getDocument()->addOnloadScript($js);
         }
-    }
-
-    private function process_comment(&$comments)
-    {
-        $today = date('Ymd');
-        $yesterday = date('Ymd', strtotime('yesterday'));
-
-        foreach ($comments as &$comment)
-        {
-            $comment->username       = $this->avatars[$comment->ownerId]["title"];
-            $comment->owner_url      = $this->avatars[$comment->ownerId]["url"];
-            $comment->avatar_url     = $this->avatars[$comment->ownerId]["src"];
-            $comment->avatar_css     = $this->avatars[$comment->ownerId]["css"];
-            $comment->avatar_initial = $this->avatars[$comment->ownerId]["initial"];
-            $comment->total_comment  = isset($comment->total_comment) ? $comment->total_comment : 0;
-            $comment->timestamp      = SPODAGORA_CLASS_Tools::getInstance()->process_timestamp($comment->timestamp, $today, $yesterday);
-
-            $comment->css_class      = $this->userId == $comment->ownerId ? 'agora_right_comment' : 'agora_left_comment';
-
-            switch ($comment->sentiment)
-            {
-                case 0 : $comment->sentiment_class = 'neutral'; break;
-                case 1 : $comment->sentiment_class = 'satisfied'; break;
-                case 2 : $comment->sentiment_class = 'dissatisfied'; break;
-            }
-
-            if (!empty($comment->component)) {
-                $comment->datalet_class  = 'agora_fullsize_datalet';
-
-                $comment->data = empty($comment->data) ? "''" : $comment->data;
-
-                OW::getDocument()->addOnloadScript('ODE.loadDatalet("'. $comment->component . '",
-                                                                    ' . $comment->params . ',
-                                                                    ['. $comment->fields . '],
-                                                                    ' . $comment->data . ',
-                                                                    "agora_datalet_placeholder_' . $comment->id . '");');
-            }
-
-        }
-
-        return $comments;
     }
 
 }

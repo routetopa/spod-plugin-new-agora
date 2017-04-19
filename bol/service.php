@@ -9,6 +9,7 @@ class SPODAGORA_BOL_Service
      * @var AGORA_BOL_Service
      */
     private static $classInstance;
+    private $result_per_page = 10;
 
     /**
      * Returns an instance of class (singleton pattern implementation).
@@ -326,6 +327,63 @@ class SPODAGORA_BOL_Service
 
         return $dbo->queryForObjectList($sql,'SPODAGORA_BOL_CommentContract');
     }
+
+    public function getCommentListPaged($roomId, $last_id=10e10)
+    {
+        $sql = "SELECT * FROM (SELECT F.id, F.entityId, F.ownerId, F.comment, F.level, F.sentiment, F.timestamp, F.total_comment,
+                       J.component, J.data, J.fields, J.params
+                
+                FROM (SELECT * 
+                      FROM 
+                        (SELECT ow_spod_agora_room_comment.id, entityId, ownerId, comment, level, sentiment, timestamp, total_comment 
+                         FROM ow_spod_agora_room_comment LEFT JOIN 
+                            (SELECT count(parentId) AS total_comment, parentId 
+                             FROM ow_spod_agora_room_comment
+                             WHERE entityId = {$roomId} AND level = 1 
+                             GROUP BY parentId) AS T ON ow_spod_agora_room_comment.id = T.parentId ) 
+                         AS K LEFT JOIN 
+                            (SELECT dataletId, postId FROM ow_ode_datalet_post WHERE plugin = 'agora') AS W ON K.id = W.postId ) 
+                            AS F LEFT JOIN ow_ode_datalet 
+                            AS J ON F.dataletId = J.id
+                
+                where level = 0 and entityId = {$roomId} and F.id < {$last_id}
+                order by F.timestamp DESC
+                limit {$this->result_per_page}) as K
+                ORDER BY K.timestamp ASC;";
+
+        $dbo = OW::getDbo();
+
+        return $dbo->queryForObjectList($sql,'SPODAGORA_BOL_CommentContract');
+    }
+
+    public function getCommentListMissing($roomId, $last_id, $comment_id)
+    {
+        $sql = "SELECT * FROM (SELECT F.id, F.entityId, F.ownerId, F.comment, F.level, F.sentiment, F.timestamp, F.total_comment,
+                       J.component, J.data, J.fields, J.params
+                
+                FROM (SELECT * 
+                      FROM 
+                        (SELECT ow_spod_agora_room_comment.id, entityId, ownerId, comment, level, sentiment, timestamp, total_comment 
+                         FROM ow_spod_agora_room_comment LEFT JOIN 
+                            (SELECT count(parentId) AS total_comment, parentId 
+                             FROM ow_spod_agora_room_comment
+                             WHERE entityId = {$roomId} AND level = 1 
+                             GROUP BY parentId) AS T ON ow_spod_agora_room_comment.id = T.parentId ) 
+                         AS K LEFT JOIN 
+                            (SELECT dataletId, postId FROM ow_ode_datalet_post WHERE plugin = 'agora') AS W ON K.id = W.postId ) 
+                            AS F LEFT JOIN ow_ode_datalet 
+                            AS J ON F.dataletId = J.id
+                
+                where level = 0 and entityId = {$roomId} and F.id < {$last_id} and F.id >= {$comment_id}
+                order by F.timestamp DESC) as K
+                ORDER BY K.timestamp ASC;";
+
+        $dbo = OW::getDbo();
+
+        return $dbo->queryForObjectList($sql,'SPODAGORA_BOL_CommentContract');
+    }
+
+
 
     public function getUnreadComment($roomId, $userId)
     {

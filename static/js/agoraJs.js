@@ -14,6 +14,7 @@ agoraJs.prototype = (function(){
     var _stringHandler;
     var _processedUrl;
     var _preview;
+    var _lock;
 
     var init = function(elem, entityId, endpoint, endpoint_nested) {
         _elem = elem;
@@ -27,6 +28,8 @@ agoraJs.prototype = (function(){
 
         _processedUrl = '';
         _preview = '';
+
+        _lock = false;
 
         _agoraCommentJS = new agoraCommentJS();
         _elem.keydown(keydown_handler);
@@ -53,11 +56,13 @@ agoraJs.prototype = (function(){
     };
 
     var set_level_up = function () {
-        _level = _level + 1;
+        if(_level < 1)
+            _level = _level + 1;
     };
 
     var set_level_down = function () {
-        _level = _level - 1;
+        if(_level > 0)
+            _level = _level - 1;
     };
 
     var get_sentiment = function () {
@@ -112,6 +117,7 @@ agoraJs.prototype = (function(){
     };
 
     var keydown_handler = function (e) {
+        if(_lock) return;
         var key = e.which || e.keyCode;
         if (key === 13 && !e.shiftKey ) { // 13 is enter
             e.preventDefault();
@@ -121,13 +127,14 @@ agoraJs.prototype = (function(){
     };
 
     var submit = function () {
-        if(_elem.val() == "") return false;
+        if(_elem.val() == "" || _lock) return false;
         handle_message(_elem.val());
         return true;
     };
 
     var handle_message = function(message) {
 
+        _lock = true;
         _message = message;
 
         var send_data = {
@@ -182,6 +189,7 @@ agoraJs.prototype = (function(){
             _elem.val("");
             //Simulate canc in order to shrink textarea
             _elem.trigger({type:"keyup", ctrlKey:false, which:46});
+            _lock = false;
 
         } catch (e){
             console.log("Error on on_request_success");
@@ -381,8 +389,33 @@ function agoraUserCommentHandling(){}
 
 agoraUserCommentHandling.prototype = (function(){
 
+
     return {
         construct:agoraUserCommentHandling,
+
+        loadCommentPage: function(room_id)
+        {
+            var _last_comment_id = $("#agora_chat_container").children().first()[0].id.replace("comment_", "");
+
+            return $.ajax({
+                type: 'POST',
+                url : AGORA.get_comment_page_endpoint,
+                data: {entity_id:room_id, last_comment_id:_last_comment_id},
+                dataType : 'TEXT'
+            });
+        },
+
+        loadCommentMissing: function(room_id, comment_id)
+        {
+            var _last_comment_id = $("#agora_chat_container").children().first()[0].id.replace("comment_", "");
+
+            return $.ajax({
+                type: 'POST',
+                url : AGORA.get_comment_missing_endpoint,
+                data: {entity_id:room_id, last_comment_id:_last_comment_id, comment_id:comment_id},
+                dataType : 'TEXT'
+            });
+        },
 
         deleteComment: function(comment_id) {
             return $.ajax({

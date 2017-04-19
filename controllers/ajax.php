@@ -248,6 +248,25 @@ class SPODAGORA_CTRL_Ajax extends OW_ActionController
         exit;
     }
 
+    public function getCommentPage()
+    {
+        $cp = new SPODAGORA_CMP_AgoraMainComment($_REQUEST['entity_id'],
+                                                 $_REQUEST['last_comment_id']);
+
+        echo $cp->render();
+        exit;
+    }
+
+    public function getMissingComment()
+    {
+        $cp = new SPODAGORA_CMP_AgoraMainComment($_REQUEST['entity_id'],
+                                                 $_REQUEST['last_comment_id'],
+                                                 $_REQUEST['comment_id']);
+
+        echo $cp->render();
+        exit;
+    }
+
     //Realtime
     private function send_realtime_notification($comment)
     {

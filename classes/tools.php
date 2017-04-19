@@ -77,4 +77,95 @@ class SPODAGORA_CLASS_Tools
         return $avatars;
     }
 
+    public function process_comment(&$comments, $avatars, $userId)
+    {
+        $today = date('Ymd');
+        $yesterday = date('Ymd', strtotime('yesterday'));
+
+        foreach ($comments as &$comment)
+        {
+            $comment->username       = $avatars[$comment->ownerId]["title"];
+            $comment->owner_url      = $avatars[$comment->ownerId]["url"];
+            $comment->avatar_url     = $avatars[$comment->ownerId]["src"];
+            $comment->avatar_css     = $avatars[$comment->ownerId]["css"];
+            $comment->avatar_initial = $avatars[$comment->ownerId]["initial"];
+            $comment->total_comment  = isset($comment->total_comment) ? $comment->total_comment : 0;
+            $comment->timestamp      = SPODAGORA_CLASS_Tools::getInstance()->process_timestamp($comment->timestamp, $today, $yesterday);
+
+            $comment->css_class      = $userId == $comment->ownerId ? 'agora_right_comment' : 'agora_left_comment';
+
+            switch ($comment->sentiment)
+            {
+                case 0 : $comment->sentiment_class = 'neutral'; break;
+                case 1 : $comment->sentiment_class = 'satisfied'; break;
+                case 2 : $comment->sentiment_class = 'dissatisfied'; break;
+            }
+
+            if (!empty($comment->component)) {
+                $comment->datalet_class  = 'agora_fullsize_datalet';
+
+                $comment->data = empty($comment->data) ? "''" : $comment->data;
+
+                OW::getDocument()->addOnloadScript('ODE.loadDatalet("'. $comment->component . '",
+                                                                    ' . $comment->params . ',
+                                                                    ['. $comment->fields . '],
+                                                                    ' . $comment->data . ',
+                                                                    "agora_datalet_placeholder_' . $comment->id . '");');
+            }
+
+        }
+
+        return $comments;
+    }
+
+    public function process_comment_include_datalet(&$comments, $user_id)
+    {
+        $users_ids      = array_map(function($comments) { return $comments->ownerId;}, $comments);
+        $avatars        = $this->process_avatar(BOL_AvatarService::getInstance()->getDataForUserAvatars($users_ids));
+
+        $today = date('Ymd');
+        $yesterday = date('Ymd', strtotime('yesterday'));
+
+        foreach ($comments as &$comment)
+        {
+            $comment->username       = $avatars[$comment->ownerId]["title"];
+            $comment->owner_url      = $avatars[$comment->ownerId]["url"];
+            $comment->avatar_url     = $avatars[$comment->ownerId]["src"];
+            $comment->avatar_css     = $avatars[$comment->ownerId]["css"];
+            $comment->avatar_initial = $avatars[$comment->ownerId]["initial"];
+            $comment->total_comment  = isset($comment->total_comment) ? $comment->total_comment : 0;
+            $comment->timestamp      = SPODAGORA_CLASS_Tools::getInstance()->process_timestamp($comment->timestamp, $today, $yesterday);
+
+            $comment->css_class       = $user_id == $comment->ownerId ? 'agora_right_comment' : 'agora_left_comment';
+            $comment->sentiment_class = $comment->sentiment == 0 ? 'neutral' : ($comment->sentiment == 1 ? 'satisfied' : 'dissatisfied');
+            $comment->datalet_class   = '';
+            $comment->datalet_html    = '';
+
+            if (isset($comment->component)) {
+                $comment->datalet_class = 'agora_fullsize_datalet';
+                $comment->datalet_html  = $this->create_datalet_code($comment);
+            }else{
+                $comment->component = '';
+            }
+
+        }
+
+        return $comments;
+    }
+
+    private function create_datalet_code($comment)
+    {
+        $params = json_decode($comment->params);
+        $html  = "<link rel='import' href='".SPODPR_COMPONENTS_URL."datalets/{$comment->component}/{$comment->component}.html' />";
+        $html .= "<{$comment->component} ";
+
+        foreach ($params as $key => $value){
+            $html .= $key."='".$value."' ";
+        }
+
+        $html .= " ></{$comment->component}>";
+
+        return $html;
+    }
+
 }

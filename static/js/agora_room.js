@@ -330,6 +330,9 @@ AGORA.onCommentAdded = function (e)
         AGORA.user_delete_comment(e);
     });
 
+    $(".modify_comment").on('click', function(e){
+        AGORA.user_edit_comment(e);
+    });
 
 };
 
@@ -364,26 +367,77 @@ AGORA.onDocumentReady = function ()
     $(".agora_searched_comments").perfectScrollbar();
     $("#agora_datalet_graph_container").perfectScrollbar();/*ddr*/
     $("#agora_comment").autogrow();
-    //$("#agora_chat_container").on("scroll", AGORA.onChatContainerScroll);
+    $("#agora_chat_container").on("scroll", AGORA.onChatContainerScroll);
     AGORA.scroll_to();
 
     // Emoticonize !!
     $('.agora_speech_text').emoticonize();
 };
 
-/*AGORA.onChatContainerScroll = function()
+AGORA.addComment = function(data, target)
 {
-  if(document.getElementById('agora_chat_container').scrollTop < AGORA.lastScrollPosition)
+    return new Promise(function(res, rej)
+    {
+        if (data === '') {
+            $("#loader").hide();
+            return;
+        }
+
+        var first_child = $(target).children().first();
+        var go_to = 0;
+
+        $(target).prepend(data);
+        $(target).perfectScrollbar();
+
+        first_child.prevAll().each(function () {
+            go_to += $(this).outerHeight();
+        });
+
+        $(target).scrollTop(go_to);
+
+        // Handle user comment
+        $(".delete_comment").on('click', function (e) {
+            AGORA.user_delete_comment(e);
+        });
+        $(".modify_comment").on('click', function (e) {
+            AGORA.user_edit_comment(e);
+        });
+
+        // Handle reply
+        $(".agora_speech_reply").click(function (e) {
+            AGORA.onReplyClick(e);
+        });
+
+        //Emoticonize
+        $('.agora_speech_text').emoticonize();
+
+        //Hashtag
+        $('.agora_speech_text').highlightHashtag('#');
+
+        AGORA.lastScrollPosition = 10000000000;
+
+        $("#loader").hide();
+
+        res();
+    });
+};
+
+AGORA.onChatContainerScroll = function(e)
+{
+  if(e.currentTarget.scrollTop < AGORA.lastScrollPosition)
   {
     AGORA.lastScrollPosition = document.getElementById('agora_chat_container').scrollTop;
-    console.log("GO UP");
-    if(document.getElementById('agora_chat_container').scrollTop < 100)
+
+    if(e.currentTarget.scrollTop < 20)
     {
-        console.log("TOP");
+        AGORA.lastScrollPosition = 0;
+        $("#loader").show();
+        AGORA.agoraUserCommentHandling.loadCommentPage(AGORA.roomId).then(function(data){
+            AGORA.addComment(data, e.currentTarget);
+        });
     }
   }
-
-};*/
+};
 
 // UNREAD
 AGORA.onClickUnreadComment = function (e)
@@ -393,13 +447,26 @@ AGORA.onClickUnreadComment = function (e)
     AGORA.goToComment(id, parentId);
 };
 
+AGORA.loadMissingComment = function(comment_dom_id, comment_id)
+{
+    return new Promise(function(res, rej){
+        if($("#"+comment_dom_id).length)
+            res();
+        else {
+            AGORA.agoraUserCommentHandling.loadCommentMissing(AGORA.roomId, comment_id).then(function(data){
+                AGORA.addComment(data, $("#agora_chat_container")).then(res);
+            });
+        }
+    });
+};
+
 // Go to comment
 AGORA.goToComment = function (id, parentId)
 {
     if(AGORA.agoraJS.get_parentId() == parentId || AGORA.agoraJS.get_parentId() == parentId)
     {
         // da livello 0 a 0 o stesso nested level
-        AGORA.highlightMessage(id);
+        AGORA.loadMissingComment(id, id.match(/\d+/)[0]).then(AGORA.highlightMessage.bind(null, id));
     }
     else if(parentId == AGORA.roomId && AGORA.agoraJS.get_parentId() != AGORA.roomId)
     {
