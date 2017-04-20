@@ -414,7 +414,7 @@ AGORA.addComment = function(data, target)
         //Hashtag
         $('.agora_speech_text').highlightHashtag('#');
 
-        AGORA.lastScrollPosition = 10000000000;
+        AGORA.lastScrollPosition = 10e10;
 
         $("#loader").hide();
 

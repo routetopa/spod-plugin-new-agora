@@ -163,6 +163,8 @@ class SPODAGORA_CLASS_Tools
             $html .= $key."='".$value."' ";
         }
 
+        //CACHE
+        $html .= " data='{$comment->data}'";
         $html .= " ></{$comment->component}>";
 
         return $html;
