@@ -59,6 +59,7 @@ class SPODAGORA_BOL_Service
     {
         $dbo = OW::getDbo();
         $comments = [$comment];
+        $agora = $this->getAgoraById($comments[0]->entityId);
 
         $ex = new OW_Example();
         $ex->andFieldEqual('parentId', $comment->id);
@@ -72,12 +73,26 @@ class SPODAGORA_BOL_Service
             if(!empty($datalet))
             {
                 //Delete Association
-                $sql = "DELETE FROM ow_ode_datalet_post WHERE postId = {$comment->id} AND dataletId = {$datalet['id']} AND plugin = 'agora'; ";
+                $sql = "DELETE FROM ow_ode_datalet_post WHERE postId = {$comment->id} AND dataletId = {$datalet['dataletId']} AND plugin = 'agora'; ";
                 $dbo->query($sql);
                 //Delete Datalet
-                $sql = "DELETE FROM ow_ode_datalet WHERE id = {$datalet['id']}; ";
+                $sql = "DELETE FROM ow_ode_datalet WHERE id = {$datalet['dataletId']}; ";
                 $this->subAgoraRoomStat($comment->entityId, 'opendata');
                 $dbo->query($sql);
+                //Delete datalet node from datalet graph
+                $datalet_graph = json_decode('['.rtrim($agora->datalet_graph, ",").']');
+                foreach ($datalet_graph as $key => $node)
+                {
+                    if($node->comment_id == $comment->id)
+                    {
+                        unset($datalet_graph[$key]);
+                        break;
+                    }
+                }
+                $node_number = count($datalet_graph);
+                $datalet_graph = json_encode(array_values($datalet_graph));
+                $agora->datalet_graph = $node_number === 0 ? '' : (substr($datalet_graph, 1, strlen($datalet_graph)-2).",");
+                SPODAGORA_BOL_AgoraRoomDao::getInstance()->save($agora);
             }
 
             //Delete comment hashtag
