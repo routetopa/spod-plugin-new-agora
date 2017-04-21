@@ -353,6 +353,7 @@ agoraCommentJS.prototype = (function () {
 function agoraUserNotificationJS(){}
 
 agoraUserNotificationJS.prototype = (function(){
+
     return {
         construct:agoraUserNotificationJS,
 
@@ -366,11 +367,13 @@ agoraUserNotificationJS.prototype = (function(){
             });
         }
     }
+
 })();
 
 function agoraSearchJS(){}
 
 agoraSearchJS.prototype = (function () {
+
     return {
         construct:agoraSearchJS,
 
@@ -383,6 +386,7 @@ agoraSearchJS.prototype = (function () {
             });
         }
     }
+
 })();
 
 function agoraUserCommentHandling(){}
@@ -417,7 +421,8 @@ agoraUserCommentHandling.prototype = (function(){
             });
         },
 
-        deleteComment: function(comment_id) {
+        deleteComment: function(comment_id)
+        {
             return $.ajax({
                 type: 'POST',
                 url : AGORA.delete_user_comment_endpoint,
@@ -426,7 +431,8 @@ agoraUserCommentHandling.prototype = (function(){
             });
         },
 
-        editComment: function(comment_id, comment) {
+        editComment: function(comment_id, comment)
+        {
             return $.ajax({
                 type: 'POST',
                 url : AGORA.edit_user_comment_endpoint,

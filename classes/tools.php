@@ -77,8 +77,11 @@ class SPODAGORA_CLASS_Tools
         return $avatars;
     }
 
-    public function process_comment(&$comments, $avatars, $userId)
+    public function process_comment(&$comments, $userId)
     {
+        $users_ids      = array_map(function($comments) { return $comments->ownerId;}, $comments);
+        $avatars        = $this->process_avatar(BOL_AvatarService::getInstance()->getDataForUserAvatars($users_ids));
+
         $today = date('Ymd');
         $yesterday = date('Ymd', strtotime('yesterday'));
 
@@ -156,7 +159,7 @@ class SPODAGORA_CLASS_Tools
     private function create_datalet_code($comment)
     {
         $params = json_decode($comment->params);
-        $html  = "<link rel='import' href='".SPODPR_COMPONENTS_URL."datalets/{$comment->component}/{$comment->component}.html' />";
+        $html  = '';//"<link rel='import' href='".SPODPR_COMPONENTS_URL."datalets/{$comment->component}/{$comment->component}.html' />";
         $html .= "<{$comment->component} ";
 
         foreach ($params as $key => $value){
@@ -168,6 +171,29 @@ class SPODAGORA_CLASS_Tools
         $html .= " ></{$comment->component}>";
 
         return $html;
+    }
+
+    public function get_all_datalet_definitions()
+    {
+        $definitions = '';
+
+        $ch = curl_init($preference = BOL_PreferenceService::getInstance()->findPreference('ode_deep_datalet_list')->defaultValue);//1000 limit!
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        $res = curl_exec($ch);
+        $retcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+        if (200 == $retcode) {
+            $data = json_decode($res, true);
+            foreach ($data as $datalet)
+            {
+                $definitions .= "<link rel='import' href='{$datalet['url']}{$datalet['name']}.html' />";
+            }
+        }
+
+        return $definitions;
     }
 
 }

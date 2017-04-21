@@ -5,7 +5,7 @@ AGORA = {
     agoraUserCommentHandling:null,
     debounce:true,
     searchStringLenght:3,
-    lastScrollPosition:100000000
+    lastScrollPosition:10e10
 };
 
 AGORA.init = function ()
@@ -387,13 +387,15 @@ AGORA.addComment = function(data, target)
         var go_to = 0;
 
         $(target).prepend(data);
-        $(target).perfectScrollbar();
 
         first_child.prevAll().each(function () {
+            //console.log(this.id + " " + $(this).outerHeight());
             go_to += $(this).outerHeight();
         });
 
         $(target).scrollTop(go_to);
+        //$(target).perfectScrollbar();
+        //$(target).perfectScrollbar('update');
 
         // Handle user comment
         $(".delete_comment").on('click', function (e) {

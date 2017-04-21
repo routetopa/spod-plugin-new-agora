@@ -10,5 +10,6 @@ class SPODAGORA_CMP_AgoraMainComment extends OW_Component
             $raw_comments = SPODAGORA_BOL_Service::getInstance()->getCommentListMissing($roomId, $last_comment_id, $comment_id);
 
         $this->assign('comments', SPODAGORA_CLASS_Tools::getInstance()->process_comment_include_datalet($raw_comments, OW::getUser()->getId()));
+        //$this->assign('comments', SPODAGORA_CLASS_Tools::getInstance()->process_comment($raw_comments, OW::getUser()->getId()));
     }
 }
