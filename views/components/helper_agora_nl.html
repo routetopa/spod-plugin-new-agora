@@ -1,0 +1,240 @@
+<link rel="import" href="{$components_url}bower_components/paper-fab/paper-fab.html">
+<link rel="import" href="{$components_url}bower_components/paper-scroll-header-panel/paper-scroll-header-panel.html">
+<link rel="import" href="{$components_url}bower_components/paper-toolbar/paper-toolbar.html">
+<link rel="import" href="{$components_url}bower_components/paper-styles/color.html">
+<!--link rel="import" href="{$components_url}bower_components/iron-flex-layout/iron-flex-layout.html"-->
+<link rel="import" href="{$components_url}bower_components/iron-flex-layout/classes/iron-flex-layout.html">
+
+<style>
+
+    #scroll_content{
+        position: relative;
+        overflow: scroll;
+    }
+    div.cell{
+        padding: 20px;
+        margin-left: 20px;
+    }
+
+    ul.cell-list {
+        list-style-type: circle;
+    }
+
+    li{
+        margin-left: 20px;
+    }
+
+    .tall {
+        background-color: #2196f3;
+        color: #FFFFFF;
+    }
+
+    .tall .title {
+          padding: 20px;
+          font-size: 40px;
+          color: #ffffff;
+          /*width: 30%;*/
+          position: relative;
+          float: left;
+      }
+    .tall .description{
+        padding: 20px;
+        font-size: 15px;
+        color: #ffffff;
+        /*width: 70%;*/
+        position: relative;
+        float: left;
+    }
+
+    .sect{
+        border: 1px solid #bebebe; padding: 16px; margin: 16px; border-radius: 5px; background-color: #fff; color: #555;
+    }
+
+    .section-number{
+        display: inline-block; height: 64px; width: 64px; border-radius: 50%; background: #ddd; line-height: 64px; font-size: 30px; color: #666; text-align: center;
+    }
+
+    .section-title{
+        font-size: 22px; padding-top: 18px; color: #888;margin-left: 20px;
+    }
+
+    .iron-icon-8 {
+        fill: #00BCD4;;
+
+    }
+    .paper-button-0 {
+        height: 20px;
+        margin-left: 16px;
+    }
+    .button-container.postit-container-controllet {
+        height: 10px;
+        width: 10px;
+    }
+
+
+
+    .helper_content {
+        background-color: #2196f3;
+        color: #FFFFFF;
+    }
+
+    .helper_title {
+        padding: 20px 20px 0px 20px;
+        font-size: 40px;
+        color: #ffffff;
+        position: relative;
+    }
+
+    .helper_description_spacer {
+        padding: 20px 10px 0px 20px;
+    }
+
+    .helper_description{
+        height: 72px;
+        width: 100%;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    div.add_suggested_dataset {
+        float: left;
+        margin: 8px;
+        height: 24px;
+        width: 24px;
+        line-height: 24px;
+        text-align: center;
+        background-color: #FF9800;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 24px;
+        font-weight: 700;
+        color: #FFFFFF;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+        transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+    }
+
+
+</style>
+
+<div class="layout vertical">
+
+    <div class="helper_content">
+        <div class="helper_title">Agora helper</div>
+            <div class="helper_description_spacer">
+                <div class="helper_description">
+                    Agora is where each moderator  can create a “Public room” to start a new
+                    discussion/debate that is open to all the users. Once a room is created,
+                    only the administrator can delete the room. On the left side, Agora displays
+                    a different views on each tab to organize the Latest, Relevant, Popular  and My discussion rooms, finally a “search” feature is available.
+                    On the right side, more details are given for each selected discussion room (e.g. description, notifications, statistics and so on)
+                    (more details below).
+                </div>
+            </div>
+    </div>
+
+    <div class="content" id="scroll_content">
+
+        <div class="sect">
+            <div class= "horizontal layout cell">
+                <img src="{$staticResourcesUrl}images/agora_createnewroom_en.gif" style="width: 60%; height: 60%;">
+
+                <div class="cell">
+                    <div class="horizontal layout cell">
+                        <div class="section-number">1</div>
+                        <div class="section-title">Room creation</div>
+                    </div>
+                    <div >
+                        To <b>create a new room</b>, just press the big "+" (Add) button on the
+                        top middle, and insert the subject and a brief description of the room.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="sect">
+            <div class="horizontal layout cell">
+                <img src="{$staticResourcesUrl}images/agora_features_leftside_en.png" style="width: 60%; height: 60%;">
+
+                <div class="cell">
+                    <div class="horizontal layout cell">
+                        <div class="section-number">2</div>
+                        <div class="section-title">About rooms (1) </div>
+                    </div>
+                    <div>
+                        On the left side, Agora displays a different views on each tab to organize the discussion rooms
+                        <li> Latest Agora </li>
+                        <li> Relevant Agora </li>
+                        <li> Popular Agora </li>
+                        <li> My Agora shows own created discussion room</li>
+                        <li> <img src="{$staticResourcesUrl}images/search.svg" style="width: 20px; height: 20px;"> Search for the title or description of a discussion room</li>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="sect">
+            <div class="horizontal layout cell">
+                <img src="{$staticResourcesUrl}images/agora_features_rightside_en.png" style="width: 60%; height: 60%;">
+
+                <div class="cell">
+                    <div class="horizontal layout cell">
+                        <div class="section-number">3</div>
+                        <div class="section-title">About rooms (2)</div>
+                    </div>
+                    <div>
+                        <p>
+                            On the right side, more details are given for each selected discussion room:
+                        <ul class="cell-list">
+                            <li>
+                                <b> Description </b> shows  a short description of the discussion room
+                            </li>
+                            <li>
+                                Statistics section shows <b>Views</b>, <b>Comments</b>, and <b>Datalets</b>. <b>“Views”</b> shows Popularity: how popular
+                                is this public room in the SPOD. It depends on how many views has received in total, with respect to the others.
+                                <b>Comments</b> and <b>Datalets</b> describe respectively the number of comments and datalets in a discussion room.
+                            </li>
+                            <li>
+                                <b> Users</b> indicates the number of users  who have participated in the debate.
+                            </li>
+                            <li>
+                                <b> Suggested Datasets </b> shows all  recommended datasets by the user.
+                            </li>
+                            <li>
+                                <b> Email Notification</b> allows to receive e-mail for each new message in the room. Users can opt not to receive the following email alerts.
+                            </li>
+                            <li>
+                                 Number of unread messages.
+                            </li>
+                        </ul>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="sect">
+            <div class="horizontal layout cell">
+                <img src="{$staticResourcesUrl}images/agora_suggested_datasets_en.gif" style="width: 60%; height: 60%;">
+
+                <div class="cell">
+                    <div class="horizontal layout cell">
+                        <div class="section-number">4</div>
+                        <div class="section-title">Add suggested datasets to room</div>
+                    </div>
+                    <div>
+                        The user that created a Public Room can also add a set of recommended
+                        datasets, that are easily accessible by the participants in that
+                        Public Room (via the Controllet).
+                        <ul class="cell-list">
+                            <div class="add_suggested_dataset"></div> This button allows to add recommended datasets.
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
