@@ -1,0 +1,241 @@
+<link rel="import" href="{$components_url}bower_components/paper-fab/paper-fab.html">
+<link rel="import" href="{$components_url}bower_components/iron-icons/social-icons.html">
+<link rel="import" href="{$components_url}bower_components/paper-scroll-header-panel/paper-scroll-header-panel.html">
+<link rel="import" href="{$components_url}bower_components/paper-toolbar/paper-toolbar.html">
+<link rel="import" href="{$components_url}bower_components/paper-styles/color.html">
+<link rel="import" href="{$components_url}bower_components/iron-flex-layout/classes/iron-flex-layout.html">
+
+<style>
+    #scroll_content{
+        position: relative;
+        overflow: scroll;
+    }
+    div.cell{
+        padding: 20px;
+        margin-left: 20px;
+    }
+
+    ul.cell-list {
+        list-style-type: circle;
+    }
+
+    li{
+        margin-left: 20px;
+    }
+
+    .tall {
+        background-color: #2196F3;
+    }
+
+    .tall .title {
+        padding: 20px;
+        font-size: 40px;
+        color: #ffffff;
+        /*width: 30%;*/
+        position: relative;
+        float: left;
+    }
+
+    .tall .description{
+        padding: 20px;
+        font-size: 15px;
+        color: #ffffff;
+        /*width: 70%;*/
+        position: relative;
+        float: left;
+    }
+
+    .sect{
+        border: 1px solid #bebebe; padding: 16px; margin: 16px; border-radius: 5px; background-color: #fff; color: #555;
+    }
+
+    .section-number{
+        display: inline-block; height: 64px; width: 64px; border-radius: 50%; background: #ddd; line-height: 64px; font-size: 30px; color: #666; text-align: center;
+    }
+
+    .section-title{
+        font-size: 22px; padding-top: 18px; color: #888;margin-left: 20px;
+    }
+
+    .floatbox_body * {
+        font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        font-size: 16px;
+        line-height: 24px;
+    }
+
+
+    .helper_content {
+        background-color: #2196f3;
+        color: #FFFFFF;
+    }
+
+    .helper_title {
+        padding: 20px 20px 0px 20px;
+        font-size: 40px;
+        color: #ffffff;
+        position: relative;
+    }
+
+    .helper_description_spacer {
+        padding: 20px 10px 0px 20px;
+    }
+
+    .helper_description{
+        height: 72px;
+        width: 100%;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .agora_sentiment_button
+       {
+           border-radius: 50%;
+           display: block;
+           width: 32px;
+           height: 32px;
+           fill: white;
+           background: #9E9E9E url("/ow_static/plugins/agora/images/sentiment-neutral.svg") no-repeat 0 0;
+       }
+</style>
+
+<div class="layout vertical">
+
+    <div class="helper_content">
+        <div class="helper_title">Public room helper</div>
+        <div class="helper_description_spacer">
+            <div class="helper_description">
+                Public room is a place when the users can discuss about previously created topic in the Agora area.
+            </div>
+        </div>
+    </div>
+
+    <div class="content" id="scroll_content">
+
+        <div class="sect">
+            <div class="horizontal layout cell">
+                <img src="{$staticResourcesUrl}images/public_room_en.png" style="width: 60%; height: 60%;">
+
+                <div class="cell">
+                    <div class="horizontal layout cell">
+                        <div class="section-number">1</div>
+                        <div class="section-title">About the room</div>
+                    </div>
+                    <div>Rooms are split vertically, on the centre side there is a threaded chat (enabled for the use of open data)
+                        meanwhile on the right there is an area dedicated to Graphs, Search and Weekly messages notifications.</div>
+                    <div>On the left side, a vertical toolbar allows the following functionalities: </div>
+
+                    <li><b>Weekly Messages Notifications</b></li> An user can check the number of unread messages and on the right top side, only unread messages will be displayed for every day of the week.
+                    <li><b>Search </b></li> It allows to find all of the massages posted by a particular person
+                    <li><b>Sentiments</b></li> It shows a representation to display two values that represent the amount, represented by the percentage, of negative sentiment and positive comments
+                    <li><b>Users Graph</b></li>
+                    <li><b>Datalets Graph</b></li>
+                    The graph represents two sets, i.e on the left side the datalets and on the right side the datasets.
+                    <li><b>E-mail Notification</b></li> It allows to keep track of the activity in each discussion with notifications via e-mail.
+                </div>
+            </div>
+        </div>
+
+        <div class="sect">
+            <div class="horizontal layout cell">
+                <img src="{$staticResourcesUrl}images/public_room_sentiment_en.png" style="width: 60%; height: 60%;">
+
+                <div class="cell">
+                    <div class="horizontal layout cell">
+                        <div class="section-number">2</div>
+                        <div class="section-title">Threaded chat</div>
+                    </div>
+                    <div>
+                        <p>
+                            The threaded chat allows to reply to a discussion clicking on the "reply" link.
+                            Every time you add a new post in the chat, you can express you opinion by selecting from the Opinion Button
+                            (<img src="{$staticResourcesUrl}images/sentiment-neutral.svg" style="border-radius: 50%;width: 32px; height: 32px; fill: white; background: #9E9E9E">)
+                        </p>
+
+                        <ul class="cell-list">
+                                <div class="layout horizontal">
+                                    <li>
+                                        Neutral (<b style="color:#9E9E9E"> Gray </b> color avatar highlighted in the discussion room)
+                                    </li>
+                                </div>
+                                <div class="layout horizontal">
+                                    <li>
+                                        Agree (<b style="color:#2CA02C">Green</b> color avatar  highlighted in the discussion room)
+                                    </li>
+                                </div>
+                                <div class="layout horizontal">
+                                    <li>
+                                        Desagree (<b style="color:#D62728">Red</b> color node highlighted in the discussion room)
+                                    </li>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="sect">
+            <div class="horizontal layout cell">
+                <img src="{$staticResourcesUrl}images/public_room_dataletgraph_en.gif" style="width: 60%; height: 60%;">
+
+                <div class="cell">
+                    <div class="horizontal layout cell">
+                        <div class="section-number">3</div>
+                        <div class="section-title">Interactive Graphs</div>
+                    </div>
+                    <div>
+                        Any graph is interactive: you can adjust the nodes as you like, by
+                        clicking and dragging the nodes.
+                        Any graph is informative: with mouse over the node, related
+                        information is shown on top right.
+                        Any graph is synchronized: by clicking on a node in the graph you can
+                        see on the left the corresponding content in the threaded chat.
+                        There are two graphs:<br>
+                        <ul class="cell-list">
+
+                            <li>
+                                <b>Users Graph</b>:  graph of users, where each node represents a user that is
+                                participating in the discussion, and an edge joins to users that
+                                they have a friendship relations on the SPOD platform.
+                                If you bring the mouse over a node (no click) you can see the friends relationship among the users.
+                            </li>
+                            <li>
+                                <b>Datalets Graph</b>:
+                                On the right side there is the  graph represents two sets, i.e, on the left side the datalet and on the right side the datasets,
+                                edges represent relationships between them.
+                                If you bring the mouse over a node (no click) you can read the comment of the node and if you click the chat on the left will move
+                                and highlight the corresponding datalet with comment.
+                            </li>
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="sect">
+            <div class="horizontal layout cell">
+                <img src="{$staticResourcesUrl}images/public_room_previewdatalet_en.gif" style="width: 60%; height: 60%;">
+
+                <div class="cell">
+                    <div class="horizontal layout cell">
+                        <div class="section-number">5</div>
+                        <div class="section-title">Datalet sharing and preview of a datalet</div>
+                    </div>
+                    <div>
+                        You can use the Datalet button <img src="{$staticResourcesUrl}images/controllet-button.svg" style="width: 20px; height: 20px; background-color: #00bcd4;"> to create and post a new visualization
+                        of datasets at every level of the threaded chat. During this step, you
+                        can easily select one of the suggested datasets (from the creator) or
+                        add a new one, and clicking on the button <img src="{$staticResourcesUrl}images/eye.svg" style="width: 20px; height: 20px;"> for datalet preview.
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+ </div>
