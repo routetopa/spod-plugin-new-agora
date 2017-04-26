@@ -1427,12 +1427,12 @@ div.agora_editor:before {
 /* AND */
 #loader {
     display: none;
-    margin: 10px auto;
-    border: 2px solid #f3f3f3;
+    margin: 8px auto;
+    border: 2px solid #BDBDBD;
     border-radius: 50%;
-    border-top: 2px solid #3498db;
-    width: 15px;
-    height: 15px;
+    border-top: 2px solid #FF9800;
+    width: 16px;
+    height: 16px;
     -webkit-animation: spin 1s linear infinite;
     animation: spin 1s linear infinite;
 }
@@ -1447,3 +1447,5 @@ div.agora_editor:before {
     100% { transform: rotate(360deg); }
 }
 /* AND */
+
+/*http://stackoverflow.com/questions/123999/how-to-tell-if-a-dom-element-is-visible-in-the-current-viewport*/
