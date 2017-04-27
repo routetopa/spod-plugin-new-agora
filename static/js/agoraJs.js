@@ -93,7 +93,7 @@ agoraJs.prototype = (function(){
 
         //console.log(e[0].which);
 
-        if( (_elem.val().length != 0) && (url = check_if_link(_elem.val())) !== null && url != _processedUrl)
+        if( (_elem.val().length !== 0) && (url = check_if_link(_elem.val())) !== null && url !== _processedUrl)
         {
             _agoraCommentJS.getSiteMetaTags(url).then(function(data){
 
@@ -132,13 +132,14 @@ agoraJs.prototype = (function(){
         }
 
         // if ((key === 192 && e.ctrlKey) || e.key == '@') { // 192 is ò
-        if (e.key == '@') {
+        if (e.key === '@') {
+            var coordinates = getCaretCoordinates(_elem[0], _elem[0].selectionEnd);
             _current_mention_position = _elem.prop("selectionStart");
             _elem.on("keyup", handle_mention);
 
             $("#suggested_friends").css({
                 top:_elem.parent().position().top - $("#suggested_friends").outerHeight(),
-                left:_elem.parent().position().left + 16,
+                left:_elem.parent().position().left + coordinates.left + 36,
                 position:'absolute'
             });
             $("#suggested_friends").show();
@@ -337,26 +338,6 @@ agoraJs.prototype = (function(){
         var space_index = str.indexOf(' ', _current_mention_position);
         space_index = (space_index === -1) ? str.length : space_index;
         return str.slice(_current_mention_position+1, space_index);
-    };
-
-    var k = 0;
-
-    var is_near_mention = function()
-    {
-        var str = _elem.val();
-        var caret = _elem.prop("selectionStart") - 1;
-        for(var i = caret; i>=0; i--)
-        {
-            console.log(k + ' ' + str[i]);
-            k++;
-
-            if(str[i] == ' ')
-                return false;
-            if(str[i] == '@')
-                return true;
-        }
-
-        return false;
     };
 
     // PUBLIC METHOD
