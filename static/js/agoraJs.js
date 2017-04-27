@@ -15,6 +15,7 @@ agoraJs.prototype = (function(){
     var _processedUrl;
     var _preview;
     var _lock;
+    var _current_mention_position;
 
     var init = function(elem, entityId, endpoint, endpoint_nested) {
         _elem = elem;
@@ -90,9 +91,10 @@ agoraJs.prototype = (function(){
 
     var keyup_handler = function(e) {
 
+        //console.log(e[0].which);
+
         if( (_elem.val().length != 0) && (url = check_if_link(_elem.val())) !== null && url != _processedUrl)
         {
-            //TODO check if url already processed
             _agoraCommentJS.getSiteMetaTags(url).then(function(data){
 
                 _processedUrl = url;
@@ -114,16 +116,84 @@ agoraJs.prototype = (function(){
                 });
             });
         }
+
     };
 
     var keydown_handler = function (e) {
+
         if(_lock) return;
         var key = e.which || e.keyCode;
+
         if (key === 13 && !e.shiftKey ) { // 13 is enter
             e.preventDefault();
             if(_elem.val() == "") return false;
             handle_message(_elem.val());
         }
+
+        if (key === 192 && e.ctrlKey) { // 192 is ò
+            _current_mention_position = _elem.prop("selectionStart");
+            _elem.on("keyup", handle_mention);
+
+            $("#suggested_friends").css({
+                top:_elem.parent().position().top - $("#suggested_friends").outerHeight(),
+                left:_elem.parent().position().left + 16,
+                position:'absolute'
+            });
+            $("#suggested_friends").show();
+            $("#suggested_friends_table tbody tr").on("click", handle_mention_selection);
+        }
+    };
+
+    var handle_mention = function(e) {
+
+        console.log("a");
+
+        var key = e.which || e.keyCode;
+
+        if(key === 32) {// 32 is whitespace
+            unbind_mention_handler();
+            return;
+        }
+
+        if(_elem.prop("selectionStart") <= _current_mention_position) {
+            unbind_mention_handler();
+            return;
+        }
+
+        var suggested = $('#suggested_friends_table tbody tr');
+        suggested.show();
+
+        var mention = get_mention_string();
+
+        suggested.each(function(){
+            if($(this).find(".ow_avatar")[0].attributes["title"].value.indexOf(mention) === -1)  {
+                $(this).hide();
+            }
+        });
+
+        $("#suggested_friends").css({
+            top:_elem.parent().position().top - $("#suggested_friends").outerHeight()
+        });
+    };
+
+    var handle_mention_selection = function(e) {
+
+        unbind_mention_handler();
+
+        //var user_id = e.currentTarget.attributes["user_id"].value;
+        var name = $(e.currentTarget).find(".ow_avatar")[0].attributes["title"].value;
+        var partial_mention = get_mention_string();
+
+        var new_value = splice(_elem.val(), _current_mention_position+1, partial_mention.length, name);
+        _elem.val(new_value);
+    };
+
+    var unbind_mention_handler = function()
+    {
+        $("#suggested_friends_table tbody tr").unbind("click", handle_mention_selection);
+        _elem.unbind("keyup", handle_mention);
+        $("#suggested_friends").hide();
+
     };
 
     var submit = function () {
@@ -253,6 +323,38 @@ agoraJs.prototype = (function(){
                 clearTimeout(timeout);
             timeout = setTimeout(f.bind(null, arguments), debounce)
         }
+    };
+
+    var splice = function(str, idx, rem, str_add) {
+        return str.slice(0, idx) + str_add + str.slice(idx + Math.abs(rem));
+    };
+
+    var get_mention_string = function()
+    {
+        var str = _elem.val();
+        var space_index = str.indexOf(' ', _current_mention_position);
+        space_index = (space_index === -1) ? str.length : space_index;
+        return str.slice(_current_mention_position+1, space_index);
+    };
+
+    var k = 0;
+
+    var is_near_mention = function()
+    {
+        var str = _elem.val();
+        var caret = _elem.prop("selectionStart") - 1;
+        for(var i = caret; i>=0; i--)
+        {
+            console.log(k + ' ' + str[i]);
+            k++;
+
+            if(str[i] == ' ')
+                return false;
+            if(str[i] == '@')
+                return true;
+        }
+
+        return false;
     };
 
     // PUBLIC METHOD

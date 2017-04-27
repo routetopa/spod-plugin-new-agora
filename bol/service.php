@@ -512,6 +512,14 @@ class SPODAGORA_BOL_Service
         return $dbo->queryForObjectList($sql,'SPODAGORA_BOL_AgoraRoomFriendshipContract');
     }
 
+    public function getFriendship($user)
+    {
+        $sql = "SELECT userId, friendId FROM ow_friends_friendship where userId = ".$user.";";
+
+        $dbo = OW::getDbo();
+        return $dbo->queryForObjectList($sql,'SPODAGORA_BOL_AgoraRoomFriendshipContract');
+    }
+
     public function getSubscribedNotificationUsersForRoom($roomId)
     {
         $dbo = OW::getDbo();

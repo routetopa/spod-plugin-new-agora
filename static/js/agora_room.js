@@ -11,6 +11,7 @@ AGORA = {
 AGORA.init = function ()
 {
     $('.agora_speech_text').highlightHashtag('#');
+    $('.agora_speech_text').highlightHashtag('@');
 
     // Set datalet preview target
     ODE.commentTarget = "agora_datalet_preview";
@@ -67,7 +68,7 @@ AGORA.init = function ()
 
     //Handler mySpace button
     $('#agora_myspace_button').click(function(){
-        previewFloatBox = OW.ajaxFloatBox('SPODPR_CMP_PrivateRoomCardViewer', {data:['datalet']} , {top:'56px', width:'calc(100vw - 112px)', height:'calc(100vh - 112px)', iconClass: 'ow_ic_add', title: ''});
+        previewFloatBox = OW.ajaxFloatBox('SPODPR_CMP_PrivateRoomCardViewer', {data:['datalet']}, {top:'56px', width:'calc(100vw - 112px)', height:'calc(100vh - 112px)', iconClass: 'ow_ic_add', title: ''});
     });
 
     //Handler unreaded message section
@@ -250,6 +251,7 @@ AGORA.levelUp = function (data)
 
     //Hashtag
     $('.agora_speech_text').highlightHashtag('#');
+    $('.agora_speech_text').highlightHashtag('@');
 
 
     return AGORA.fadeToPromise($("#agora_chat_container")[0], ancc[0]);
@@ -314,6 +316,7 @@ AGORA.onCommentAdded = function (e)
     var parent_children = elem.parent().children()[0];
     $(parent_children).emoticonize();
     $(parent_children).highlightHashtag('#');
+    $(parent_children).highlightHashtag('@');
 
     if(e.component != "") {
         elem.addClass("agora_fullsize_datalet " + e.component);
@@ -415,6 +418,7 @@ AGORA.addComment = function(data, target)
 
         //Hashtag
         $('.agora_speech_text').highlightHashtag('#');
+        $('.agora_speech_text').highlightHashtag('@');
 
         AGORA.lastScrollPosition = 10e10;
 
@@ -426,19 +430,19 @@ AGORA.addComment = function(data, target)
 
 AGORA.onChatContainerScroll = function(e)
 {
-  if(e.currentTarget.scrollTop < AGORA.lastScrollPosition)
-  {
-    AGORA.lastScrollPosition = document.getElementById('agora_chat_container').scrollTop;
-
-    if(e.currentTarget.scrollTop < 20)
+    if(e.currentTarget.scrollTop < AGORA.lastScrollPosition)
     {
-        AGORA.lastScrollPosition = 0;
-        $("#loader").show();
-        AGORA.agoraUserCommentHandling.loadCommentPage(AGORA.roomId).then(function(data){
-            AGORA.addComment(data, e.currentTarget);
-        });
+        AGORA.lastScrollPosition = document.getElementById('agora_chat_container').scrollTop;
+
+        if(e.currentTarget.scrollTop < 20)
+        {
+            AGORA.lastScrollPosition = 0;
+            $("#loader").show();
+            AGORA.agoraUserCommentHandling.loadCommentPage(AGORA.roomId).then(function(data){
+                AGORA.addComment(data, e.currentTarget);
+            });
+        }
     }
-  }
 };
 
 // UNREAD

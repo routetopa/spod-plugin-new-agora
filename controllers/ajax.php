@@ -25,6 +25,7 @@ class SPODAGORA_CTRL_Ajax extends OW_ActionController
         {
             //Get hashtag
             $ht = SPODAGORA_CLASS_Tools::getInstance()->get_hashtag($_REQUEST['comment']);
+            $mt = SPODAGORA_CLASS_Tools::getInstance()->get_mention($_REQUEST['comment']);
 
             // Change \n to <br> for correct visualization of new line in HTML
             $comment  = str_replace("\n", "<br/>", htmlentities($_REQUEST['comment']));
@@ -63,7 +64,9 @@ class SPODAGORA_CTRL_Ajax extends OW_ActionController
             /* ODE */
 
             // SEND EMAIL TO SUBSCRIBED USERS
-            SPODAGORA_CLASS_MailNotification::getInstance()->sendEmailNotificationProcess($_REQUEST['entityId'], $c->ownerId);
+            SPODAGORA_CLASS_MailNotification::getInstance()->sendEmailNotificationOnComment($_REQUEST['entityId'], $c->ownerId);
+            // SEND EMAIL NOTIFICATION TO MENTIONED USERS
+            SPODAGORA_CLASS_MailNotification::getInstance()->sendEmailNotificationOnMention($_REQUEST['entityId'], $c->ownerId, $mt);
 
             if (!empty($c->id))
                 echo '{"result":"ok", "post_id":"'.$c->id.'"}';

@@ -6,6 +6,7 @@ class SPODAGORA_CTRL_Agora extends OW_ActionController
     private $agora;
     private $userId;
     private $avatars;
+    private $friends;
     private $agoraId;
     private $users_id;
 
@@ -38,6 +39,9 @@ class SPODAGORA_CTRL_Agora extends OW_ActionController
 
         $this->avatars  = SPODAGORA_CLASS_Tools::getInstance()->process_avatar(BOL_AvatarService::getInstance()->getDataForUserAvatars($this->users_id));
         $this->assign('avatars', $this->avatars);
+
+        // FRIENDS
+        $this->friends = SPODAGORA_BOL_Service::getInstance()->getAgoraFriendship($this->users_id);
 
         OW::getDocument()->getMasterPage()->setTemplate(OW::getPluginManager()->getPlugin('spodagora')->getRootDir() . 'master_pages/main.html');
 
@@ -89,6 +93,14 @@ class SPODAGORA_CTRL_Agora extends OW_ActionController
 
         $notification = SPODAGORA_BOL_Service::getInstance()->getUserNotification($this->agoraId, OW::getUser()->getId());
         $this->assign('user_notification', empty($notification) ? '' : 'checked');
+
+        // Friends
+        // todo improve (users_id avatar are calculated twice!!)
+        $friends = SPODAGORA_BOL_Service::getInstance()->getFriendship($this->userId);
+        $friends_id = array_map(function($f) { return $f->friendId; }, $friends);
+        $suggestion_id  = array_unique(array_merge($this->users_id, $friends_id));
+        $friends  = SPODAGORA_CLASS_Tools::getInstance()->process_avatar(BOL_AvatarService::getInstance()->getDataForUserAvatars($suggestion_id));
+        $this->assign('friends', $friends);
 
         // AGORA
         $this->assign('agora', $this->agora);
@@ -181,7 +193,7 @@ class SPODAGORA_CTRL_Agora extends OW_ActionController
             'sat_prctg' => ($sentiments[1]['tot']*100)/($sentiments_count == 0 ? 1 : $sentiments_count),
             'unsat_prctg' => ($sentiments[2]['tot']*100)/($sentiments_count == 0 ? 1 : $sentiments_count),
             'search_url' => OW::getRouter()->urlFor('SPODAGORA_CTRL_Ajax', 'getSearchResult'),
-            'user_friendship' => SPODAGORA_BOL_Service::getInstance()->getAgoraFriendship($this->users_id),
+            'user_friendship' => $this->friends,
             'users_avatar' => $this->avatars,
             'get_site_tag_endpoint' => OW::getRouter()->urlFor('SPODAGORA_CTRL_Ajax', 'getSiteMetaTags'),
             'delete_user_comment_endpoint' => OW::getRouter()->urlFor('SPODAGORA_CTRL_Ajax', 'deleteUserComment'),

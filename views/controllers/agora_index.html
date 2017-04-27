@@ -76,6 +76,25 @@
 
             <div id="agora_nested_chat_container"></div>
 
+            <div id="suggested_friends" style="top: 350px; left: 16px; position: absolute;"0>
+                <table id="suggested_friends_table">
+                    <tbody>
+                    {foreach $friends as $avatar}
+                    <tr user_id={$avatar['userId']} tyle="display: block;">
+                        <td>
+                            <div class="ow_avatar style-scope {$avatar['css']}" id="user_avatar_{$avatar['userId']}" title="{$avatar['urlInfo']['vars']['username']}">
+                                <a class="style-scope" href=""><img src="{$avatar['src']}">{$avatar['initial']}</a>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="suggested_name">{$avatar['urlInfo']['vars']['username']}</div>
+                        </td>
+                    </tr>
+                    {/foreach}
+                    </tbody>
+                </table>
+            </div>
+
             {if $isAuth}
             <div class="agora_chat_input">
 

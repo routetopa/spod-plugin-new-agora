@@ -53,6 +53,12 @@ class SPODAGORA_CLASS_Tools
         return array_unique($matches[2]);
     }
 
+    public function get_mention($str)
+    {
+        preg_match_all('/(^|[^a-z0-9_])@([a-z0-9_]+)/i', $str, $matches);
+        return array_unique($matches[2]);
+    }
+
     public function process_avatar($avatars)
     {
         if (empty($avatars))
