@@ -138,7 +138,7 @@ agoraJs.prototype = (function(){
             _elem.on("keyup", handle_mention);
 
             $("#suggested_friends").css({
-                top:_elem.parent().position().top - $("#suggested_friends").outerHeight(),
+                top:_elem.parent().position().top - $("#suggested_friends").outerHeight() - 16,
                 left:_elem.parent().position().left + coordinates.left + 36,
                 position:'absolute'
             });
@@ -175,7 +175,7 @@ agoraJs.prototype = (function(){
         });
 
         $("#suggested_friends").css({
-            top:_elem.parent().position().top - $("#suggested_friends").outerHeight()
+            top:_elem.parent().position().top - $("#suggested_friends").outerHeight() - 16
         });
     };
 

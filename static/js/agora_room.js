@@ -10,8 +10,8 @@ AGORA = {
 
 AGORA.init = function ()
 {
-    $('.agora_speech_text').highlightHashtag('#');
-    $('.agora_speech_text').highlightHashtag('@');
+    $('.agora_speech_text').highlightWord('#', 'hashtag');
+    $('.agora_speech_text').highlightWord('@', 'mention');
 
     // Set datalet preview target
     ODE.commentTarget = "agora_datalet_preview";
@@ -250,8 +250,8 @@ AGORA.levelUp = function (data)
     $('.agora_speech_text').emoticonize();
 
     //Hashtag
-    $('.agora_speech_text').highlightHashtag('#');
-    $('.agora_speech_text').highlightHashtag('@');
+    $('.agora_speech_text').highlightWord('#', 'hashtag');
+    $('.agora_speech_text').highlightWord('@', 'mention');
 
 
     return AGORA.fadeToPromise($("#agora_chat_container")[0], ancc[0]);
@@ -315,8 +315,8 @@ AGORA.onCommentAdded = function (e)
     var elem = $("#agora_datalet_placeholder_" + e.post_id);
     var parent_children = elem.parent().children()[0];
     $(parent_children).emoticonize();
-    $(parent_children).highlightHashtag('#');
-    $(parent_children).highlightHashtag('@');
+    $('.agora_speech_text').highlightWord('#', 'hashtag');
+    $('.agora_speech_text').highlightWord('@', 'mention');
 
     if(e.component != "") {
         elem.addClass("agora_fullsize_datalet " + e.component);
@@ -417,8 +417,8 @@ AGORA.addComment = function(data, target)
         $('.agora_speech_text').emoticonize();
 
         //Hashtag
-        $('.agora_speech_text').highlightHashtag('#');
-        $('.agora_speech_text').highlightHashtag('@');
+        $('.agora_speech_text').highlightWord('#', 'hashtag');
+        $('.agora_speech_text').highlightWord('@', 'mention');
 
         AGORA.lastScrollPosition = 10e10;
 
@@ -1147,7 +1147,7 @@ AGORA.initSentimentLiquid = function()
 
 };
 
-jQuery.fn.highlightHashtag = function(pat) {
+jQuery.fn.highlightWord = function(pat, _class) {
     function innerHighlight(node, pat) {
         var skip = 0;
         if (node.nodeType == 3) {
@@ -1155,7 +1155,7 @@ jQuery.fn.highlightHashtag = function(pat) {
             pos -= (node.data.substr(0, pos).toUpperCase().length - node.data.substr(0, pos).length);
             if (pos >= 0) {
                 var spannode = document.createElement('span');
-                spannode.className = 'hashtag';
+                spannode.className = _class;
                 var middlebit = node.splitText(pos);
 
                 /*ddr*/
