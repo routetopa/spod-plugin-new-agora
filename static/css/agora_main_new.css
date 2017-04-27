@@ -21,6 +21,8 @@
 
 #agora_left
 {
+    position: relative;
+
     height: 100%;
     width: 50%;
     min-width: 500px;
@@ -30,6 +32,8 @@
 
 #agora_right
 {
+    position: relative;
+
     height: 100%;
     width: 50%;
     min-width: 500px;
@@ -40,7 +44,7 @@
 #agora_header
 {
     position: relative;
-    margin: 16px 32px 24px 32px;
+    margin: 24px;
 }
 
 #agora_header_title
@@ -53,10 +57,11 @@
 
 #agora_header_add {
     position: absolute;
-    top: 0;
-    right: 0;
-    height: 40px;
-    width: 40px;
+    bottom: 24px;
+    right: 24px;
+
+    height: 56px;
+    width: 56px;
 
     background-color: #00BCD4;
     box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
@@ -64,11 +69,13 @@
 
     border-radius: 50%;
 
-    line-height: 40px;
+    line-height: 56px;
     font-size: 32px;
     color: #212121;
     text-align: center;
     cursor: pointer;
+
+    z-index: 10;
 }
 
 #agora_header_add:hover {
@@ -86,13 +93,13 @@
     display: flex;
     flex-direction: row;
 
-    margin-top: 16px;
+    /*margin-top: 16px;*/
 }
 
 #agora_header_navigator #tabs {
     display: flex;
     flex-direction: row;
-    padding: 0 16px;
+    /*padding: 0 16px;*/
 
     border-bottom: 1px solid #BDBDBD;
     width: 70%;
@@ -104,8 +111,8 @@
     cursor: pointer;
     height: 10px;
     line-height: 12px;
-    /*font-size: 12px;*/
-    font-size: 0.8vw;
+    font-size: 12px;
+    /*font-size: 0.8vw;*/
     text-align: center;
 
     border-top: 1px solid #BDBDBD;
@@ -162,8 +169,8 @@
 
 input#agora_search_input {
     margin-top: 20px;
-    margin-left: 16px;
-    width: calc(100% - 16px);
+    margin-left: 24px;
+    width: calc(100% - 24px);
     border: none;
     border-bottom: solid 1px #BDBDBD;
     transition: border 0.6s;
@@ -202,7 +209,7 @@ input#agora_search_input:focus::-moz-placeholder { /* Chrome/Opera/Safari */
 {
     position: relative;
     overflow: hidden !important;
-    height: calc( 100% - 136px);/*-24px*/
+    height: calc( 100% - 88px);
     width: 100%;
 
     z-index: 9;
@@ -356,13 +363,15 @@ input#agora_search_input:focus::-moz-placeholder { /* Chrome/Opera/Safari */
 
     display: block; /* Fallback for non-webkit */
     display: -webkit-box;
-    height: 48px; /* Fallback for non-webkit */
+    height: 40px; /* Fallback for non-webkit */
     font-size: 14px;
-    line-height: 24px;
+    line-height: 20px;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
+
+    margin-bottom: 8px;
 }
 
 .room .box .box_info {
@@ -392,7 +401,7 @@ input#agora_search_input:focus::-moz-placeholder { /* Chrome/Opera/Safari */
 .room .box .box_title {
     height: 24px;
     line-height: 24px;
-    font-size: 16px;
+    font-size: 20px;
     font-weight: 700;
     color: #212121;
     margin-left:16px;
@@ -480,7 +489,7 @@ input#agora_search_input:focus::-moz-placeholder { /* Chrome/Opera/Safari */
 .agora_right_header
 {
     position: relative;
-    margin: 16px 32px 39px 32px;
+    margin: 24px;
 }
 
 .agora_right_title
@@ -493,40 +502,61 @@ input#agora_search_input:focus::-moz-placeholder { /* Chrome/Opera/Safari */
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    padding-right: 40px;
+    padding-right: 60px;
 }
 
-.agora_right_subtitle
-{
-    height: 16px;
-    line-height: 16px;
-    font-size: 12px;
-    padding-left: 18px;
-    color: #9E9E9E;
+/*.agora_right_subtitle*/
+/*{*/
+    /*height: 16px;*/
+    /*line-height: 16px;*/
+    /*font-size: 12px;*/
+    /*padding-left: 18px;*/
+    /*color: #9E9E9E;*/
 
-    background: url("/ow_static/plugins/agora/images/time.svg") no-repeat 0 0;
-}
+    /*background: url("/ow_static/plugins/agora/images/time.svg") no-repeat 0 0;*/
+/*}*/
 
-.agora_header_unread {
+.agora_header_switch {
     position: absolute;
     top: 0;
     right: 0;
     height: 40px;
-    width: 40px;
+    width: 60px;
 
-    background-color: #2196F3;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-    transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+    /*background-color: #2196F3;*/
+    /*box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);*/
+    /*transition: all 0.3s cubic-bezier(.25,.8,.25,1);*/
 
-    border-radius: 50%;
+    /*border-radius: 50%;*/
 
-    line-height: 40px;
-    font-size: 14px;
-    color: #FFFFFF;
-    text-align: center;
-    font-weight: 700;
+    /*line-height: 40px;*/
+    /*font-size: 14px;*/
+    /*color: #FFFFFF;*/
+    /*text-align: center;*/
+    /*font-weight: 700;*/
     /*cursor: pointer;*/
 }
+
+/*.agora_header_unread {*/
+    /*position: absolute;*/
+    /*top: 0;*/
+    /*right: 0;*/
+    /*height: 40px;*/
+    /*width: 40px;*/
+
+    /*background-color: #2196F3;*/
+    /*box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);*/
+    /*transition: all 0.3s cubic-bezier(.25,.8,.25,1);*/
+
+    /*border-radius: 50%;*/
+
+    /*line-height: 40px;*/
+    /*font-size: 14px;*/
+    /*color: #FFFFFF;*/
+    /*text-align: center;*/
+    /*font-weight: 700;*/
+    /*!*cursor: pointer;*!*/
+/*}*/
 
 /*#agora_header_unread:hover {*/
     /*box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);*/
@@ -732,7 +762,7 @@ a:hover {
 .right_scroller_container {
     position: relative;
     overflow: hidden !important;
-    height: calc(100% - 95px);
+    height: calc(100% - 88px + 24px);
     width: 100%;
 }
 
@@ -765,22 +795,23 @@ div.add_suggested_dataset:hover {
     /*color: #FFFFFF;*/
 }
 
-#right_bottom {
-    display: flex;
-    flex-direction: row;
+/*#right_bottom {*/
+    /*display: flex;*/
+    /*flex-direction: row;*/
 
-    border-top: 1px solid #BDBDBD;
+    /*border-top: 1px solid #BDBDBD;*/
 
-    height: 40px;
-    width: calc(100% - 96px);
-    margin: 0 24px;
-    padding: 24px
-}
+    /*height: 40px;*/
+    /*width: calc(100% - 96px);*/
+    /*margin: 0 24px;*/
+    /*padding: 24px*/
+/*}*/
 
 #agora_enter_button {
-    /*bottom: 40px;*/
-    /*right: 40px;*/
-    /*float: right;*/
+    position: absolute;
+    bottom: 24px;
+    right: 24px;
+
     height: 40px;
     width: 160px;
 
@@ -795,6 +826,8 @@ div.add_suggested_dataset:hover {
     color: #212121;
     text-align: center;
     cursor: pointer;
+
+    z-index: 10;
 }
 
 #agora_enter_button:hover {
@@ -803,17 +836,17 @@ div.add_suggested_dataset:hover {
     color: #FFFFFF;
 }
 
-#agora_notifications {
-    width: calc(100% - 60px - 160px - 8px);
+/*#agora_notifications {*/
+    /*width: calc(100% - 60px - 160px - 8px);*/
 
-    line-height: 40px;
-    font-size: 14px;
+    /*line-height: 40px;*/
+    /*font-size: 14px;*/
 
-    padding-left: 8px;
+    /*padding-left: 8px;*/
 
-    color: #9E9E9E;
+    /*color: #9E9E9E;*/
 
-}
+/*}*/
 
 /* SWITCH */
 
@@ -880,7 +913,8 @@ input:checked + .slider:before {
 .detail_agora_container
 {
     display: none;
-    height: calc(100% - 89px - 16px);/*-16??? title margin*/
+    /*height: calc(100% - 89px - 16px);!*-16??? title margin*!*/
+    height: calc(100% - 24px);/*-24??? title margin*/
 }
 
 div.detail_selected_agora

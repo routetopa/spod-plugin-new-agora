@@ -661,28 +661,28 @@ input#agora_search_input:focus {
 div.agora_header_title
 {
     font-size: 24px;
-    line-height: 56px;
-    height: 56px;
+    line-height: 24px;
+    height: 24px;
     color: #212121;
-    margin: 0 16px;
+    margin: 12px 16px;
     width: calc( 100% - 32px );
 }
 
-div#agora_header_description
-{
-    color: #424242;
-    margin: 0 16px;
-    width: calc( 100% - 32px );
+/*div#agora_header_description*/
+/*{*/
+    /*color: #424242;*/
+    /*margin: 0 16px;*/
+    /*width: calc( 100% - 32px );*/
 
-    height: 48px;
-    overflow: hidden;
-    /*overflow ... on 2 rows, onmouseover show all or title*/
-}
+    /*height: 48px;*/
+    /*overflow: hidden;*/
+    /*!*overflow ... on 2 rows, onmouseover show all or title*!*/
+/*}*/
 
 .agora_header_users
 {
     width: calc( 100% - 32px );
-    height: 56px;
+    height: 48px;
     /*overflow-y: auto;*/
     /*text-align: right;*/
     padding: 0 16px;
@@ -693,6 +693,10 @@ div#agora_header_description
     flex-wrap: wrap;
     overflow-y: auto;
 
+}
+
+.agora_header_users div.ow_avatar {
+    margin: 1px !important;
 }
 
 #agora_body
@@ -957,7 +961,7 @@ input:checked + .slider:before {
     width: calc( 100% - 32px );
     padding: 0 16px;
     margin: 16px 0;
-    height: calc( 100% - 298px );
+    height: calc( 100% - 226px );
     overflow-y: hidden;
     /*position: relative;*/
 
@@ -1022,7 +1026,7 @@ div.agora_fullsize_datalet:hover.datatable-datalet  {
     left: 0;
 
     width: calc( 100% - 32px );
-    height: calc( 100% - 298px - 102px);/*56px + 48px + 56px + 2px + 48px + 56px + 32px*/
+    height: calc( 100% - 226px - 102px);/*56px + 48px + 56px + 2px + 48px + 56px + 32px*/
 
     padding: 0 16px;
     margin: 118px 0 16px 0;
@@ -1036,7 +1040,7 @@ div.agora_fullsize_datalet:hover.datatable-datalet  {
 #agora_nested_comment
 {
     position: fixed;
-    top: 234px;/*178*/
+    top: 170px;
     left: initial;
 
     width: calc(75% - 172px);
