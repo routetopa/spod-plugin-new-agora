@@ -80,7 +80,7 @@
                 <table id="suggested_friends_table">
                     <tbody>
                     {foreach $friends as $avatar}
-                    <tr user_id={$avatar['userId']} tyle="display: block;">
+                    <tr user_id={$avatar['userId']} style="display: block;">
                         <td class="avatar">
                             <div class="ow_avatar style-scope {$avatar['css']}" id="user_avatar_{$avatar['userId']}" title="{$avatar['urlInfo']['vars']['username']}">
                                 <a class="style-scope" href=""><img src="{$avatar['src']}">{$avatar['initial']}</a>
