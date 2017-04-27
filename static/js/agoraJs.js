@@ -122,6 +122,7 @@ agoraJs.prototype = (function(){
     var keydown_handler = function (e) {
 
         if(_lock) return;
+
         var key = e.which || e.keyCode;
 
         if (key === 13 && !e.shiftKey ) { // 13 is enter
@@ -130,7 +131,8 @@ agoraJs.prototype = (function(){
             handle_message(_elem.val());
         }
 
-        if (key === 192 && e.ctrlKey) { // 192 is ò
+        // if ((key === 192 && e.ctrlKey) || e.key == '@') { // 192 is ò
+        if (e.key == '@') {
             _current_mention_position = _elem.prop("selectionStart");
             _elem.on("keyup", handle_mention);
 
