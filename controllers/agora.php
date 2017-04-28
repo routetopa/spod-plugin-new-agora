@@ -84,7 +84,7 @@ class SPODAGORA_CTRL_Agora extends OW_ActionController
         SPODAGORA_BOL_Service::getInstance()->addAgoraRoomStat($this->agoraId, 'views');
 
         // ADD DATALET DEFINITIONS
-        $this->assign('datalet_definition_import', SPODAGORA_CLASS_Tools::getInstance()->get_all_datalet_definitions());
+        $this->assign('datalet_definition_import', ODE_CLASS_Tools::getInstance()->get_all_datalet_definitions());
 
         $this->addComponent('comments', new SPODAGORA_CMP_AgoraMainComment($this->agoraId));
 

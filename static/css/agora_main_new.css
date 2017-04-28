@@ -682,6 +682,7 @@ input#agora_search_input:focus::-moz-placeholder { /* Chrome/Opera/Safari */
 
 .ow_avatar.creator {
     border-color: #FF9800;
+    margin-left: 0;
     margin-right: 21px;
 }
 
@@ -733,16 +734,8 @@ input#agora_search_input:focus::-moz-placeholder { /* Chrome/Opera/Safari */
 /* datasets */
 
 .datasetUrl {
-    /*height: 16px;*/
-    /*margin: 8px 0 8px 16px;*/
+    padding-left: 40px;
 
-    padding-left: 56px;
-
-    /*line-height: 16px;*/
-    /*font-size: 14px;*/
-    /*color: #9E9E9E;*/
-
-    margin: 8px 16px;
     color: #424242;
 
     font-size: 14px;
@@ -750,7 +743,6 @@ input#agora_search_input:focus::-moz-placeholder { /* Chrome/Opera/Safari */
 
     background: url("/ow_static/plugins/agora/images/link.svg") no-repeat 0 0;
     background-size: 24px 24px;
-    /*background-color: red;*/
 }
 
 a:hover {
@@ -926,7 +918,7 @@ div.detail_selected_agora
 
 /*hashtag*/
 span.hashtag {
-    color: #00BCD4;/*00BCD4 FF9800*/
+    color: #FF9800;
     font-weight: 700;
 }
 
