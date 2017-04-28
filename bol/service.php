@@ -514,7 +514,7 @@ class SPODAGORA_BOL_Service
 
     public function getFriendship($user)
     {
-        $sql = "SELECT userId, friendId FROM ow_friends_friendship where userId = ".$user.";";
+        $sql = "SELECT * FROM ow_friends_friendship where status = 'active' and (userId = {$user} OR friendId = {$user})";
 
         $dbo = OW::getDbo();
         return $dbo->queryForObjectList($sql,'SPODAGORA_BOL_AgoraRoomFriendshipContract');

@@ -96,11 +96,11 @@ class SPODAGORA_CTRL_Agora extends OW_ActionController
         $this->assign('user_notification', empty($notification) ? '' : 'checked');
 
         // Friends
-        // todo improve (users_id avatar are calculated twice!!)
         $friends = SPODAGORA_BOL_Service::getInstance()->getFriendship($this->userId);
-        $friends_id = array_map(function($f) { return $f->friendId; }, $friends);
-        $suggestion_id  = array_unique(array_merge($this->users_id, $friends_id));
-        $friends  = SPODAGORA_CLASS_Tools::getInstance()->process_avatar(BOL_AvatarService::getInstance()->getDataForUserAvatars($suggestion_id));
+        $friends_id = array_map(function($f) { return $f->friendId == $this->userId ? $f->userId : $f->friendId; }, $friends);
+        $friends_id = array_diff($friends_id, $this->users_id);
+        $friends  = SPODAGORA_CLASS_Tools::getInstance()->process_avatar(BOL_AvatarService::getInstance()->getDataForUserAvatars($friends_id));
+        $friends  = array_merge($friends, $this->avatars);
         $this->assign('friends', $friends);
 
         // AGORA
