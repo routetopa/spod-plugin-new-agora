@@ -138,8 +138,8 @@ agoraJs.prototype = (function(){
             _elem.on("keyup", handle_mention);
 
             $("#suggested_friends").css({
-                top:_elem.parent().position().top - $("#suggested_friends").outerHeight() - 16,
-                left:_elem.parent().position().left + coordinates.left + 36,
+                top :  _elem.parent().position().top - $("#suggested_friends").outerHeight() + coordinates.top + 16,
+                left : _elem.parent().position().left + coordinates.left + 40,
                 position:'absolute'
             });
             $("#suggested_friends").show();
@@ -174,8 +174,10 @@ agoraJs.prototype = (function(){
             }
         });
 
+        var coordinates = getCaretCoordinates(_elem[0], _elem[0].selectionEnd);
+
         $("#suggested_friends").css({
-            top:_elem.parent().position().top - $("#suggested_friends").outerHeight() - 16
+            top :  _elem.parent().position().top - $("#suggested_friends").outerHeight() + coordinates.top + 16,
         });
     };
 
