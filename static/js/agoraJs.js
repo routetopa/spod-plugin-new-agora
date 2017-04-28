@@ -17,6 +17,10 @@ agoraJs.prototype = (function(){
     var _lock;
     var _current_mention_position;
 
+    var _agora_datalet_preview;
+    var _suggested_friends;
+    var _suggested_friends_table_tr;
+
     var init = function(elem, entityId, endpoint, endpoint_nested) {
         _elem = elem;
         _entityId = entityId;
@@ -35,6 +39,10 @@ agoraJs.prototype = (function(){
         _agoraCommentJS = new agoraCommentJS();
         _elem.keydown(keydown_handler);
         _elem.keyup(debounce(keyup_handler, 500));
+
+        _agora_datalet_preview = $("#agora_datalet_preview");
+        _suggested_friends = $("#suggested_friends");
+        _suggested_friends_table_tr = $("#suggested_friends_table tbody tr");
     };
 
     var set_string_handler = function(stringHandler){
@@ -91,8 +99,6 @@ agoraJs.prototype = (function(){
 
     var keyup_handler = function(e) {
 
-        //console.log(e[0].which);
-
         if( (_elem.val().length !== 0) && (url = check_if_link(_elem.val())) !== null && url !== _processedUrl)
         {
             _agoraCommentJS.getSiteMetaTags(url).then(function(data){
@@ -111,8 +117,8 @@ agoraJs.prototype = (function(){
 
                 _agoraCommentJS.getSnippet(snippet_template).then(function (snippet) {
                     _preview = fill_snippet(snippet, snippet_data);
-                    $("#agora_datalet_preview").html(_preview);
-                    $("#agora_datalet_preview").show();
+                    _agora_datalet_preview.html(_preview);
+                    _agora_datalet_preview.show();
                 });
             });
         }
@@ -137,13 +143,13 @@ agoraJs.prototype = (function(){
             _current_mention_position = _elem.prop("selectionStart");
             _elem.on("keyup", handle_mention);
 
-            $("#suggested_friends").css({
-                top :  _elem.parent().position().top - $("#suggested_friends").outerHeight() + coordinates.top + 12,
+            _suggested_friends.css({
+                top :  _elem.parent().position().top - _suggested_friends.outerHeight() + coordinates.top + 12,
                 left : _elem.parent().position().left + coordinates.left + 52,
                 position:'absolute'
             });
-            $("#suggested_friends").show();
-            $("#suggested_friends_table tbody tr").on("click", handle_mention_selection);
+            _suggested_friends.show();
+            _suggested_friends_table_tr.on("click", handle_mention_selection);
         }
     };
 
@@ -161,21 +167,22 @@ agoraJs.prototype = (function(){
             return;
         }
 
-        var suggested = $('#suggested_friends_table tbody tr');
-        suggested.show();
+        //var suggested = $('#suggested_friends_table tbody tr');
+        _suggested_friends_table_tr.show();
 
         var mention = get_mention_string();
 
-        suggested.each(function(){
-            if($(this).find(".ow_avatar")[0].attributes["title"].value.indexOf(mention) === -1)  {
+        _suggested_friends_table_tr.each(function(){
+            var title = $(this).find(".ow_avatar")[0].attributes["username"] ? $(this).find(".ow_avatar")[0].attributes["username"].value : '';
+            if(title.indexOf(mention) === -1)  {
                 $(this).hide();
             }
         });
 
         var coordinates = getCaretCoordinates(_elem[0], _elem[0].selectionEnd);
 
-        $("#suggested_friends").css({
-            top :  _elem.parent().position().top - $("#suggested_friends").outerHeight() + coordinates.top + 12,
+        _suggested_friends.css({
+            top :  _elem.parent().position().top - _suggested_friends.outerHeight() + coordinates.top + 12
         });
     };
 
@@ -184,7 +191,7 @@ agoraJs.prototype = (function(){
         unbind_mention_handler();
 
         //var user_id = e.currentTarget.attributes["user_id"].value;
-        var name = $(e.currentTarget).find(".ow_avatar")[0].attributes["title"].value;
+        var name = $(e.currentTarget).find(".ow_avatar")[0].attributes["username"].value;
         var partial_mention = get_mention_string();
 
         var new_value = splice(_elem.val(), _current_mention_position+1, partial_mention.length, name);
@@ -193,9 +200,9 @@ agoraJs.prototype = (function(){
 
     var unbind_mention_handler = function()
     {
-        $("#suggested_friends_table tbody tr").unbind("click", handle_mention_selection);
+        _suggested_friends_table_tr.unbind("click", handle_mention_selection);
         _elem.unbind("keyup", handle_mention);
-        $("#suggested_friends").hide();
+        _suggested_friends.hide();
 
     };
 
@@ -252,7 +259,7 @@ agoraJs.prototype = (function(){
                 append_comment(snippet_url, snippet_data, datalet, post_id, target).then(function(){
                     _processedUrl = '';
                     _preview = '';
-                    $("#agora_datalet_preview").hide()
+                    _agora_datalet_preview.hide()
                 });
 
             }else{
