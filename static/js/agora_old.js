@@ -77,7 +77,7 @@ AGORAMAIN.onFullsizePageAttached = function()
 
 AGORAMAIN.onSearchPanelControlletContentChanged = function (e)
 {
-    console.log(e.detail.searchKey);
+    // console.log(e.detail.searchKey);
 
     var rooms = document.querySelectorAll('room-controllet');
     for (var i = 0; i < rooms.length; i++) {

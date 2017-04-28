@@ -1464,7 +1464,6 @@ div.agora_editor:before {
     display:none;
 
     box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-    border: 1px solid #E0E0E0;
 
     max-height: calc(56px * 10);
     overflow-y: auto;
@@ -1473,10 +1472,20 @@ div.agora_editor:before {
     z-index: 100000;
 }
 
-#suggested_friends table { min-width: 256px; max-width: 512px}
+#suggested_friends table {
+    min-width: 256px;
+    max-width: 512px;
+
+    border: 1px solid #E0E0E0;
+    border-bottom: 0;
+
+}
 #suggested_friends table tr {
     height: 56px;
     cursor: pointer;
+
+    border-bottom: 1px solid #E0E0E0;
+
 }
 #suggested_friends table tr:hover {
     background-color: #B3E5FC;
