@@ -34,6 +34,11 @@
                     <span class="ow_positive">
                         <input type="submit" value="{text key='openwall+oid_submit'}" class="ow_positive" />
                     </span>
+                    {if $fbconnect_enabled=="enabled"}
+                        <a class="fb_button fb_button_medium" onclick="OW_FB.login(); return false;">
+                            <span class="fb_connect_wrap"><span class="fb_button_text">{text key="fbconnect+connect_btn_label"}</span></span>
+                        </a>
+                    {/if}
                 </span>
                 </p>
                 <p><a class="" href="{$url_password_reset}">{text key='openwall+oid_forgot'}</a>

@@ -21,5 +21,10 @@ class SPODAGORA_CMP_AuthenticationComponent extends BASE_CMP_Comments
             $this->assign("openid_enabled", "disabled");
         }
 
+        if ( OW::getPluginManager()->isPluginActive("fbconnect") ) {
+            $this->assign("fbconnect_enabled", "enabled");
+        } else {
+            $this->assign("fbconnect_enabled", "disabled");
+        }
     }
 }
