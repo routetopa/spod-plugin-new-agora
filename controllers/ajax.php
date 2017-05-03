@@ -64,7 +64,7 @@ class SPODAGORA_CTRL_Ajax extends OW_ActionController
             /* ODE */
 
             // SEND EMAIL TO SUBSCRIBED USERS
-            //SPODAGORA_CLASS_MailNotification::getInstance()->sendEmailNotificationOnComment($_REQUEST['entityId'], $c->ownerId);
+            SPODAGORA_CLASS_MailNotification::getInstance()->sendEmailNotificationOnComment($_REQUEST['entityId'], $c->ownerId);
             // SEND EMAIL NOTIFICATION TO MENTIONED USERS
             //SPODAGORA_CLASS_MailNotification::getInstance()->sendEmailNotificationOnMention($_REQUEST['entityId'], $c->ownerId, $mt);
 
