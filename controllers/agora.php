@@ -100,7 +100,7 @@ class SPODAGORA_CTRL_Agora extends OW_ActionController
         $friends_id = array_map(function($f) { return $f->friendId == $this->userId ? $f->userId : $f->friendId; }, $friends);
         $friends_id = array_diff($friends_id, $this->users_id);
         $friends  = SPODAGORA_CLASS_Tools::getInstance()->process_avatar(BOL_AvatarService::getInstance()->getDataForUserAvatars($friends_id));
-        $friends  = array_merge($friends, $this->avatars);
+        $friends  = array_merge( (empty($friends) ? [] : $friends), $this->avatars);
         $this->assign('friends', $friends);
 
         // AGORA

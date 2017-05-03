@@ -5,7 +5,9 @@ AGORA = {
     agoraUserCommentHandling:null,
     debounce:true,
     searchStringLenght:3,
-    lastScrollPosition:10e10
+    lastScrollPosition:10e10,
+    realtimeAddedComment:0,
+    maxRealtimeMessage:10
 };
 
 AGORA.init = function ()
@@ -310,6 +312,9 @@ AGORA.initAgoraJS = function ()
 
 AGORA.onCommentAdded = function (e)
 {
+    if(AGORA.realtimeAddedComment >= AGORA.maxRealtimeMessage)
+        $("#agora_chat_container").children().first().remove();
+
     AGORA.scroll_to();
 
     var elem = $("#agora_datalet_placeholder_" + e.post_id);
@@ -551,6 +556,7 @@ AGORA.handleRealtimeNotification = function ()
 
                 if (data.comment_level == 0) {
                     target = $("#agora_chat_container");
+                    AGORA.realtimeAddedComment++;
                 }else if(AGORA.agoraJS.get_parentId() == data.parent_id){
                     target = $("#agora_nested_chat_container");
                 }else{
