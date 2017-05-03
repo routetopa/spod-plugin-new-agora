@@ -1010,13 +1010,13 @@ div.agora_fullsize_datalet:hover {
     transition-delay: 1s;/**/
 }
 
-div.agora_fullsize_datalet.datatable-datalet  {
-    height: 480px;
-}
+/*div.agora_fullsize_datalet.datatable-datalet  {*/
+    /*height: 480px;*/
+/*}*/
 
-div.agora_fullsize_datalet:hover.datatable-datalet  {
-    height: 562px;
-}
+/*div.agora_fullsize_datalet:hover.datatable-datalet  {*/
+    /*height: 562px;*/
+/*}*/
 
 /**** NESTED ****/
 
@@ -1271,6 +1271,8 @@ circle.u_nodes.user_selected {
 .preview_container {
     width: 600px;
     margin: 12px 0;
+
+    background-color: #FFFFFF;
 }
 
 .preview_container.no_img{
