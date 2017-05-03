@@ -28,6 +28,7 @@ class SPODAGORA_CLASS_MailNotification extends OW_Component
 
 
         $avatar = BOL_AvatarService::getInstance()->getDataForUserAvatars(array($owner_id))[$owner_id];
+        $elastic_url = 'https://api.elasticemail.com/v2/email/send';
 
         foreach($users as $user_id)
         {
@@ -43,25 +44,23 @@ class SPODAGORA_CLASS_MailNotification extends OW_Component
 
             try
             {
-                $mail = OW::getMailer()->createMail()
+                /*$mail = OW::getMailer()->createMail()
                     ->addRecipientEmail($email)
                     ->setTextContent($this->getEmailCommentContentText($room_id, $room, $user->username, $template_txt, $time))
                     ->setHtmlContent($this->getEmailCommentContentHtml($room_id, $avatar, $room, $user->username, $template_html, $time))
                     ->setSubject(OW::getLanguage()->text('spodagora', 'email_subject') . "\"" . $room->subject . "\"");
 
                 //OW::getMailer()->send($mail);
-                BOL_MailService::getInstance()->send($mail);
+                BOL_MailService::getInstance()->send($mail);*/
 
-                /*
-                $elastic_url = 'https://api.elasticemail.com/v2/email/send';
                 try{
                     $post = array('from' => 'webmaster@routetopa.eu',
                         'fromName' => 'SPOD',
                         'apikey' => 'c1e69cce-889e-4440-9e13-80151cdc6ef6',
-                        'subject' => 'COCOCOCOOCCOCOCOCOC',
-                        'to' => 'andrpet@gmail.com',
-                        'bodyHtml' => '<h1>Html Body</h1>',
-                        'bodyText' => 'Text Body',
+                        'subject' => "Something interesting is happening in the Agora " . $room->subject,
+                        'to' => $email,
+                        'bodyHtml' => $this->getEmailCommentContentHtml($room_id, $avatar, $room, $user->username, $template_html, $time),
+                        'bodyText' => $this->getEmailCommentContentText($room_id, $room, $user->username, $template_txt, $time),
                         'isTransactional' => false);
 
                     $ch = curl_init();
@@ -81,7 +80,7 @@ class SPODAGORA_CLASS_MailNotification extends OW_Component
                 catch(Exception $ex){
                     echo $ex->getMessage();
                 }
-                */
+
             }
             catch ( Exception $e )
             {
@@ -139,6 +138,7 @@ class SPODAGORA_CLASS_MailNotification extends OW_Component
 
 
         $avatar = BOL_AvatarService::getInstance()->getDataForUserAvatars(array($owner_id))[$owner_id];
+        $elastic_url = 'https://api.elasticemail.com/v2/email/send';
 
         foreach($mention as $mention)
         {
@@ -151,14 +151,36 @@ class SPODAGORA_CLASS_MailNotification extends OW_Component
 
             try
             {
-                $mail = OW::getMailer()->createMail()
+                /*$mail = OW::getMailer()->createMail()
                     ->addRecipientEmail($email)
                     ->setTextContent($this->getEmailMentionContentText($room_id, $room, $user->username, $template_txt, $time))
                     ->setHtmlContent($this->getEmailMentionContentHtml($room_id, $avatar, $room, $user->username, $template_html, $time))
                     ->setSubject(OW::getLanguage()->text('spodagora', 'email_subject') . "\"" . $room->subject . "\"");
 
                 //OW::getMailer()->send($mail);
-                BOL_MailService::getInstance()->send($mail);
+                BOL_MailService::getInstance()->send($mail);*/
+
+                $post = array('from' => 'webmaster@routetopa.eu',
+                    'fromName' => 'SPOD',
+                    'apikey' => 'c1e69cce-889e-4440-9e13-80151cdc6ef6',
+                    'subject' => "Something interesting is happening in the Agora " . $room->subject,
+                    'to' => $email,
+                    'bodyHtml' => $this->getEmailMentionContentHtml($room_id, $avatar, $room, $user->username, $template_html, $time),
+                    'bodyText' => $this->getEmailMentionContentText($room_id, $room, $user->username, $template_txt, $time),
+                    'isTransactional' => false);
+
+                $ch = curl_init();
+                curl_setopt_array($ch, array(
+                    CURLOPT_URL => $elastic_url,
+                    CURLOPT_POST => true,
+                    CURLOPT_POSTFIELDS => $post,
+                    CURLOPT_RETURNTRANSFER => true,
+                    CURLOPT_HEADER => false,
+                    CURLOPT_SSL_VERIFYPEER => false
+                ));
+
+                $result=curl_exec ($ch);
+                curl_close ($ch);
 
             }
             catch ( Exception $e )
