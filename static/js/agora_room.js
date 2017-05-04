@@ -50,7 +50,7 @@ AGORA.init = function ()
     // Handle click on send button (submit message)
     $("#agora_comment_send").click(function(){
         if(!AGORA.agoraJS.submit())
-            OW.error("Messaggio vuoto");
+            OW.error(OW.getLanguageText('spodagora', 'empty_message'));
     });
 
     // Handle for sentiment button

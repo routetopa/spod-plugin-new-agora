@@ -73,6 +73,7 @@ class SPODAGORA_CTRL_Agora extends OW_ActionController
             OW::getDocument()->addStyleSheet(OW::getPluginManager()->getPlugin('spodagora')->getStaticCssUrl() . 'agora_admin.css');
         }
 
+        OW::getLanguage()->addKeyForJs('spodagora', 'empty_message');
         OW::getLanguage()->addKeyForJs('spodagora', 'c_just_now');
         OW::getLanguage()->addKeyForJs('spodagora', 'c_reply');
         OW::getLanguage()->addKeyForJs('spodagora', 't_delete');
