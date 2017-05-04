@@ -482,6 +482,14 @@ input#agora_search_input:focus::-moz-placeholder { /* Chrome/Opera/Safari */
     border-left: 8px solid rgba(0, 0, 0, 0.8);
 }
 
+/**/
+
+.agora_header_switch.tooltips span {
+    width: auto;
+    white-space: nowrap;
+    padding: 0 8px;
+}
+
 /* END TOOLTIP */
 
 /* RIGHT */
