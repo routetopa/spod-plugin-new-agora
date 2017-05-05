@@ -888,7 +888,7 @@ input:checked + .slider:before {
     border-radius: 5px;
 
     position: absolute;
-    right: 268px;
+    right: 292px;
     bottom: 8px;
     cursor: pointer;
 

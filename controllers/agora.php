@@ -30,6 +30,10 @@ class SPODAGORA_CTRL_Agora extends OW_ActionController
 
         $this->agoraId = $params['agora_id'];
         $this->agora = SPODAGORA_BOL_Service::getInstance()->getAgoraById($this->agoraId);
+
+        if(!$this->agora)
+            $this->redirect(OW::getRouter()->urlForRoute('spodagora.main'));
+
         $this->userId = OW::getUser()->getId();
 
         // AVATARS
