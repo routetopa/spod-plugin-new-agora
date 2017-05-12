@@ -949,18 +949,18 @@ div.agora_speech {
 div.agora_fullsize_datalet
 {
     width: calc( 75vw - 124px - 208px );/*100% la classe deve essere data al commento che contiene la datalet*/
-    height: 400px;
+    height: 434px;
     margin: 12px 0;
     overflow: hidden;
 
-    transition: 1s height;/**/
+    /*transition: 1s height;!**!*/
 }
 
-div.agora_fullsize_datalet:hover {
-    height: 482px;
+/*div.agora_fullsize_datalet:hover {*/
+    /*height: 482px;*/
 
-    transition-delay: 1s;/**/
-}
+    /*transition-delay: 1s;!**!*/
+/*}*/
 
 /**** NESTED ****/
 

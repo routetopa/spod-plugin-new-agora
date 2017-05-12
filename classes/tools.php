@@ -169,7 +169,7 @@ class SPODAGORA_CLASS_Tools
         $html .= "<{$comment->component} ";
 
         foreach ($params as $key => $value){
-            $html .= $key."='".$value."' ";
+            $html .= $key."='".$this->htmlSpecialChar($value)."' ";
         }
 
         //CACHE
@@ -177,6 +177,11 @@ class SPODAGORA_CLASS_Tools
         $html .= " ></{$comment->component}>";
 
         return $html;
+    }
+
+    protected function htmlSpecialChar($string)
+    {
+        return str_replace("'","&#39;", $string);
     }
 
     //MOVED in ODE

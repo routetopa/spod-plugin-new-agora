@@ -299,8 +299,15 @@ AGORA.onPreviewButtonClick = function ()
 {
     var elem = $("#agora_datalet_preview");
     elem.toggle();
-    var e = elem.children()[1];
-    $(e).context.behavior.redraw();
+    try {
+        var e = elem.children()[1];
+        $(e).context.behavior.redraw();
+    } catch(e) {}
+
+    try {
+        var e = elem.children()[0];
+        $(e).context.behavior.redraw();
+    } catch(e) {}
 };
 
 AGORA.initAgoraJS = function ()
