@@ -243,6 +243,7 @@ class SPODAGORA_BOL_Service
         $dt = json_decode($datalet["params"]);
 
         $comment = str_replace("'", "''",$comment);
+        $comment = str_replace('"', '\"',$comment);
         $title = isset($dt->title) ? str_replace("'", "''",$dt->title) : '';
 
         $node = array("url" => $dt->{"data-url"}, "title" => $title, "comment" => $comment, "parent_id" => $parentId, "comment_id" => $commentId);

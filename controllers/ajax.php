@@ -312,7 +312,8 @@ class SPODAGORA_CTRL_Ajax extends OW_ActionController
                 'sentiment' => $_REQUEST['sentiment'],
                 'component' => $_REQUEST['datalet']['component'],
                 'params' => $_REQUEST['datalet']['params'],
-                'fields' => $_REQUEST['datalet']['fields']]);
+                'fields' => $_REQUEST['datalet']['fields'],
+                'data' => $_REQUEST['datalet']['data']]);
 
             $client->close();
         }

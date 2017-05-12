@@ -118,6 +118,19 @@ AGORA.init = function ()
     AGORA.initUserGraph();
     // Init liquid sentiment
     AGORA.initSentimentLiquid();
+
+    /* TEST */
+    /*interval = setInterval(function(){
+     AGORA.agoraUserCommentHandling.loadCommentPage(AGORA.roomId).then(function(data){
+     if(!data)
+     clearInterval(interval);
+
+     console.log("load!!");
+     AGORA.addComment(data, $("#agora_chat_container")[0]);
+     });
+     }, 1500);*/
+    /* TEST */
+
 };
 
 AGORA.user_delete_comment = function (e)
@@ -583,7 +596,7 @@ AGORA.handleRealtimeNotification = function ()
                         data.user_display_name,
                         OW.getLanguageText('spodagora', 'c_just_now'),
                         OW.getLanguageText('spodagora', 'c_reply')+' (0)'],
-                    {component: data.component, params: data.params, fields: data.fields, data: ''},
+                    {component: data.component, params: data.params, fields: data.fields, data: data.data},
                     data.message_id,
                     target
                 );
