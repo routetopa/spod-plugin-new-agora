@@ -388,7 +388,7 @@ class SPODAGORA_CTRL_Ajax extends OW_ActionController
     {
         try
         {
-            $client = new Client(new Version1X('http://localhost:3000'));
+            $client = new Client(new Version1X('http://localhost:3000/realtime_notification'));
             $client->initialize();
 
             $client->emit('realtime_notification',
