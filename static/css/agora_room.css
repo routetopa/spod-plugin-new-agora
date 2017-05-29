@@ -1114,9 +1114,11 @@ circle.nodes.datalet.highlighted, circle.nodes.datalet.selected {
 line.u_links {
     stroke: #424242;
     stroke-width: 2px;
+
+    cursor: pointer;
 }
 
-line.u_links.user_highlighted {
+line.u_links.user_highlighted, line.u_links:hover {
     stroke: #FFFFFF;
     stroke-width: 3px;
 }
