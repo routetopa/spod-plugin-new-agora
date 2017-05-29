@@ -1015,11 +1015,17 @@ AGORA.initUserGraph = function()
         .offset([-12, 0])
         .html(function(d) { return d; });
 
+    var friendship_tip = d3.tip()
+        .attr("class", "d3-tip")
+        .offset([-12, 0])
+        .html(function(d) { return d; });
+
     // Use a timeout to allow the rest of the page to load first.
     d3.timeout(function() {
         loading.remove();
 
         svg.call(user_tip);
+        svg.call(friendship_tip);
 
         for (var user in AGORA.users_avatar) {
             g.append("g")
@@ -1052,6 +1058,41 @@ AGORA.initUserGraph = function()
             })
             .attr("y2", function (d) {
                 return d.target.y;
+            })
+            .on("mouseover", function () {
+                var link = this;
+
+                var u_nodes = [].slice.call(d3.selectAll(".u_nodes")._groups[0]);
+
+                var source = u_nodes[d3.select(link).data()[0].source.index];
+                var target = u_nodes[d3.select(link).data()[0].target.index];
+
+                var sourceUser = d3.select(source).data()[0].tooltip;
+                var targetUser = d3.select(target).data()[0].tooltip;
+
+                var classes = d3.select(source).attr("class") + " user_highlighted";
+                d3.select(source).attr("class", classes);
+
+                classes = d3.select(target).attr("class") + " user_highlighted";
+                d3.select(target).attr("class", classes);
+
+                friendship_tip.show(sourceUser + ' <span style="color: #FF9800;">' + OW.getLanguageText('spodagora', 'g_is_friend_of') + '</span> ' + targetUser);
+            })
+            .on("mouseout", function () {
+                var link = this;
+
+                var u_nodes = [].slice.call(d3.selectAll(".u_nodes")._groups[0]);
+
+                var source = u_nodes[d3.select(link).data()[0].source.index];
+                var target = u_nodes[d3.select(link).data()[0].target.index];
+
+                var classes = d3.select(source).attr("class").replace(" user_highlighted", "");
+                d3.select(source).attr("class", classes);
+
+                classes = d3.select(target).attr("class").replace(" user_highlighted", "");
+                d3.select(target).attr("class", classes);
+
+                friendship_tip.hide();
             });
 
         //NODES

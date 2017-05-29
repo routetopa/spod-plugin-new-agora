@@ -85,6 +85,7 @@ class SPODAGORA_CTRL_Agora extends OW_ActionController
         OW::getLanguage()->addKeyForJs('spodagora', 'g_datalets');
         OW::getLanguage()->addKeyForJs('spodagora', 'g_datasets');
         OW::getLanguage()->addKeyForJs('spodagora', 'g_time');
+        OW::getLanguage()->addKeyForJs('spodagora', 'g_is_friend_of');
 
         SPODAGORA_BOL_Service::getInstance()->addAgoraRoomStat($this->agoraId, 'views');
 
