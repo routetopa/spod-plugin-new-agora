@@ -556,7 +556,7 @@ AGORA.handleRealtimeNotification = function ()
 {
     try {
         // Handle realtime communication
-        var socket = io(window.location.origin + ":3000");
+        var socket = io(window.location.origin, {path: "/realtime_notification"/*, transports: [ 'polling' ]*/});
 
         socket.emit('online_notification', {user_id: AGORA.user_id, room_id: AGORA.roomId, plugin: 'agora'});
 
