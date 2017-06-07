@@ -113,11 +113,23 @@ AGORA.init = function ()
     // Handler realtime notification (socket.io)
     AGORA.handleRealtimeNotification();
     // Init datalet graph
-    AGORA.initDataletGraph();
+    try {
+        AGORA.initDataletGraph();
+    } catch(e) {
+        console.log("ERROR initDataletGraph: " + e)
+    }
     // Init user graph
-    AGORA.initUserGraph();
+    try {
+        AGORA.initUserGraph();
+    } catch(e) {
+        console.log("ERROR initUserGraph: " + e)
+    }
     // Init liquid sentiment
-    AGORA.initSentimentLiquid();
+    try {
+        AGORA.initSentimentLiquid();
+    } catch(e) {
+        console.log("ERROR initSentimentLiquid: " + e)
+    }
 
     /* TEST */
     /*interval = setInterval(function(){
