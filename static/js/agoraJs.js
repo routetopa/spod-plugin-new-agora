@@ -21,6 +21,8 @@ agoraJs.prototype = (function(){
     var _suggested_friends;
     var _suggested_friends_table_tr;
 
+    var _attachment;
+
     var init = function(elem, entityId, endpoint, endpoint_nested) {
         _elem = elem;
         _entityId = entityId;
@@ -33,6 +35,8 @@ agoraJs.prototype = (function(){
 
         _processedUrl = '';
         _preview = '';
+
+        _attachment = '';
 
         _lock = false;
 
@@ -72,6 +76,10 @@ agoraJs.prototype = (function(){
     var set_level_down = function () {
         if(_level > 0)
             _level = _level - 1;
+    };
+
+    var set_attachment = function (att) {
+        _attachment = att;
     };
 
     var get_sentiment = function () {
@@ -217,7 +225,7 @@ agoraJs.prototype = (function(){
         _lock = true;
         _message = message;
 
-        var send_data = {
+        /*var send_data = {
             comment: _message,
             preview: _preview,
             entityId: _entityId,
@@ -231,13 +239,37 @@ agoraJs.prototype = (function(){
             user_avatar_src: AGORA.user_avatar_src,
             user_avatar_css: AGORA.user_avatar_css,
             user_avatar_initial: AGORA.user_avatar_initial
-        };
+        };*/
+
+        var send_data_form = new FormData();
+        send_data_form.append('comment', _message);
+        send_data_form.append('preview', _preview);
+        send_data_form.append('entityId', _entityId);
+        send_data_form.append('parentId', _parentId);
+        send_data_form.append('level', _level);
+        send_data_form.append('sentiment', _sentiment);
+
+        for ( var key in ODE.dataletParameters ) {
+            send_data_form.append(`datalet[${key}]`, ODE.dataletParameters[key]);
+        }
+
+        send_data_form.append('plugin',  ODE.pluginPreview);
+        send_data_form.append('username', AGORA.username);
+        send_data_form.append('user_url', AGORA.user_url);
+        send_data_form.append('user_avatar_src', AGORA.user_avatar_src);
+        send_data_form.append('user_avatar_css', AGORA.user_avatar_css);
+        send_data_form.append('user_avatar_initial', AGORA.user_avatar_initial);
+
+        send_data_form.append("attachment", _attachment);
 
         $.ajax({
             type: 'POST',
             url : _endpoint,
-            data: send_data,
+            //data: send_data,
+            data: send_data_form,
             dataType : 'JSON',
+            processData: false,
+            contentType: false,
             success : on_request_success,
             error: on_request_error
         });
@@ -251,14 +283,15 @@ agoraJs.prototype = (function(){
                 var target           = (_level === 0) ? $("#agora_chat_container") : $("#agora_nested_chat_container");
                 var snippet_url      = (_level === 0) ? AGORA.agora_static_resource_url + 'JSSnippet/comment.tpl' : AGORA.agora_static_resource_url + 'JSSnippet/nested_comment.tpl';
                 var sentiment        = (_sentiment === 0 ? 'neutral' : (_sentiment === 1 ?'satisfied' : 'dissatisfied'));
-                var snippet_data     = (_level === 0) ? [raw_data.post_id, sentiment + ' ' +  AGORA.user_avatar_css, AGORA.username, AGORA.user_url, AGORA.user_avatar_src, AGORA.user_avatar_initial, (_stringHandler(_message) + _preview), raw_data.post_id, AGORA.username, OW.getLanguageText('spodagora', 'c_just_now'), OW.getLanguageText('spodagora', 'c_reply')+' (0)', OW.getLanguageText('spodagora', 't_delete'), OW.getLanguageText('spodagora', 't_modify')] :
-                                                        [raw_data.post_id, sentiment + ' ' +  AGORA.user_avatar_css, AGORA.username, AGORA.user_url, AGORA.user_avatar_src, AGORA.user_avatar_initial, (_stringHandler(_message) + _preview), raw_data.post_id, AGORA.username, OW.getLanguageText('spodagora', 'c_just_now'), OW.getLanguageText('spodagora', 't_delete'), OW.getLanguageText('spodagora', 't_modify')];
+                var snippet_data     = (_level === 0) ? [raw_data.post_id, sentiment + ' ' +  AGORA.user_avatar_css, AGORA.username, AGORA.user_url, AGORA.user_avatar_src, AGORA.user_avatar_initial, /*(_stringHandler(_message) + _preview)*/_stringHandler(raw_data.comment), raw_data.post_id, raw_data.datalet_id, AGORA.username, OW.getLanguageText('spodagora', 'c_just_now'), OW.getLanguageText('spodagora', 'c_reply')+' (0)', OW.getLanguageText('spodagora', 't_delete'), OW.getLanguageText('spodagora', 't_modify')] :
+                                                        [raw_data.post_id, sentiment + ' ' +  AGORA.user_avatar_css, AGORA.username, AGORA.user_url, AGORA.user_avatar_src, AGORA.user_avatar_initial, /*(_stringHandler(_message) + _preview)*/_stringHandler(raw_data.comment), raw_data.post_id, raw_data.datalet_id, AGORA.username, OW.getLanguageText('spodagora', 'c_just_now'), OW.getLanguageText('spodagora', 't_delete'), OW.getLanguageText('spodagora', 't_modify')];
                 var datalet          = ODE.dataletParameters;
                 var post_id          = raw_data.post_id;
 
                 append_comment(snippet_url, snippet_data, datalet, post_id, target).then(function(){
                     _processedUrl = '';
                     _preview = '';
+                    _attachment = '';
                     _agora_datalet_preview.hide()
                 });
 
@@ -387,6 +420,10 @@ agoraJs.prototype = (function(){
             set_string_handler(stringHandler);
         },
 
+        set_attachment : function(att){
+          set_attachment(att);
+        },
+
         add_rt_comment : function (target, snippet_url, snippet_data, post_id, datalet) {
             add_rt_comment(target, snippet_url, snippet_data, post_id, datalet);
         },
@@ -493,6 +530,12 @@ agoraUserCommentHandling.prototype = (function(){
         {
             var _last_comment_id = $("#agora_chat_container").children().first()[0].id.replace("comment_", "");
 
+            if(isNaN(parseFloat(_last_comment_id))) {
+                return new Promise(function (res, rej) {
+                    res('');
+                });
+            }
+
             return $.ajax({
                 type: 'POST',
                 url : AGORA.get_comment_page_endpoint,
@@ -504,6 +547,12 @@ agoraUserCommentHandling.prototype = (function(){
         loadCommentMissing: function(room_id, comment_id)
         {
             var _last_comment_id = $("#agora_chat_container").children().first()[0].id.replace("comment_", "");
+
+            if(isNaN(parseFloat(_last_comment_id))) {
+                return new Promise(function (res, rej) {
+                    res('');
+                });
+            }
 
             return $.ajax({
                 type: 'POST',

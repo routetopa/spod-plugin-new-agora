@@ -10,6 +10,7 @@ class SPODAGORA_BOL_Service
      */
     private static $classInstance;
     private $result_per_page = 10;
+    private $UPLOAD_DIR = 'agora_images/';
 
     /**
      * Returns an instance of class (singleton pattern implementation).
@@ -29,7 +30,7 @@ class SPODAGORA_BOL_Service
 
     // WRITER
     public function addComment($entityId, $parentId, $ownerId,
-                               $comment, $level, $sentiment, $hast_tags)
+                               $comment, $level, $sentiment, $hast_tags, $attachment)
     {
         $c = new SPODAGORA_BOL_AgoraRoomComment();
 
@@ -42,6 +43,29 @@ class SPODAGORA_BOL_Service
         //$c->timestamp  = time();
 
         SPODAGORA_BOL_AgoraRoomCommentDao::getInstance()->save($c);
+
+        try
+        {
+            if (isset($attachment))
+            {
+                $plugin = OW::getPluginManager()->getPlugin('spodagora');
+
+                if ($attachment['error'] == UPLOAD_ERR_OK and is_uploaded_file($attachment['tmp_name']))
+                {
+                    $ext = pathinfo($attachment['name'], PATHINFO_EXTENSION);
+                    $path = $plugin->getRootDir() . $this->UPLOAD_DIR . $c->getId() . '.' . $ext;
+
+                    move_uploaded_file($attachment['tmp_name'], $path);
+
+                    $agora_dir = $plugin->getDirName();
+                    $img_path = OW_URL_HOME . 'ow_plugins/' . $agora_dir . '/' . $this->UPLOAD_DIR . $c->getId() . '.' . $ext;
+
+                    $c->comment .= " <img class='agora_comment_image' src='{$img_path}' /> ";
+                    SPODAGORA_BOL_AgoraRoomCommentDao::getInstance()->save($c);
+                }
+            }
+        }catch (Exception $e) {}
+
 
         foreach ($hast_tags as $ht)
         {
@@ -347,7 +371,7 @@ class SPODAGORA_BOL_Service
     public function getCommentListPaged($roomId, $last_id=10e10)
     {
         $sql = "SELECT * FROM (SELECT F.id, F.entityId, F.ownerId, F.comment, F.level, F.sentiment, F.timestamp, F.total_comment,
-                       J.component, J.data, J.fields, J.params
+                       J.component, J.data, J.fields, J.params, J.id as datalet_id
                 
                 FROM (SELECT * 
                       FROM 

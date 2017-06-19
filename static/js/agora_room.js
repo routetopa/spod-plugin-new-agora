@@ -110,6 +110,10 @@ AGORA.init = function ()
         AGORA.user_edit_comment(e);
     });
 
+    //File upload
+    $("#agora_load_button").on('click', function(e){
+        AGORA.upload_image();
+    });
     // Handler realtime notification (socket.io)
     AGORA.handleRealtimeNotification();
     // Init datalet graph
@@ -131,6 +135,31 @@ AGORA.init = function ()
      }, 1500);*/
     /* TEST */
 
+};
+
+AGORA.upload_image = function ()
+{
+    let input_file = document.getElementById('agora_file_upload');
+    let agora_image_preview = $("#agora_image_preview");
+    let agora_file_upload = $("#agora_file_upload");
+
+    agora_file_upload.click();
+
+    agora_file_upload.change(function(){
+        if (input_file.files && input_file.files[0])
+        {
+            let reader = new FileReader();
+
+            reader.onload = function (e) {
+                $("#agora_image_preview").empty();
+                agora_image_preview.append($('<img>').attr('src', e.target.result));
+                agora_image_preview.show();
+                AGORA.agoraJS.set_attachment(input_file.files[0]);
+            };
+
+            reader.readAsDataURL(input_file.files[0]);
+        }
+    });
 };
 
 AGORA.user_delete_comment = function (e)
@@ -348,6 +377,9 @@ AGORA.onCommentAdded = function (e)
         $("#agora_preview_button").hide();
         ODE.reset();
     }
+
+    $("#agora_image_preview").empty();
+    $("#agora_image_preview").hide();
 
     $(elem).parent().find(".agora_speech_reply").click(function (e) {
         AGORA.onReplyClick(e);
@@ -593,6 +625,7 @@ AGORA.handleRealtimeNotification = function ()
                         data.user_avatar_initial,
                         data.comment,
                         data.message_id,
+                        data.dataletId,
                         data.user_display_name,
                         OW.getLanguageText('spodagora', 'c_just_now'),
                         OW.getLanguageText('spodagora', 'c_reply')+' (0)'],
@@ -658,7 +691,7 @@ AGORA.openDiv = function (tab_id)
 
 AGORA.string_handler = function(string)
 {
-    string = $('<div/>').text(string).html();
+    //string = $('<div/>').text(string).html();
     string = string.replace(/\n/g, "<br/>");
     return string;
 };

@@ -23,5 +23,6 @@ class SPODAGORA_BOL_CommentContract extends OW_Entity
     public $css_class;
     public $sentiment_class;
     public $datalet_class;
+    public $datalet_id;
 
 }

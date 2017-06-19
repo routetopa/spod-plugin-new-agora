@@ -8,6 +8,7 @@ use ElephantIO\Engine\SocketIO\Version1X;
 
 class SPODAGORA_CTRL_Ajax extends OW_ActionController
 {
+
     //Writer
     public function addComment()
     {
@@ -31,18 +32,19 @@ class SPODAGORA_CTRL_Ajax extends OW_ActionController
             $comment  = str_replace("\n", "<br/>", htmlentities($_REQUEST['comment']));
             $comment .= $_REQUEST["preview"];
 
+
             $c = SPODAGORA_BOL_Service::getInstance()->addComment($_REQUEST['entityId'],
                 $_REQUEST['parentId'],
                 OW::getUser()->getId(),
                 $comment,
                 $_REQUEST['level'],
                 $_REQUEST['sentiment'],
-                $ht);
+                $ht,
+                (isset($_FILES['attachment']) ? $_FILES['attachment'] : null));
 
             //Increment the comments number
             SPODAGORA_BOL_Service::getInstance()->addAgoraRoomStat($_REQUEST['entityId'], 'comments');
 
-            $this->send_realtime_notification($c);
 
             /* ODE */
             if( ODE_CLASS_Helper::validateDatalet($_REQUEST['datalet']['component'], $_REQUEST['datalet']['params']) )
@@ -52,7 +54,7 @@ class SPODAGORA_CTRL_Ajax extends OW_ActionController
                 //Add a datalet node in the datalet graph
                 SPODAGORA_BOL_Service::getInstance()->addAgoraDataletNode($_REQUEST['datalet'], $_REQUEST['comment'], $c->getId(), $_REQUEST['parentId'], $_REQUEST['entityId']);
 
-                ODE_BOL_Service::getInstance()->addDatalet(
+                $dt_id = ODE_BOL_Service::getInstance()->addDatalet(
                     $_REQUEST['datalet']['component'],
                     $_REQUEST['datalet']['fields'],
                     OW::getUser()->getId(),
@@ -63,12 +65,9 @@ class SPODAGORA_CTRL_Ajax extends OW_ActionController
             }
             /* ODE */
 
-            /* SEND MAIL */
+            $this->send_realtime_notification($c, (empty($dt_id) ? '' : $dt_id));
 
-            // SEND EMAIL TO SUBSCRIBED USERS
-            //SPODAGORA_CLASS_MailNotification::getInstance()->sendEmailNotificationOnComment($_REQUEST['entityId'], $c->ownerId);
-            // SEND EMAIL NOTIFICATION TO MENTIONED USERS
-            //SPODAGORA_CLASS_MailNotification::getInstance()->sendEmailNotificationOnMention($_REQUEST['entityId'], $c->ownerId, $mt);
+            /* SEND MAIL */
 
             $class_dir = OW::getPluginManager()->getPlugin('spodagora')->getClassesDir();
             chdir($class_dir);
@@ -87,7 +86,7 @@ class SPODAGORA_CTRL_Ajax extends OW_ActionController
             /* SEND MAIL */
 
             if (!empty($c->id))
-                echo '{"result":"ok", "post_id":"'.$c->id.'"}';
+                echo json_encode(array("result" => "ok", "post_id" => $c->id, "datalet_id" => (empty($dt_id) ? '' : $dt_id), "comment" => $c->comment));
             else
                 echo '{"result":"ko"}';
         }
@@ -384,7 +383,7 @@ class SPODAGORA_CTRL_Ajax extends OW_ActionController
     }
 
     //Realtime
-    private function send_realtime_notification($comment)
+    private function send_realtime_notification($comment, $dataletId)
     {
         try
         {
@@ -405,6 +404,7 @@ class SPODAGORA_CTRL_Ajax extends OW_ActionController
                 'user_url' => $_REQUEST['user_url'],
                 'comment_level' => $_REQUEST['level'],
                 'sentiment' => $_REQUEST['sentiment'],
+                'dataletId' => $dataletId,
                 'component' => $_REQUEST['datalet']['component'],
                 'params' => $_REQUEST['datalet']['params'],
                 'fields' => $_REQUEST['datalet']['fields'],
