@@ -111,9 +111,11 @@ AGORA.init = function ()
     });
 
     //File upload
+    $("#agora_file_upload").change(AGORA.on_upload_file_change);
     $("#agora_load_button").on('click', function(e){
         AGORA.upload_image();
     });
+
     // Handler realtime notification (socket.io)
     AGORA.handleRealtimeNotification();
     // Init datalet graph
@@ -151,27 +153,33 @@ AGORA.init = function ()
 
 AGORA.upload_image = function ()
 {
-    let input_file = document.getElementById('agora_file_upload');
-    let agora_image_preview = $("#agora_image_preview");
     let agora_file_upload = $("#agora_file_upload");
-
     agora_file_upload.click();
+};
 
-    agora_file_upload.change(function(){
-        if (input_file.files && input_file.files[0])
-        {
-            let reader = new FileReader();
+AGORA.on_upload_file_change = function()
+{
+    let agora_image_preview = $("#agora_image_preview");
+    let input_file = document.getElementById('agora_file_upload');
 
-            reader.onload = function (e) {
-                $("#agora_image_preview").empty();
-                agora_image_preview.append($('<img>').attr('src', e.target.result));
-                agora_image_preview.show();
-                AGORA.agoraJS.set_attachment(input_file.files[0]);
-            };
-
-            reader.readAsDataURL(input_file.files[0]);
+    if (input_file.files && input_file.files[0])
+    {
+        if(input_file.files[0].type.indexOf("image") < 0) {
+            OW.error("Only image file");
+            return;
         }
-    });
+
+        let reader = new FileReader();
+
+        reader.onload = function (e) {
+            $("#agora_image_preview").empty();
+            agora_image_preview.append($('<img>').attr('src', e.target.result));
+            agora_image_preview.show();
+            AGORA.agoraJS.set_attachment(input_file.files[0]);
+        };
+
+        reader.readAsDataURL(input_file.files[0]);
+    }
 };
 
 AGORA.user_delete_comment = function (e)
