@@ -98,8 +98,14 @@
             {if $isAuth}
             <div class="agora_chat_input">
 
-                <div class="agora_datalet_preview" id="agora_datalet_preview" style=""></div>
-                <div class="agora_datalet_preview" id="agora_image_preview" style=""></div>
+                <div class="agora_datalet_preview" id="agora_datalet_preview_container" style="">
+                    <div class="" id="agora_datalet_preview"></div>
+                    <div class="close_preview"></div>
+                </div>
+
+                <div class="agora_datalet_preview" id="agora_image_preview" style="">
+                    <div class="close_preview"></div>
+                </div>
 
                 <textarea name="agora_comment" placeholder="{text key='spodagora+add_a_comment'}" id="agora_comment"></textarea>
                 <input type="button" name="agora_comment_send" id="agora_comment_send" value="{text key='spodagora+send'}">
@@ -109,10 +115,10 @@
 
                 <!-- FILE INPUT -->
                 <input id="agora_file_upload" type="file" accept="image/*" style="display:none;" />
-                <div class="agora_controllet_button" style="right: 303px;" id="agora_load_button"></div>
+                <div class="agora_attach_button" id="agora_load_button"></div>
                 <!-- FILE INPUT -->
 
-                <div class="agora_preview_button" id="agora_preview_button"></div>
+                <!--<div class="agora_preview_button" id="agora_preview_button"></div>-->
             </div>
             {/if}
 

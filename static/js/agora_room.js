@@ -116,6 +116,11 @@ AGORA.init = function ()
         AGORA.upload_image();
     });
 
+    $(".close_preview").on('click', function(e)
+    {
+        AGORA.close_preview(e);
+    });
+
     // Handler realtime notification (socket.io)
     AGORA.handleRealtimeNotification();
     // Init datalet graph
@@ -151,6 +156,27 @@ AGORA.init = function ()
 
 };
 
+AGORA.dataltet_preview_added = function(){
+
+    $("#agora_datalet_preview_container").show();
+    $("#agora_image_preview").hide();
+
+};
+
+AGORA.close_preview = function(e)
+{
+    //IMAGE PREVIEW
+    $("#agora_image_preview").hide();
+    $("#agora_image_preview img").remove();
+    AGORA.agoraJS.set_attachment('');
+    $("#agora_file_upload").val('');
+
+    //DATALET PREVIEW
+    ODE.reset();
+    $("#agora_datalet_preview_container").hide();
+    $("#agora_datalet_preview").empty();
+};
+
 AGORA.upload_image = function ()
 {
     let agora_file_upload = $("#agora_file_upload");
@@ -169,12 +195,18 @@ AGORA.on_upload_file_change = function()
             return;
         }
 
+        if(input_file.files[0].size > 2000000) {
+            OW.error("Max image size 2MB");
+            return;
+        }
+
         let reader = new FileReader();
 
         reader.onload = function (e) {
-            $("#agora_image_preview").empty();
+            $("#agora_image_preview img").remove();
             agora_image_preview.append($('<img>').attr('src', e.target.result));
             agora_image_preview.show();
+            $("#agora_datalet_preview_container").hide();
             AGORA.agoraJS.set_attachment(input_file.files[0]);
         };
 
@@ -398,7 +430,7 @@ AGORA.onCommentAdded = function (e)
         ODE.reset();
     }
 
-    $("#agora_image_preview").empty();
+    $("#agora_image_preview img").remove();
     $("#agora_image_preview").hide();
 
     $(elem).parent().find(".agora_speech_reply").click(function (e) {

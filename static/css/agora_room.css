@@ -581,6 +581,16 @@ input#agora_search_input:focus {
 
     overflow-wrap: break-word;
     word-wrap: break-word;
+
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.agora_speech_text img{
+    max-height: 100%;
+    padding: 8px 0;
+    align-self: center;
 }
 
 .agora_speech_info
@@ -795,7 +805,7 @@ input:checked + .slider:before {
 
 .agora_chat_input textarea
 {
-    width: calc(100% - 316px);
+    width: calc(100% - 362px);
     height: 24px;
     margin: 14px 16px;
     line-height: 24px;
@@ -853,7 +863,7 @@ input:checked + .slider:before {
     border-radius: 5px;
 
     position: absolute;
-    right: 204px;
+    right: 248px;
     bottom: 8px;
     cursor: pointer;
 
@@ -868,7 +878,7 @@ input:checked + .slider:before {
     border-radius: 5px;
 
     position: absolute;
-    right: 248px;
+    right: 294px;
     bottom: 8px;
     cursor: pointer;
 
@@ -894,6 +904,20 @@ input:checked + .slider:before {
 
     background: url("../images/eye.svg") no-repeat 0 0;
     display: none;
+}
+
+.agora_attach_button {
+    height: 36px;
+    width: 36px;
+
+    border-radius: 5px;
+
+    position: absolute;
+    right: 204px;
+    bottom: 8px;
+    cursor: pointer;
+
+    background: #00bcd4 url("../images/attach.svg") no-repeat 0 0;
 }
 
 .agora_link_preview
@@ -1428,3 +1452,31 @@ div.agora_editor:before {
     padding: 0;
 }
 /* MENTION */
+
+#agora_image_preview {
+    text-align: center;
+    overflow: hidden;
+}
+
+#agora_image_preview img {
+    max-height: 100%;
+}
+
+.close_preview {
+    cursor: pointer;
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: url("../images/close.svg") no-repeat 0px 0px;
+    background-size: 40px 40px;
+    height: 40px;
+    width: 40px;
+    border-radius: 0 2px 0 0;
+    z-index: 1;
+}
+
+#agora_image_preview:hover .close_preview, #agora_datalet_preview_container:hover .close_preview {
+    background-color: #9E9E9E;
+    opacity: 0.65;
+}
+
