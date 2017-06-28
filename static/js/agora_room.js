@@ -426,7 +426,7 @@ AGORA.onCommentAdded = function (e)
 
     if(e.component != "") {
         elem.addClass("agora_fullsize_datalet " + e.component);
-        $("#agora_preview_button").hide();
+        $("#agora_datalet_preview_container").hide();
         ODE.reset();
     }
 
