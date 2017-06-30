@@ -14,9 +14,9 @@ AGORAMAIN.init = function(agora_id)
     $(".agora_room").on('click', AGORAMAIN.handleAgoraRoomSelection);
     $(".agora_room").on('dblclick', function(){
         if(AGORAMAIN._selected_Room != '') {
-            var url = window.location.href;
-            url = url[url.length - 1] == '/' ? url : url + '/';
-            window.open(url + AGORAMAIN._selected_Room, "_self");
+            //var url = window.location.href;
+            //url = url[url.length - 1] == '/' ? url : url + '/';
+            window.open(AGORAMAIN.spod_url_home + 'agora/' + AGORAMAIN._selected_Room, "_self");
         }
     });
     $(".tab").on('click', AGORAMAIN.handleAgoraRoomTab);

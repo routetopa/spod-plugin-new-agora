@@ -59,11 +59,13 @@ class SPODAGORA_CTRL_AgoraMain extends OW_ActionController
         $js = UTIL_JsGenerator::composeJsString('
             AGORAMAIN.user_room_notification = {$user_room_notification}           
             AGORAMAIN.notification_endpoint  = {$notification_endpoint}           
-            AGORAMAIN.hashtag = {$hashtag}           
+            AGORAMAIN.hashtag = {$hashtag}    
+            AGORAMAIN.spod_url_home = {$OW_URL_HOME}       
          ', array(
             'user_room_notification' => SPODAGORA_BOL_Service::getInstance()->getAllUserNotification(OW::getUser()->getId()),
             'notification_endpoint' => OW::getRouter()->urlFor('SPODAGORA_CTRL_Ajax', 'handleUserNotification'),
-            'hashtag' => $this->hashtags
+            'hashtag' => $this->hashtags,
+            'OW_URL_HOME' => OW_URL_HOME
         ));
 
         OW::getDocument()->addOnloadScript($js);
