@@ -1256,9 +1256,10 @@ div.preview_image_container {
     width: 100%;
 }
 
-.preview_image {
+img.preview_image {
     width: 100%;
     border:0;
+    padding: 0;
 }
 
 .preview_title {

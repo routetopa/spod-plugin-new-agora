@@ -44,7 +44,7 @@ agoraJs.prototype = (function(){
         _elem.keydown(keydown_handler);
         _elem.keyup(debounce(keyup_handler, 500));
 
-        _agora_datalet_preview = $("#agora_datalet_preview");
+        _agora_datalet_preview = $("#agora_datalet_preview_container");
         _suggested_friends = $("#suggested_friends");
         _suggested_friends_table_tr = $("#suggested_friends_table tbody tr");
     };
