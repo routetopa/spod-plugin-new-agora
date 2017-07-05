@@ -92,6 +92,9 @@ class SPODAGORA_CTRL_Agora extends OW_ActionController
         // ADD DATALET DEFINITIONS
         $this->assign('datalet_definition_import', ODE_CLASS_Tools::getInstance()->get_all_datalet_definitions());
 
+        // ADD PRIVATE ROOM DEFINITION
+        $this->assign('components_url', SPODPR_COMPONENTS_URL);
+
         $this->addComponent('comments', new SPODAGORA_CMP_AgoraMainComment($this->agoraId));
 
         $raw_unread_comments = SPODAGORA_BOL_Service::getInstance()->getUnreadComment($this->agoraId, $this->userId);
