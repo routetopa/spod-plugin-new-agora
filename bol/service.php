@@ -111,12 +111,13 @@ class SPODAGORA_BOL_Service
             if(!empty($datalet))
             {
                 //Delete Association
-                $sql = "DELETE FROM ow_ode_datalet_post WHERE postId = {$comment->id} AND dataletId = {$datalet['dataletId']} AND plugin = 'agora'; ";
-                $dbo->query($sql);
+                //$sql = "DELETE FROM ow_ode_datalet_post WHERE postId = {$comment->id} AND dataletId = {$datalet['dataletId']} AND plugin = 'agora'; ";
+                //$dbo->query($sql);
                 //Delete Datalet
-                $sql = "DELETE FROM ow_ode_datalet WHERE id = {$datalet['dataletId']}; ";
+                //$sql = "DELETE FROM ow_ode_datalet WHERE id = {$datalet['dataletId']}; ";
+                ODE_BOL_Service::getInstance()->deleteDataletAndAssociationByDataletAndCommentId($datalet['dataletId'], $comment->id, 'agora');
                 $this->subAgoraRoomStat($comment->entityId, 'opendata');
-                $dbo->query($sql);
+                //$dbo->query($sql);
                 //Delete datalet node from datalet graph
                 $datalet_graph = json_decode('['.rtrim($agora->datalet_graph, ",").']');
                 foreach ($datalet_graph as $key => $node)
@@ -620,11 +621,12 @@ class SPODAGORA_BOL_Service
             if(!empty($datalet))
             {
                 //Delete Association
-                $sql = "DELETE FROM ow_ode_datalet_post WHERE postId = {$comment->id} AND dataletId = {$datalet['id']} AND plugin = 'agora'; ";
-                $dbo->query($sql);
+                //$sql = "DELETE FROM ow_ode_datalet_post WHERE postId = {$comment->id} AND dataletId = {$datalet['id']} AND plugin = 'agora'; ";
+                //$dbo->query($sql);
                 //Delete Datalet
-                $sql = "DELETE FROM ow_ode_datalet WHERE id = {$datalet['id']}; ";
-                $dbo->query($sql);
+                //$sql = "DELETE FROM ow_ode_datalet WHERE id = {$datalet['id']}; ";
+                //$dbo->query($sql);
+                ODE_BOL_Service::getInstance()->deleteDataletAndAssociationByDataletAndCommentId($datalet['id'], $comment->id, 'agora');
             }
             //Delete comment
             $sql = "DELETE FROM ow_spod_agora_room_comment WHERE id = {$comment->id}; ";
