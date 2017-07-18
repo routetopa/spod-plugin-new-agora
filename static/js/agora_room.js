@@ -190,27 +190,35 @@ AGORA.on_upload_file_change = function()
 
     if (input_file.files && input_file.files[0])
     {
-        if(input_file.files[0].type.indexOf("image") < 0) {
-            OW.error("Only image file");
+        if(input_file.files[0].type.indexOf("image") < 0 && input_file.files[0].type.indexOf("pdf") < 0) {
+            OW.error("Only image or pdf file");
             return;
         }
 
         if(input_file.files[0].size > 2000000) {
-            OW.error("Max image size 2MB");
+            OW.error("Max file size 2MB");
             return;
         }
 
-        let reader = new FileReader();
+        AGORA.agoraJS.set_attachment(input_file.files[0]);
 
-        reader.onload = function (e) {
+        if(input_file.files[0].type.indexOf("image") !== -1 ) {
+            let reader = new FileReader();
+
+            reader.onload = function (e) {
+                $("#agora_image_preview img").remove();
+                agora_image_preview.append($('<img>').attr('src', e.target.result));
+                agora_image_preview.show();
+                $("#agora_datalet_preview_container").hide();
+            };
+
+            reader.readAsDataURL(input_file.files[0]);
+        }else{
             $("#agora_image_preview img").remove();
-            agora_image_preview.append($('<img>').attr('src', e.target.result));
+            agora_image_preview.append($('<img>').attr('class', 'attach'));
             agora_image_preview.show();
             $("#agora_datalet_preview_container").hide();
-            AGORA.agoraJS.set_attachment(input_file.files[0]);
-        };
-
-        reader.readAsDataURL(input_file.files[0]);
+        }
     }
 };
 

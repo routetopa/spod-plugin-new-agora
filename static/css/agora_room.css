@@ -1481,3 +1481,23 @@ div.agora_editor:before {
     opacity: 0.65;
 }
 
+img.attach {
+    content:url("../images/pdf_icon.png");
+}
+
+a.agora_comment_attach {
+    height: 32px;
+    width: 32px;
+    padding: 4px;
+}
+
+a.agora_comment_attach:before {
+    content: '';
+    height: 32px;
+    width: 32px;
+    position: absolute;
+    cursor: pointer;
+    background-image: url("../images/pdf_icon.png");
+    background-size: cover;
+}
+

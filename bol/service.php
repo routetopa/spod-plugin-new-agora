@@ -9,8 +9,11 @@ class SPODAGORA_BOL_Service
      * @var AGORA_BOL_Service
      */
     private static $classInstance;
-    private $result_per_page = 10;
-    private $UPLOAD_DIR = 'agora_images/';
+    private $result_per_page     = 10;
+    private $UPLOAD_IMG_DIR      = 'agora_images/';
+    private $UPLOAD_ATTACH_DIR   = 'agora_attach/';
+    private $accepted_img_ext    =  array("jpg", "jpeg", "png", "gif", "bmp");
+    private $accepted_attach_ext =  array("pdf");
 
     /**
      * Returns an instance of class (singleton pattern implementation).
@@ -53,14 +56,25 @@ class SPODAGORA_BOL_Service
                 if ($attachment['error'] == UPLOAD_ERR_OK and is_uploaded_file($attachment['tmp_name']))
                 {
                     $ext = pathinfo($attachment['name'], PATHINFO_EXTENSION);
-                    $path = $plugin->getRootDir() . $this->UPLOAD_DIR . $c->getId() . '.' . $ext;
-
-                    move_uploaded_file($attachment['tmp_name'], $path);
-
                     $agora_dir = $plugin->getDirName();
-                    $img_path = OW_URL_HOME . 'ow_plugins/' . $agora_dir . '/' . $this->UPLOAD_DIR . $c->getId() . '.' . $ext;
 
-                    $c->comment .= " <img class='agora_comment_image' src='{$img_path}' /> ";
+                    if(in_array($ext, $this->accepted_img_ext))
+                    {
+                        $path = $plugin->getRootDir() . $this->UPLOAD_IMG_DIR . $c->getId() . '.' . $ext;
+                        move_uploaded_file($attachment['tmp_name'], $path);
+                        $img_path = OW_URL_HOME . 'ow_plugins/' . $agora_dir . '/' . $this->UPLOAD_IMG_DIR . $c->getId() . '.' . $ext;
+                        $c->comment .= " <img class='agora_comment_image' src='{$img_path}' /> ";
+                    }
+
+                    if(in_array($ext, $this->accepted_attach_ext))
+                    {
+                        $path = $plugin->getRootDir() . $this->UPLOAD_ATTACH_DIR . $c->getId() . '.' . $ext;
+                        move_uploaded_file($attachment['tmp_name'], $path);
+                        $attach_path = OW_URL_HOME . 'ow_plugins/' . $agora_dir . '/' . $this->UPLOAD_ATTACH_DIR . $c->getId() . '.' . $ext;
+                        $c->comment .= " <a href='{$attach_path}' class='agora_comment_attach'></a> ";
+                    }
+
+
                     SPODAGORA_BOL_AgoraRoomCommentDao::getInstance()->save($c);
                 }
             }
