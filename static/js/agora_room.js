@@ -42,6 +42,12 @@ AGORA.init = function ()
         AGORA.onCommentAdded(e)
     });
 
+    // Handle back button
+    $(".agora_bookmark").click(function(){
+        let location = ODE.ow_base_url + "aogra";
+        window.location.href = location;
+    });
+
     // Handle right menu
     $('.agora_button').click(function(){
         AGORA.handleRightMenu($(this).attr('i'));

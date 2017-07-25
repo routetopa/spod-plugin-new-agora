@@ -91,18 +91,25 @@ div.ow_chat_cont {
 
 .agora_bookmark{
     width: 124px;
-    background: #424242;
+    height: 64px;
+    background: url("../images/back.svg") no-repeat center 0;
+    background-color: #424242;
+    cursor: pointer;
 }
 
-.agora_bookmark > svg
+.agora_bookmark:hover{
+    background: url("../images/back_over.svg") no-repeat center 0;
+}
+
+/*.agora_bookmark > svg
 {
     margin-top: -12px;
     padding: 0px 30px;
     display: block;
     width: 64px;
     height: 64px;
-    fill: #FF9800;/*E65100*/
-}
+    fill: #FF9800;
+}*/
 
 /**** AGORA LEFT END****/
 
