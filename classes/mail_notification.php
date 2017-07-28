@@ -13,8 +13,13 @@ class SPODAGORA_CLASS_MailNotification extends OW_Component
         return self::$classInstance;
     }
 
+    private $api_key = '';
+
     public function sendEmailNotificationOnComment($room_id, $owner_id)
     {
+        $preference = BOL_PreferenceService::getInstance()->findPreference('elastic_mail_api_key');
+        $this->api_key = empty($preference) ? "" : $preference->defaultValue;
+
         $userService = BOL_UserService::getInstance();
 
         //GET ALL SUBSCRIBED USERS
@@ -56,7 +61,7 @@ class SPODAGORA_CLASS_MailNotification extends OW_Component
                 try{
                     $post = array('from' => 'webmaster@routetopa.eu',
                         'fromName' => 'SPOD',
-                        'apikey' => 'c1e69cce-889e-4440-9e13-80151cdc6ef6',
+                        'apikey' => $this->api_key,
                         'subject' => "Something interesting is happening in the Agora " . $room->subject,
                         'to' => $email,
                         'bodyHtml' => $this->getEmailCommentContentHtml($room_id, $avatar, $room, $user->username, $template_html, $time),
@@ -162,7 +167,7 @@ class SPODAGORA_CLASS_MailNotification extends OW_Component
 
                 $post = array('from' => 'webmaster@routetopa.eu',
                     'fromName' => 'SPOD',
-                    'apikey' => 'c1e69cce-889e-4440-9e13-80151cdc6ef6',
+                    'apikey' => $this->api_key,
                     'subject' => "Something interesting is happening in the Agora " . $room->subject,
                     'to' => $email,
                     'bodyHtml' => $this->getEmailMentionContentHtml($room_id, $avatar, $room, $user->username, $template_html, $time),
