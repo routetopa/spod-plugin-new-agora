@@ -275,6 +275,12 @@ class SPODAGORA_CTRL_Ajax extends OW_ActionController
     }
 
     //Reader
+    public function getRooms()
+    {
+        echo json_encode(SPODAGORA_BOL_Service::getInstance()->getAgora());
+        exit();
+    }
+
     public function getNestedComment()
     {
         $nc = new SPODAGORA_CMP_NestedComment($_REQUEST['entity_id'],
