@@ -388,6 +388,15 @@ class SPODAGORA_CTRL_Ajax extends OW_ActionController
         exit;
     }
 
+    public function getCommentsPage()
+    {
+        $raw_comments = SPODAGORA_BOL_Service::getInstance()->getCommentListPaged($_REQUEST['roomId']);
+        $processed_comment = SPODAGORA_CLASS_Tools::getInstance()->process_comment_include_datalet($raw_comments, OW::getUser()->getId());
+        echo json_encode($processed_comment);
+
+        exit;
+    }
+
     //Realtime
     private function send_realtime_notification($comment, $dataletId)
     {
