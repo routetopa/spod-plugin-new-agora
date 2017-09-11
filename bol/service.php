@@ -612,11 +612,11 @@ class SPODAGORA_BOL_Service
 
     public function getCommentGraph($roomId)
     {
-        $sql = "select id as userId, idf as friendId, count(idf) as reply
-                from (SELECT B.ownerId as id, A.ownerId as idf 
+        $sql = "SELECT id as userId, idf as friendId, count(idf) as reply
+                FROM (SELECT B.ownerId as id, A.ownerId as idf 
                       FROM ow_spod_agora_room_comment as A JOIN ow_spod_agora_room_comment as B on A.parentId = B.id 
                       WHERE A.entityId = {$roomId} and A.level = 1) as T
-                group by id, idf;";
+                GROUP BY id, idf;";
 
         $dbo = OW::getDbo();
         return $dbo->queryForObjectList($sql, 'SPODAGORA_BOL_AgoraRoomCommentGraphContract');
