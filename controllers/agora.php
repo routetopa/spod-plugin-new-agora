@@ -187,6 +187,7 @@ class SPODAGORA_CTRL_Agora extends OW_ActionController
             AGORA.edit_user_comment_endpoint = {$edit_user_comment_endpoint}
             AGORA.get_comment_page_endpoint = {$get_comment_page_endpoint}
             AGORA.get_comment_missing_endpoint = {$get_comment_missing_endpoint}
+            AGORA.comment_graph = {$comment_graph}
          ', array(
             'roomId' => $this->agoraId,
             'agora_comment_endpoint' => OW::getRouter()->urlFor('SPODAGORA_CTRL_Ajax', 'addComment'),
@@ -209,7 +210,8 @@ class SPODAGORA_CTRL_Agora extends OW_ActionController
             'delete_user_comment_endpoint' => OW::getRouter()->urlFor('SPODAGORA_CTRL_Ajax', 'deleteUserComment'),
             'edit_user_comment_endpoint' => OW::getRouter()->urlFor('SPODAGORA_CTRL_Ajax', 'editUserComment'),
             'get_comment_page_endpoint' => OW::getRouter()->urlFor('SPODAGORA_CTRL_Ajax', 'getCommentPage'),
-            'get_comment_missing_endpoint' => OW::getRouter()->urlFor('SPODAGORA_CTRL_Ajax', 'getMissingComment')
+            'get_comment_missing_endpoint' => OW::getRouter()->urlFor('SPODAGORA_CTRL_Ajax', 'getMissingComment'),
+            'comment_graph' => SPODAGORA_BOL_Service::getInstance()->getCommentGraph($this->agoraId)
         ));
 
         OW::getDocument()->addOnloadScript($js);
