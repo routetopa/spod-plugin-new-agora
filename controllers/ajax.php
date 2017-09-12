@@ -390,7 +390,11 @@ class SPODAGORA_CTRL_Ajax extends OW_ActionController
 
     public function getCommentsPage()
     {
-        $raw_comments = SPODAGORA_BOL_Service::getInstance()->getCommentListPaged($_REQUEST['roomId']);
+        if(empty($_REQUEST['last_id']))
+            $raw_comments = SPODAGORA_BOL_Service::getInstance()->getCommentListPaged($_REQUEST['roomId']);
+        else
+            $raw_comments = SPODAGORA_BOL_Service::getInstance()->getCommentListPaged($_REQUEST['roomId'], $_REQUEST['last_id']);
+
         $processed_comment = SPODAGORA_CLASS_Tools::getInstance()->process_comment_include_datalet($raw_comments, OW::getUser()->getId());
         echo json_encode($processed_comment);
 
