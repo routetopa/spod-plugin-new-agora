@@ -17,13 +17,16 @@ class SPODAGORA_CTRL_Ajax extends OW_ActionController
             throw new Redirect403Exception();
         }
 
-        if ( !OW::getUser()->isAuthenticated() )
+        /*if ( !OW::getUser()->isAuthenticated() )
         {
             throw new AuthenticateException();
-        }
+        }*/
 
         if(SPODAGORA_CLASS_Tools::getInstance()->check_value(["entityId", "parentId", "comment", "level", "sentiment"]))
         {
+            // TODO sostituire con oauth2
+            $user_id = empty($_REQUEST["userId"]) ? OW::getUser()->getId() : $_REQUEST["userId"];
+
             //Get hashtag
             $ht = SPODAGORA_CLASS_Tools::getInstance()->get_hashtag($_REQUEST['comment']);
             $mt = SPODAGORA_CLASS_Tools::getInstance()->get_mention($_REQUEST['comment']);
@@ -35,7 +38,7 @@ class SPODAGORA_CTRL_Ajax extends OW_ActionController
 
             $c = SPODAGORA_BOL_Service::getInstance()->addComment($_REQUEST['entityId'],
                 $_REQUEST['parentId'],
-                OW::getUser()->getId(),
+                $user_id,
                 $comment,
                 $_REQUEST['level'],
                 $_REQUEST['sentiment'],
@@ -57,7 +60,7 @@ class SPODAGORA_CTRL_Ajax extends OW_ActionController
                 $dt_id = ODE_BOL_Service::getInstance()->addDatalet(
                     $_REQUEST['datalet']['component'],
                     $_REQUEST['datalet']['fields'],
-                    OW::getUser()->getId(),
+                    $user_id,
                     $_REQUEST['datalet']['params'],
                     $c->getId(),
                     $_REQUEST['plugin'],
@@ -246,7 +249,10 @@ class SPODAGORA_CTRL_Ajax extends OW_ActionController
 
     public function addAgoraRoom()
     {
-        $id = SPODAGORA_BOL_Service::getInstance()->addAgoraRoom(OW::getUser()->getId(),
+        // TODO sostituire con oauth2
+        $user_id = empty($_REQUEST["userId"]) ? OW::getUser()->getId() : $_REQUEST["userId"];
+
+        $id = SPODAGORA_BOL_Service::getInstance()->addAgoraRoom($user_id,
             $_REQUEST['subject'],
             $_REQUEST['body']);
 
@@ -287,6 +293,17 @@ class SPODAGORA_CTRL_Ajax extends OW_ActionController
                                               $_REQUEST['parent_id'],
                                               $_REQUEST['level']);
         echo $nc->render();
+
+        exit;
+    }
+
+    public function getNestedCommentJson()
+    {
+        //TODO sostituire con oauth2
+        $father_comment = SPODAGORA_BOL_Service::getInstance()->getCommentById($_REQUEST["parentId"]);
+        $raw_comments = SPODAGORA_BOL_Service::getInstance()->getNestedComment($_REQUEST["entityId"], $_REQUEST["parentId"], $_REQUEST["level"]);
+        array_unshift($raw_comments, $father_comment);
+        echo json_encode(SPODAGORA_CLASS_Tools::getInstance()->process_comment_include_datalet($raw_comments, $_REQUEST["userId"]));
 
         exit;
     }
