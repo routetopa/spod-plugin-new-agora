@@ -1154,10 +1154,10 @@ line.u_links.user_highlighted, line.u_links:hover {
     stroke-width: 3px;
 }
 
-line.u_links.user_selected {
-    stroke: #FFEB3B;
-    stroke-width: 3px;
-}
+/*line.u_links.user_selected {*/
+    /*stroke: #FFEB3B;*/
+    /*stroke-width: 3px;*/
+/*}*/
 
 circle.u_nodes {
     stroke-width: 0px;
@@ -1166,10 +1166,39 @@ circle.u_nodes {
 
 circle.u_nodes.user_highlighted {
     stroke-width: 3px;
-    stroke: #FFFFFF;/
+    stroke: #FFFFFF;
 }
 
 circle.u_nodes.user_selected {
+    stroke-width: 3px;
+    stroke: #FFEB3B;
+}
+
+/* COMMENT GRAPH */
+
+line.c_links {
+    stroke: #424242;
+    /*stroke-width: 2px;*/
+
+    cursor: pointer;
+}
+
+line.c_links.user_highlighted, line.c_links:hover {
+    stroke: #FFFFFF;
+    /*stroke-width: 3px;*/
+}
+
+circle.c_nodes {
+    stroke-width: 0px;
+    cursor: pointer;
+}
+
+circle.c_nodes.user_highlighted {
+    stroke-width: 3px;
+    stroke: #FFFFFF;
+}
+
+circle.c_nodes.user_selected {
     stroke-width: 3px;
     stroke: #FFEB3B;
 }

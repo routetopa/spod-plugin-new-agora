@@ -42,6 +42,11 @@
                 <div class="agora_button_title">{text key="spodagora+m_datalets_graph"}</div>
             </div>
 
+            <div class="agora_button" i="5">
+                <svg viewBox="0 0 24 24" preserveAspectRatio="xMidYMid meet"><g><path d="M21.99 4c0-1.1-.89-2-1.99-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14l4 4-.01-18zM18 14H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"></path></g></svg>
+                <div class="agora_button_title">{text key="spodagora+m_comments_graph"}</div>
+            </div>
+
             {if $isAuth}
             <div class="agora_notification_switch">
                 <!-- Rounded switch -->
@@ -214,6 +219,10 @@
 
             <div class="agora_right_container" id="agora_datalet_graph_container">
                 <svg id="svg_datalet_graph" id="svg" width="100%"></svg>
+            </div>
+
+            <div class="agora_right_container" id="agora_comment_graph_container">
+                <svg id="svg_comment_graph" id="svg" width="100%"></svg>
             </div>
 
         </div><!-- AGORA RIGHT -->

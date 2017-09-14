@@ -53,6 +53,7 @@ class SPODAGORA_CTRL_Agora extends OW_ActionController
         OW::getDocument()->setDescription($this->agora->body);
 
         OW::getDocument()->addScript(OW::getPluginManager()->getPlugin('spodagora')->getStaticJsUrl() . 'agora_room.js');
+        OW::getDocument()->addScript(OW::getPluginManager()->getPlugin('spodagora')->getStaticJsUrl() . 'agora_f.js');
         OW::getDocument()->addScript(OW::getPluginManager()->getPlugin('spodagora')->getStaticJsUrl() . 'agoraJs.js');
 
         OW::getDocument()->addScript(OW::getPluginManager()->getPlugin('spodagora')->getStaticJsUrl() . 'autogrow.min.js');
@@ -86,6 +87,8 @@ class SPODAGORA_CTRL_Agora extends OW_ActionController
         OW::getLanguage()->addKeyForJs('spodagora', 'g_datasets');
         OW::getLanguage()->addKeyForJs('spodagora', 'g_time');
         OW::getLanguage()->addKeyForJs('spodagora', 'g_is_friend_of');
+        OW::getLanguage()->addKeyForJs('spodagora', 'g_has_replied');
+        OW::getLanguage()->addKeyForJs('spodagora', 'g_times');
 
         SPODAGORA_BOL_Service::getInstance()->addAgoraRoomStat($this->agoraId, 'views');
 
