@@ -199,7 +199,7 @@ AGORA.initDataletGraph = function()
             .attr("cy", function (d) {
                 return d.y;
             })
-            .attr("r", 16)
+            .attr("r", 32)
 
             .on("mouseover", function (d) {
                 var node = this;
@@ -595,15 +595,15 @@ AGORA.initCommentGraph = function()
                 .attr("height", "1")
                 .attr("width", "1")
                 .append("image")
-                .attr("height", "64")
-                .attr("width", "64")
+                .attr("height", "40")
+                .attr("width", "40")
                 .attr("xlink:href", AGORA.users_avatar[user].src != "" ? AGORA.users_avatar[user].src : ODE.ow_url_home + "ow_static/themes/spod_theme_matter/images/no-avatar.png");
         }
 
         //LINKS
         svg.append("svg:defs").append("svg:marker")
             .attr("id", "c_arrow")
-            .attr("refX", 0)
+            .attr("refX", 6)
             .attr("refY", 6)
             .attr("markerWidth", 12)
             .attr("markerHeight", 12)
@@ -615,7 +615,7 @@ AGORA.initCommentGraph = function()
 
         svg.append("svg:defs").append("svg:marker")
             .attr("id", "c_arrow_w")
-            .attr("refX", 0)
+            .attr("refX", 6)
             .attr("refY", 6)
             .attr("markerWidth", 12)
             .attr("markerHeight", 12)
@@ -631,7 +631,7 @@ AGORA.initCommentGraph = function()
             .enter().append("line")
             .attr("class", "c_links")
             .each(function (d) {
-                var startCoords = offsetEdge(d, 64, 64);
+                var startCoords = offsetEdge(d, 32, 32);
                 d3.select(this)
                     .attr("x1", startCoords.x1)
                     .attr("y1", startCoords.y1)
@@ -755,7 +755,7 @@ AGORA.initCommentGraph = function()
                 var node = this;
                 return 'url("#c_' + d3.select(node).data()[0].id + '")';
             })
-            .attr("r", 32)
+            .attr("r", 20)
 
             .on("mouseover", function () {
                 var node = this;
