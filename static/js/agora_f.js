@@ -199,7 +199,7 @@ AGORA.initDataletGraph = function()
             .attr("cy", function (d) {
                 return d.y;
             })
-            .attr("r", 32)
+            .attr("r", 16)
 
             .on("mouseover", function (d) {
                 var node = this;
