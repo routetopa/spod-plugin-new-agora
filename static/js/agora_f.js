@@ -199,7 +199,7 @@ AGORA.initDataletGraph = function()
             .attr("cy", function (d) {
                 return d.y;
             })
-            .attr("r", 32)
+            .attr("r", 16)
 
             .on("mouseover", function (d) {
                 var node = this;
@@ -527,26 +527,13 @@ AGORA.initCommentGraph = function()
     }
 
     for (var i in AGORA.comment_graph)
-        // if(AGORA.comment_graph[i]["userId"] != AGORA.comment_graph[i]["friendId"]) {
-        if(AGORA.comment_graph[i]["userId"] > AGORA.comment_graph[i]["friendId"])
+        if(AGORA.comment_graph[i]["userId"] != AGORA.comment_graph[i]["friendId"])
             c_links.push({
-                source: Object.keys(AGORA.users_avatar).indexOf(AGORA.comment_graph[i]["userId"]),
-                target: Object.keys(AGORA.users_avatar).indexOf(AGORA.comment_graph[i]["friendId"]),
-                // type: "in",
+                source: Object.keys(AGORA.users_avatar).indexOf(AGORA.comment_graph[i]["friendId"]),
+                target: Object.keys(AGORA.users_avatar).indexOf(AGORA.comment_graph[i]["userId"]),
                 reply: AGORA.comment_graph[i]["reply"],
-                stroke_width: "3",
                 edgeNumber: 2
             });
-        else if(AGORA.comment_graph[i]["userId"] < AGORA.comment_graph[i]["friendId"])
-            c_links.push({
-                source: Object.keys(AGORA.users_avatar).indexOf(AGORA.comment_graph[i]["userId"]),
-                target: Object.keys(AGORA.users_avatar).indexOf(AGORA.comment_graph[i]["friendId"]),
-                // type: "out",
-                reply: AGORA.comment_graph[i]["reply"],
-                stroke_width: "2",
-                edgeNumber: 2
-            });
-    // }
 
     Object.keys(AGORA.users_avatar).indexOf("2");
 
