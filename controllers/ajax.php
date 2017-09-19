@@ -443,10 +443,10 @@ class SPODAGORA_CTRL_Ajax extends OW_ActionController
                 'comment_level' => $_REQUEST['level'],
                 'sentiment' => $_REQUEST['sentiment'],
                 'dataletId' => $dataletId,
-                'component' => $_REQUEST['datalet']['component'],
-                'params' => $_REQUEST['datalet']['params'],
-                'fields' => $_REQUEST['datalet']['fields'],
-                'data' => $_REQUEST['datalet']['data']]);
+                'component' => empty($_REQUEST['datalet']['component']) ? '' : $_REQUEST['datalet']['component'],
+                'params' => empty($_REQUEST['datalet']['params']) ? '' : $_REQUEST['datalet']['params'],
+                'fields' => empty($_REQUEST['datalet']['fields']) ? '' : $_REQUEST['datalet']['fields'],
+                'data' => empty($_REQUEST['datalet']['data']) ? '' : $_REQUEST['datalet']['data'] ]);
 
             $client->close();
         }
