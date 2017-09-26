@@ -55,7 +55,7 @@ class SPODAGORA_BOL_Service
 
                 if ($attachment['error'] == UPLOAD_ERR_OK and is_uploaded_file($attachment['tmp_name']))
                 {
-                    $ext = pathinfo($attachment['name'], PATHINFO_EXTENSION);
+                    $ext = strtolower(pathinfo($attachment['name'], PATHINFO_EXTENSION));
                     $agora_dir = $plugin->getDirName();
 
                     if(in_array($ext, $this->accepted_img_ext))
