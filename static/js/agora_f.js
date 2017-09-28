@@ -351,7 +351,7 @@ AGORA.initUserGraph = function()
             g.append("g")
                 .append("defs")
                 .append("pattern")
-                .attr("id", AGORA.users_avatar[user].userId)
+                .attr("id", "u_"+ AGORA.users_avatar[user].userId)
                 .attr("patternUnits", "objectBoundingBox")
                 .attr("height", "1")
                 .attr("width", "1")
@@ -438,7 +438,7 @@ AGORA.initUserGraph = function()
             })
             .attr("fill", function () {
                 var node = this;
-                return 'url("#' + d3.select(node).data()[0].id + '")';
+                return 'url("#u_' + d3.select(node).data()[0].id + '")';
             })
             .attr("r", 32)
 
