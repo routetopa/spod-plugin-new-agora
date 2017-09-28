@@ -426,6 +426,8 @@ class SPODAGORA_CTRL_Ajax extends OW_ActionController
             $client = new Client(new Version1X('http://localhost:3000/realtime_notification'));
             $client->initialize();
 
+            $avatar_data = SPODAGORA_CLASS_Tools::getInstance()->get_avatar_data($comment->ownerId);
+
             $client->emit('realtime_notification',
                 ['plugin' => 'agora',
                 'room_id' => $_REQUEST['entityId'],
@@ -433,18 +435,18 @@ class SPODAGORA_CTRL_Ajax extends OW_ActionController
                 'message_id' => $comment->id,
                 'parent_id' => $_REQUEST['parentId'],
                 'user_id' =>  $comment->ownerId,
-                'user_display_name' => $_REQUEST['username'],
-                'user_avatar' => $_REQUEST['user_avatar_src'],
-                'user_avatar_css' => $_REQUEST['user_avatar_css'],
-                'user_avatar_initial' => $_REQUEST['user_avatar_initial'],
-                'user_url' => $_REQUEST['user_url'],
+                'user_display_name' => $avatar_data['username'],
+                'user_avatar' => $avatar_data['user_avatar_src'],
+                'user_avatar_css' => $avatar_data['user_avatar_css'],
+                'user_avatar_initial' => $avatar_data['user_avatar_initial'],
+                'user_url' => $avatar_data['user_url'],
                 'comment_level' => $_REQUEST['level'],
                 'sentiment' => $_REQUEST['sentiment'],
                 'dataletId' => $dataletId,
-                'component' => $_REQUEST['datalet']['component'],
-                'params' => $_REQUEST['datalet']['params'],
-                'fields' => $_REQUEST['datalet']['fields'],
-                'data' => $_REQUEST['datalet']['data']]);
+                'component' => empty($_REQUEST['datalet']['component']) ? '' : $_REQUEST['datalet']['component'],
+                'params' => empty($_REQUEST['datalet']['params']) ? '' : $_REQUEST['datalet']['params'],
+                'fields' => empty($_REQUEST['datalet']['fields']) ? '' : $_REQUEST['datalet']['fields'],
+                'data' => empty($_REQUEST['datalet']['data']) ? '' : $_REQUEST['datalet']['data'] ]);
 
             $client->close();
         }
