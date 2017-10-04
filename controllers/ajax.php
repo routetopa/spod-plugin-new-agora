@@ -24,8 +24,20 @@ class SPODAGORA_CTRL_Ajax extends OW_ActionController
 
         if(SPODAGORA_CLASS_Tools::getInstance()->check_value(["entityId", "parentId", "comment", "level", "sentiment"]))
         {
-            // TODO sostituire con oauth2
-            $user_id = empty($_REQUEST["userId"]) ? OW::getUser()->getId() : $_REQUEST["userId"];
+            if (!OW::getUser()->isAuthenticated())
+            {
+                try
+                {
+                    $user_id = ODE_CLASS_Tools::getInstance()->getUserFromJWT($_REQUEST['jwt']);
+                }
+                catch (Exception $e)
+                {
+                    echo json_encode(array("status"  => "ko", "error_message" => $e->getMessage()));
+                    exit;
+                }
+            }else{
+                $user_id = OW::getUser()->getId();
+            }
 
             //Get hashtag
             $ht = SPODAGORA_CLASS_Tools::getInstance()->get_hashtag($_REQUEST['comment']);
@@ -249,8 +261,20 @@ class SPODAGORA_CTRL_Ajax extends OW_ActionController
 
     public function addAgoraRoom()
     {
-        // TODO sostituire con oauth2
-        $user_id = empty($_REQUEST["userId"]) ? OW::getUser()->getId() : $_REQUEST["userId"];
+        if (!OW::getUser()->isAuthenticated())
+        {
+            try
+            {
+                $user_id = ODE_CLASS_Tools::getInstance()->getUserFromJWT($_REQUEST['jwt']);
+            }
+            catch (Exception $e)
+            {
+                echo json_encode(array("status"  => "ko", "error_message" => $e->getMessage()));
+                exit;
+            }
+        }else{
+            $user_id = OW::getUser()->getId();
+        }
 
         $id = SPODAGORA_BOL_Service::getInstance()->addAgoraRoom($user_id,
             $_REQUEST['subject'],
@@ -283,8 +307,19 @@ class SPODAGORA_CTRL_Ajax extends OW_ActionController
     //Reader
     public function getRooms()
     {
-        echo json_encode(SPODAGORA_BOL_Service::getInstance()->getAgora());
-        exit();
+         try
+         {
+             ODE_CLASS_Tools::getInstance()->getUserFromJWT(isset($_REQUEST["jwt"]) ? $_REQUEST["jwt"] : '');
+             echo json_encode(SPODAGORA_BOL_Service::getInstance()->getAgora());
+         }
+         catch (Exception $e)
+         {
+             echo json_encode(array("status"  => "ko", "error_message" => $e->getMessage()));
+         }
+         finally
+         {
+             exit;
+         }
     }
 
     public function getNestedComment()
@@ -299,13 +334,19 @@ class SPODAGORA_CTRL_Ajax extends OW_ActionController
 
     public function getNestedCommentJson()
     {
-        //TODO sostituire con oauth2
-        $father_comment = SPODAGORA_BOL_Service::getInstance()->getCommentById($_REQUEST["parentId"]);
-        $raw_comments = SPODAGORA_BOL_Service::getInstance()->getNestedComment($_REQUEST["entityId"], $_REQUEST["parentId"], $_REQUEST["level"]);
-        array_unshift($raw_comments, $father_comment);
-        echo json_encode(SPODAGORA_CLASS_Tools::getInstance()->process_comment_include_datalet($raw_comments, $_REQUEST["userId"]));
-
-        exit;
+        try
+        {
+            ODE_CLASS_Tools::getInstance()->getUserFromJWT(isset($_REQUEST["jwt"]) ? $_REQUEST["jwt"] : '');
+            $father_comment = SPODAGORA_BOL_Service::getInstance()->getCommentById($_REQUEST["parentId"]);
+            $raw_comments = SPODAGORA_BOL_Service::getInstance()->getNestedComment($_REQUEST["entityId"], $_REQUEST["parentId"], $_REQUEST["level"]);
+            array_unshift($raw_comments, $father_comment);
+            echo json_encode(SPODAGORA_CLASS_Tools::getInstance()->process_comment_include_datalet($raw_comments, $_REQUEST["userId"]));
+        }
+        catch (Exception $e)
+        {
+            echo json_encode(array("status"  => "ko", "error_message" => $e->getMessage()));
+            exit;
+        }
     }
 
     public function getSearchResult(){
@@ -407,15 +448,26 @@ class SPODAGORA_CTRL_Ajax extends OW_ActionController
 
     public function getCommentsPage()
     {
-        if(empty($_REQUEST['last_id']))
-            $raw_comments = SPODAGORA_BOL_Service::getInstance()->getCommentListPaged($_REQUEST['roomId']);
-        else
-            $raw_comments = SPODAGORA_BOL_Service::getInstance()->getCommentListPaged($_REQUEST['roomId'], $_REQUEST['last_id']);
+        try
+        {
+            ODE_CLASS_Tools::getInstance()->getUserFromJWT(isset($_REQUEST["jwt"]) ? $_REQUEST["jwt"] : '');
 
-        $processed_comment = SPODAGORA_CLASS_Tools::getInstance()->process_comment_include_datalet($raw_comments, OW::getUser()->getId());
-        echo json_encode($processed_comment);
+            if(empty($_REQUEST['last_id']))
+                $raw_comments = SPODAGORA_BOL_Service::getInstance()->getCommentListPaged($_REQUEST['roomId']);
+            else
+                $raw_comments = SPODAGORA_BOL_Service::getInstance()->getCommentListPaged($_REQUEST['roomId'], $_REQUEST['last_id']);
 
-        exit;
+            $processed_comment = SPODAGORA_CLASS_Tools::getInstance()->process_comment_include_datalet($raw_comments, OW::getUser()->getId());
+            echo json_encode($processed_comment);
+        }
+        catch (Exception $e)
+        {
+            echo json_encode(array("status"  => "ko", "error_message" => $e->getMessage()));
+        }
+        finally
+        {
+            exit;
+        }
     }
 
     //Realtime
