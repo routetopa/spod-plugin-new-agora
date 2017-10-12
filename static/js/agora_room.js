@@ -676,7 +676,8 @@ AGORA.handleRealtimeNotification = function ()
                 reply_el.html(reply_text);
             }
 
-            if (AGORA.user_id != data.user_id) {
+            //if (AGORA.user_id != data.user_id) {
+            if (AGORA.user_id != data.user_id || !AGORA.agoraJS.is_sending()) {
 
                 if (data.comment_level == 0) {
                     target = $("#agora_chat_container");
@@ -687,9 +688,12 @@ AGORA.handleRealtimeNotification = function ()
                     return;
                 }
 
+                let comment_class = (AGORA.user_id != data.user_id) ? 'agora_left_comment' : 'agora_right_comment';
+
                 AGORA.agoraJS.add_rt_comment(
                     AGORA.agora_static_resource_url + 'JSSnippet/rt_comment.tpl',
-                    [data.message_id,
+                    [comment_class,
+                        data.message_id,
                         (data.sentiment == 0 ? 'neutral ' : (data.sentiment == 1 ? 'satisfied ' : 'dissatisfied ')) + data.user_avatar_css,
                         data.user_display_name,
                         data.user_url,

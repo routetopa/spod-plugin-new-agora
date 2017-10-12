@@ -15,6 +15,7 @@ agoraJs.prototype = (function(){
     var _processedUrl;
     var _preview;
     var _lock;
+    var _sending;
     var _current_mention_position;
 
     var _agora_datalet_preview;
@@ -39,6 +40,7 @@ agoraJs.prototype = (function(){
         _attachment = '';
 
         _lock = false;
+        _sending = false;
 
         _agoraCommentJS = new agoraCommentJS();
         _elem.keydown(keydown_handler);
@@ -84,6 +86,12 @@ agoraJs.prototype = (function(){
 
     var get_sentiment = function () {
         return _sentiment;
+    };
+
+    var is_sending = function () {
+        let s = _sending;
+        _sending = (_sending) ? !_sending : _sending;
+        return s;
     };
 
     var check_if_link = function(str)
@@ -224,6 +232,7 @@ agoraJs.prototype = (function(){
 
         _lock = true;
         _message = message;
+        _sending = true;
 
         /*var send_data = {
             comment: _message,
@@ -430,6 +439,10 @@ agoraJs.prototype = (function(){
 
         get_nested_comment : function () {
             return _agoraCommentJS.getNestedComment(_entityId, _parentId, _level, _endpoint_nested);
+        },
+
+        is_sending : function () {
+            return is_sending();
         }
     };
 
