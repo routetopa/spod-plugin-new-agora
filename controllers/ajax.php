@@ -347,6 +347,9 @@ class SPODAGORA_CTRL_Ajax extends OW_ActionController
             echo json_encode(array("status"  => "ko", "error_message" => $e->getMessage()));
             exit;
         }
+        finally{
+            exit;
+        }
     }
 
     public function getSearchResult(){
