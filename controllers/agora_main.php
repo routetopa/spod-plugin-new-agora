@@ -24,6 +24,9 @@ class SPODAGORA_CTRL_AgoraMain extends OW_ActionController
             }
         }
 
+        // event raised on top right menu creation
+        OW::getEventManager()->bind('console.collect_items', array($this, 'onCollectConsoleItems'));
+
         OW::getDocument()->setTitle('Agora');
         OW::getDocument()->setDescription('Agora agora');
 
@@ -142,4 +145,13 @@ class SPODAGORA_CTRL_AgoraMain extends OW_ActionController
         return $agoras;
     }
 
+    // Handle top right menu creation
+    public function onCollectConsoleItems( BASE_CLASS_ConsoleItemCollector $event )
+    {
+        if (!OW::getUser()->isAuthenticated())
+        {
+            $item = new SPODAGORA_CMP_AgoraLogIn();
+            $event->addItem($item, 0);
+        }
+    }
 }
