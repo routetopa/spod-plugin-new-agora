@@ -28,6 +28,9 @@ class SPODAGORA_CTRL_Agora extends OW_ActionController
             }
         }
 
+        // event raised on top right menu creation
+        OW::getEventManager()->bind('console.collect_items', array($this, 'onCollectConsoleItems'));
+
         $this->agoraId = $params['agora_id'];
         $this->agora = SPODAGORA_BOL_Service::getInstance()->getAgoraById($this->agoraId);
 
@@ -229,6 +232,16 @@ class SPODAGORA_CTRL_Agora extends OW_ActionController
             ));
 
             OW::getDocument()->addOnloadScript($js);
+        }
+    }
+
+    // Handle top right menu creation
+    public function onCollectConsoleItems( BASE_CLASS_ConsoleItemCollector $event )
+    {
+        if (!OW::getUser()->isAuthenticated())
+        {
+            $item = new SPODAGORA_CMP_AgoraLogIn();
+            $event->addItem($item, 0);
         }
     }
 
