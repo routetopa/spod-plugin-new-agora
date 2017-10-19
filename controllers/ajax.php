@@ -288,6 +288,7 @@ class SPODAGORA_CTRL_Ajax extends OW_ActionController
             "subject" => $_REQUEST['subject'],
             "body"    => $_REQUEST['body'],
             "html"    => $html));
+
         exit;
     }
 
@@ -345,6 +346,8 @@ class SPODAGORA_CTRL_Ajax extends OW_ActionController
         catch (Exception $e)
         {
             echo json_encode(array("status"  => "ko", "error_message" => $e->getMessage()));
+        }
+        finally{
             exit;
         }
     }
