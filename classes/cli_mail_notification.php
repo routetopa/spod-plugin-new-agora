@@ -112,8 +112,10 @@ class SPODAGORA_CLASS_CliMailNotification extends OW_Component
 
     public function sendEmailNotificationOnMention($room_id, $owner_id, $mention)
     {
-        $userService = BOL_UserService::getInstance();
+        $preference = BOL_PreferenceService::getInstance()->findPreference('elastic_mail_api_key');
+        $this->api_key = empty($preference) ? "" : $preference->defaultValue;
 
+        $userService = BOL_UserService::getInstance();
 
         $room = SPODAGORA_BOL_Service::getInstance()->getAgoraById($room_id);
         $template_html = OW::getPluginManager()->getPlugin('spodagora')->getCmpViewDir() . 'email_notification_mention_template_html.html';
