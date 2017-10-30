@@ -10,3 +10,5 @@ OW::getRouter()->addRoute(new OW_Route('spodagora.old.agora', 'oldAgora', "SPODA
 
 //ADMIN
 OW::getRouter()->addRoute(new OW_Route('agora-settings', '/agora/settings', 'SPODAGORA_CTRL_Admin', 'settings'));
+
+SPODAGORA_CLASS_EventHandler::getInstance()->init();

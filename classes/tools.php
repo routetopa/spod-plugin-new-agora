@@ -1,8 +1,8 @@
 <?php
 
-class SPODAGORA_CLASS_Tools
+class SPODAGORA_CLASS_Tools extends OW_Component
 {
-    private $avatar_colors =    ['avatar_pink', 'avatar_purple', 'avatar_deeppurple', 'avatar_indigo',
+    private $avatar_colors = ['avatar_pink', 'avatar_purple', 'avatar_deeppurple', 'avatar_indigo',
                                  'avatar_lightblue', 'avatar_teal', 'avatar_lightgreen', 'avatar_lime',
                                  'avatar_yellow', 'avatar_amber', 'avatar_deeporange',
                                  'avatar_brown', 'avatar_grey', 'avatar_bluegrey'];
@@ -184,6 +184,62 @@ class SPODAGORA_CLASS_Tools
                 'user_avatar_initial' =>  $_REQUEST['user_avatar_initial'],
                 'user_url' => $_REQUEST['user_url']
         ];
+    }
+
+    public function sendEmailNotificationOnComment($room_id, $avatar)
+    {
+        $room = SPODAGORA_BOL_Service::getInstance()->getAgoraById($room_id);
+
+        $template_html = OW::getPluginManager()->getPlugin('spodagora')->getCmpViewDir() . 'email_notification_template_html.html';
+        $template_txt  = OW::getPluginManager()->getPlugin('spodagora')->getCmpViewDir() . 'email_notification_template_text.html';
+
+        $mail_html = $this->getEmailCommentContentHtml($room_id, $avatar, $room, $template_html);
+        $mail_text = $this->getEmailCommentContentText($room_id, $room, $template_txt);
+
+        return ["mail_html" => $mail_html, "mail_text" => $mail_text];
+
+    }
+
+    public function getUseIdFromUsernames($usernames)
+    {
+        $users_id = [];
+
+        foreach ($usernames as $user)
+        {
+            $users_id[] = BOL_UserService::getInstance()->findByUsername($user)->id;
+        }
+
+        return $users_id;
+    }
+
+    private function getEmailCommentContentHtml($room_id, $avatar, $room, $template)
+    {
+        //SET EMAIL TEMPLATE
+        $this->setTemplate($template);
+
+
+        $this->assign('avatar', $avatar);
+        $this->assign('agora', "<b><a href='" . OW::getRouter()->urlForRoute('spodagora.main') . "/" . $room_id . "'>" . $room->subject . "</a></b>");
+
+        return parent::render();
+    }
+
+    private function getEmailCommentContentText($room_id, $room, $template)
+    {
+        //SET EMAIL TEMPLATE
+        $this->setTemplate($template);
+
+        $this->assign('agora', $room->subject);
+        $this->assign('url', OW::getRouter()->urlForRoute('spodagora.main') . "/" . $room_id);
+        $this->assign('nl', '%%%nl%%%');
+        $this->assign('tab', '%%%tab%%%');
+        $this->assign('space', '%%%space%%%');
+
+        $content = parent::render();
+        $search = array('%%%nl%%%', '%%%tab%%%', '%%%space%%%');
+        $replace = array("\n", '    ', ' ');
+
+        return str_replace($search, $replace, $content);
     }
 
     private function create_datalet_code($comment)

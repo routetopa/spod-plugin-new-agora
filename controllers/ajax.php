@@ -80,25 +80,52 @@ class SPODAGORA_CTRL_Ajax extends OW_ActionController
             }
             /* ODE */
 
-            $this->send_realtime_notification($c, (empty($dt_id) ? '' : $dt_id));
+            $avatar_data = SPODAGORA_CLASS_Tools::getInstance()->get_avatar_data($user_id);
+            $this->send_realtime_notification($c, (empty($dt_id) ? '' : $dt_id), $avatar_data);
 
-            /* SEND MAIL */
+            /* SEND NOTIFICATION FOR COMMENT */
+            $notification_on_comment_mail = SPODAGORA_CLASS_Tools::getInstance()->sendEmailNotificationOnComment($_REQUEST['parentId'], $avatar_data);
 
-            $class_dir = OW::getPluginManager()->getPlugin('spodagora')->getClassesDir();
-            chdir($class_dir);
+            $data = json_encode(array('message' => $notification_on_comment_mail, 'subject' => 'Nuovo commento'));
+            $data_mobile = json_encode(array('comment' => $c));
 
-            // MAIL FOR COMMENT
-            $command = "nohup php cli_mail_notification.php {$_REQUEST['entityId']} {$c->ownerId} > /dev/null 2>/dev/null &";
-            shell_exec($command);
+            $event = new OW_Event('notification_system.add_notification', array(
+                'type'      => [SPODNOTIFICATION_CLASS_Consts::TYPE_MAIL, SPODNOTIFICATION_CLASS_Consts::TYPE_MOBILE],
+                'plugin'    => "agora",
+                "action"    => "agora_add_comment",
+                "subAction"    => "agora_add_comment_" . $_REQUEST['entityId'],
+                "targetUserId" => null,
+                'data' => [SPODNOTIFICATION_CLASS_Consts::TYPE_MAIL => $data, SPODNOTIFICATION_CLASS_Consts::TYPE_MOBILE => $data_mobile, 'owner_id' => $user_id]
+            ));
 
-            // MAIL FOR MENTION
+            OW::getEventManager()->trigger($event);
+
+            /* SEND NOTIFICATION FOR MENTION */
             if(!empty($mt))
             {
-                $username = implode(",", $mt);
+                /*$username = implode(",", $mt);
                 $command = "nohup php cli_mail_notification.php {$_REQUEST['entityId']} {$c->ownerId} {$username} > /dev/null 2>/dev/null &";
-                shell_exec($command);
+                shell_exec($command);*/
+
+                $notification_on_mention_mail = 'SEI STATO MENZIONATO';//SPODAGORA_CLASS_Tools::getInstance()->sendEmailNotificationOnComment($_REQUEST['parentId'], $avatar_data);
+
+                foreach (SPODAGORA_CLASS_Tools::getInstance()->getUseIdFromUsernames($mt) as $mentioned_user_id)
+                {
+                    $data = json_encode(array('message' => $notification_on_mention_mail, 'subject' => 'Mention'));
+                    $data_mobile = json_encode(array('comment' => $c));
+
+                    $event = new OW_Event('notification_system.add_notification', array(
+                        'type'      => [SPODNOTIFICATION_CLASS_Consts::TYPE_MAIL, SPODNOTIFICATION_CLASS_Consts::TYPE_MOBILE],
+                        'plugin'    => "agora",
+                        "action"    => "agora_mention",
+                        "subAction"    => "agora_mention",
+                        "targetUserId" => $mentioned_user_id,
+                        'data' => [SPODNOTIFICATION_CLASS_Consts::TYPE_MAIL => $data, SPODNOTIFICATION_CLASS_Consts::TYPE_MOBILE => $data_mobile]
+                    ));
+
+                    OW::getEventManager()->trigger($event);
+                }
             }
-            /* SEND MAIL */
 
             if (!empty($c->id))
                 echo json_encode(array("result" => "ok", "post_id" => $c->id, "datalet_id" => (empty($dt_id) ? '' : $dt_id), "comment" => $c->comment));
@@ -474,14 +501,12 @@ class SPODAGORA_CTRL_Ajax extends OW_ActionController
     }
 
     //Realtime
-    private function send_realtime_notification($comment, $dataletId)
+    private function send_realtime_notification($comment, $dataletId, $avatar_data)
     {
         try
         {
             $client = new Client(new Version1X('http://localhost:3000/realtime_notification'));
             $client->initialize();
-
-            $avatar_data = SPODAGORA_CLASS_Tools::getInstance()->get_avatar_data($comment->ownerId);
 
             $client->emit('realtime_notification',
                 ['plugin' => 'agora',

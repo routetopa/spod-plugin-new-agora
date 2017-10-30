@@ -1,24 +1,10 @@
 <div>
-    <p>
-        {text key="spodagora+email_html_head" userName=$user}
-    </p>
-    <p>
-        {text key="spodagora+email_html_description"}
-    </p>
-    <div>
-        {$avatar.title}
+        {$avatar['username']}
         <div style="width: 40px; height: 40px; border-radius: 50%; overflow: hidden; display: inline-block;">
-            <a href="{$avatar.url}" title="{$avatar.title}">
-                <img width="40" height="40" src="{$avatar.src}">
+            <a href="{$avatar['user_url']}" title="{$avatar['username']}">
+                <img width="40" height="40" src="{$avatar['user_avatar_src']}">
             </a>
         </div>
         {text key="spodagora+email_html_comment" agoraSubject=$agora}
     </div>
-
-    <p>
-        {$time|simple_date:$time:true}
-    </p>
-    <p>
-        {text key="notifications+email_html_bottom"}
-    </p>
 </div>
