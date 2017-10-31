@@ -21,40 +21,24 @@ class SPODAGORA_CLASS_EventHandler
 
     public function onCollectNotificationActions( BASE_CLASS_EventCollector $e )
     {
+
         $e->add(array(
-            'section' => 'agora',
-            'action'  => 'new_agora',
-            'description' => 'creazione nuova agora',
+            'section' => SPODAGORA_CLASS_Const::PLUGIN_NAME,
+            'action'  => SPODAGORA_CLASS_Const::PLUGIN_ACTION_ADD_COMMENT,
+            'description' => 'New comment added',
             'selected' => false,
-            'sectionLabel' => 'Agora',
+            'sectionLabel' => SPODAGORA_CLASS_Const::PLUGIN_NAME,
+            'sectionIcon' => 'ow_ic_write'
+            ));
+
+        $e->add(array(
+            'section' => SPODAGORA_CLASS_Const::PLUGIN_NAME,
+            'action'  => SPODAGORA_CLASS_Const::PLUGIN_ACTION_MENTION,
+            'description' => 'Mention',
+            'selected' => false,
+            'sectionLabel' => SPODAGORA_CLASS_Const::PLUGIN_NAME,
             'sectionIcon' => 'ow_ic_write'
         ));
 
-        $e->add(array(
-            'section' => 'agora',
-            'action'  => 'agora_new_comment',
-            'description' => 'nuovo commento',
-            'selected' => false,
-            'sectionLabel' => 'Agora',
-            'sectionIcon' => 'ow_ic_write'
-        ));
-
-        $e->add(array(
-            'section' => 'agora',
-            'action'  => 'mention',
-            'description' => 'mention',
-            'selected' => false,
-            'sectionLabel' => 'Agora',
-            'sectionIcon' => 'ow_ic_write'
-        ));
-
-        $e->add(array(
-            'section' => 'agora',
-            'action'  => 'reply',
-            'description' => 'reply',
-            'selected' => false,
-            'sectionLabel' => 'Agora',
-            'sectionIcon' => 'ow_ic_write'
-        ));
     }
 }

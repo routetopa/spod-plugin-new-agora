@@ -107,7 +107,8 @@ class SPODAGORA_CTRL_Agora extends OW_ActionController
         $this->assign('unread_comments_count', count($raw_unread_comments));
         $this->assign('unread_comments', $this->process_unread_comment($raw_unread_comments));
 
-        $notification = SPODAGORA_BOL_Service::getInstance()->getUserNotification($this->agoraId, OW::getUser()->getId());
+        //$notification = SPODAGORA_BOL_Service::getInstance()->getUserNotification($this->agoraId, OW::getUser()->getId());
+        $notification = SPODNOTIFICATION_BOL_Service::getInstance()->getRegistredByAction(SPODAGORA_CLASS_Const::PLUGIN_SUB_ACTION_ADD_COMMENT . $this->agoraId, OW::getUser()->getId());
         $this->assign('user_notification', empty($notification) ? '' : 'checked');
 
         // Friends

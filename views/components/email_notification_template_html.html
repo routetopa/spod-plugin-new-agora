@@ -1,10 +1,9 @@
 <div>
-        {$avatar['username']}
-        <div style="width: 40px; height: 40px; border-radius: 50%; overflow: hidden; display: inline-block;">
-            <a href="{$avatar['user_url']}" title="{$avatar['username']}">
-                <img width="40" height="40" src="{$avatar['user_avatar_src']}">
-            </a>
-        </div>
-        {text key="spodagora+email_html_comment" agoraSubject=$agora}
+    {$avatar['username']}
+    <div style="width: 40px; height: 40px; border-radius: 50%; overflow: hidden; display: inline-block;">
+        <a href="{$avatar['user_url']}" title="{$avatar['username']}">
+            <img width="40" height="40" src="{$avatar['user_avatar_src']}">
+        </a>
     </div>
+    {text key="spodagora+email_html_comment" agoraSubject=$agora}
 </div>

@@ -86,16 +86,27 @@ class SPODAGORA_CTRL_Ajax extends OW_ActionController
             /* SEND NOTIFICATION FOR COMMENT */
             $notification_on_comment_mail = SPODAGORA_CLASS_Tools::getInstance()->sendEmailNotificationOnComment($_REQUEST['parentId'], $avatar_data);
 
-            $data = json_encode(array('message' => $notification_on_comment_mail, 'subject' => 'Nuovo commento'));
-            $data_mobile = json_encode(array('comment' => $c));
-
             $event = new OW_Event('notification_system.add_notification', array(
-                'type'      => [SPODNOTIFICATION_CLASS_Consts::TYPE_MAIL, SPODNOTIFICATION_CLASS_Consts::TYPE_MOBILE],
-                'plugin'    => "agora",
-                "action"    => "agora_add_comment",
-                "subAction"    => "agora_add_comment_" . $_REQUEST['entityId'],
-                "targetUserId" => null,
-                'data' => [SPODNOTIFICATION_CLASS_Consts::TYPE_MAIL => $data, SPODNOTIFICATION_CLASS_Consts::TYPE_MOBILE => $data_mobile, 'owner_id' => $user_id]
+                'notifications' => [
+                    new SPODNOTIFICATION_CLASS_MailEventNotification(
+                            SPODAGORA_CLASS_Const::PLUGIN_NAME,
+                            SPODAGORA_CLASS_Const::PLUGIN_ACTION_ADD_COMMENT,
+                            SPODAGORA_CLASS_Const::PLUGIN_SUB_ACTION_ADD_COMMENT . $_REQUEST['entityId'],
+                            null,
+                            'New comment',
+                            $notification_on_comment_mail['mail_html'],
+                            $notification_on_comment_mail['mail_text']
+                    )/*,
+                    new SPODNOTIFICATION_CLASS_MobileEventNotification(
+                        SPODAGORA_CLASS_Const::PLUGIN_NAME,
+                        SPODAGORA_CLASS_Const::PLUGIN_ACTION_ADD_COMMENT,
+                        SPODAGORA_CLASS_Const::PLUGIN_SUB_ACTION_ADD_COMMENT . $_REQUEST['entityId'],
+                        null,
+                        'Agora',
+                        $notification_on_comment_mail['mail_html'],
+                        ['comment' => $c]
+                    )*/
+                ]
             ));
 
             OW::getEventManager()->trigger($event);
@@ -103,24 +114,31 @@ class SPODAGORA_CTRL_Ajax extends OW_ActionController
             /* SEND NOTIFICATION FOR MENTION */
             if(!empty($mt))
             {
-                /*$username = implode(",", $mt);
-                $command = "nohup php cli_mail_notification.php {$_REQUEST['entityId']} {$c->ownerId} {$username} > /dev/null 2>/dev/null &";
-                shell_exec($command);*/
-
-                $notification_on_mention_mail = 'SEI STATO MENZIONATO';//SPODAGORA_CLASS_Tools::getInstance()->sendEmailNotificationOnComment($_REQUEST['parentId'], $avatar_data);
+                $notification_on_mention_mail = SPODAGORA_CLASS_Tools::getInstance()->sendEmailNotificationOnMention($_REQUEST['parentId'], $avatar_data);
 
                 foreach (SPODAGORA_CLASS_Tools::getInstance()->getUseIdFromUsernames($mt) as $mentioned_user_id)
                 {
-                    $data = json_encode(array('message' => $notification_on_mention_mail, 'subject' => 'Mention'));
-                    $data_mobile = json_encode(array('comment' => $c));
-
                     $event = new OW_Event('notification_system.add_notification', array(
-                        'type'      => [SPODNOTIFICATION_CLASS_Consts::TYPE_MAIL, SPODNOTIFICATION_CLASS_Consts::TYPE_MOBILE],
-                        'plugin'    => "agora",
-                        "action"    => "agora_mention",
-                        "subAction"    => "agora_mention",
-                        "targetUserId" => $mentioned_user_id,
-                        'data' => [SPODNOTIFICATION_CLASS_Consts::TYPE_MAIL => $data, SPODNOTIFICATION_CLASS_Consts::TYPE_MOBILE => $data_mobile]
+                        'notifications' => [
+                            new SPODNOTIFICATION_CLASS_MailEventNotification(
+                                SPODAGORA_CLASS_Const::PLUGIN_NAME,
+                                SPODAGORA_CLASS_Const::PLUGIN_ACTION_MENTION,
+                                SPODAGORA_CLASS_Const::PLUGIN_ACTION_MENTION,
+                                $mentioned_user_id,
+                                'Mention',
+                                $notification_on_mention_mail['mail_html'],
+                                $notification_on_mention_mail['mail_text']
+                            )/*,
+                                new SPODNOTIFICATION_CLASS_MobileEventNotification(
+                                    SPODAGORA_CLASS_Const::PLUGIN_NAME,
+                                    SPODAGORA_CLASS_Const::PLUGIN_ACTION_ADD_COMMENT,
+                                    SPODAGORA_CLASS_Const::PLUGIN_SUB_ACTION_ADD_COMMENT . $_REQUEST['entityId'],
+                                    null,
+                                    'Agora',
+                                    $notification_on_comment_mail['mail_html'],
+                                    ['comment' => $c]
+                                )*/
+                        ]
                     ));
 
                     OW::getEventManager()->trigger($event);
@@ -310,6 +328,32 @@ class SPODAGORA_CTRL_Ajax extends OW_ActionController
         $html_cmp = new SPODAGORA_CMP_AgoraAddRoom($id, $_REQUEST['subject'], $_REQUEST['body']);
         $html = $html_cmp->render();
 
+        $event = new OW_Event('notification_system.add_notification', array(
+            'notifications' => [
+                new SPODNOTIFICATION_CLASS_MailEventNotification(
+                    SPODAGORA_CLASS_Const::PLUGIN_NAME,
+                    SPODAGORA_CLASS_Const::PLUGIN_ACTION_NEW_ROOM,
+                    SPODAGORA_CLASS_Const::PLUGIN_ACTION_NEW_ROOM,
+                    null,
+                    'Nuova stanza',
+                    $notification_on_comment_mail['mail_html'],
+                    $notification_on_comment_mail['mail_text']
+                )/*,
+                    new SPODNOTIFICATION_CLASS_MobileEventNotification(
+                        SPODAGORA_CLASS_Const::PLUGIN_NAME,
+                        SPODAGORA_CLASS_Const::PLUGIN_ACTION_ADD_COMMENT,
+                        SPODAGORA_CLASS_Const::PLUGIN_SUB_ACTION_ADD_COMMENT . $_REQUEST['entityId'],
+                        null,
+                        'Agora',
+                        $notification_on_comment_mail['mail_html'],
+                        ['comment' => $c]
+                    )*/
+            ]
+        ));
+
+        OW::getEventManager()->trigger($event);
+
+
         echo json_encode(array("status"  => "ok",
             "id"      => $id,
             "subject" => $_REQUEST['subject'],
@@ -448,10 +492,25 @@ class SPODAGORA_CTRL_Ajax extends OW_ActionController
 
     public function handleUserNotification()
     {
-        if($_REQUEST['addUserNotification'] == "true")
-            SPODAGORA_BOL_Service::getInstance()->addUserNotification($_REQUEST['roomId'], OW::getUser()->getId());
-        else
-            SPODAGORA_BOL_Service::getInstance()->removeUserNotification($_REQUEST['roomId'], OW::getUser()->getId());
+        if($_REQUEST['addUserNotification'] == "true") {
+            SPODNOTIFICATION_BOL_Service::getInstance()->registerUserForNotification(
+                OW::getUser()->getId(),
+                SPODAGORA_CLASS_Const::PLUGIN_NAME,
+                SPODNOTIFICATION_CLASS_MailEventNotification::$TYPE,
+                SPODAGORA_CLASS_Const::PLUGIN_SUB_ACTION_ADD_COMMENT . $_REQUEST['roomId'],
+                SPODNOTIFICATION_CLASS_Consts::FREQUENCY_IMMEDIATELY
+                );
+            //SPODAGORA_BOL_Service::getInstance()->addUserNotification($_REQUEST['roomId'], OW::getUser()->getId());
+        }
+        else {
+            SPODNOTIFICATION_BOL_Service::getInstance()->deleteUserForNotification(
+                OW::getUser()->getId(),
+                SPODAGORA_CLASS_Const::PLUGIN_NAME,
+                SPODNOTIFICATION_CLASS_MailEventNotification::$TYPE,
+                SPODAGORA_CLASS_Const::PLUGIN_SUB_ACTION_ADD_COMMENT . $_REQUEST['roomId']
+            );
+            //SPODAGORA_BOL_Service::getInstance()->removeUserNotification($_REQUEST['roomId'], OW::getUser()->getId());
+        }
 
         echo json_encode(array("status"  => "ok"));
         exit;
