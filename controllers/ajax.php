@@ -500,7 +500,8 @@ class SPODAGORA_CTRL_Ajax extends OW_ActionController
                 SPODAGORA_CLASS_Const::PLUGIN_NAME,
                 SPODNOTIFICATION_CLASS_MailEventNotification::$TYPE,
                 SPODAGORA_CLASS_Const::PLUGIN_SUB_ACTION_ADD_COMMENT . $_REQUEST['roomId'],
-                SPODNOTIFICATION_CLASS_Consts::FREQUENCY_IMMEDIATELY
+                SPODNOTIFICATION_CLASS_Consts::FREQUENCY_IMMEDIATELY,
+                SPODAGORA_CLASS_Const::PLUGIN_ACTION_ADD_COMMENT
                 );
             //SPODAGORA_BOL_Service::getInstance()->addUserNotification($_REQUEST['roomId'], OW::getUser()->getId());
         }
