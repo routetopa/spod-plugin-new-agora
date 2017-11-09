@@ -84,7 +84,9 @@ class SPODAGORA_CTRL_Ajax extends OW_ActionController
             $this->send_realtime_notification($c, (empty($dt_id) ? '' : $dt_id), $avatar_data);
 
             /* SEND NOTIFICATION FOR COMMENT */
-            $notification_on_comment_mail = SPODAGORA_CLASS_Tools::getInstance()->sendEmailNotificationOnComment($_REQUEST['parentId'], $avatar_data);
+            $notification_on_comment_mail = SPODAGORA_CLASS_Tools::getInstance()->sendEmailNotificationOnComment($_REQUEST['parentId'], $avatar_data, $comment, (empty($dt_id) ? null : $dt_id));
+
+            $room = SPODAGORA_BOL_Service::getInstance()->getAgoraById($_REQUEST['parentId']);
 
             $event = new OW_Event('notification_system.add_notification', array(
                 'notifications' => [
@@ -93,7 +95,7 @@ class SPODAGORA_CTRL_Ajax extends OW_ActionController
                             SPODAGORA_CLASS_Const::PLUGIN_ACTION_ADD_COMMENT,
                             SPODAGORA_CLASS_Const::PLUGIN_SUB_ACTION_ADD_COMMENT . $_REQUEST['entityId'],
                             null,
-                            'New comment',
+                            OW::getLanguage()->text('spodnotification', 'agora_new_comment', array("user_name" => $avatar_data['username'], "agora_subject" => $room->subject)),
                             $notification_on_comment_mail['mail_html'],
                             $notification_on_comment_mail['mail_text']
                     )/*,
@@ -114,7 +116,7 @@ class SPODAGORA_CTRL_Ajax extends OW_ActionController
             /* SEND NOTIFICATION FOR MENTION */
             if(!empty($mt))
             {
-                $notification_on_mention_mail = SPODAGORA_CLASS_Tools::getInstance()->sendEmailNotificationOnMention($_REQUEST['parentId'], $avatar_data);
+                $notification_on_mention_mail = SPODAGORA_CLASS_Tools::getInstance()->sendEmailNotificationOnMention($_REQUEST['parentId'], $avatar_data, $comment);
 
                 foreach (SPODAGORA_CLASS_Tools::getInstance()->getUseIdFromUsernames($mt) as $mentioned_user_id)
                 {
@@ -125,7 +127,7 @@ class SPODAGORA_CTRL_Ajax extends OW_ActionController
                                 SPODAGORA_CLASS_Const::PLUGIN_ACTION_MENTION,
                                 SPODAGORA_CLASS_Const::PLUGIN_ACTION_MENTION,
                                 $mentioned_user_id,
-                                'Mention',
+                                OW::getLanguage()->text('spodnotification', 'agora_new_mention', array("user_name" => $avatar_data['username'], "agora_subject" => $room->subject)),
                                 $notification_on_mention_mail['mail_html'],
                                 $notification_on_mention_mail['mail_text']
                             )/*,
