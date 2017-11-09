@@ -28,8 +28,29 @@ class SPODAGORA_CLASS_EventHandler
             'description' => 'New comment added',
             'selected' => false,
             'sectionLabel' => SPODAGORA_CLASS_Const::PLUGIN_NAME,
-            'sectionIcon' => 'ow_ic_write'
+            'sectionIcon' => 'ow_ic_write',
+            'sectionClass' => 'action'
             ));
+
+        $sub_actions = SPODNOTIFICATION_BOL_Service::getInstance()->isUserRegisteredForSubAction(OW::getUser()->getId(),
+                                                                                                SPODAGORA_CLASS_Const::PLUGIN_NAME,
+                                                                                                SPODAGORA_CLASS_Const::PLUGIN_ACTION_ADD_COMMENT);
+        foreach ($sub_actions as $sub_action)
+        {
+            preg_match_all('!\d+!', $sub_action->action, $agora_id);
+            $agora = SPODAGORA_BOL_Service::getInstance()->getAgoraById($agora_id[0][0]);
+
+            $e->add(array(
+                'section' => SPODAGORA_CLASS_Const::PLUGIN_NAME,
+                'action'  => $sub_action->action,
+                'description' => 'New comment added for room : ' . $agora->subject,
+                'selected' => false,
+                'sectionLabel' => SPODAGORA_CLASS_Const::PLUGIN_NAME,
+                'sectionIcon' => 'ow_ic_write',
+                'sectionClass' => 'subAction',
+                'parentAction' => $sub_action->parentAction
+            ));
+        }
 
         $e->add(array(
             'section' => SPODAGORA_CLASS_Const::PLUGIN_NAME,
@@ -37,7 +58,8 @@ class SPODAGORA_CLASS_EventHandler
             'description' => 'Mention',
             'selected' => false,
             'sectionLabel' => SPODAGORA_CLASS_Const::PLUGIN_NAME,
-            'sectionIcon' => 'ow_ic_write'
+            'sectionIcon' => 'ow_ic_write',
+            'sectionClass' => 'action'
         ));
 
     }
