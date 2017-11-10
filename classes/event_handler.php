@@ -34,7 +34,8 @@ class SPODAGORA_CLASS_EventHandler
 
         $sub_actions = SPODNOTIFICATION_BOL_Service::getInstance()->isUserRegisteredForSubAction(OW::getUser()->getId(),
                                                                                                 SPODAGORA_CLASS_Const::PLUGIN_NAME,
-                                                                                                SPODAGORA_CLASS_Const::PLUGIN_ACTION_ADD_COMMENT);
+                                                                                                SPODAGORA_CLASS_Const::PLUGIN_ACTION_ADD_COMMENT,
+                                                                                                SPODNOTIFICATION_CLASS_MailEventNotification::$TYPE);
         foreach ($sub_actions as $sub_action)
         {
             preg_match_all('!\d+!', $sub_action->action, $agora_id);
@@ -56,6 +57,26 @@ class SPODAGORA_CLASS_EventHandler
             'section' => SPODAGORA_CLASS_Const::PLUGIN_NAME,
             'action'  => SPODAGORA_CLASS_Const::PLUGIN_ACTION_MENTION,
             'description' => 'Mention',
+            'selected' => false,
+            'sectionLabel' => SPODAGORA_CLASS_Const::PLUGIN_NAME,
+            'sectionIcon' => 'ow_ic_write',
+            'sectionClass' => 'action'
+        ));
+
+        $e->add(array(
+            'section' => SPODAGORA_CLASS_Const::PLUGIN_NAME,
+            'action'  => SPODAGORA_CLASS_Const::PLUGIN_ACTION_NEW_ROOM,
+            'description' => 'New room',
+            'selected' => false,
+            'sectionLabel' => SPODAGORA_CLASS_Const::PLUGIN_NAME,
+            'sectionIcon' => 'ow_ic_write',
+            'sectionClass' => 'action'
+        ));
+
+        $e->add(array(
+            'section' => SPODAGORA_CLASS_Const::PLUGIN_NAME,
+            'action'  => SPODAGORA_CLASS_Const::PLUGIN_ACTION_REPLY,
+            'description' => 'Reply to my post',
             'selected' => false,
             'sectionLabel' => SPODAGORA_CLASS_Const::PLUGIN_NAME,
             'sectionIcon' => 'ow_ic_write',
