@@ -193,7 +193,7 @@ class SPODAGORA_CLASS_Tools extends OW_Component
         $template_html = OW::getPluginManager()->getPlugin('spodagora')->getCmpViewDir() . 'email_notification_template_html.html';
         $template_txt  = OW::getPluginManager()->getPlugin('spodagora')->getCmpViewDir() . 'email_notification_template_text.html';
 
-        $mail_html = $this->getEmailContentHtml($room_id, $avatar, $room->subject, $room->body, $template_html, 'agora_new_mention', $comment, $datalet_id);
+        $mail_html = $this->getEmailContentHtml($room_id, $avatar, $room->subject, $room->body, $template_html, 'email_new_comment', $comment, $datalet_id);
         $mail_text = $this->getEmailContentText($room_id, $room->subject, $template_txt);
 
         return ["mail_html" => $mail_html, "mail_text" => $mail_text];
@@ -206,7 +206,7 @@ class SPODAGORA_CLASS_Tools extends OW_Component
         $template_html = OW::getPluginManager()->getPlugin('spodagora')->getCmpViewDir() . 'email_notification_template_html.html';
         $template_txt  = OW::getPluginManager()->getPlugin('spodagora')->getCmpViewDir() . 'email_notification_template_text.html';
 
-        $mail_html = $this->getEmailContentHtml($room_id, $avatar, $room->subject, $room->body, $template_html, 'agora_mention', $comment, $datalet_id);
+        $mail_html = $this->getEmailContentHtml($room_id, $avatar, $room->subject, $room->body, $template_html, 'email_mention', $comment, $datalet_id);
         $mail_text = $this->getEmailContentText($room_id, $room->subject, $template_txt);
 
         return ["mail_html" => $mail_html, "mail_text" => $mail_text];
@@ -217,7 +217,7 @@ class SPODAGORA_CLASS_Tools extends OW_Component
         $template_html = OW::getPluginManager()->getPlugin('spodagora')->getCmpViewDir() . 'email_notification_template_html.html';
         $template_txt  = OW::getPluginManager()->getPlugin('spodagora')->getCmpViewDir() . 'email_notification_template_text.html';
 
-        $mail_html = $this->getEmailContentHtml($room_id, $avatar, $subject, $body, $template_html, 'agora_new_room', '', '');
+        $mail_html = $this->getEmailContentHtml($room_id, $avatar, $subject, $body, $template_html, 'email_new_room', '', '');
         $mail_text = $this->getEmailContentText($room_id, $subject, $template_txt);
 
         return ["mail_html" => $mail_html, "mail_text" => $mail_text];
@@ -230,7 +230,7 @@ class SPODAGORA_CLASS_Tools extends OW_Component
         $template_html = OW::getPluginManager()->getPlugin('spodagora')->getCmpViewDir() . 'email_notification_template_html.html';
         $template_txt  = OW::getPluginManager()->getPlugin('spodagora')->getCmpViewDir() . 'email_notification_template_text.html';
 
-        $mail_html = $this->getEmailContentHtml($room_id, $avatar, $room->subject, $room->body, $template_html, 'agora_reply', $comment, $datalet_id);
+        $mail_html = $this->getEmailContentHtml($room_id, $avatar, $room->subject, $room->body, $template_html, 'email_reply', $comment, $datalet_id);
         $mail_text = $this->getEmailContentText($room_id, $room->subject, $template_txt);
 
         return ["mail_html" => $mail_html, "mail_text" => $mail_text];

@@ -95,7 +95,7 @@ class SPODAGORA_CTRL_Ajax extends OW_ActionController
                             SPODAGORA_CLASS_Const::PLUGIN_ACTION_ADD_COMMENT,
                             SPODAGORA_CLASS_Const::PLUGIN_SUB_ACTION_ADD_COMMENT . $_REQUEST['entityId'],
                             null,
-                            OW::getLanguage()->text('spodnotification', 'agora_new_comment', array("user_name" => $avatar_data['username'], "agora_subject" => $room->subject)),
+                            OW::getLanguage()->text('spodagora', 'email_new_comment', array("user_name" => $avatar_data['username'], "agora_subject" => $room->subject)),
                             $notification_on_comment_mail['mail_html'],
                             $notification_on_comment_mail['mail_text']
                     )/*,
@@ -127,7 +127,7 @@ class SPODAGORA_CTRL_Ajax extends OW_ActionController
                                 SPODAGORA_CLASS_Const::PLUGIN_ACTION_MENTION,
                                 SPODAGORA_CLASS_Const::PLUGIN_ACTION_MENTION,
                                 $mentioned_user_id,
-                                OW::getLanguage()->text('spodnotification', 'agora_new_mention', array("user_name" => $avatar_data['username'], "agora_subject" => $room->subject)),
+                                OW::getLanguage()->text('spodagora', 'email_mention', array("user_name" => $avatar_data['username'], "agora_subject" => $room->subject)),
                                 $notification_on_mention_mail['mail_html'],
                                 $notification_on_mention_mail['mail_text']
                             )/*,
@@ -160,7 +160,7 @@ class SPODAGORA_CTRL_Ajax extends OW_ActionController
                                 SPODAGORA_CLASS_Const::PLUGIN_ACTION_REPLY,
                                 SPODAGORA_CLASS_Const::PLUGIN_ACTION_REPLY,
                                 $comment->ownerId,
-                                OW::getLanguage()->text('spodnotification', 'agora_new_reply', array("user_name" => $avatar_data['username'], "agora_subject" => $room->subject)),
+                                OW::getLanguage()->text('spodagora', 'email_reply', array("user_name" => $avatar_data['username'], "agora_subject" => $room->subject)),
                                 $notification_on_reply_mail['mail_html'],
                                 $notification_on_reply_mail['mail_text']
                             )/*,
@@ -372,7 +372,7 @@ class SPODAGORA_CTRL_Ajax extends OW_ActionController
                     SPODAGORA_CLASS_Const::PLUGIN_ACTION_NEW_ROOM,
                     SPODAGORA_CLASS_Const::PLUGIN_ACTION_NEW_ROOM,
                     null,
-                    OW::getLanguage()->text('spodnotification', 'agora_new_room', array("user_name" => $avatar_data['username'], "agora_subject" => $_REQUEST['subject'])),
+                    OW::getLanguage()->text('spodagora', 'email_new_room', array("user_name" => $avatar_data['username'], "agora_subject" => $_REQUEST['subject'])),
                     $notification_on_new_room_mail['mail_html'],
                     $notification_on_new_room_mail['mail_text']
                 )/*,
