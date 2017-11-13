@@ -84,9 +84,8 @@ class SPODAGORA_CTRL_Ajax extends OW_ActionController
             $this->send_realtime_notification($c, (empty($dt_id) ? '' : $dt_id), $avatar_data);
 
             /* SEND NOTIFICATION FOR COMMENT */
-            $notification_on_comment_mail = SPODAGORA_CLASS_Tools::getInstance()->sendEmailNotificationOnComment($_REQUEST['parentId'], $avatar_data, $comment, (empty($dt_id) ? null : $dt_id));
-
-            $room = SPODAGORA_BOL_Service::getInstance()->getAgoraById($_REQUEST['parentId']);
+            $room = SPODAGORA_BOL_Service::getInstance()->getAgoraById($_REQUEST['entityId']);
+            $notification_on_comment_mail = SPODAGORA_CLASS_Tools::getInstance()->sendEmailNotificationOnComment($room, $avatar_data, $comment, (empty($dt_id) ? null : $dt_id));
 
             $event = new OW_Event('notification_system.add_notification', array(
                 'notifications' => [
@@ -116,7 +115,7 @@ class SPODAGORA_CTRL_Ajax extends OW_ActionController
             /* SEND NOTIFICATION FOR MENTION */
             if(!empty($mt))
             {
-                $notification_on_mention_mail = SPODAGORA_CLASS_Tools::getInstance()->sendEmailNotificationOnMention($_REQUEST['parentId'], $avatar_data, $comment, (empty($dt_id) ? null : $dt_id));
+                $notification_on_mention_mail = SPODAGORA_CLASS_Tools::getInstance()->sendEmailNotificationOnMention($room, $avatar_data, $comment, (empty($dt_id) ? null : $dt_id));
 
                 foreach (SPODAGORA_CLASS_Tools::getInstance()->getUseIdFromUsernames($mt) as $mentioned_user_id)
                 {
@@ -150,8 +149,8 @@ class SPODAGORA_CTRL_Ajax extends OW_ActionController
             /* SEND NOTIFICATION REPLY */
             if($_REQUEST['level'] > 0)
             {
-                $comment = SPODAGORA_BOL_Service::getInstance()->getCommentById($_REQUEST['parentId']);
-                $notification_on_reply_mail = SPODAGORA_CLASS_Tools::getInstance()->sendEmailNotificationOnReply($_REQUEST['parentId'], $avatar_data, $comment, (empty($dt_id) ? null : $dt_id));
+                $parent_comment = SPODAGORA_BOL_Service::getInstance()->getCommentById($_REQUEST['parentId']);
+                $notification_on_reply_mail = SPODAGORA_CLASS_Tools::getInstance()->sendEmailNotificationOnReply($room, $avatar_data, $comment, (empty($dt_id) ? null : $dt_id));
 
                 $event = new OW_Event('notification_system.add_notification', array(
                         'notifications' => [
@@ -159,7 +158,7 @@ class SPODAGORA_CTRL_Ajax extends OW_ActionController
                                 SPODAGORA_CLASS_Const::PLUGIN_NAME,
                                 SPODAGORA_CLASS_Const::PLUGIN_ACTION_REPLY,
                                 SPODAGORA_CLASS_Const::PLUGIN_ACTION_REPLY,
-                                $comment->ownerId,
+                                $parent_comment->ownerId,
                                 OW::getLanguage()->text('spodagora', 'email_reply', array("user_name" => $avatar_data['username'], "agora_subject" => $room->subject)),
                                 $notification_on_reply_mail['mail_html'],
                                 $notification_on_reply_mail['mail_text']

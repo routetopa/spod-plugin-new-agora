@@ -186,28 +186,35 @@ class SPODAGORA_CLASS_Tools extends OW_Component
         ];
     }
 
-    public function sendEmailNotificationOnComment($room_id, $avatar, $comment, $datalet_id)
+    public function sendEmailNotificationOnComment($room, $avatar, $comment, $datalet_id)
     {
-        $room = SPODAGORA_BOL_Service::getInstance()->getAgoraById($room_id);
-
         $template_html = OW::getPluginManager()->getPlugin('spodagora')->getCmpViewDir() . 'email_notification_template_html.html';
         $template_txt  = OW::getPluginManager()->getPlugin('spodagora')->getCmpViewDir() . 'email_notification_template_text.html';
 
-        $mail_html = $this->getEmailContentHtml($room_id, $avatar, $room->subject, $room->body, $template_html, 'email_new_comment', $comment, $datalet_id);
-        $mail_text = $this->getEmailContentText($room_id, $room->subject, $template_txt);
+        $mail_html = $this->getEmailContentHtml($room->id, $avatar, $room->subject, $room->body, $template_html, 'email_new_comment', $comment, $datalet_id);
+        $mail_text = $this->getEmailContentText($room->id, $room->subject, $template_txt);
 
         return ["mail_html" => $mail_html, "mail_text" => $mail_text];
     }
 
-    public function sendEmailNotificationOnMention($room_id, $avatar, $comment, $datalet_id)
+    public function sendEmailNotificationOnMention($room, $avatar, $comment, $datalet_id)
     {
-        $room = SPODAGORA_BOL_Service::getInstance()->getAgoraById($room_id);
-
         $template_html = OW::getPluginManager()->getPlugin('spodagora')->getCmpViewDir() . 'email_notification_template_html.html';
         $template_txt  = OW::getPluginManager()->getPlugin('spodagora')->getCmpViewDir() . 'email_notification_template_text.html';
 
-        $mail_html = $this->getEmailContentHtml($room_id, $avatar, $room->subject, $room->body, $template_html, 'email_mention', $comment, $datalet_id);
-        $mail_text = $this->getEmailContentText($room_id, $room->subject, $template_txt);
+        $mail_html = $this->getEmailContentHtml($room->id, $avatar, $room->subject, $room->body, $template_html, 'email_mention', $comment, $datalet_id);
+        $mail_text = $this->getEmailContentText($room->id, $room->subject, $template_txt);
+
+        return ["mail_html" => $mail_html, "mail_text" => $mail_text];
+    }
+
+    public function sendEmailNotificationOnReply($room, $avatar, $comment, $datalet_id)
+    {
+        $template_html = OW::getPluginManager()->getPlugin('spodagora')->getCmpViewDir() . 'email_notification_template_html.html';
+        $template_txt  = OW::getPluginManager()->getPlugin('spodagora')->getCmpViewDir() . 'email_notification_template_text.html';
+
+        $mail_html = $this->getEmailContentHtml($room->id, $avatar, $room->subject, $room->body, $template_html, 'email_reply', $comment, $datalet_id);
+        $mail_text = $this->getEmailContentText($room->id, $room->subject, $template_txt);
 
         return ["mail_html" => $mail_html, "mail_text" => $mail_text];
     }
@@ -223,33 +230,20 @@ class SPODAGORA_CLASS_Tools extends OW_Component
         return ["mail_html" => $mail_html, "mail_text" => $mail_text];
     }
 
-    public function sendEmailNotificationOnReply($room_id, $avatar, $comment, $datalet_id)
-    {
-        $room = SPODAGORA_BOL_Service::getInstance()->getAgoraById($room_id);
-
-        $template_html = OW::getPluginManager()->getPlugin('spodagora')->getCmpViewDir() . 'email_notification_template_html.html';
-        $template_txt  = OW::getPluginManager()->getPlugin('spodagora')->getCmpViewDir() . 'email_notification_template_text.html';
-
-        $mail_html = $this->getEmailContentHtml($room_id, $avatar, $room->subject, $room->body, $template_html, 'email_reply', $comment, $datalet_id);
-        $mail_text = $this->getEmailContentText($room_id, $room->subject, $template_txt);
-
-        return ["mail_html" => $mail_html, "mail_text" => $mail_text];
-    }
-
     private function getEmailContentHtml($room_id, $avatar, $roomSubject, $roomBody, $template, $languageKey, $comment, $datalet_id)
     {
+        $roomSubject = "<b><a href='" . OW::getRouter()->urlForRoute('spodagora.main') . "/" . $room_id . "'>" . $roomSubject . "</a></b>";
+
         //SET EMAIL TEMPLATE
         $this->setTemplate($template);
 
-        $this->assign('userName', "<b>" . $avatar['username'] . "</b>");
         $this->assign('comment', $comment);
         $this->assign('dataletId', $datalet_id);
         $this->assign('dataletUrl', "ow_plugins/ode/datalet_images/datalet_" . $datalet_id . ".png");
-        $this->assign('agoraSubject', "<b><a href='" . OW::getRouter()->urlForRoute('spodagora.main') . "/" . $room_id . "'>" . $roomSubject . "</a></b>");
+        $this->assign('agoraSubject', $roomSubject);
         $this->assign('agoraBody', $roomBody);
         $this->assign('agoraUrl', "agora/" . $room_id);
-        $this->assign('notificationSubject', OW::getLanguage()->text('spodagora', $languageKey, array("user_name" => $avatar['username'], "agora_subject" => $roomSubject)));
-
+        $this->assign('notificationSubject', OW::getLanguage()->text('spodagora', $languageKey, array("user_name" => "<b>" . $avatar['username'] . "</b>", "agora_subject" => $roomSubject)));
 
         return parent::render();
     }
