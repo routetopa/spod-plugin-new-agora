@@ -25,7 +25,7 @@ class SPODAGORA_CLASS_EventHandler
         $e->add(array(
             'section' => SPODAGORA_CLASS_Const::PLUGIN_NAME,
             'action'  => SPODAGORA_CLASS_Const::PLUGIN_ACTION_ADD_COMMENT,
-            'description' => 'New comment added',
+            'description' => OW::getLanguage()->text('spodagora', 'email_notifications_setting_new_comment'),
             'selected' => false,
             'sectionLabel' => SPODAGORA_CLASS_Const::PLUGIN_NAME,
             'sectionIcon' => 'ow_ic_write',
@@ -44,7 +44,7 @@ class SPODAGORA_CLASS_EventHandler
             $e->add(array(
                 'section' => SPODAGORA_CLASS_Const::PLUGIN_NAME,
                 'action'  => $sub_action->action,
-                'description' => 'New comment added for room : ' . $agora->subject,
+                'description' => OW::getLanguage()->text('spodagora', 'email_notifications_setting_new_comment_in_room', array("room" => $agora->subject)),
                 'selected' => false,
                 'sectionLabel' => SPODAGORA_CLASS_Const::PLUGIN_NAME,
                 'sectionIcon' => 'ow_ic_write',
@@ -56,7 +56,7 @@ class SPODAGORA_CLASS_EventHandler
         $e->add(array(
             'section' => SPODAGORA_CLASS_Const::PLUGIN_NAME,
             'action'  => SPODAGORA_CLASS_Const::PLUGIN_ACTION_MENTION,
-            'description' => 'Mention',
+            'description' => OW::getLanguage()->text('spodagora', 'email_notifications_setting_mention'),
             'selected' => false,
             'sectionLabel' => SPODAGORA_CLASS_Const::PLUGIN_NAME,
             'sectionIcon' => 'ow_ic_write',
@@ -66,7 +66,7 @@ class SPODAGORA_CLASS_EventHandler
         $e->add(array(
             'section' => SPODAGORA_CLASS_Const::PLUGIN_NAME,
             'action'  => SPODAGORA_CLASS_Const::PLUGIN_ACTION_NEW_ROOM,
-            'description' => 'New room',
+            'description' => OW::getLanguage()->text('spodagora', 'email_notifications_setting_new_room'),
             'selected' => false,
             'sectionLabel' => SPODAGORA_CLASS_Const::PLUGIN_NAME,
             'sectionIcon' => 'ow_ic_write',
@@ -76,7 +76,7 @@ class SPODAGORA_CLASS_EventHandler
         $e->add(array(
             'section' => SPODAGORA_CLASS_Const::PLUGIN_NAME,
             'action'  => SPODAGORA_CLASS_Const::PLUGIN_ACTION_REPLY,
-            'description' => 'Reply to my post',
+            'description' => OW::getLanguage()->text('spodagora', 'email_notifications_setting_reply_my_post'),
             'selected' => false,
             'sectionLabel' => SPODAGORA_CLASS_Const::PLUGIN_NAME,
             'sectionIcon' => 'ow_ic_write',
