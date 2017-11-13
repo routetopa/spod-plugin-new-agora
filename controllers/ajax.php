@@ -97,7 +97,7 @@ class SPODAGORA_CTRL_Ajax extends OW_ActionController
                             OW::getLanguage()->text('spodagora', 'email_new_comment', array("user_name" => $avatar_data['username'], "agora_subject" => $room->subject)),
                             $notification_on_comment_mail['mail_html'],
                             $notification_on_comment_mail['mail_text']
-                    )/*,
+                    ),
                     new SPODNOTIFICATION_CLASS_MobileEventNotification(
                         SPODAGORA_CLASS_Const::PLUGIN_NAME,
                         SPODAGORA_CLASS_Const::PLUGIN_ACTION_ADD_COMMENT,
@@ -106,7 +106,7 @@ class SPODAGORA_CTRL_Ajax extends OW_ActionController
                         'Agora',
                         $notification_on_comment_mail['mail_html'],
                         ['comment' => $c]
-                    )*/
+                    )
                 ]
             ));
 
@@ -129,16 +129,16 @@ class SPODAGORA_CTRL_Ajax extends OW_ActionController
                                 OW::getLanguage()->text('spodagora', 'email_mention', array("user_name" => $avatar_data['username'], "agora_subject" => $room->subject)),
                                 $notification_on_mention_mail['mail_html'],
                                 $notification_on_mention_mail['mail_text']
-                            )/*,
+                            ),
                                 new SPODNOTIFICATION_CLASS_MobileEventNotification(
                                     SPODAGORA_CLASS_Const::PLUGIN_NAME,
-                                    SPODAGORA_CLASS_Const::PLUGIN_ACTION_ADD_COMMENT,
-                                    SPODAGORA_CLASS_Const::PLUGIN_SUB_ACTION_ADD_COMMENT . $_REQUEST['entityId'],
-                                    null,
+                                    SPODAGORA_CLASS_Const::PLUGIN_ACTION_MENTION,
+                                    SPODAGORA_CLASS_Const::PLUGIN_ACTION_MENTION,
+                                    $mentioned_user_id,
                                     'Agora',
-                                    $notification_on_comment_mail['mail_html'],
+                                    $notification_on_mention_mail['mail_html'],
                                     ['comment' => $c]
-                                )*/
+                                )
                         ]
                     ));
 
@@ -162,16 +162,16 @@ class SPODAGORA_CTRL_Ajax extends OW_ActionController
                                 OW::getLanguage()->text('spodagora', 'email_reply', array("user_name" => $avatar_data['username'], "agora_subject" => $room->subject)),
                                 $notification_on_reply_mail['mail_html'],
                                 $notification_on_reply_mail['mail_text']
-                            )/*,
+                            ),
                                 new SPODNOTIFICATION_CLASS_MobileEventNotification(
                                     SPODAGORA_CLASS_Const::PLUGIN_NAME,
-                                    SPODAGORA_CLASS_Const::PLUGIN_ACTION_ADD_COMMENT,
-                                    SPODAGORA_CLASS_Const::PLUGIN_SUB_ACTION_ADD_COMMENT . $_REQUEST['entityId'],
+                                    SPODAGORA_CLASS_Const::PLUGIN_ACTION_REPLY,
+                                    SPODAGORA_CLASS_Const::PLUGIN_ACTION_REPLY,
                                     null,
                                     'Agora',
-                                    $notification_on_comment_mail['mail_html'],
+                                    $notification_on_reply_mail['mail_html'],
                                     ['comment' => $c]
-                                )*/
+                                )
                         ]
                     ));
 
@@ -374,16 +374,16 @@ class SPODAGORA_CTRL_Ajax extends OW_ActionController
                     OW::getLanguage()->text('spodagora', 'email_new_room', array("user_name" => $avatar_data['username'], "agora_subject" => $_REQUEST['subject'])),
                     $notification_on_new_room_mail['mail_html'],
                     $notification_on_new_room_mail['mail_text']
-                )/*,
+                ),
                     new SPODNOTIFICATION_CLASS_MobileEventNotification(
                         SPODAGORA_CLASS_Const::PLUGIN_NAME,
-                        SPODAGORA_CLASS_Const::PLUGIN_ACTION_ADD_COMMENT,
-                        SPODAGORA_CLASS_Const::PLUGIN_SUB_ACTION_ADD_COMMENT . $_REQUEST['entityId'],
+                        SPODAGORA_CLASS_Const::PLUGIN_ACTION_NEW_ROOM,
+                        SPODAGORA_CLASS_Const::PLUGIN_ACTION_NEW_ROOM,
                         null,
                         'Agora',
-                        $notification_on_comment_mail['mail_html'],
-                        ['comment' => $c]
-                    )*/
+                        $notification_on_new_room_mail['mail_html'],
+                        ['roomId' => $id]
+                    )
             ]
         ));
 
