@@ -116,7 +116,7 @@ class SPODAGORA_CTRL_Ajax extends OW_ActionController
             /* SEND NOTIFICATION FOR MENTION */
             if(!empty($mt))
             {
-                $notification_on_mention_mail = SPODAGORA_CLASS_Tools::getInstance()->sendEmailNotificationOnMention($_REQUEST['parentId'], $avatar_data, $comment);
+                $notification_on_mention_mail = SPODAGORA_CLASS_Tools::getInstance()->sendEmailNotificationOnMention($_REQUEST['parentId'], $avatar_data, $comment, (empty($dt_id) ? null : $dt_id));
 
                 foreach (SPODAGORA_CLASS_Tools::getInstance()->getUseIdFromUsernames($mt) as $mentioned_user_id)
                 {
@@ -145,6 +145,38 @@ class SPODAGORA_CTRL_Ajax extends OW_ActionController
 
                     OW::getEventManager()->trigger($event);
                 }
+            }
+
+            /* SEND NOTIFICATION REPLY */
+            if($_REQUEST['level'] > 0)
+            {
+                $comment = SPODAGORA_BOL_Service::getInstance()->getCommentById($_REQUEST['parentId']);
+                $notification_on_reply_mail = SPODAGORA_CLASS_Tools::getInstance()->sendEmailNotificationOnReply($_REQUEST['parentId'], $avatar_data, $comment, (empty($dt_id) ? null : $dt_id));
+
+                $event = new OW_Event('notification_system.add_notification', array(
+                        'notifications' => [
+                            new SPODNOTIFICATION_CLASS_MailEventNotification(
+                                SPODAGORA_CLASS_Const::PLUGIN_NAME,
+                                SPODAGORA_CLASS_Const::PLUGIN_ACTION_REPLY,
+                                SPODAGORA_CLASS_Const::PLUGIN_ACTION_REPLY,
+                                $comment->ownerId,
+                                OW::getLanguage()->text('spodnotification', 'agora_new_reply', array("user_name" => $avatar_data['username'], "agora_subject" => $room->subject)),
+                                $notification_on_reply_mail['mail_html'],
+                                $notification_on_reply_mail['mail_text']
+                            )/*,
+                                new SPODNOTIFICATION_CLASS_MobileEventNotification(
+                                    SPODAGORA_CLASS_Const::PLUGIN_NAME,
+                                    SPODAGORA_CLASS_Const::PLUGIN_ACTION_ADD_COMMENT,
+                                    SPODAGORA_CLASS_Const::PLUGIN_SUB_ACTION_ADD_COMMENT . $_REQUEST['entityId'],
+                                    null,
+                                    'Agora',
+                                    $notification_on_comment_mail['mail_html'],
+                                    ['comment' => $c]
+                                )*/
+                        ]
+                    ));
+
+                    OW::getEventManager()->trigger($event);
             }
 
             if (!empty($c->id))
@@ -330,6 +362,9 @@ class SPODAGORA_CTRL_Ajax extends OW_ActionController
         $html_cmp = new SPODAGORA_CMP_AgoraAddRoom($id, $_REQUEST['subject'], $_REQUEST['body']);
         $html = $html_cmp->render();
 
+        $avatar_data = SPODAGORA_CLASS_Tools::getInstance()->get_avatar_data($user_id);
+        $notification_on_new_room_mail = SPODAGORA_CLASS_Tools::getInstance()->sendEmailNotificationOnNewRoom($_REQUEST['subject'], $_REQUEST['body'], $id, $user_id, $avatar_data);
+
         $event = new OW_Event('notification_system.add_notification', array(
             'notifications' => [
                 new SPODNOTIFICATION_CLASS_MailEventNotification(
@@ -337,9 +372,9 @@ class SPODAGORA_CTRL_Ajax extends OW_ActionController
                     SPODAGORA_CLASS_Const::PLUGIN_ACTION_NEW_ROOM,
                     SPODAGORA_CLASS_Const::PLUGIN_ACTION_NEW_ROOM,
                     null,
-                    'Nuova stanza',
-                    $notification_on_comment_mail['mail_html'],
-                    $notification_on_comment_mail['mail_text']
+                    OW::getLanguage()->text('spodnotification', 'agora_new_room', array("user_name" => $avatar_data['username'], "agora_subject" => $_REQUEST['subject'])),
+                    $notification_on_new_room_mail['mail_html'],
+                    $notification_on_new_room_mail['mail_text']
                 )/*,
                     new SPODNOTIFICATION_CLASS_MobileEventNotification(
                         SPODAGORA_CLASS_Const::PLUGIN_NAME,

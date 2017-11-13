@@ -1,12 +1,14 @@
-<p class="lead">{text key="spodnotification+agora_new_comment" user_name=$userName agora_subject=$agoraSubject}</p>
+<p class="lead">{$notificationSubject}</p>
 
 {if $dataletId != null}
 <p><img src='{text key="spodnotification+site_url"}{$dataletUrl}' /></p>
 {/if}
 
+{if $comment != ''}
 <p class="callout">
 {$comment}... <a href='{text key="spodnotification+site_url"}{$agoraUrl}'>{text key="spodnotification+read_more"} &raquo;</a>
 </p>
+{/if}
 
 <h3>{$agoraSubject} <small>AGORA</small></h3>
 <p>{$agoraBody}</p>
