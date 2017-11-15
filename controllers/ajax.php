@@ -93,6 +93,7 @@ class SPODAGORA_CTRL_Ajax extends OW_ActionController
                             SPODAGORA_CLASS_Const::PLUGIN_NAME,
                             SPODAGORA_CLASS_Const::PLUGIN_ACTION_ADD_COMMENT,
                             SPODAGORA_CLASS_Const::PLUGIN_SUB_ACTION_ADD_COMMENT . $_REQUEST['entityId'],
+                            $user_id,
                             null,
                             OW::getLanguage()->text('spodagora', 'email_new_comment', array("user_name" => $avatar_data['username'], "agora_subject" => $room->subject)),
                             $notification_on_comment_mail['mail_html'],
@@ -102,6 +103,7 @@ class SPODAGORA_CTRL_Ajax extends OW_ActionController
                         SPODAGORA_CLASS_Const::PLUGIN_NAME,
                         SPODAGORA_CLASS_Const::PLUGIN_ACTION_ADD_COMMENT,
                         SPODAGORA_CLASS_Const::PLUGIN_SUB_ACTION_ADD_COMMENT . $_REQUEST['entityId'],
+                        $user_id,
                         null,
                         'Agora',
                         $notification_on_comment_mail['mail_html'],
@@ -125,6 +127,7 @@ class SPODAGORA_CTRL_Ajax extends OW_ActionController
                                 SPODAGORA_CLASS_Const::PLUGIN_NAME,
                                 SPODAGORA_CLASS_Const::PLUGIN_ACTION_MENTION,
                                 SPODAGORA_CLASS_Const::PLUGIN_ACTION_MENTION,
+                                $user_id,
                                 $mentioned_user_id,
                                 OW::getLanguage()->text('spodagora', 'email_mention', array("user_name" => $avatar_data['username'], "agora_subject" => $room->subject)),
                                 $notification_on_mention_mail['mail_html'],
@@ -134,6 +137,7 @@ class SPODAGORA_CTRL_Ajax extends OW_ActionController
                                     SPODAGORA_CLASS_Const::PLUGIN_NAME,
                                     SPODAGORA_CLASS_Const::PLUGIN_ACTION_MENTION,
                                     SPODAGORA_CLASS_Const::PLUGIN_ACTION_MENTION,
+                                    $user_id,
                                     $mentioned_user_id,
                                     'Agora',
                                     $notification_on_mention_mail['mail_html'],
@@ -158,6 +162,7 @@ class SPODAGORA_CTRL_Ajax extends OW_ActionController
                                 SPODAGORA_CLASS_Const::PLUGIN_NAME,
                                 SPODAGORA_CLASS_Const::PLUGIN_ACTION_REPLY,
                                 SPODAGORA_CLASS_Const::PLUGIN_ACTION_REPLY,
+                                $user_id,
                                 $parent_comment->ownerId,
                                 OW::getLanguage()->text('spodagora', 'email_reply', array("user_name" => $avatar_data['username'], "agora_subject" => $room->subject)),
                                 $notification_on_reply_mail['mail_html'],
@@ -167,6 +172,7 @@ class SPODAGORA_CTRL_Ajax extends OW_ActionController
                                     SPODAGORA_CLASS_Const::PLUGIN_NAME,
                                     SPODAGORA_CLASS_Const::PLUGIN_ACTION_REPLY,
                                     SPODAGORA_CLASS_Const::PLUGIN_ACTION_REPLY,
+                                    $user_id,
                                     null,
                                     'Agora',
                                     $notification_on_reply_mail['mail_html'],
@@ -180,101 +186,6 @@ class SPODAGORA_CTRL_Ajax extends OW_ActionController
 
             if (!empty($c->id))
                 echo json_encode(array("result" => "ok", "post_id" => $c->id, "datalet_id" => (empty($dt_id) ? '' : $dt_id), "comment" => $c->comment));
-            else
-                echo '{"result":"ko"}';
-        }
-        else
-        {
-            echo '{"result":"ko"}';
-        }
-
-        exit;
-    }
-
-    public function addCommentTest()
-    {
-        $userId = rand (2, 4);
-
-
-        if ( !OW::getRequest()->isAjax() )
-        {
-            throw new Redirect403Exception();
-        }
-
-//        if ( !OW::getUser()->isAuthenticated() )
-//        {
-//            throw new AuthenticateException();
-//        }
-
-        if(SPODAGORA_CLASS_Tools::getInstance()->check_value(["entityId", "parentId", "comment", "level", "sentiment"]))
-        {
-            //Get hashtag
-            $ht = SPODAGORA_CLASS_Tools::getInstance()->get_hashtag($_REQUEST['comment']);
-            $mt = SPODAGORA_CLASS_Tools::getInstance()->get_mention($_REQUEST['comment']);
-
-            // Change \n to <br> for correct visualization of new line in HTML
-            $comment  = str_replace("\n", "<br/>", htmlentities($_REQUEST['comment']));
-            $comment .= $_REQUEST["preview"];
-
-            $c = SPODAGORA_BOL_Service::getInstance()->addComment($_REQUEST['entityId'],
-                $_REQUEST['parentId'],
-//                OW::getUser()->getId(),
-                $userId,
-                $comment,
-                $_REQUEST['level'],
-                $_REQUEST['sentiment'],
-                $ht);
-
-            //Increment the comments number
-            SPODAGORA_BOL_Service::getInstance()->addAgoraRoomStat($_REQUEST['entityId'], 'comments');
-
-            $this->send_realtime_notification($c);
-
-            /* ODE */
-            if( ODE_CLASS_Helper::validateDatalet($_REQUEST['datalet']['component'], $_REQUEST['datalet']['params']) )
-            {
-                //Increments the opendata number
-                SPODAGORA_BOL_Service::getInstance()->addAgoraRoomStat($_REQUEST['entityId'], 'opendata');
-                //Add a datalet node in the datalet graph
-                SPODAGORA_BOL_Service::getInstance()->addAgoraDataletNode($_REQUEST['datalet'], $_REQUEST['comment'], $c->getId(), $_REQUEST['parentId'], $_REQUEST['entityId']);
-
-                ODE_BOL_Service::getInstance()->addDatalet(
-                    $_REQUEST['datalet']['component'],
-                    $_REQUEST['datalet']['fields'],
-//                    OW::getUser()->getId(),
-                    $userId,
-                    $_REQUEST['datalet']['params'],
-                    $c->getId(),
-                    $_REQUEST['plugin'],
-                    $_REQUEST['datalet']['data']);
-            }
-            /* ODE */
-
-            /* SEND MAIL */
-
-            // SEND EMAIL TO SUBSCRIBED USERS
-            //SPODAGORA_CLASS_MailNotification::getInstance()->sendEmailNotificationOnComment($_REQUEST['entityId'], $c->ownerId);
-            // SEND EMAIL NOTIFICATION TO MENTIONED USERS
-            //SPODAGORA_CLASS_MailNotification::getInstance()->sendEmailNotificationOnMention($_REQUEST['entityId'], $c->ownerId, $mt);
-
-            $class_dir = OW::getPluginManager()->getPlugin('spodagora')->getClassesDir();
-            chdir($class_dir);
-
-            // MAIL FOR COMMENT
-            $command = "nohup php cli_mail_notification.php {$_REQUEST['entityId']} {$c->ownerId} > /dev/null 2>/dev/null &";
-            shell_exec($command);
-
-            // MAIL FOR MENTION
-            if(!empty($mt))
-            {
-                $username = implode(",", $mt);
-                $command = "nohup php cli_mail_notification.php {$_REQUEST['entityId']} {$c->ownerId} {$username} > /dev/null 2>/dev/null &";
-                shell_exec($command);
-            }
-            /* SEND MAIL */
-
-            if (!empty($c->id))
-                echo '{"result":"ok", "post_id":"'.$c->id.'"}';
             else
                 echo '{"result":"ko"}';
         }
@@ -370,6 +281,7 @@ class SPODAGORA_CTRL_Ajax extends OW_ActionController
                     SPODAGORA_CLASS_Const::PLUGIN_NAME,
                     SPODAGORA_CLASS_Const::PLUGIN_ACTION_NEW_ROOM,
                     SPODAGORA_CLASS_Const::PLUGIN_ACTION_NEW_ROOM,
+                    $user_id,
                     null,
                     OW::getLanguage()->text('spodagora', 'email_new_room', array("user_name" => $avatar_data['username'], "agora_subject" => $_REQUEST['subject'])),
                     $notification_on_new_room_mail['mail_html'],
@@ -379,6 +291,7 @@ class SPODAGORA_CTRL_Ajax extends OW_ActionController
                         SPODAGORA_CLASS_Const::PLUGIN_NAME,
                         SPODAGORA_CLASS_Const::PLUGIN_ACTION_NEW_ROOM,
                         SPODAGORA_CLASS_Const::PLUGIN_ACTION_NEW_ROOM,
+                        $user_id,
                         null,
                         'Agora',
                         $notification_on_new_room_mail['mail_html'],
