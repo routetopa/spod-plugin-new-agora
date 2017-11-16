@@ -232,7 +232,7 @@ class SPODAGORA_CLASS_Tools extends OW_Component
 
     private function getEmailContentHtml($room_id, $avatar, $roomSubject, $roomBody, $template, $languageKey, $comment, $datalet_id)
     {
-        $roomSubject = "<b><a href='" . OW::getRouter()->urlForRoute('spodagora.main') . "/" . $room_id . "'>" . $roomSubject . "</a></b>";
+        $roomSubject = "<b><a class='agora' href='" . OW::getRouter()->urlForRoute('spodagora.main') . "/" . $room_id . "'>" . $roomSubject . "</a></b>";
 
         //SET EMAIL TEMPLATE
         $this->setTemplate($template);
