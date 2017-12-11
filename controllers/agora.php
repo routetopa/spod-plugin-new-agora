@@ -195,6 +195,7 @@ class SPODAGORA_CTRL_Agora extends OW_ActionController
             AGORA.get_comment_page_endpoint = {$get_comment_page_endpoint}
             AGORA.get_comment_missing_endpoint = {$get_comment_missing_endpoint}
             AGORA.comment_graph = {$comment_graph}
+            AGORA.suggested_datasets = {$suggested_datasets}
          ', array(
             'roomId' => $this->agoraId,
             'agora_comment_endpoint' => OW::getRouter()->urlFor('SPODAGORA_CTRL_Ajax', 'addComment'),
@@ -218,7 +219,8 @@ class SPODAGORA_CTRL_Agora extends OW_ActionController
             'edit_user_comment_endpoint' => OW::getRouter()->urlFor('SPODAGORA_CTRL_Ajax', 'editUserComment'),
             'get_comment_page_endpoint' => OW::getRouter()->urlFor('SPODAGORA_CTRL_Ajax', 'getCommentPage'),
             'get_comment_missing_endpoint' => OW::getRouter()->urlFor('SPODAGORA_CTRL_Ajax', 'getMissingComment'),
-            'comment_graph' => SPODAGORA_BOL_Service::getInstance()->getCommentGraph($this->agoraId)
+            'comment_graph' => SPODAGORA_BOL_Service::getInstance()->getCommentGraph($this->agoraId),
+            'suggested_datasets' => $this->getSuggestedDatasets()
         ));
 
         OW::getDocument()->addOnloadScript($js);
@@ -234,6 +236,23 @@ class SPODAGORA_CTRL_Agora extends OW_ActionController
 
             OW::getDocument()->addOnloadScript($js);
         }
+    }
+
+    private function getSuggestedDatasets()
+    {
+        $suggested_datasets = SPODAGORA_BOL_Service::getInstance()->getAgoraSuggestedDataset($this->agoraId);
+        $suggested = [];
+
+        foreach ($suggested_datasets as $suggested_dataset)
+        {
+            $obj = new StdClass();
+            $obj->name = $suggested_dataset->comment;
+            $obj->url = $suggested_dataset->dataset;
+            $obj->p = "suggested";
+            $suggested[] = $obj;
+        }
+
+        return $suggested;
     }
 
     // Handle top right menu creation

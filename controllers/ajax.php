@@ -302,6 +302,15 @@ class SPODAGORA_CTRL_Ajax extends OW_ActionController
 
         OW::getEventManager()->trigger($event);
 
+        /* register room owner to comment update*/
+        SPODNOTIFICATION_BOL_Service::getInstance()->registerUserForNotification(
+            $user_id,
+            SPODAGORA_CLASS_Const::PLUGIN_NAME,
+            SPODNOTIFICATION_CLASS_MailEventNotification::$TYPE,
+            SPODAGORA_CLASS_Const::PLUGIN_SUB_ACTION_ADD_COMMENT . $id,
+            SPODNOTIFICATION_CLASS_Consts::FREQUENCY_IMMEDIATELY,
+            SPODAGORA_CLASS_Const::PLUGIN_ACTION_ADD_COMMENT
+        );
 
         echo json_encode(array("status"  => "ok",
             "id"      => $id,

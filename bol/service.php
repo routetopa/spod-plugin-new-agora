@@ -518,10 +518,17 @@ class SPODAGORA_BOL_Service
 
     public function getAllUserNotification($userId)
     {
-        $sql = "select roomId from ow_spod_agora_room_user_notification where userId = ".$userId.";";
+        $sql = "select action from ow_spod_notification_registered_user where userId = {$userId} and parentAction = '".SPODAGORA_CLASS_Const::PLUGIN_ACTION_ADD_COMMENT."';";
         $dbo = OW::getDbo();
+        $rooms = $dbo->queryForColumnList($sql);
 
-        return $dbo->queryForColumnList($sql);
+        $res = [];
+
+        foreach ($rooms as $room) {
+            preg_match_all('!\d+!', $room, $t_res);
+            $res[] = $t_res[0][0];
+        }
+        return $res;
     }
 
     public function getSearchResult($roomId, $search_string, $userId)
