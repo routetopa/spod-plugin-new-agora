@@ -815,7 +815,7 @@ input:checked + .slider:before {
 
 .agora_chat_input textarea
 {
-    width: calc(100% - 362px);
+    width: calc(100% - 416px);
     height: 24px;
     margin: 14px 16px;
     line-height: 24px;
@@ -880,7 +880,7 @@ input:checked + .slider:before {
     background: #00bcd4 url("../images/myspace-button.svg") no-repeat 0 0;
 }
 
-.agora_controllet_button
+.agora_maplet_button
 {
     height: 36px;
     width: 36px;
@@ -892,10 +892,25 @@ input:checked + .slider:before {
     bottom: 8px;
     cursor: pointer;
 
+    background: #00bcd4 url("../images/maplet-button.svg") no-repeat 0 0;
+}
+
+.agora_controllet_button
+{
+    height: 36px;
+    width: 36px;
+
+    border-radius: 5px;
+
+    position: absolute;
+    right: 340px;
+    bottom: 8px;
+    cursor: pointer;
+
     background: #00bcd4 url("../images/controllet-button.svg") no-repeat 0 0;
 }
 
-.agora_myspace_button:hover, .agora_controllet_button:hover, .agora_chat_input input[type=button]:hover
+.agora_myspace_button:hover, .agora_controllet_button:hover, agora_maplet_button:hover, .agora_chat_input input[type=button]:hover
 {
     background-color: #00AABF;
 }

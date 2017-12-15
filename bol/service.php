@@ -285,7 +285,8 @@ class SPODAGORA_BOL_Service
         $comment = str_replace('"', '\"',$comment);
         $title = isset($dt->title) ? str_replace("'", "''",$dt->title) : '';
 
-        $node = array("url" => $dt->{"data-url"}, "title" => $title, "comment" => $comment, "parent_id" => $parentId, "comment_id" => $commentId);
+        $url  = empty($dt->{"data-url"}) ? '' : $dt->{"data-url"};
+        $node = array("url" => $url, "title" => $title, "comment" => $comment, "parent_id" => $parentId, "comment_id" => $commentId);
         $node = json_encode($node);
 
         $sql = "UPDATE ".OW_DB_PREFIX."spod_agora_room SET datalet_graph = CONCAT(COALESCE(datalet_graph, ''), '{$node},') WHERE id = {$roomId};";

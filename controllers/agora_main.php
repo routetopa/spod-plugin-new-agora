@@ -51,6 +51,13 @@ class SPODAGORA_CTRL_AgoraMain extends OW_ActionController
         $this->assign('isAuth_creation', OW::getAuthorization()->isUserAuthorized(OW::getUser()->getId(), 'spodagora', 'create_room'));
         $this->assign('user_id', OW::getUser()->getId());
 
+        $this->assign('components_url', SPODPR_COMPONENTS_URL);
+
+        // SHOW PRIVACY MESSAGE
+        $preference = BOL_PreferenceService::getInstance()->findPreference('agora_is_visible_not_logged');
+        $is_visible_pref = empty($preference) ? "false" : $preference->defaultValue;
+        $this->assign('is_visible_pref', $is_visible_pref);
+
         // IS AUTH
         $this->assign('isAuth', OW::getUser()->isAuthenticated());
 

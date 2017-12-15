@@ -1,3 +1,7 @@
+<link rel="import" href="{$components_url}bower_components/paper-toast/paper-toast.html">
+<link rel="import" href="{$components_url}bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="{$components_url}bower_components/iron-icons/iron-icons.html">
+
 <div id="agora_container">
 
     <div id="agora_left">
@@ -177,5 +181,16 @@
     </div>
 
 </div>
+
+{if $is_visible_pref == 1}
+<paper-toast id="infoToast" duration="10000">
+    <p>
+        <span class="title">{text key="spodagora+spod_privacy_title"}</span>
+        <br>
+        <span class="description">{text key="spodagora+spod_privacy_text"}</span>
+    </p>
+    <paper-icon-button class="clear" suffix onclick="infoToast.toggle()" icon="clear"></paper-icon-button>
+</paper-toast>
+{/if}
 
 {if !empty($authentication_component)}{$authentication_component}{/if}

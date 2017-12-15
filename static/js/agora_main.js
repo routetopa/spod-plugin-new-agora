@@ -79,6 +79,12 @@ AGORAMAIN.init = function(agora_id)
             }
         });
     });
+
+    setTimeout( function () {
+        if($("#infoToast").length)
+            $("#infoToast")[0].show();
+    }, 500);
+
 };
 
 AGORAMAIN.handleUseNotificationSwitch = function(value)
