@@ -5,7 +5,11 @@
 <link rel="import" href="{$components_url}bower_components/paper-styles/color.html">
 <link rel="import" href="{$components_url}bower_components/iron-flex-layout/classes/iron-flex-layout.html">
 
+
+
 <style>
+
+
     #scroll_content{
         position: relative;
         overflow: scroll;
@@ -23,9 +27,6 @@
         margin-left: 20px;
     }
 
-    .tall {
-        background-color: #2196F3;
-    }
 
     .tall .title {
         padding: 20px;
@@ -40,7 +41,6 @@
         padding: 20px;
         font-size: 15px;
         color: #ffffff;
-        /*width: 70%;*/
         position: relative;
         float: left;
     }
@@ -52,6 +52,7 @@
     .section-number{
         display: inline-block; height: 64px; width: 64px; border-radius: 50%; background: #ddd; line-height: 64px; font-size: 30px; color: #666; text-align: center;
     }
+
 
     .section-title{
         font-size: 22px; padding-top: 18px; color: #888;margin-left: 20px;
@@ -90,15 +91,6 @@
         text-overflow: ellipsis;
     }
 
-    .agora_sentiment_button
-       {
-           border-radius: 50%;
-           display: block;
-           width: 32px;
-           height: 32px;
-           fill: white;
-           background: #9E9E9E url("/ow_static/plugins/agora/images/sentiment-neutral.svg") no-repeat 0 0;
-       }
 </style>
 
 <div class="layout vertical">
@@ -121,7 +113,7 @@
                 <div class="cell">
                     <div class="horizontal layout cell">
                         <div class="section-number">1</div>
-                        <div class="section-title">About the room</div>
+                        <div class="section-title">About the room </div>
                     </div>
                     <div>To the centre, rooms display a threaded chat (enabled for the use of open data).
                         Moving to the far right, there is an area dedicated to Graphs, Search and Weekly messages notifications.</div>
@@ -130,9 +122,9 @@
                     <li><b>Weekly Messages Notifications</b></li> An user can check the number of unread messages and on the right top side, only unread messages will be displayed for every day of the week.
                     <li><b>Search </b></li> It allows to find all of the massages posted by a particular person.
                     <li><b>Sentiments</b></li> It shows a representation to display two values that represent the amount, represented by the percentage, of negative sentiment and positive comments.
-                    <li><b>Users Graph</b></li>
-                    <li><b>Datalets Graph</b></li>
-                    The graph represents two sets, i.e on the left side the datalets and on the right side the datasets.
+                    <li><b>Users Graph</b></li> It represents the relationship among users.
+                    <li><b>Datalets Graph</b></li> It represents the datalet on the left side and the datasets on the right side, edges represent relationships between them.
+                    <li><b>Comments Graph</b></li> It highlights the interactions among users in a discussion room.
                     <li><b>E-mail Notification</b></li> It allows to keep track of the activity in each discussion with notifications via e-mail.
                 </div>
             </div>
@@ -179,7 +171,7 @@
 
         <div class="sect">
             <div class="horizontal layout cell">
-                <img src="{$staticResourcesUrl}images/public_room_dataletgraph_en.gif" style="width: 60%; height: 60%;">
+                <img src="{$staticResourcesUrl}images/public_room_dataletgraph_en.png" style="width: 60%; height: 60%;">
 
                 <div class="cell">
                     <div class="horizontal layout cell">
@@ -193,7 +185,7 @@
                         information is shown on top right.
                         Any graph is synchronized: by clicking on a node in the graph you can
                         see on the left the corresponding content in the threaded chat.
-                        There are two graphs:<br>
+                        A few graphs are:<br>
                         <ul class="cell-list">
                             <li>
                                 <b>Users Graph</b>:  graph of users, where each node represents a user that is
@@ -203,31 +195,13 @@
                             </li>
                             <li>
                                 <b>Datalets Graph</b>:
-                                On the right side there is the  graph represents two sets, on the left side the datalet and on the right side the datasets,
+                                The  graph represents two sets, on the left side the datalet and on the right side the datasets,
                                 edges represent relationships between them.
                                 If you bring the mouse over a node (no click) you can read the comment of the node and if you click the chat on the left will move
                                 and highlight the corresponding datalet with comment.
                             </li>
 
                         </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="sect">
-            <div class="horizontal layout cell">
-                <img src="{$staticResourcesUrl}images/public_room_previewdatalet_en.gif" style="width: 60%; height: 60%;">
-
-                <div class="cell">
-                    <div class="horizontal layout cell">
-                        <div class="section-number">4</div>
-                        <div class="section-title">Sharing and preview of a datalet</div>
-                    </div>
-                    <div>
-                        You can use the Datalet button <img src="{$staticResourcesUrl}images/controllet-button.svg" style="width: 20px; height: 20px; background-color: #00bcd4;"> to create and post a new visualization
-                        of datasets at every level of the threaded chat. Clicking on the button <img src="{$staticResourcesUrl}images/eye.svg" style="width: 20px; height: 20px;"> you can see the datalet preview.
-                        During this step, you can easily select one of the suggested datasets (from the creator).
                     </div>
                 </div>
             </div>
