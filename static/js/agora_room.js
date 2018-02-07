@@ -84,6 +84,10 @@ AGORA.init = function ()
         previewFloatBox = OW.ajaxFloatBox('ODE_CMP_Preview', {component:'map-controllet'} , {top:'56px', width:'calc(100vw - 112px)', height:'calc(100vh - 112px)', iconClass: 'ow_ic_add', title: ''});
     });
 
+    //Handler splod button
+    $('#agora_maplet_button').click(function(){
+        previewFloatBox = OW.ajaxFloatBox('ODE_CMP_Preview', {component:'splod-visualization-controllet'} , {top:'56px', width:'calc(100vw - 112px)', height:'calc(100vh - 112px)', iconClass: 'ow_ic_add', title: ''});
+    });
 
     //Handler unreaded message section
     $('.agora_day_tab').click(function(e){
