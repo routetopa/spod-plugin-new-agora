@@ -119,8 +119,8 @@
                 <div id="agora_sentiment_button"></div>
                 <div class="agora_myspace_button" id="agora_myspace_button"></div>
                 <div class="agora_controllet_button" id="agora_controllet_button"></div>
-                <div class="agora_maplet_button" id="agora_maplet_button"></div>
-                <div class="agora_splod_button" id="agora_splod_button"></div>
+                {if $maplet_visible}<div class="agora_maplet_button" id="agora_maplet_button"></div>{/if}
+                {if $splod_visible}<div class="agora_splod_button" id="agora_splod_button"></div>{/if}
 
                 <!-- FILE INPUT -->
                 <input id="agora_file_upload" type="file" accept="image/*,application/pdf" style="display:none;" />

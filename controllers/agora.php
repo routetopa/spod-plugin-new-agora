@@ -125,6 +125,13 @@ class SPODAGORA_CTRL_Agora extends OW_ActionController
         // IS AUTH
         $this->assign('isAuth', OW::getUser()->isAuthenticated());
 
+        // SPLOD IS VISIBLE
+        $preference = BOL_PreferenceService::getInstance()->findPreference('splod_is_visible_agora');
+        $this->assign('splod_visible', $preference->defaultValue);
+        // MAPLET IS VISIBLE
+        $preference = BOL_PreferenceService::getInstance()->findPreference('maplet_is_visible_agora');
+        $this->assign('maplet_visible', $preference->defaultValue);
+
         $this->initializeJS();
     }
 
