@@ -810,12 +810,14 @@ input:checked + .slider:before {
     min-height: 52px;
     border: solid 2px #e0e0e0;
     border-radius: 4px;
-    background-color: white;
+    background-color: #FFFFFF;
+    display: flex;
+    flex-direction: row;
 }
 
 .agora_chat_input textarea
 {
-    width: calc(100% - 462px);
+    width: calc(100% - 448px);
     height: 24px;
     margin: 14px 16px;
     line-height: 24px;
@@ -850,34 +852,25 @@ input:checked + .slider:before {
     font-weight: 700;
 }
 
-#agora_sentiment_button
+.agora_buttons_container
 {
-    border-radius: 50%;
-    display: block;
-    width: 36px;
-    height: 36px;
-    fill: white;
-    position: absolute;
-    right: 160px;
-    bottom: 8px;
-    cursor: pointer;
-
-    background: #9E9E9E url("../images/sentiment-neutral.svg") no-repeat 0 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    width: 264px;
 }
 
-.agora_myspace_button
+.agora_controllet_button
 {
     height: 36px;
     width: 36px;
 
     border-radius: 5px;
 
-    position: absolute;
-    right: 248px;
-    bottom: 8px;
+    margin: 8px 8px 8px 0;
     cursor: pointer;
 
-    background: #00bcd4 url("../images/myspace-button.svg") no-repeat 0 0;
+    background: #00bcd4 url("../images/controllet-button.svg") no-repeat 0 0;
 }
 
 .agora_maplet_button
@@ -887,9 +880,7 @@ input:checked + .slider:before {
 
     border-radius: 5px;
 
-    position: absolute;
-    right: 294px;
-    bottom: 8px;
+    margin: 8px 8px 8px 0;
     cursor: pointer;
 
     background: #00bcd4 url("../images/maplet-button.svg") no-repeat 0 0;
@@ -901,28 +892,50 @@ input:checked + .slider:before {
 
     border-radius: 5px;
 
-    position: absolute;
-    right: 340px;
-    bottom: 8px;
+    margin: 8px 8px 8px 0;
     cursor: pointer;
 
     background: #00bcd4 url("../images/splod-button.svg") no-repeat 3px 3px;
     background-size: 30px 30px;
 }
 
-.agora_controllet_button
+.agora_myspace_button
 {
     height: 36px;
     width: 36px;
 
     border-radius: 5px;
 
-    position: absolute;
-    right: 386px;
-    bottom: 8px;
+    margin: 8px 8px 8px 0;
     cursor: pointer;
 
-    background: #00bcd4 url("../images/controllet-button.svg") no-repeat 0 0;
+    background: #00bcd4 url("../images/myspace-button.svg") no-repeat 0 0;
+}
+
+.agora_attach_button {
+    height: 36px;
+    width: 36px;
+
+    border-radius: 5px;
+
+    margin: 8px 8px 8px 0;
+    cursor: pointer;
+
+    background: #00bcd4 url("../images/attach.svg") no-repeat 0 0;
+}
+
+#agora_sentiment_button
+{
+    border-radius: 50%;
+    display: block;
+    width: 36px;
+    height: 36px;
+    fill: white;
+
+    margin: 8px 8px 8px 0;
+    cursor: pointer;
+
+    background: #9E9E9E url("../images/sentiment-neutral.svg") no-repeat 0 0;
 }
 
 .agora_myspace_button:hover, .agora_controllet_button:hover, .agora_maplet_button:hover, .agora_splod_button:hover, .agora_chat_input input[type=button]:hover
@@ -944,20 +957,6 @@ input:checked + .slider:before {
 
     background: url("../images/eye.svg") no-repeat 0 0;
     display: none;
-}
-
-.agora_attach_button {
-    height: 36px;
-    width: 36px;
-
-    border-radius: 5px;
-
-    position: absolute;
-    right: 204px;
-    bottom: 8px;
-    cursor: pointer;
-
-    background: #00bcd4 url("../images/attach.svg") no-repeat 0 0;
 }
 
 .agora_link_preview
