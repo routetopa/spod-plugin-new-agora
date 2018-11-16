@@ -19,7 +19,7 @@ class SPODAGORA_CMP_AgoraRoomCreator extends OW_Component
         $body->setRequired(true);
 
         $submit = new Submit('submit');
-        $submit->setValue('submit');
+        $submit->setValue(OW::getLanguage()->text('spodagora', 'submit_button'));
 
         $form->addElement($subject);
         $form->addElement($body);
