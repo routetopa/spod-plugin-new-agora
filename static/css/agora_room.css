@@ -812,7 +812,14 @@ input:checked + .slider:before {
     border-radius: 4px;
     background-color: #FFFFFF;
     display: flex;
+    flex-direction: column;
+}
+
+.agora_input_container
+{
+    display: flex;
     flex-direction: row;
+    width: 100%;
 }
 
 .agora_chat_input textarea

@@ -114,21 +114,24 @@
                     <div class="close_preview"></div>
                 </div>
 
-                <textarea name="agora_comment" placeholder="{text key='spodagora+add_a_comment'}" id="agora_comment"></textarea>
+                <div class="agora_input_container">
+                    <textarea name="agora_comment" placeholder="{text key='spodagora+add_a_comment'}" id="agora_comment"></textarea>
 
-                <div class="agora_buttons_container">
-                    <div class="agora_controllet_button" id="agora_controllet_button"></div>
-                    {if $maplet_visible}<div class="agora_maplet_button" id="agora_maplet_button"></div>{/if}
-                    {if $splod_visible}<div class="agora_splod_button" id="agora_splod_button"></div>{/if}
-                    <div class="agora_myspace_button" id="agora_myspace_button"></div>
-                    <!-- FILE INPUT -->
-                    <input id="agora_file_upload" type="file" accept="image/*,application/pdf" style="display:none;" />
-                    <div class="agora_attach_button" id="agora_load_button"></div>
-                    <!-- FILE INPUT -->
-                    <div id="agora_sentiment_button"></div>
-                    <input type="button" name="agora_comment_send" id="agora_comment_send" value="{text key='spodagora+send'}">
+
+                    <div class="agora_buttons_container">
+                        <div class="agora_controllet_button" id="agora_controllet_button"></div>
+                        {if $maplet_visible}<div class="agora_maplet_button" id="agora_maplet_button"></div>{/if}
+                        {if $splod_visible}<div class="agora_splod_button" id="agora_splod_button"></div>{/if}
+                        <div class="agora_myspace_button" id="agora_myspace_button"></div>
+                        <!-- FILE INPUT -->
+                        <input id="agora_file_upload" type="file" accept="image/*,application/pdf" style="display:none;" />
+                        <div class="agora_attach_button" id="agora_load_button"></div>
+                        <!-- FILE INPUT -->
+                        <div id="agora_sentiment_button"></div>
+                        <input type="button" name="agora_comment_send" id="agora_comment_send" value="{text key='spodagora+send'}">
+                    </div>
+
                 </div>
-
                 <!--<div class="agora_preview_button" id="agora_preview_button"></div>-->
             </div>
             {/if}
